@@ -1,0 +1,30 @@
+mutation CreateSeedData @transaction {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      email: "alice@example.com",
+      name: "Alice",
+      role: "admin"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      email: "bob@example.com",
+      name: "Bob",
+      role: "user"
+    }
+  ])
+  project_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440002",
+      title: "FDC Project",
+      ownerId: "550e8400-e29b-41d4-a716-446655440000"
+    }
+  ])
+  task_insertMany(data: [
+    {
+      title: "Setup Firebase",
+      status: "pending",
+      projectId: "550e8400-e29b-41d4-a716-446655440002"
+    }
+  ])
+}

@@ -1,0 +1,35 @@
+type User @table {
+  email: String!
+  name: String!
+  avatarUrl: String
+  role: String
+}
+
+type Project @table {
+  title: String!
+  owner: User!
+  description: String
+  deadline: Date
+}
+
+type Task @table {
+  title: String!
+  status: String!
+  project: Project!
+  description: String
+  dueDate: Date
+  assignedUser: User
+}
+
+type Comment @table {
+  content: String!
+  task: Task!
+  user: User!
+  createdAt: Timestamp
+}
+
+type ProjectMember @table(key: ["project", "user"]) {
+  project: Project!
+  user: User!
+  permissionLevel: String
+}

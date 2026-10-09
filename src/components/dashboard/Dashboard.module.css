@@ -1,0 +1,94 @@
+.loading { color: #64748b; padding: 20px; }
+.title { font-size: 22px; font-weight: 600; color: #1a1a2e; margin: 0 0 4px; }
+.sub { font-size: 13px; color: #64748b; margin: 0 0 24px; }
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.metric {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.metricIcon { font-size: 24px; margin-bottom: 8px; }
+.metricValue { font-size: 32px; font-weight: 600; color: #1a1a2e; line-height: 1; }
+.metricLabel { font-size: 13px; color: #64748b; margin-top: 4px; }
+.metricSub { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.barLabel { font-size: 12px; color: #374151; width: 64px; flex-shrink: 0; }
+
+.barTrack {
+  flex: 1;
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 4px;
+  transition: width .4s ease;
+}
+
+.barCount { font-size: 12px; color: #64748b; width: 20px; text-align: right; }
+
+.shortcuts { display: flex; flex-direction: column; gap: 8px; }
+
+.shortcut {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #374151;
+  font-size: 13px;
+  transition: all .12s;
+}
+
+.shortcut:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
