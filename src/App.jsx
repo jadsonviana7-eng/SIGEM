@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Layout from "./components/Layout";
+import InstallPwaPrompt from "./components/InstallPwaPrompt";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Alunos from "./pages/Alunos";
@@ -83,15 +84,14 @@ function AppRoutes() {
   );
 }
 
-
-
-
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <AppRoutes />
+        <InstallPwaPrompt />
       </BrowserRouter>
     </AuthProvider>
   );
 }
+

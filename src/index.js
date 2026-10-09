@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 // Ícones Tabler (gratuitos)
 const link = document.createElement("link");
@@ -22,3 +23,7 @@ document.head.appendChild(style);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<React.StrictMode><App /></React.StrictMode>);
+
+// Ativar PWA Service Worker
+serviceWorkerRegistration.register();
+
