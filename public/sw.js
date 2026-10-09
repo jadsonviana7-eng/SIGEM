@@ -1,13 +1,9 @@
-const CACHE_NAME = 'sigem-pwa-v1';
+const CACHE_NAME = 'sigem-pwa-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/favicon.png',
-  '/apple-touch-icon.png',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/Logo.png',
+  '/logo.png',
   '/Logo Prefeitura.png'
 ];
 

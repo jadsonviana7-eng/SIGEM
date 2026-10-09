@@ -71,7 +71,7 @@ export default function InstallPwaPrompt() {
       animation: 'slideUp 0.3s ease-out'
     }}>
       <img
-        src="/icon-192.png"
+        src="/logo.png"
         alt="SIGEM Logo"
         style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'contain', background: '#1e293b', padding: '4px' }}
       />
