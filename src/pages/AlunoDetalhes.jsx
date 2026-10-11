@@ -769,23 +769,24 @@ export default function AlunoDetalhes() {
                 width: 38,
                 height: 38,
                 borderRadius: 10,
-                background: "white",
-                border: "1px solid #d1d5db",
-                color: "#374151",
+                background: "#243144",
+                border: "1px solid #33435c",
+                color: "#cbd5e1",
                 cursor: "pointer",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+                boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                transition: "all 0.15s ease"
               }}
               title="Voltar para a Lista de Alunos"
             >
               <i className="ti ti-arrow-left" style={{ fontSize: 18 }} />
             </button>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "#6b7280" }}>
-                <Link to="/alunos" style={{ color: "#1a56db", textDecoration: "none", fontWeight: 500 }}>Alunos</Link>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "#94a3b8" }}>
+                <Link to="/alunos" style={{ color: "#818cf8", textDecoration: "none", fontWeight: 600 }}>Alunos</Link>
                 <i className="ti ti-chevron-right" style={{ fontSize: 12 }} />
                 <span>Ficha Expandida</span>
               </div>
-              <h1 style={{ margin: "2px 0 0 0", fontSize: 20, fontWeight: 700, color: "#111827" }}>
+              <h1 style={{ margin: "2px 0 0 0", fontSize: 22, fontWeight: 700, color: "#ffffff" }}>
                 {aluno.nome}
               </h1>
             </div>
@@ -817,7 +818,7 @@ export default function AlunoDetalhes() {
             <Btn
               variant="default"
               onClick={() => navigate(`/boletim`)}
-              style={{ background: "#0284c7", color: "white", border: "1px solid #0369a1", fontWeight: 600 }}
+              style={{ background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)", fontWeight: 600 }}
               title="Acessar Boletim Escolar Digital"
             >
               <i className="ti ti-certificate" /> Boletim Escolar
@@ -825,7 +826,7 @@ export default function AlunoDetalhes() {
             <Btn
               variant="default"
               onClick={() => navigate(`/historico?alunoId=${aluno.id}`)}
-              style={{ background: "#4f46e5", color: "white", border: "1px solid #4338ca", fontWeight: 600 }}
+              style={{ background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", border: "1px solid rgba(99, 102, 241, 0.3)", fontWeight: 600 }}
               title="Acessar Histórico Escolar Oficial com Autenticação e QR Code"
             >
               <i className="ti ti-file-certificate" /> Histórico Escolar
@@ -833,7 +834,7 @@ export default function AlunoDetalhes() {
             <Btn
               variant="default"
               onClick={() => window.print()}
-              style={{ background: "#1e293b", color: "white", border: "1px solid #0f172a", fontWeight: 600 }}
+              style={{ background: "#243144", color: "#cbd5e1", border: "1px solid #33435c", fontWeight: 600 }}
               title="Imprimir Ficha Cadastral"
             >
               <i className="ti ti-printer" /> Imprimir Ficha
@@ -861,7 +862,7 @@ export default function AlunoDetalhes() {
         </div>
 
         {/* Hero Profile Banner */}
-        <Card style={{ padding: 24, background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)", border: "1px solid #e2e8f0" }}>
+        <Card style={{ padding: 24, background: "#1e293b", border: "1px solid #2c3b52" }}>
           <div style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
             {/* Avatar Grande com Ação de Troca */}
             <div style={{ position: "relative" }}>
@@ -871,12 +872,12 @@ export default function AlunoDetalhes() {
                   height: 104,
                   borderRadius: 20,
                   overflow: "hidden",
-                  background: "#f1f5f9",
+                  background: "#243144",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  border: "3px solid white",
-                  boxShadow: "0 10px 20px -5px rgba(0,0,0,0.15)",
+                  border: "3px solid #33435c",
+                  boxShadow: "0 10px 20px -5px rgba(0,0,0,0.3)",
                   flexShrink: 0
                 }}
               >
@@ -891,7 +892,7 @@ export default function AlunoDetalhes() {
                   position: "absolute",
                   bottom: -4,
                   right: -4,
-                  background: "#1a56db",
+                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
                   color: "white",
                   width: 32,
                   height: 32,
@@ -900,8 +901,8 @@ export default function AlunoDetalhes() {
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: carregandoFoto ? "not-allowed" : "pointer",
-                  boxShadow: "0 2px 8px rgba(26, 86, 219, 0.4)",
-                  border: "2px solid white"
+                  boxShadow: "0 2px 8px rgba(99, 102, 241, 0.4)",
+                  border: "2px solid #1e293b"
                 }}
                 title="Alterar foto do aluno"
               >
@@ -913,90 +914,90 @@ export default function AlunoDetalhes() {
             {/* Dados do Cabeçalho */}
             <div style={{ flex: 1, minWidth: 260 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
-                <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#0f172a" }}>{aluno.nome}</h2>
+                <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff" }}>{aluno.nome}</h2>
                 <Badge color={aluno.status === "Ativo" ? "green" : aluno.status === "Transferido" ? "amber" : "gray"}>
                   {aluno.status || "Ativo"}
                 </Badge>
                 {censoCompleto ? (
-                  <span style={{ fontSize: 11, background: "#ecfdf5", color: "#059669", padding: "2px 8px", borderRadius: 12, fontWeight: 600, border: "1px solid #a7f3d0" }}>
+                  <span style={{ fontSize: 11, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", padding: "2px 8px", borderRadius: 12, fontWeight: 600, border: "1px solid rgba(16, 185, 129, 0.3)" }}>
                     ✓ Censo 2026 OK
                   </span>
                 ) : (
-                  <span style={{ fontSize: 11, background: "#fef2f2", color: "#dc2626", padding: "2px 8px", borderRadius: 12, fontWeight: 600, border: "1px solid #fecaca" }}>
+                  <span style={{ fontSize: 11, background: "rgba(239, 68, 68, 0.15)", color: "#f87171", padding: "2px 8px", borderRadius: 12, fontWeight: 600, border: "1px solid rgba(239, 68, 68, 0.3)" }}>
                     ⚠️ Pendência Censo
                   </span>
                 )}
               </div>
 
-              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 13, color: "#475569" }}>
+              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 13, color: "#94a3b8" }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-id" style={{ color: "#64748b" }} /> Matrícula: <strong>{aluno.matricula || "Não gerada"}</strong>
+                  <i className="ti ti-id" style={{ color: "#818cf8" }} /> Matrícula: <strong style={{ color: "#ffffff" }}>{aluno.matricula || "Não gerada"}</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-chalkboard" style={{ color: "#64748b" }} /> Turma: <strong>{aluno.turma} ({aluno.ano})</strong>
+                  <i className="ti ti-chalkboard" style={{ color: "#818cf8" }} /> Turma: <strong style={{ color: "#ffffff" }}>{aluno.turma} ({aluno.ano})</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-sun" style={{ color: "#64748b" }} /> Turno: <strong>{aluno.turno}</strong>
+                  <i className="ti ti-sun" style={{ color: "#818cf8" }} /> Turno: <strong style={{ color: "#ffffff" }}>{aluno.turno}</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-cake" style={{ color: "#64748b" }} /> Idade: <strong>{idadeCalculada}</strong>
+                  <i className="ti ti-cake" style={{ color: "#818cf8" }} /> Idade: <strong style={{ color: "#ffffff" }}>{idadeCalculada}</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-school" style={{ color: "#64748b" }} /> Escola: <strong>{aluno.escolaNome || "Unidade Polo"}</strong>
+                  <i className="ti ti-school" style={{ color: "#818cf8" }} /> Escola: <strong style={{ color: "#ffffff" }}>{aluno.escolaNome || "Unidade Polo"}</strong>
                 </span>
               </div>
             </div>
           </div>
 
           {/* Mini KPI Cards Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14, marginTop: 20, paddingTop: 18, borderTop: "1px solid #e2e8f0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14, marginTop: 20, paddingTop: 18, borderTop: "1px solid #2c3b52" }}>
             {/* Card Docs */}
-            <div style={{ background: "white", padding: "12px 16px", borderRadius: 10, border: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 42, height: 42, borderRadius: 10, background: "#eff6ff", color: "#1a56db", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
+            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-files" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Documentos</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
-                  {totalDocsEntregues} de {TIPOS_DOCUMENTOS_ALUNO.length} <span style={{ fontSize: 12, fontWeight: 500, color: percentualDocs === 100 ? "#16a34a" : "#ca8a04" }}>({percentualDocs}% obrig.)</span>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Documentos</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
+                  {totalDocsEntregues} de {TIPOS_DOCUMENTOS_ALUNO.length} <span style={{ fontSize: 12, fontWeight: 500, color: percentualDocs === 100 ? "#34d399" : "#fbbf24" }}>({percentualDocs}% obrig.)</span>
                 </div>
               </div>
             </div>
 
             {/* Card Média Geral */}
-            <div style={{ background: "white", padding: "12px 16px", borderRadius: 10, border: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 42, height: 42, borderRadius: 10, background: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
+            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-award" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Média Geral</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Média Geral</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
                   {mediaGeral !== null ? `${mediaGeral} / 10.0` : "Sem notas"}
                 </div>
               </div>
             </div>
 
             {/* Card Frequência */}
-            <div style={{ background: "white", padding: "12px 16px", borderRadius: 10, border: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 42, height: 42, borderRadius: 10, background: "#faf5ff", color: "#9333ea", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
+            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", border: "1px solid rgba(168, 85, 247, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-calendar-check" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Frequência</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: percentualPresencaGeral >= 75 ? "#16a34a" : "#dc2626" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Frequência</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: percentualPresencaGeral >= 75 ? "#34d399" : "#f87171" }}>
                   {percentualPresencaGeral}% {percentualPresencaGeral < 75 && <span style={{ fontSize: 11 }}>⚠️ Baixa</span>}
                 </div>
               </div>
             </div>
 
             {/* Card Ocorrências */}
-            <div style={{ background: "white", padding: "12px 16px", borderRadius: 10, border: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 42, height: 42, borderRadius: 10, background: "#fff7ed", color: "#ea580c", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
+            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", border: "1px solid rgba(245, 158, 11, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-clipboard-text" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Ocorrências / Apont.</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Ocorrências / Apont.</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
                   {ocorrencias.length} reg. / {apontamentos.length} apont.
                 </div>
               </div>
@@ -1005,7 +1006,7 @@ export default function AlunoDetalhes() {
         </Card>
 
         {/* Tabs de Navegação da Ficha Expandida */}
-        <div style={{ display: "flex", gap: 8, borderBottom: "2px solid #e2e8f0", overflowX: "auto", paddingBottom: 2 }}>
+        <div style={{ display: "flex", gap: 8, borderBottom: "2px solid #2c3b52", overflowX: "auto", paddingBottom: 2 }}>
           {[
             { id: "ficha", label: "Ficha Cadastral", icon: "user-circle", badge: null },
             { id: "documentos", label: "Documentos Anexados", icon: "folder", badge: `${totalDocsEntregues}/${TIPOS_DOCUMENTOS_ALUNO.length}` },
@@ -1026,9 +1027,9 @@ export default function AlunoDetalhes() {
                   padding: "10px 18px",
                   border: "none",
                   background: "transparent",
-                  borderBottom: ativa ? "3px solid #1a56db" : "3px solid transparent",
+                  borderBottom: ativa ? "3px solid #6366f1" : "3px solid transparent",
                   marginBottom: -4,
-                  color: ativa ? "#1a56db" : "#64748b",
+                  color: ativa ? "#818cf8" : "#94a3b8",
                   fontWeight: ativa ? 700 : 500,
                   fontSize: 14,
                   cursor: "pointer",
@@ -1041,11 +1042,12 @@ export default function AlunoDetalhes() {
                 {tab.badge !== null && (
                   <span style={{
                     fontSize: 11,
-                    padding: "1px 7px",
+                    padding: "2px 8px",
                     borderRadius: 10,
-                    background: ativa ? "#1a56db" : "#e2e8f0",
-                    color: ativa ? "white" : "#475569",
-                    fontWeight: 600
+                    background: ativa ? "rgba(99, 102, 241, 0.25)" : "rgba(148, 163, 184, 0.15)",
+                    color: ativa ? "#a5b4fc" : "#94a3b8",
+                    fontWeight: 600,
+                    border: ativa ? "1px solid rgba(99, 102, 241, 0.35)" : "1px solid rgba(148, 163, 184, 0.2)"
                   }}>
                     {tab.badge}
                   </span>
@@ -1061,9 +1063,9 @@ export default function AlunoDetalhes() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))", gap: 16 }}>
               {/* Bloco 1: Dados Pessoais & Documentação Civil */}
               <Card>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #f1f5f9", paddingBottom: 10 }}>
-                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#1e293b", display: "flex", alignItems: "center", gap: 8 }}>
-                    <i className="ti ti-id-badge" style={{ color: "#1a56db", fontSize: 18 }} />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #2c3b52", paddingBottom: 10 }}>
+                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                    <i className="ti ti-id-badge" style={{ color: "#818cf8", fontSize: 18 }} />
                     Dados Pessoais & Registro Civil
                   </h3>
                   <Btn variant="default" style={{ padding: "4px 8px", fontSize: 11 }} onClick={() => { setForm(aluno); setAbaModalEditar("pessoais"); setModalEditarAberto(true); }}>
@@ -1074,56 +1076,56 @@ export default function AlunoDetalhes() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 16px", fontSize: 13 }}>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Nome Completo</span>
-                    <strong style={{ color: "#0f172a" }}>{aluno.nome}</strong>
+                    <strong style={{ color: "#ffffff" }}>{aluno.nome}</strong>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Data de Nascimento</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.nascimento ? new Date(aluno.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"} ({idadeCalculada})</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.nascimento ? new Date(aluno.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"} ({idadeCalculada})</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Sexo</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.sexo || "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.sexo || "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Cor / Raça</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.corRaca || "Não declarada"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.corRaca || "Não declarada"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Nacionalidade / Origem</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.nacionalidade || "Brasileira"} {aluno.paisOrigem ? `(${aluno.paisOrigem})` : ""}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.nacionalidade || "Brasileira"} {aluno.paisOrigem ? `(${aluno.paisOrigem})` : ""}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Naturalidade (Cidade/UF)</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.municipioNascimento ? `${aluno.municipioNascimento} / ${aluno.ufNascimento || "AL"}` : "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.municipioNascimento ? `${aluno.municipioNascimento} / ${aluno.ufNascimento || "AL"}` : "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>CPF do Aluno</span>
-                    <strong style={{ color: aluno.cpf ? "#0f172a" : "#dc2626" }}>{aluno.cpf || "⚠️ Não informado"}</strong>
+                    <strong style={{ color: aluno.cpf ? "#ffffff" : "#f87171" }}>{aluno.cpf || "⚠️ Não informado"}</strong>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>RG / Órgão Emissor</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.rg ? `${aluno.rg} ${aluno.rgOrgaoEmissor ? `(${aluno.rgOrgaoEmissor})` : ""}` : "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.rg ? `${aluno.rg} ${aluno.rgOrgaoEmissor ? `(${aluno.rgOrgaoEmissor})` : ""}` : "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Certidão / Registro Civil</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.registroCivil || "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.registroCivil || "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Cartão Nacional SUS</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.cartaoSus || "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.cartaoSus || "—"}</span>
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>NIS (Número de Identificação Social / Bolsa Família)</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.nis || "Não informado"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.nis || "Não informado"}</span>
                   </div>
                 </div>
               </Card>
 
               {/* Bloco 2: Endereço & Contato */}
               <Card>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #f1f5f9", paddingBottom: 10 }}>
-                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#1e293b", display: "flex", alignItems: "center", gap: 8 }}>
-                    <i className="ti ti-map-pin" style={{ color: "#1a56db", fontSize: 18 }} />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #2c3b52", paddingBottom: 10 }}>
+                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                    <i className="ti ti-map-pin" style={{ color: "#818cf8", fontSize: 18 }} />
                     Endereço & Contato
                   </h3>
                   <Btn variant="default" style={{ padding: "4px 8px", fontSize: 11 }} onClick={() => { setForm(aluno); setAbaModalEditar("endereco"); setModalEditarAberto(true); }}>
@@ -1134,42 +1136,42 @@ export default function AlunoDetalhes() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 16px", fontSize: 13 }}>
                   <div style={{ gridColumn: "1 / -1" }}>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Logradouro / Endereço</span>
-                    <strong style={{ color: "#0f172a" }}>
+                    <strong style={{ color: "#ffffff" }}>
                       {aluno.endereco || "—"}{aluno.enderecoNumero ? `, Nº ${aluno.enderecoNumero}` : ""}{aluno.complemento ? ` (${aluno.complemento})` : ""}
                     </strong>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Bairro</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.bairro || "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.bairro || "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Zona de Localização</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.zona || "Urbana"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.zona || "Urbana"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Município / UF</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.municipio || "Maceió"} / {aluno.uf || "AL"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.municipio || "Maceió"} / {aluno.uf || "AL"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>CEP</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.cep || "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.cep || "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Telefone / WhatsApp</span>
-                    <strong style={{ color: "#1a56db" }}>{aluno.telefone || "Não informado"}</strong>
+                    <strong style={{ color: "#38bdf8" }}>{aluno.telefone || "Não informado"}</strong>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>E-mail</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.email || "Não informado"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.email || "Não informado"}</span>
                   </div>
                 </div>
               </Card>
 
               {/* Bloco 3: Filiação & Responsáveis */}
               <Card>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #f1f5f9", paddingBottom: 10 }}>
-                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#1e293b", display: "flex", alignItems: "center", gap: 8 }}>
-                    <i className="ti ti-users" style={{ color: "#1a56db", fontSize: 18 }} />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #2c3b52", paddingBottom: 10 }}>
+                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                    <i className="ti ti-users" style={{ color: "#818cf8", fontSize: 18 }} />
                     Filiação & Responsáveis Legais
                   </h3>
                   <Btn variant="default" style={{ padding: "4px 8px", fontSize: 11 }} onClick={() => { setForm(aluno); setAbaModalEditar("responsaveis"); setModalEditarAberto(true); }}>
@@ -1178,25 +1180,25 @@ export default function AlunoDetalhes() {
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 13 }}>
-                  <div style={{ background: "#f8fafc", padding: "10px 14px", borderRadius: 8, border: "1px solid #e2e8f0" }}>
+                  <div style={{ background: "#243144", padding: "12px 14px", borderRadius: 10, border: "1px solid #33435c" }}>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Nome da Mãe (Obrigatório Censo)</span>
-                    <strong style={{ color: aluno.mae ? "#0f172a" : "#dc2626", fontSize: 14 }}>{aluno.mae || "⚠️ Não informada"}</strong>
+                    <strong style={{ color: aluno.mae ? "#ffffff" : "#f87171", fontSize: 14 }}>{aluno.mae || "⚠️ Não informada"}</strong>
                   </div>
 
-                  <div style={{ background: "#f8fafc", padding: "10px 14px", borderRadius: 8, border: "1px solid #e2e8f0" }}>
+                  <div style={{ background: "#243144", padding: "12px 14px", borderRadius: 10, border: "1px solid #33435c" }}>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Nome do Pai</span>
-                    <span style={{ color: "#0f172a", fontSize: 14 }}>{aluno.pai || "Não informado"}</span>
+                    <span style={{ color: "#ffffff", fontSize: 14 }}>{aluno.pai || "Não informado"}</span>
                   </div>
 
                   {aluno.responsavel && (
-                    <div style={{ background: "#eff6ff", padding: "10px 14px", borderRadius: 8, border: "1px solid #bfdbfe" }}>
+                    <div style={{ background: "rgba(99, 102, 241, 0.12)", padding: "12px 14px", borderRadius: 10, border: "1px solid rgba(99, 102, 241, 0.3)" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <span style={{ fontSize: 11, color: "#1e40af", textTransform: "uppercase", fontWeight: 600 }}>
+                        <span style={{ fontSize: 11, color: "#818cf8", textTransform: "uppercase", fontWeight: 600 }}>
                           Responsável Legal ({aluno.responsavelVinculo || "Responsável"})
                         </span>
                       </div>
-                      <strong style={{ color: "#1e3a8a", fontSize: 14, display: "block", marginTop: 2 }}>{aluno.responsavel}</strong>
-                      <div style={{ display: "flex", gap: 16, marginTop: 6, fontSize: 12, color: "#3b82f6" }}>
+                      <strong style={{ color: "#ffffff", fontSize: 14, display: "block", marginTop: 2 }}>{aluno.responsavel}</strong>
+                      <div style={{ display: "flex", gap: 16, marginTop: 6, fontSize: 12, color: "#a5b4fc" }}>
                         <span>CPF: {aluno.responsavelCpf || "—"}</span>
                         <span>RG: {aluno.responsavelRg || "—"}</span>
                       </div>
@@ -1207,9 +1209,9 @@ export default function AlunoDetalhes() {
 
               {/* Bloco 4: Dados Escolares, Procedência & Censo */}
               <Card>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #f1f5f9", paddingBottom: 10 }}>
-                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#1e293b", display: "flex", alignItems: "center", gap: 8 }}>
-                    <i className="ti ti-school" style={{ color: "#1a56db", fontSize: 18 }} />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid #2c3b52", paddingBottom: 10 }}>
+                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                    <i className="ti ti-school" style={{ color: "#818cf8", fontSize: 18 }} />
                     Dados Escolares & Inep 2026
                   </h3>
                   <Btn variant="default" style={{ padding: "4px 8px", fontSize: 11 }} onClick={() => { setForm(aluno); setAbaModalEditar("historico_censo"); setModalEditarAberto(true); }}>
@@ -1220,43 +1222,43 @@ export default function AlunoDetalhes() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 16px", fontSize: 13 }}>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Etapa de Ensino</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.etapaEnsino || "Ensino Fundamental"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.etapaEnsino || "Ensino Fundamental"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Ano / Série Pretendida</span>
-                    <strong style={{ color: "#0f172a" }}>{aluno.ano}</strong>
+                    <strong style={{ color: "#ffffff" }}>{aluno.ano}</strong>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Escola Anterior / Origem</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.escolaOrigem || "—"} {aluno.escolaOrigemCidadeUf ? `(${aluno.escolaOrigemCidadeUf})` : ""}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.escolaOrigem || "—"} {aluno.escolaOrigemCidadeUf ? `(${aluno.escolaOrigemCidadeUf})` : ""}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Situação Anterior</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.situacaoAnterior || "—"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.situacaoAnterior || "—"}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Transporte Escolar Público</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.transporteEscolar || "Não"} {aluno.transporteEscolar === "Sim" ? `(${aluno.transporteEsfera || "Municipal"})` : ""}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.transporteEscolar || "Não"} {aluno.transporteEscolar === "Sim" ? `(${aluno.transporteEsfera || "Municipal"})` : ""}</span>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Atendimento Especializado (AEE)</span>
-                    <span style={{ color: "#0f172a" }}>{aluno.recebeAee || "Não"}</span>
+                    <span style={{ color: "#cbd5e1" }}>{aluno.recebeAee || "Não"}</span>
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600, marginBottom: 4 }}>Deficiência / TEA / Superdotação</span>
+                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600, marginBottom: 6 }}>Deficiência / TEA / Superdotação</span>
                     {aluno.possuiDeficiencia === "Sim" ? (
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                         {(aluno.deficienciasSelecionadas || []).map(def => (
-                          <span key={def} style={{ background: "#ede9fe", color: "#6b21a8", fontSize: 11, padding: "3px 8px", borderRadius: 6, fontWeight: 600 }}>
+                          <span key={def} style={{ background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", border: "1px solid rgba(168, 85, 247, 0.3)", fontSize: 11, padding: "3px 9px", borderRadius: 6, fontWeight: 600 }}>
                             {def}
                           </span>
                         ))}
                         {(!aluno.deficienciasSelecionadas || aluno.deficienciasSelecionadas.length === 0) && (
-                          <span style={{ color: "#6b21a8", fontSize: 12 }}>Declarou deficiência (especificações pendentes de laudo)</span>
+                          <span style={{ color: "#c084fc", fontSize: 12 }}>Declarou deficiência (especificações pendentes de laudo)</span>
                         )}
                       </div>
                     ) : (
-                      <span style={{ color: "#64748b" }}>Não possui deficiência declarada</span>
+                      <span style={{ color: "#94a3b8" }}>Não possui deficiência declarada</span>
                     )}
                   </div>
                 </div>
@@ -1265,11 +1267,11 @@ export default function AlunoDetalhes() {
               {/* 5. HISTÓRICO DE REMANEJAMENTOS E MUDANÇAS DE TURMA */}
               <Card style={{ padding: 20 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a", display: "flex", alignItems: "center", gap: 8 }}>
-                    <i className="ti ti-arrows-exchange" style={{ color: "#1a56db" }} /> 5. Histórico de Remanejamentos de Turma
+                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                    <i className="ti ti-arrows-exchange" style={{ color: "#818cf8" }} /> 5. Histórico de Remanejamentos de Turma
                   </h3>
                   <Btn
-                    variant="secondary"
+                    variant="default"
                     style={{ padding: "4px 10px", fontSize: 11 }}
                     onClick={() => {
                       setTurmaDestinoRemanejamento("");
@@ -1284,28 +1286,28 @@ export default function AlunoDetalhes() {
                 </div>
 
                 {(!aluno.historicoRemanejamento || aluno.historicoRemanejamento.length === 0) ? (
-                  <div style={{ padding: "14px 16px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, color: "#64748b", display: "flex", alignItems: "center", gap: 10 }}>
-                    <i className="ti ti-info-circle" style={{ fontSize: 18, color: "#94a3b8" }} />
-                    <span>O estudante permanece em sua turma de enturmação inicial (<strong>{aluno.turma}</strong>). Não há registros de remanejamento interno.</span>
+                  <div style={{ padding: "14px 16px", background: "#243144", borderRadius: 10, border: "1px solid #33435c", fontSize: 13, color: "#94a3b8", display: "flex", alignItems: "center", gap: 10 }}>
+                    <i className="ti ti-info-circle" style={{ fontSize: 18, color: "#818cf8" }} />
+                    <span>O estudante permanece em sua turma de enturmação inicial (<strong style={{ color: "#ffffff" }}>{aluno.turma}</strong>). Não há registros de remanejamento interno.</span>
                   </div>
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {aluno.historicoRemanejamento.map((item, idx) => (
-                      <div key={item.id || idx} style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
+                      <div key={item.id || idx} style={{ padding: "12px 14px", background: "#243144", borderRadius: 10, border: "1px solid #33435c", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
                         <div>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                            <span style={{ fontSize: 12, fontWeight: 700, color: "#475569" }}>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: "#cbd5e1" }}>
                               {item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "Data não informada"}
                             </span>
                             <Badge color="gray">{item.turmaOrigem}</Badge>
                             <i className="ti ti-arrow-right" style={{ fontSize: 12, color: "#94a3b8" }} />
                             <Badge color="green">{item.turmaDestino}</Badge>
                           </div>
-                          <div style={{ fontSize: 12, color: "#1e293b" }}>
-                            <strong>Motivo:</strong> {item.motivo}
+                          <div style={{ fontSize: 12, color: "#cbd5e1" }}>
+                            <strong style={{ color: "#ffffff" }}>Motivo:</strong> {item.motivo}
                           </div>
                           {item.observacoes && (
-                            <div style={{ fontSize: 11, color: "#64748b", fontStyle: "italic", marginTop: 2 }}>
+                            <div style={{ fontSize: 11, color: "#94a3b8", fontStyle: "italic", marginTop: 2 }}>
                               {item.observacoes}
                             </div>
                           )}
@@ -1341,10 +1343,10 @@ export default function AlunoDetalhes() {
               <Card style={{ padding: 20 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a", display: "flex", alignItems: "center", gap: 8 }}>
-                      <i className="ti ti-timeline" style={{ color: "#1a56db" }} /> 6. Trajetória Escolar & Histórico Acadêmico
+                    <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                      <i className="ti ti-timeline" style={{ color: "#818cf8" }} /> 6. Trajetória Escolar & Histórico Acadêmico
                     </h3>
-                    <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#64748b" }}>
+                    <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#94a3b8" }}>
                       Linha do tempo cronológica com a trajetória do aluno ano a ano para boletins e histórico escolar.
                     </p>
                   </div>
@@ -1370,9 +1372,9 @@ export default function AlunoDetalhes() {
                 </div>
 
                 {(!aluno.trajetoriaEscolar || aluno.trajetoriaEscolar.length === 0) ? (
-                  <div style={{ padding: "16px 18px", background: "#f8fafc", borderRadius: 8, border: "1px dashed #cbd5e1", fontSize: 13, color: "#64748b", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+                  <div style={{ padding: "16px 18px", background: "#243144", borderRadius: 10, border: "1px dashed #33435c", fontSize: 13, color: "#94a3b8", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <i className="ti ti-info-circle" style={{ fontSize: 18, color: "#94a3b8" }} />
+                      <i className="ti ti-info-circle" style={{ fontSize: 18, color: "#818cf8" }} />
                       <span>Nenhum histórico anterior de anos letivos cadastrado para este estudante.</span>
                     </div>
                     <Btn
@@ -1399,21 +1401,21 @@ export default function AlunoDetalhes() {
                             gap: 14,
                             alignItems: "center",
                             padding: "12px 16px",
-                            background: "#f8fafc",
-                            borderRadius: 8,
-                            border: "1px solid #e2e8f0"
+                            background: "#243144",
+                            borderRadius: 10,
+                            border: "1px solid #33435c"
                           }}
                         >
                           <div>
-                            <div style={{ fontSize: 16, fontWeight: 800, color: "#1e3a8a" }}>{item.anoLetivo}</div>
+                            <div style={{ fontSize: 16, fontWeight: 800, color: "#38bdf8" }}>{item.anoLetivo}</div>
                             <Badge color="blue">{item.serieAno}</Badge>
                           </div>
 
                           <div>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>{item.escola}</div>
-                            <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>{item.cidadeUf || "—"}</div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>{item.escola}</div>
+                            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{item.cidadeUf || "—"}</div>
                             {item.observacoes && (
-                              <div style={{ fontSize: 11, color: "#475569", fontStyle: "italic", marginTop: 2 }}>{item.observacoes}</div>
+                              <div style={{ fontSize: 11, color: "#cbd5e1", fontStyle: "italic", marginTop: 2 }}>{item.observacoes}</div>
                             )}
                           </div>
 
@@ -1422,8 +1424,8 @@ export default function AlunoDetalhes() {
                               {item.situacaoFinal || "Aprovado"}
                             </Badge>
                             {item.mediaFinal && (
-                              <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>
-                                Média: <strong>{item.mediaFinal}</strong> {item.frequenciaPercentual ? `· Freq: ${item.frequenciaPercentual}%` : ""}
+                              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                                Média: <strong style={{ color: "#ffffff" }}>{item.mediaFinal}</strong> {item.frequenciaPercentual ? `· Freq: ${item.frequenciaPercentual}%` : ""}
                               </div>
                             )}
                           </div>
@@ -1452,15 +1454,25 @@ export default function AlunoDetalhes() {
         {/* CONTEÚDO DA ABA 2: DOCUMENTOS ANEXADOS */}
         {abaAtiva === "documentos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "12px 18px", borderRadius: 10, border: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#1e293b", padding: "14px 20px", borderRadius: 12, border: "1px solid #2c3b52" }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>Pasta Digital de Documentos do Aluno</h3>
-                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#64748b" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>Pasta Digital de Documentos do Aluno</h3>
+                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#94a3b8" }}>
                   Anexe cópias digitalizadas (PDF ou Imagem) dos documentos exigidos para a matrícula e arquivo permanente.
                 </p>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: percentualDocs === 100 ? "#16a34a" : "#ca8a04" }}>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    background: percentualDocs === 100 ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
+                    color: percentualDocs === 100 ? "#34d399" : "#fbbf24",
+                    border: percentualDocs === 100 ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(245, 158, 11, 0.3)",
+                    padding: "4px 10px",
+                    borderRadius: 8
+                  }}
+                >
                   {docsObrigatoriosEntregues} de {totalDocsObrigatorios} Obrigatórios
                 </span>
               </div>
@@ -1477,8 +1489,8 @@ export default function AlunoDetalhes() {
                     key={tipoDoc.id}
                     style={{
                       padding: 16,
-                      border: docAnexado ? "1px solid #cbd5e1" : "1px dashed #cbd5e1",
-                      background: docAnexado ? "white" : "#fafafa",
+                      border: docAnexado ? "1px solid #33435c" : "1px dashed #33435c",
+                      background: docAnexado ? "#1e293b" : "rgba(30, 41, 59, 0.6)",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
@@ -1494,8 +1506,8 @@ export default function AlunoDetalhes() {
                               width: 38,
                               height: 38,
                               borderRadius: 8,
-                              background: docAnexado ? (isPdf ? "#fee2e2" : "#e0e7ff") : "#f1f5f9",
-                              color: docAnexado ? (isPdf ? "#dc2626" : "#4338ca") : "#94a3b8",
+                              background: docAnexado ? (isPdf ? "rgba(239, 68, 68, 0.15)" : "rgba(99, 102, 241, 0.15)") : "#243144",
+                              color: docAnexado ? (isPdf ? "#f87171" : "#818cf8") : "#94a3b8",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -1505,20 +1517,20 @@ export default function AlunoDetalhes() {
                             <i className={`ti ti-${tipoDoc.icone || "file"}`} />
                           </div>
                           <div>
-                            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#1e293b" }}>
+                            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#ffffff" }}>
                               {tipoDoc.label}
                             </h4>
-                            <span style={{ fontSize: 11, color: "#64748b" }}>{tipoDoc.descricao}</span>
+                            <span style={{ fontSize: 11, color: "#94a3b8" }}>{tipoDoc.descricao}</span>
                           </div>
                         </div>
 
                         <div>
                           {tipoDoc.obrigatorio ? (
-                            <span style={{ fontSize: 10, background: "#fee2e2", color: "#991b1b", padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>
+                            <span style={{ fontSize: 10, background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "2px 7px", borderRadius: 6, fontWeight: 600 }}>
                               Obrigatório
                             </span>
                           ) : (
-                            <span style={{ fontSize: 10, background: "#f1f5f9", color: "#64748b", padding: "2px 6px", borderRadius: 4, fontWeight: 500 }}>
+                            <span style={{ fontSize: 10, background: "#243144", color: "#94a3b8", border: "1px solid #33435c", padding: "2px 7px", borderRadius: 6, fontWeight: 500 }}>
                               Opcional
                             </span>
                           )}
@@ -1526,11 +1538,11 @@ export default function AlunoDetalhes() {
                       </div>
 
                       {docAnexado ? (
-                        <div style={{ background: "#f8fafc", padding: "8px 12px", borderRadius: 6, border: "1px solid #e2e8f0", marginTop: 8 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#16a34a", fontSize: 12, fontWeight: 600, marginBottom: 2 }}>
+                        <div style={{ background: "rgba(16, 185, 129, 0.08)", padding: "10px 12px", borderRadius: 8, border: "1px solid rgba(16, 185, 129, 0.2)", marginTop: 8 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#34d399", fontSize: 12, fontWeight: 600, marginBottom: 2 }}>
                             <i className="ti ti-check" /> Documento Entregue
                           </div>
-                          <div style={{ fontSize: 11, color: "#475569", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          <div style={{ fontSize: 11, color: "#cbd5e1", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             📄 {docAnexado.nome || "documento_anexo"}
                           </div>
                           {docAnexado.dataEnvio && (
@@ -1540,16 +1552,16 @@ export default function AlunoDetalhes() {
                           )}
                         </div>
                       ) : (
-                        <div style={{ background: "#fffbeb", padding: "8px 12px", borderRadius: 6, border: "1px solid #fef3c7", marginTop: 8 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#b45309", fontSize: 12, fontWeight: 500 }}>
+                        <div style={{ background: "rgba(245, 158, 11, 0.08)", padding: "10px 12px", borderRadius: 8, border: "1px solid rgba(245, 158, 11, 0.2)", marginTop: 8 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#fbbf24", fontSize: 12, fontWeight: 500 }}>
                             <i className="ti ti-clock" /> Nenhum arquivo anexado
                           </div>
-                          <div style={{ fontSize: 10, color: "#92400e", marginTop: 2 }}>{tipoDoc.dica}</div>
+                          <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 2 }}>{tipoDoc.dica}</div>
                         </div>
                       )}
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, borderTop: "1px solid #f1f5f9", paddingTop: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, borderTop: "1px solid #2c3b52", paddingTop: 10 }}>
                       {docAnexado ? (
                         <>
                           <Btn
@@ -1569,11 +1581,12 @@ export default function AlunoDetalhes() {
                               alignItems: "center",
                               gap: 4,
                               padding: "6px 10px",
-                              borderRadius: 6,
+                              borderRadius: 8,
                               fontSize: 12,
-                              background: "white",
-                              color: "#374151",
-                              border: "1px solid #d1d5db",
+                              fontWeight: 600,
+                              background: "#243144",
+                              color: "#cbd5e1",
+                              border: "1px solid #33435c",
                               cursor: isUploading ? "not-allowed" : "pointer",
                               opacity: isUploading ? 0.6 : 1
                             }}
@@ -1596,10 +1609,10 @@ export default function AlunoDetalhes() {
                             style={{
                               width: 32,
                               height: 32,
-                              borderRadius: 6,
-                              border: "1px solid #fca5a5",
-                              background: "#fee2e2",
-                              color: "#991b1b",
+                              borderRadius: 8,
+                              border: "1px solid rgba(239, 68, 68, 0.35)",
+                              background: "rgba(239, 68, 68, 0.15)",
+                              color: "#f87171",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -1619,12 +1632,13 @@ export default function AlunoDetalhes() {
                             gap: 6,
                             width: "100%",
                             padding: "8px 12px",
-                            borderRadius: 6,
+                            borderRadius: 8,
                             fontSize: 12,
                             fontWeight: 600,
-                            background: "#1a56db",
-                            color: "white",
-                            border: "1px solid #1a56db",
+                            background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                            color: "#ffffff",
+                            border: "none",
+                            boxShadow: "0 2px 8px rgba(99, 102, 241, 0.35)",
                             cursor: isUploading ? "not-allowed" : "pointer",
                             opacity: isUploading ? 0.7 : 1
                           }}
@@ -1651,10 +1665,10 @@ export default function AlunoDetalhes() {
         {/* CONTEÚDO DA ABA 3: BOLETIM & NOTAS */}
         {abaAtiva === "boletim" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "12px 18px", borderRadius: 10, border: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#1e293b", padding: "14px 20px", borderRadius: 12, border: "1px solid #2c3b52" }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>Boletim de Rendimento Escolar · {ANO_LETIVO_ATUAL}</h3>
-                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#64748b" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>Boletim de Rendimento Escolar · {ANO_LETIVO_ATUAL}</h3>
+                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#94a3b8" }}>
                   Acompanhe o desempenho bimestral em todas as disciplinas curriculares.
                 </p>
               </div>
@@ -1663,17 +1677,17 @@ export default function AlunoDetalhes() {
               </Btn>
             </div>
 
-            <Card style={{ padding: 0, overflow: "hidden" }}>
+            <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", border: "1px solid #2c3b52" }}>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
-                    <th style={{ textAlign: "left", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "#475569" }}>Disciplina</th>
-                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#475569" }}>1º Bim</th>
-                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#475569" }}>2º Bim</th>
-                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#475569" }}>3º Bim</th>
-                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#475569" }}>4º Bim</th>
-                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#475569" }}>Média</th>
-                    <th style={{ textAlign: "center", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "#475569" }}>Situação</th>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                    <th style={{ textAlign: "left", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Disciplina</th>
+                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>1º Bim</th>
+                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>2º Bim</th>
+                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>3º Bim</th>
+                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>4º Bim</th>
+                    <th style={{ textAlign: "center", padding: "12px 12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Média</th>
+                    <th style={{ textAlign: "center", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Situação</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1684,16 +1698,16 @@ export default function AlunoDetalhes() {
                     const sit = situacaoAluno(media);
 
                     return (
-                      <tr key={disc} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1e293b", fontSize: 13 }}>
+                      <tr key={disc} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff", fontSize: 13 }}>
                           {disc}
                         </td>
                         {["b1", "b2", "b3", "b4"].map(b => (
-                          <td key={b} style={{ textAlign: "center", padding: "12px", fontSize: 13, color: bim[b] ? "#0f172a" : "#94a3b8" }}>
+                          <td key={b} style={{ textAlign: "center", padding: "12px", fontSize: 13, color: bim[b] !== undefined && bim[b] !== null && bim[b] !== "" ? "#f8fafc" : "#64748b" }}>
                             {bim[b] !== undefined && bim[b] !== null && bim[b] !== "" ? bim[b] : "—"}
                           </td>
                         ))}
-                        <td style={{ textAlign: "center", padding: "12px", fontWeight: 700, fontSize: 13, color: media !== null ? (media >= 7 ? "#16a34a" : media >= 5 ? "#ca8a04" : "#dc2626") : "#94a3b8" }}>
+                        <td style={{ textAlign: "center", padding: "12px", fontWeight: 700, fontSize: 13, color: media !== null ? (media >= 7 ? "#34d399" : media >= 5 ? "#fbbf24" : "#f87171") : "#64748b" }}>
                           {media !== null ? media : "—"}
                         </td>
                         <td style={{ textAlign: "center", padding: "12px 16px" }}>
@@ -1711,10 +1725,10 @@ export default function AlunoDetalhes() {
         {/* CONTEÚDO DA ABA 4: FREQUÊNCIA ESCOLAR */}
         {abaAtiva === "frequencia" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "12px 18px", borderRadius: 10, border: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#1e293b", padding: "14px 20px", borderRadius: 12, border: "1px solid #2c3b52" }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>Histórico de Presença & Frequência Escolar</h3>
-                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#64748b" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>Histórico de Presença & Frequência Escolar</h3>
+                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#94a3b8" }}>
                   Percentual de assiduidade e detalhamento mensal de presenças e faltas.
                 </p>
               </div>
@@ -1734,9 +1748,9 @@ export default function AlunoDetalhes() {
                 const perc = totalDias > 0 ? Math.round((presencas / totalDias) * 100) : null;
 
                 return (
-                  <Card key={mesNome} style={{ padding: 16 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                      <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#1e293b" }}>{mesNome}</h4>
+                  <Card key={mesNome} style={{ padding: 16, background: "#1e293b", border: "1px solid #2c3b52" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#ffffff" }}>{mesNome}</h4>
                       {perc !== null ? (
                         <Badge color={perc >= 75 ? "green" : "red"}>{perc}%</Badge>
                       ) : (
@@ -1745,18 +1759,18 @@ export default function AlunoDetalhes() {
                     </div>
 
                     {totalDias > 0 ? (
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, fontSize: 12, textAlign: "center", background: "#f8fafc", padding: 8, borderRadius: 8 }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, fontSize: 12, textAlign: "center", background: "#243144", border: "1px solid #33435c", padding: 10, borderRadius: 8 }}>
                         <div>
-                          <span style={{ color: "#16a34a", fontWeight: 700, fontSize: 14, display: "block" }}>{presencas}</span>
-                          <span style={{ color: "#64748b", fontSize: 10 }}>Presenças</span>
+                          <span style={{ color: "#34d399", fontWeight: 700, fontSize: 14, display: "block" }}>{presencas}</span>
+                          <span style={{ color: "#94a3b8", fontSize: 11 }}>Presenças</span>
                         </div>
                         <div>
-                          <span style={{ color: "#dc2626", fontWeight: 700, fontSize: 14, display: "block" }}>{faltas}</span>
-                          <span style={{ color: "#64748b", fontSize: 10 }}>Faltas</span>
+                          <span style={{ color: "#f87171", fontWeight: 700, fontSize: 14, display: "block" }}>{faltas}</span>
+                          <span style={{ color: "#94a3b8", fontSize: 11 }}>Faltas</span>
                         </div>
                         <div>
-                          <span style={{ color: "#ca8a04", fontWeight: 700, fontSize: 14, display: "block" }}>{faltasJust}</span>
-                          <span style={{ color: "#64748b", fontSize: 10 }}>Justificadas</span>
+                          <span style={{ color: "#fbbf24", fontWeight: 700, fontSize: 14, display: "block" }}>{faltasJust}</span>
+                          <span style={{ color: "#94a3b8", fontSize: 11 }}>Justificadas</span>
                         </div>
                       </div>
                     ) : (
@@ -1774,10 +1788,10 @@ export default function AlunoDetalhes() {
         {/* CONTEÚDO DA ABA 5: OCORRÊNCIAS */}
         {abaAtiva === "ocorrencias" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "12px 18px", borderRadius: 10, border: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#1e293b", padding: "14px 20px", borderRadius: 12, border: "1px solid #2c3b52" }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>Acompanhamento de Ocorrências e Conduta</h3>
-                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#64748b" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>Acompanhamento de Ocorrências e Conduta</h3>
+                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#94a3b8" }}>
                   Histórico de fatos disciplinares, mediações, termos de compromisso e acompanhamento contínuo.
                 </p>
               </div>
@@ -1792,10 +1806,10 @@ export default function AlunoDetalhes() {
             </div>
 
             {!ocorrencias.length ? (
-              <Card style={{ textAlign: "center", padding: 36, color: "#64748b" }}>
-                <i className="ti ti-circle-check" style={{ fontSize: 36, color: "#16a34a", marginBottom: 8, display: "block" }} />
-                <h4 style={{ margin: "0 0 4px 0", color: "#1e293b" }}>Nenhuma ocorrência registrada</h4>
-                <p style={{ margin: 0, fontSize: 13 }}>O aluno não possui anotações disciplinares ou restritivas registradas no sistema.</p>
+              <Card style={{ textAlign: "center", padding: 36, color: "#94a3b8", background: "#1e293b", border: "1px solid #2c3b52" }}>
+                <i className="ti ti-circle-check" style={{ fontSize: 36, color: "#34d399", marginBottom: 8, display: "block" }} />
+                <h4 style={{ margin: "0 0 4px 0", color: "#ffffff" }}>Nenhuma ocorrência registrada</h4>
+                <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>O aluno não possui anotações disciplinares ou restritivas registradas no sistema.</p>
               </Card>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1811,31 +1825,32 @@ export default function AlunoDetalhes() {
                       key={o.id}
                       style={{
                         padding: 16,
-                        borderLeft: `4px solid ${gravidadeInfo.cor === "green" ? "#22c55e" : gravidadeInfo.cor === "red" ? "#ef4444" : "#f59e0b"}`,
-                        background: "white"
+                        borderLeft: `4px solid ${gravidadeInfo.cor === "green" ? "#34d399" : gravidadeInfo.cor === "red" ? "#f87171" : "#fbbf24"}`,
+                        background: "#1e293b",
+                        border: "1px solid #2c3b52"
                       }}
                     >
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
                         <div>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                            <span style={{ fontWeight: 700, color: "#0f172a", fontSize: 14 }}>{o.tipo}</span>
+                            <span style={{ fontWeight: 700, color: "#ffffff", fontSize: 14 }}>{o.tipo}</span>
                             <Badge color={gravidadeInfo.cor}>
                               {gravidadeInfo.label}
                             </Badge>
                             <Badge color={statusInfo.cor}>
                               {statusInfo.label}
                             </Badge>
-                            <span style={{ fontSize: 11, color: "#64748b", background: "#f1f5f9", padding: "2px 8px", borderRadius: 4 }}>
+                            <span style={{ fontSize: 11, color: "#cbd5e1", background: "#243144", border: "1px solid #33435c", padding: "2px 8px", borderRadius: 6 }}>
                               {dataStr} {o.hora ? `às ${o.hora}` : ""}
                             </span>
                             {o.codigo && (
-                              <span style={{ fontSize: 11, fontWeight: 700, fontFamily: "monospace", color: "#2563eb" }}>
+                              <span style={{ fontSize: 11, fontWeight: 700, fontFamily: "monospace", color: "#818cf8" }}>
                                 {o.codigo}
                               </span>
                             )}
                           </div>
                           <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
-                            Registrado por: <strong>{o.responsavelRegistro || o.registradoPor || "Equipe Escolar"}</strong> ({o.cargoResponsavel || "Servidor"})
+                            Registrado por: <strong style={{ color: "#cbd5e1" }}>{o.responsavelRegistro || o.registradoPor || "Equipe Escolar"}</strong> ({o.cargoResponsavel || "Servidor"})
                           </div>
                         </div>
 
@@ -1853,13 +1868,13 @@ export default function AlunoDetalhes() {
                         </div>
                       </div>
 
-                      <p style={{ margin: "6px 0 0 0", fontSize: 13, color: "#334155", whiteSpace: "pre-wrap", lineHeight: 1.5 }}>
+                      <p style={{ margin: "6px 0 0 0", fontSize: 13, color: "#cbd5e1", whiteSpace: "pre-wrap", lineHeight: 1.5 }}>
                         {o.descricao}
                       </p>
 
                       {o.envolvidos && (
-                        <div style={{ marginTop: 6, fontSize: 11, color: "#64748b" }}>
-                          <strong>Envolvidos / Testemunhas:</strong> {o.envolvidos}
+                        <div style={{ marginTop: 6, fontSize: 11, color: "#94a3b8" }}>
+                          <strong style={{ color: "#cbd5e1" }}>Envolvidos / Testemunhas:</strong> {o.envolvidos}
                         </div>
                       )}
 
@@ -1876,12 +1891,12 @@ export default function AlunoDetalhes() {
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: 4,
-                                background: "#eff6ff",
-                                border: "1px solid #bfdbfe",
-                                padding: "2px 6px",
-                                borderRadius: 4,
-                                fontSize: "0.7rem",
-                                color: "#1e40af",
+                                background: "#243144",
+                                border: "1px solid #33435c",
+                                padding: "3px 8px",
+                                borderRadius: 6,
+                                fontSize: "0.75rem",
+                                color: "#818cf8",
                                 fontWeight: 600
                               }}
                             >
@@ -1901,10 +1916,10 @@ export default function AlunoDetalhes() {
         {/* CONTEÚDO DA ABA 6: APONTAMENTOS PEDAGÓGICOS */}
         {abaAtiva === "apontamentos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "12px 18px", borderRadius: 10, border: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#1e293b", padding: "14px 20px", borderRadius: 12, border: "1px solid #2c3b52" }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>Apontamentos Pedagógicos & Acompanhamento</h3>
-                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#64748b" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>Apontamentos Pedagógicos & Acompanhamento</h3>
+                <p style={{ margin: "2px 0 0 0", fontSize: 12, color: "#94a3b8" }}>
                   Anotações de reuniões com pais, orientações pedagógicas, plano de AEE e observações do corpo docente.
                 </p>
               </div>
@@ -1914,10 +1929,10 @@ export default function AlunoDetalhes() {
             </div>
 
             {!apontamentos.length ? (
-              <Card style={{ textAlign: "center", padding: 36, color: "#64748b" }}>
-                <i className="ti ti-notebook" style={{ fontSize: 36, color: "#94a3b8", marginBottom: 8, display: "block" }} />
-                <h4 style={{ margin: "0 0 4px 0", color: "#1e293b" }}>Nenhum apontamento pedagógico</h4>
-                <p style={{ margin: 0, fontSize: 13 }}>Adicione observações para acompanhar o desenvolvimento do estudante.</p>
+              <Card style={{ textAlign: "center", padding: 36, color: "#94a3b8", background: "#1e293b", border: "1px solid #2c3b52" }}>
+                <i className="ti ti-notebook" style={{ fontSize: 36, color: "#64748b", marginBottom: 8, display: "block" }} />
+                <h4 style={{ margin: "0 0 4px 0", color: "#ffffff" }}>Nenhum apontamento pedagógico</h4>
+                <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>Adicione observações para acompanhar o desenvolvimento do estudante.</p>
               </Card>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1925,17 +1940,17 @@ export default function AlunoDetalhes() {
                   const dataStr = ap.data ? new Date(ap.data + "T12:00:00").toLocaleDateString("pt-BR") : "Data não informada";
 
                   return (
-                    <Card key={ap.id} style={{ padding: 16, borderLeft: "4px solid #1a56db" }}>
+                    <Card key={ap.id} style={{ padding: 16, borderLeft: "4px solid #6366f1", background: "#1e293b", border: "1px solid #2c3b52" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                         <div>
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <span style={{ fontWeight: 700, color: "#1a56db", fontSize: 13 }}>{ap.categoria || "Pedagógico"}</span>
-                            <span style={{ fontSize: 11, color: "#64748b", background: "#f1f5f9", padding: "2px 8px", borderRadius: 4 }}>
+                            <span style={{ fontWeight: 700, color: "#818cf8", fontSize: 13 }}>{ap.categoria || "Pedagógico"}</span>
+                            <span style={{ fontSize: 11, color: "#cbd5e1", background: "#243144", border: "1px solid #33435c", padding: "2px 8px", borderRadius: 6 }}>
                               {dataStr}
                             </span>
                           </div>
                           <span style={{ fontSize: 11, color: "#94a3b8" }}>
-                            Autor: <strong>{ap.registradoPor || "Equipe Pedagógica"}</strong>
+                            Autor: <strong style={{ color: "#cbd5e1" }}>{ap.registradoPor || "Equipe Pedagógica"}</strong>
                           </span>
                         </div>
                         <button
@@ -1946,7 +1961,7 @@ export default function AlunoDetalhes() {
                           <i className="ti ti-trash" style={{ fontSize: 16 }} />
                         </button>
                       </div>
-                      <p style={{ margin: 0, fontSize: 13, color: "#334155", whiteSpace: "pre-wrap", lineHeight: 1.5 }}>
+                      <p style={{ margin: 0, fontSize: 13, color: "#cbd5e1", whiteSpace: "pre-wrap", lineHeight: 1.5 }}>
                         {ap.texto}
                       </p>
                     </Card>
@@ -1978,7 +1993,7 @@ export default function AlunoDetalhes() {
         >
           <div style={{ display: "flex", gap: 20, minHeight: 460 }}>
             {/* Sidebar de Abas do Modal */}
-            <div style={{ width: 190, display: "flex", flexDirection: "column", gap: 6, borderRight: "1px solid #e5e7eb", paddingRight: 12, flexShrink: 0 }}>
+            <div style={{ width: 190, display: "flex", flexDirection: "column", gap: 6, borderRight: "1px solid #2c3b52", paddingRight: 12, flexShrink: 0 }}>
               {[
                 { id: "escola", label: "Escola / Etapa", icon: "school" },
                 { id: "pessoais", label: "Dados Pessoais", icon: "user" },
@@ -1995,14 +2010,15 @@ export default function AlunoDetalhes() {
                     alignItems: "center",
                     gap: 10,
                     padding: "9px 12px",
-                    border: "none",
+                    border: abaModalEditar === t.id ? "1px solid rgba(99, 102, 241, 0.3)" : "1px solid transparent",
                     borderRadius: 8,
-                    background: abaModalEditar === t.id ? "#eff6ff" : "transparent",
+                    background: abaModalEditar === t.id ? "rgba(99, 102, 241, 0.15)" : "transparent",
                     fontSize: 13,
                     fontWeight: abaModalEditar === t.id ? 600 : 500,
-                    color: abaModalEditar === t.id ? "#1a56db" : "#4b5563",
+                    color: abaModalEditar === t.id ? "#818cf8" : "#94a3b8",
                     cursor: "pointer",
-                    textAlign: "left"
+                    textAlign: "left",
+                    transition: "all 0.15s"
                   }}
                 >
                   <i className={`ti ti-${t.icon}`} style={{ fontSize: 16 }} />
@@ -2166,13 +2182,13 @@ export default function AlunoDetalhes() {
                   </div>
 
                   {form.possuiDeficiencia === "Sim" && (
-                    <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: 12 }}>
-                      <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 8 }}>Selecione as deficiências diagnosticadas:</label>
+                    <div style={{ background: "#243144", border: "1px solid #33435c", borderRadius: 10, padding: 14 }}>
+                      <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 10 }}>Selecione as deficiências diagnosticadas:</label>
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                         {DEFICIENCIAS_INEP_2026.map(def => {
                           const checked = (form.deficienciasSelecionadas || []).includes(def);
                           return (
-                            <label key={def} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, cursor: "pointer" }}>
+                            <label key={def} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "#e2e8f0", cursor: "pointer" }}>
                               <input
                                 type="checkbox"
                                 checked={checked}
@@ -2233,12 +2249,24 @@ export default function AlunoDetalhes() {
             </div>
 
             <div>
-              <label style={{ fontSize: 12, fontWeight: 500, color: "#374151", display: "block", marginBottom: 4 }}>Observação / Registro *</label>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>Observação / Registro *</label>
               <textarea
                 value={novoApontamento.texto}
                 onChange={e => setNovoApontamento(a => ({ ...a, texto: e.target.value }))}
                 placeholder="Insira as observações pedagógicas e acordos estabelecidos..."
-                style={{ width: "100%", minHeight: 100, border: "1px solid #d1d5db", borderRadius: 6, padding: "10px", fontSize: 13, fontFamily: "inherit" }}
+                style={{
+                  width: "100%",
+                  minHeight: 110,
+                  border: "1px solid #33435c",
+                  borderRadius: 10,
+                  padding: "10px 14px",
+                  fontSize: 13,
+                  fontFamily: "inherit",
+                  background: "#243144",
+                  color: "#ffffff",
+                  outline: "none",
+                  boxSizing: "border-box"
+                }}
               />
             </div>
           </div>
@@ -2264,28 +2292,26 @@ export default function AlunoDetalhes() {
           textSave="Efetivar Remanejamento"
           width={620}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ background: "#eff6ff", padding: 14, borderRadius: 8, border: "1px solid #bfdbfe" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: "#243144", padding: 16, borderRadius: 12, border: "1px solid #33435c" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase" }}>Estudante</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#1e3a8a", marginTop: 2 }}>{aluno.nome}</div>
-                  <div style={{ fontSize: 12, color: "#3b82f6" }}>Matrícula: {aluno.matricula || "—"}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#818cf8", textTransform: "uppercase", letterSpacing: "0.05em" }}>Estudante</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", marginTop: 2 }}>{aluno.nome}</div>
+                  <div style={{ fontSize: 12, color: "#cbd5e1" }}>Matrícula: {aluno.matricula || "—"}</div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>Turma Atual:</div>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Turma Atual:</div>
                   <Badge color="blue">{aluno.turma}</Badge>
-                  <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>Turno: {aluno.turno || "—"}</div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>Turno: {aluno.turno || "—"}</div>
                 </div>
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
-                  Nova Turma de Destino *
-                </label>
                 <Select
+                  label="Nova Turma de Destino *"
                   value={turmaDestinoRemanejamento}
                   onChange={e => setTurmaDestinoRemanejamento(e.target.value)}
                 >
@@ -2302,10 +2328,8 @@ export default function AlunoDetalhes() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
-                  Motivo do Remanejamento *
-                </label>
                 <Select
+                  label="Motivo do Remanejamento *"
                   value={motivoRemanejamento}
                   onChange={e => setMotivoRemanejamento(e.target.value)}
                 >
@@ -2321,10 +2345,8 @@ export default function AlunoDetalhes() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
-                  Data do Remanejamento *
-                </label>
                 <Input
+                  label="Data do Remanejamento *"
                   type="date"
                   value={dataRemanejamento}
                   onChange={e => setDataRemanejamento(e.target.value)}
@@ -2332,10 +2354,8 @@ export default function AlunoDetalhes() {
               </div>
 
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
-                  Observações / Parecer da Secretaria (Opcional)
-                </label>
                 <Input
+                  label="Observações / Parecer da Secretaria (Opcional)"
                   value={obsRemanejamento}
                   onChange={e => setObsRemanejamento(e.target.value)}
                   placeholder="Justificativa pedagógica ou detalhamento do pedido..."

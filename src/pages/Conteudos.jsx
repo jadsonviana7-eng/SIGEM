@@ -184,11 +184,11 @@ export default function Conteudos() {
       {/* Cabeçalho Principal */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#111827", display: "flex", alignItems: "center", gap: 10 }}>
-            <i className="ti ti-notebook" style={{ color: "#1a56db", fontSize: 26 }} />
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
+            <i className="ti ti-notebook" style={{ color: "#818cf8", fontSize: 26 }} />
             Caderneta Digital · Conteúdos Aplicados
           </h1>
-          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#64748b" }}>
+          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#94a3b8" }}>
             Diário de classe eletrônico: registro diário de aulas, conteúdos ministrados, habilidades (BNCC) e histórico pedagógico da turma.
           </p>
         </div>
@@ -209,11 +209,11 @@ export default function Conteudos() {
       </div>
 
       {/* Barra Superior de Seleção de Turma, Disciplina e Bimestre */}
-      <Card style={{ padding: "16px 20px", background: "#f8fafc", border: "1px solid #e2e8f0" }}>
+      <Card style={{ padding: "16px 20px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14, alignItems: "end" }}>
           {/* Seletor de Turma */}
           <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
               1. Turma *
             </label>
             <Select
@@ -233,7 +233,7 @@ export default function Conteudos() {
 
           {/* Seletor de Disciplina */}
           <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
               2. Disciplina / Componente
             </label>
             <Select
@@ -249,7 +249,7 @@ export default function Conteudos() {
 
           {/* Seletor de Bimestre */}
           <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
               3. Bimestre Letivo
             </label>
             <Select
@@ -265,16 +265,16 @@ export default function Conteudos() {
 
           {/* Campo de Busca Rápida */}
           <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
               4. Buscar no Diário
             </label>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #d1d5db", borderRadius: 6, padding: "6.5px 10px" }}>
-              <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px" }}>
+              <i className="ti ti-search" style={{ color: "#818cf8", fontSize: 16 }} />
               <input
                 value={busca}
                 onChange={e => setBusca(e.target.value)}
                 placeholder="Tema, habilidade BNCC, docente..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }}
+                style={{ border: "none", background: "transparent", fontSize: 13, color: "#ffffff", outline: "none", width: "100%" }}
               />
             </div>
           </div>
@@ -284,50 +284,50 @@ export default function Conteudos() {
       {/* Cards de Resumo da Turma e Carga Horária */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
         <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "#eff6ff", color: "#1a56db", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
             <i className="ti ti-chalkboard" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Turma Selecionada</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#0f172a" }}>{turmaSelecionada || "—"}</div>
-            <div style={{ fontSize: 11, color: "#64748b" }}>{dadosTurmaAtual?.ano || "Ensino Fundamental"} · Turno {dadosTurmaAtual?.turno || "Manhã"}</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Turma Selecionada</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#ffffff" }}>{turmaSelecionada || "—"}</div>
+            <div style={{ fontSize: 11, color: "#94a3b8" }}>{dadosTurmaAtual?.ano || "Ensino Fundamental"} · Turno {dadosTurmaAtual?.turno || "Manhã"}</div>
           </div>
         </Card>
 
         <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
             <i className="ti ti-calendar-event" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Registros no Diário</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#16a34a" }}>
-              {conteudosFiltrados.length} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>dias letivos</span>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Registros no Diário</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#34d399" }}>
+              {conteudosFiltrados.length} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>dias letivos</span>
             </div>
           </div>
         </Card>
 
         <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "#faf5ff", color: "#9333ea", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
             <i className="ti ti-clock-play" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Horas-Aula Ministradas</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#9333ea" }}>
-              {totalAulasRegistradas} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>aulas dadas</span>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Horas-Aula Ministradas</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#c084fc" }}>
+              {totalAulasRegistradas} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>aulas dadas</span>
             </div>
           </div>
         </Card>
 
         <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "#fffbeb", color: "#b45309", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
             <i className="ti ti-book-2" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Componente / Filtro</div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Componente / Filtro</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
               {disciplinaSelecionada || "Geral (Todas)"}
             </div>
-            <div style={{ fontSize: 11, color: "#b45309" }}>{bimestreSelecionado || "Todos os Bimestres"}</div>
+            <div style={{ fontSize: 11, color: "#fbbf24" }}>{bimestreSelecionado || "Todos os Bimestres"}</div>
           </div>
         </Card>
       </div>
@@ -335,12 +335,12 @@ export default function Conteudos() {
       {/* Linha do Tempo e Tabela do Diário de Conteúdos */}
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#0f172a", display: "flex", alignItems: "center", gap: 8 }}>
-            <i className="ti ti-history" style={{ color: "#1a56db" }} />
+          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+            <i className="ti ti-history" style={{ color: "#818cf8" }} />
             Histórico Pedagógico de Aulas Ministradas · Turma {turmaSelecionada}
           </h2>
-          <span style={{ fontSize: 12, color: "#64748b" }}>
-            Exibindo <strong>{conteudosFiltrados.length}</strong> registro(s)
+          <span style={{ fontSize: 12, color: "#94a3b8" }}>
+            Exibindo <strong style={{ color: "#ffffff" }}>{conteudosFiltrados.length}</strong> registro(s)
           </span>
         </div>
 
@@ -364,8 +364,6 @@ export default function Conteudos() {
                 key={item.id || idx}
                 style={{
                   padding: "16px 20px",
-                  background: "white",
-                  border: "1px solid #e2e8f0",
                   borderRadius: 10,
                   transition: "all 0.15s ease"
                 }}
@@ -378,30 +376,30 @@ export default function Conteudos() {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      background: "#eff6ff",
-                      border: "1px solid #bfdbfe",
+                      background: "#243144",
+                      border: "1px solid #33435c",
                       borderRadius: 8,
                       padding: "6px 12px",
                       minWidth: 70
                     }}>
-                      <span style={{ fontSize: 18, fontWeight: 800, color: "#1e40af", lineHeight: 1 }}>
+                      <span style={{ fontSize: 18, fontWeight: 800, color: "#818cf8", lineHeight: 1 }}>
                         {item.data ? new Date(item.data + "T12:00:00").getDate() : "—"}
                       </span>
-                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", color: "#3b82f6", marginTop: 2 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", color: "#a5b4fc", marginTop: 2 }}>
                         {item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR", { month: "short" }) : ""}
                       </span>
                     </div>
 
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+                        <span style={{ fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
                           {item.disciplina}
                         </span>
                         <Badge color="blue">{item.bimestre || "1º Bimestre"}</Badge>
                         <Badge color="gray">{item.aulasQtd || 1} aula(s)</Badge>
                       </div>
-                      <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
-                        Data: <strong>{item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</strong> · Docente: <strong>{item.professor || "Professor Regente"}</strong>
+                      <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
+                        Data: <strong style={{ color: "#cbd5e1" }}>{item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</strong> · Docente: <strong style={{ color: "#cbd5e1" }}>{item.professor || "Professor Regente"}</strong>
                       </div>
                     </div>
                   </div>
@@ -428,23 +426,23 @@ export default function Conteudos() {
                 </div>
 
                 {/* Bloco Central: Conteúdo Ministrado */}
-                <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #f1f5f9" }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", marginBottom: 4 }}>
+                <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #2c3b52" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", marginBottom: 4 }}>
                     Conteúdo Ministrado:
                   </div>
-                  <div style={{ fontSize: 13.5, color: "#1e293b", lineHeight: 1.6, whiteSpace: "pre-line" }}>
+                  <div style={{ fontSize: 13.5, color: "#e2e8f0", lineHeight: 1.6, whiteSpace: "pre-line" }}>
                     {item.conteudo}
                   </div>
                 </div>
 
                 {/* Habilidade / Competência (BNCC) */}
                 {item.habilidades && (
-                  <div style={{ marginTop: 10, background: "#f8fafc", padding: "8px 12px", borderRadius: 6, border: "1px solid #e2e8f0" }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#0284c7", textTransform: "uppercase", display: "inline-block", marginRight: 6 }}>
+                  <div style={{ marginTop: 10, background: "#243144", padding: "8px 12px", borderRadius: 6, border: "1px solid #33435c" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#38bdf8", textTransform: "uppercase", display: "inline-block", marginRight: 6 }}>
                       <i className="ti ti-target-arrow" style={{ marginRight: 4 }} />
                       Habilidade / Competência (BNCC):
                     </span>
-                    <span style={{ fontSize: 12, color: "#334155" }}>
+                    <span style={{ fontSize: 12, color: "#cbd5e1" }}>
                       {item.habilidades}
                     </span>
                   </div>
@@ -452,9 +450,9 @@ export default function Conteudos() {
 
                 {/* Observações Pedagógicas */}
                 {item.observacao && (
-                  <div style={{ marginTop: 8, fontSize: 12, color: "#64748b", fontStyle: "italic", display: "flex", alignItems: "flex-start", gap: 6 }}>
-                    <i className="ti ti-info-circle" style={{ fontSize: 14, color: "#94a3b8", marginTop: 2 }} />
-                    <span><strong>Observações:</strong> {item.observacao}</span>
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#94a3b8", fontStyle: "italic", display: "flex", alignItems: "flex-start", gap: 6 }}>
+                    <i className="ti ti-info-circle" style={{ fontSize: 14, color: "#818cf8", marginTop: 2 }} />
+                    <span><strong style={{ color: "#cbd5e1" }}>Observações:</strong> {item.observacao}</span>
                   </div>
                 )}
               </Card>
@@ -478,7 +476,7 @@ export default function Conteudos() {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Turma *
                 </label>
                 <Select
@@ -492,7 +490,7 @@ export default function Conteudos() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Data da Aula *
                 </label>
                 <Input
@@ -505,7 +503,7 @@ export default function Conteudos() {
 
             <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 100px", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Disciplina / Componente *
                 </label>
                 <Select
@@ -519,7 +517,7 @@ export default function Conteudos() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Bimestre *
                 </label>
                 <Select
@@ -533,7 +531,7 @@ export default function Conteudos() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Nº Aulas *
                 </label>
                 <Input
@@ -548,7 +546,7 @@ export default function Conteudos() {
 
             {/* Conteúdo Ministrado */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                 Conteúdo Ministrado (Assunto / Tema da Aula) *
               </label>
               <textarea
@@ -558,19 +556,21 @@ export default function Conteudos() {
                 style={{
                   width: "100%",
                   minHeight: 80,
-                  border: "1px solid #d1d5db",
-                  borderRadius: 6,
-                  padding: "10px",
+                  border: "1px solid #33435c",
+                  borderRadius: 8,
+                  padding: "10px 12px",
                   fontSize: 13,
                   fontFamily: "inherit",
-                  outline: "none"
+                  outline: "none",
+                  background: "#243144",
+                  color: "#ffffff"
                 }}
               />
             </div>
 
             {/* Habilidade / Competência */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                 Habilidade / Competência Desenvolvida (BNCC / Currículo)
               </label>
               <Input
@@ -583,7 +583,7 @@ export default function Conteudos() {
             {/* Professor e Observações */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Docente Responsável
                 </label>
                 <Input
@@ -594,7 +594,7 @@ export default function Conteudos() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Observações Pedagógicas (Opcional)
                 </label>
                 <Input

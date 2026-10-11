@@ -225,11 +225,11 @@ export default function Transferencias() {
       {/* Cabeçalho Principal */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#111827", display: "flex", alignItems: "center", gap: 10 }}>
-            <i className="ti ti-file-export" style={{ color: "#1a56db", fontSize: 26 }} />
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
+            <i className="ti ti-file-export" style={{ color: "#818cf8", fontSize: 26 }} />
             Transferências Escolares & Trajetória
           </h1>
-          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#64748b" }}>
+          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#94a3b8" }}>
             Registro de transferências de entrada/saída, emissão de declarações oficiais e acompanhamento do histórico acadêmico ano a ano.
           </p>
         </div>
@@ -270,43 +270,43 @@ export default function Transferencias() {
       {/* Painel de Indicadores (KPIs) */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "#eff6ff", color: "#1a56db", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-files" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Total de Transferências</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#0f172a" }}>{totalGeral} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>registros</span></div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Total de Transferências</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#ffffff" }}>{totalGeral} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>registros</span></div>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "#fef2f2", color: "#dc2626", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(239, 68, 68, 0.15)", color: "#f87171", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-arrow-up-right" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Transferências de Saída</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#dc2626" }}>{totalSaida} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>expedidas</span></div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Transferências de Saída</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#f87171" }}>{totalSaida} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>expedidas</span></div>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-arrow-down-left" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Transferências de Entrada</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>{totalEntrada} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>recebidas</span></div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Transferências de Entrada</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#34d399" }}>{totalEntrada} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>recebidas</span></div>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: totalPendentes > 0 ? "#fffbeb" : "#f8fafc", color: totalPendentes > 0 ? "#b45309" : "#64748b", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: totalPendentes > 0 ? "rgba(245, 158, 11, 0.15)" : "#243144", color: totalPendentes > 0 ? "#fbbf24" : "#94a3b8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-clock" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Documentos Pendentes</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: totalPendentes > 0 ? "#b45309" : "#0f172a" }}>
-              {totalPendentes} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>em andamento</span>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Documentos Pendentes</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: totalPendentes > 0 ? "#fbbf24" : "#ffffff" }}>
+              {totalPendentes} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>em andamento</span>
             </div>
           </div>
         </Card>
@@ -318,7 +318,7 @@ export default function Transferencias() {
         style={{
           display: "flex",
           gap: 8,
-          borderBottom: "2px solid #e2e8f0",
+          borderBottom: "2px solid #2c3b52",
           overflowX: "auto",
           overflowY: "hidden",
           scrollbarWidth: "none",
@@ -344,9 +344,9 @@ export default function Transferencias() {
                 padding: "10px 18px",
                 border: "none",
                 background: "transparent",
-                borderBottom: ativa ? "3px solid #1a56db" : "3px solid transparent",
+                borderBottom: ativa ? "3px solid #6366f1" : "3px solid transparent",
                 marginBottom: -2,
-                color: ativa ? "#1a56db" : "#64748b",
+                color: ativa ? "#818cf8" : "#94a3b8",
                 fontWeight: ativa ? 700 : 500,
                 fontSize: 14,
                 cursor: "pointer",
@@ -360,8 +360,8 @@ export default function Transferencias() {
                 fontSize: 11,
                 padding: "1px 7px",
                 borderRadius: 10,
-                background: ativa ? "#1a56db" : "#e2e8f0",
-                color: ativa ? "white" : "#475569",
+                background: ativa ? "#6366f1" : "#243144",
+                color: ativa ? "#ffffff" : "#cbd5e1",
                 fontWeight: 600
               }}>
                 {tab.badge}
@@ -371,7 +371,6 @@ export default function Transferencias() {
         })}
       </div>
 
-
       {/* ========================================================================= */}
       {/* ABAS 1, 2, 3: LISTAGEM DE TRANSFERÊNCIAS                                  */}
       {/* ========================================================================= */}
@@ -379,25 +378,25 @@ export default function Transferencias() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Barra de Filtros */}
           <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #d1d5db", borderRadius: 6, padding: "6px 10px", flex: 1, maxWidth: 360 }}>
-              <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", flex: 1, maxWidth: 360 }}>
+              <i className="ti ti-search" style={{ color: "#818cf8", fontSize: 16 }} />
               <input
                 value={busca}
                 onChange={e => setBusca(e.target.value)}
                 placeholder="Buscar por estudante, matrícula ou escola..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }}
+                style={{ border: "none", background: "transparent", fontSize: 13, color: "#ffffff", outline: "none", width: "100%" }}
               />
             </div>
 
             <select
               value={filtroSituacao}
               onChange={e => setFiltroSituacao(e.target.value)}
-              style={{ padding: "6.5px 10px", border: "1px solid #d1d5db", borderRadius: 6, fontSize: 13, outline: "none", background: "white", color: "#374151" }}
+              style={{ padding: "8px 12px", border: "1px solid #33435c", borderRadius: 8, fontSize: 13, outline: "none", background: "#243144", color: "#ffffff", cursor: "pointer" }}
             >
-              <option value="">Todas as Situações</option>
-              <option value="Concluída">Concluída / Efetivada</option>
-              <option value="Em Andamento">Em Andamento / Aguardando</option>
-              <option value="Cancelada">Cancelada</option>
+              <option value="" style={{ background: "#243144" }}>Todas as Situações</option>
+              <option value="Concluída" style={{ background: "#243144" }}>Concluída / Efetivada</option>
+              <option value="Em Andamento" style={{ background: "#243144" }}>Em Andamento / Aguardando</option>
+              <option value="Cancelada" style={{ background: "#243144" }}>Cancelada</option>
             </select>
           </div>
 
@@ -410,9 +409,9 @@ export default function Transferencias() {
             <Card style={{ padding: 0, overflow: "hidden" }}>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e5e5e4" }}>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
                     {["Data", "Estudante", "Tipo", "Origem → Destino", "Motivo", "Documentação", "Situação", "Ações"].map(h => (
-                      <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase" }}>{h}</th>
+                      <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -420,13 +419,13 @@ export default function Transferencias() {
                   {transferenciasFiltradas.map(t => {
                     const isSaida = t.tipo?.includes("Saída");
                     return (
-                      <tr key={t.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                        <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569", whiteSpace: "nowrap" }}>
+                      <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                        <td style={{ padding: "12px 14px", fontSize: 12, color: "#94a3b8", whiteSpace: "nowrap" }}>
                           {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
                         </td>
                         <td style={{ padding: "12px 14px" }}>
-                          <div style={{ fontWeight: 600, color: "#111827" }}>{t.alunoNome}</div>
-                          <div style={{ fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>Matrícula: {t.alunoMatricula || "—"}</div>
+                          <div style={{ fontWeight: 600, color: "#ffffff" }}>{t.alunoNome}</div>
+                          <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>Matrícula: {t.alunoMatricula || "—"}</div>
                         </td>
                         <td style={{ padding: "12px 14px" }}>
                           <Badge color={isSaida ? "red" : "green"}>
@@ -435,21 +434,21 @@ export default function Transferencias() {
                           </Badge>
                         </td>
                         <td style={{ padding: "12px 14px", maxWidth: 260 }}>
-                          <div style={{ fontSize: 12, color: "#334155" }}>
+                          <div style={{ fontSize: 12, color: "#cbd5e1" }}>
                             <strong>De:</strong> {t.escolaOrigem || "—"}
                           </div>
-                          <div style={{ fontSize: 12, color: "#1e40af", marginTop: 2 }}>
+                          <div style={{ fontSize: 12, color: "#818cf8", marginTop: 2 }}>
                             <strong>Para:</strong> {t.escolaDestino || "—"}
                           </div>
                         </td>
                         <td style={{ padding: "12px 14px" }}>
-                          <div style={{ fontSize: 12, color: "#1e293b", fontWeight: 500 }}>{t.motivo}</div>
+                          <div style={{ fontSize: 12, color: "#ffffff", fontWeight: 500 }}>{t.motivo}</div>
                           {t.responsavel && (
-                            <div style={{ fontSize: 11, color: "#64748b" }}>Req.: {t.responsavel}</div>
+                            <div style={{ fontSize: 11, color: "#94a3b8" }}>Req.: {t.responsavel}</div>
                           )}
                         </td>
                         <td style={{ padding: "12px 14px" }}>
-                          <span style={{ fontSize: 12, color: t.documentacao?.includes("Oficial") ? "#16a34a" : "#475569" }}>
+                          <span style={{ fontSize: 12, color: t.documentacao?.includes("Oficial") ? "#34d399" : "#cbd5e1" }}>
                             {t.documentacao || "Declaração Emitida"}
                           </span>
                         </td>
@@ -495,7 +494,7 @@ export default function Transferencias() {
         <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 20, alignItems: "start" }}>
           {/* Coluna 1: Lista de Estudantes para Seleção */}
           <Card style={{ padding: 16 }}>
-            <h3 style={{ margin: "0 0 10px 0", fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+            <h3 style={{ margin: "0 0 10px 0", fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
               Selecione o Estudante
             </h3>
             <div style={{ marginBottom: 12 }}>
@@ -519,16 +518,16 @@ export default function Transferencias() {
                       style={{
                         padding: "10px 12px",
                         borderRadius: 8,
-                        background: sel ? "#eff6ff" : "#f8fafc",
-                        border: sel ? "1.5px solid #3b82f6" : "1px solid #e2e8f0",
+                        background: sel ? "rgba(99, 102, 241, 0.2)" : "#243144",
+                        border: sel ? "1.5px solid #818cf8" : "1px solid #33435c",
                         cursor: "pointer",
                         transition: "all 0.15s"
                       }}
                     >
-                      <div style={{ fontWeight: 600, fontSize: 13, color: sel ? "#1e40af" : "#111827" }}>{a.nome}</div>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#64748b", marginTop: 4 }}>
+                      <div style={{ fontWeight: 600, fontSize: 13, color: sel ? "#818cf8" : "#ffffff" }}>{a.nome}</div>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
                         <span>{a.turma} ({a.ano})</span>
-                        <span style={{ fontWeight: 600, color: totalAnos > 0 ? "#16a34a" : "#94a3b8" }}>
+                        <span style={{ fontWeight: 600, color: totalAnos > 0 ? "#34d399" : "#94a3b8" }}>
                           {totalAnos} ano(s) registrado(s)
                         </span>
                       </div>
@@ -547,14 +546,14 @@ export default function Transferencias() {
               />
             ) : (
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "1px solid #e2e8f0", paddingBottom: 16, marginBottom: 20 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "1px solid #2c3b52", paddingBottom: 16, marginBottom: 20 }}>
                   <div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#1a56db", textTransform: "uppercase" }}>Trajetória Acadêmica do Estudante</span>
-                    <h2 style={{ margin: "2px 0 0 0", fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#818cf8", textTransform: "uppercase" }}>Trajetória Acadêmica do Estudante</span>
+                    <h2 style={{ margin: "2px 0 0 0", fontSize: 20, fontWeight: 800, color: "#ffffff" }}>
                       {alunoTrajetoriaSel.nome}
                     </h2>
-                    <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
-                      Matrícula: <strong>{alunoTrajetoriaSel.matricula || "—"}</strong> · Turma Atual: <strong>{alunoTrajetoriaSel.turma} ({alunoTrajetoriaSel.ano})</strong> · Status: <strong>{alunoTrajetoriaSel.status || "Ativo"}</strong>
+                    <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 4 }}>
+                      Matrícula: <strong style={{ color: "#cbd5e1" }}>{alunoTrajetoriaSel.matricula || "—"}</strong> · Turma Atual: <strong style={{ color: "#cbd5e1" }}>{alunoTrajetoriaSel.turma} ({alunoTrajetoriaSel.ano})</strong> · Status: <strong style={{ color: "#cbd5e1" }}>{alunoTrajetoriaSel.status || "Ativo"}</strong>
                     </div>
                   </div>
 
@@ -589,8 +588,8 @@ export default function Transferencias() {
 
                 {/* Timeline Visual da Trajetória */}
                 {(!alunoTrajetoriaSel.trajetoriaEscolar || alunoTrajetoriaSel.trajetoriaEscolar.length === 0) ? (
-                  <div style={{ padding: 24, textAlign: "center", background: "#f8fafc", borderRadius: 8, border: "1px dashed #cbd5e1", color: "#64748b" }}>
-                    <i className="ti ti-timeline" style={{ fontSize: 32, color: "#94a3b8", display: "block", marginBottom: 8 }} />
+                  <div style={{ padding: 24, textAlign: "center", background: "#243144", borderRadius: 8, border: "1px dashed #33435c", color: "#94a3b8" }}>
+                    <i className="ti ti-timeline" style={{ fontSize: 32, color: "#818cf8", display: "block", marginBottom: 8 }} />
                     Nenhum histórico anterior registrado para este estudante.
                     <div style={{ marginTop: 10 }}>
                       <Btn variant="primary" onClick={() => setModalNovoMarcoAberto(true)} style={{ fontSize: 12 }}>
@@ -614,15 +613,14 @@ export default function Transferencias() {
                             gap: 16,
                             alignItems: "center",
                             padding: "14px 18px",
-                            background: "white",
-                            border: "1.5px solid #e2e8f0",
-                            borderRadius: 10,
-                            boxShadow: "0 1px 3px rgba(0,0,0,0.03)"
+                            background: "#243144",
+                            border: "1px solid #33435c",
+                            borderRadius: 10
                           }}
                         >
                           {/* Ano & Série */}
                           <div>
-                            <div style={{ fontSize: 18, fontWeight: 800, color: "#1e3a8a" }}>
+                            <div style={{ fontSize: 18, fontWeight: 800, color: "#818cf8" }}>
                               {item.anoLetivo}
                             </div>
                             <Badge color="blue">{item.serieAno}</Badge>
@@ -630,15 +628,15 @@ export default function Transferencias() {
 
                           {/* Escola & Local */}
                           <div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: "#0f172a" }}>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff" }}>
                               {item.escola}
                             </div>
-                            <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+                            <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                               <i className="ti ti-map-pin" style={{ fontSize: 12, marginRight: 4 }} />
                               {item.cidadeUf || "Não informada"}
                             </div>
                             {item.observacoes && (
-                              <div style={{ fontSize: 11, color: "#475569", fontStyle: "italic", marginTop: 4 }}>
+                              <div style={{ fontSize: 11, color: "#cbd5e1", fontStyle: "italic", marginTop: 4 }}>
                                 {item.observacoes}
                               </div>
                             )}
@@ -650,8 +648,8 @@ export default function Transferencias() {
                               {item.situacaoFinal || "Aprovado"}
                             </Badge>
                             {item.mediaFinal && (
-                              <div style={{ fontSize: 11, color: "#64748b", marginTop: 4 }}>
-                                Média: <strong>{item.mediaFinal}</strong> {item.frequenciaPercentual ? `· Freq: ${item.frequenciaPercentual}%` : ""}
+                              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
+                                Média: <strong style={{ color: "#ffffff" }}>{item.mediaFinal}</strong> {item.frequenciaPercentual ? `· Freq: ${item.frequenciaPercentual}%` : ""}
                               </div>
                             )}
                           </div>
@@ -699,7 +697,7 @@ export default function Transferencias() {
             {/* Tipo de Transferência */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Tipo de Transferência *
                 </label>
                 <Select
@@ -732,7 +730,7 @@ export default function Transferencias() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Data do Pedido / Efetivação *
                 </label>
                 <Input
@@ -745,7 +743,7 @@ export default function Transferencias() {
 
             {/* Seleção do Estudante */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                 Selecione o Estudante *
               </label>
               <Select
@@ -764,7 +762,7 @@ export default function Transferencias() {
             {/* Escolas Origem e Destino */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Escola de Origem (De onde sai) *
                 </label>
                 <Input
@@ -775,7 +773,7 @@ export default function Transferencias() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Escola de Destino (Para onde vai) *
                 </label>
                 <Input
@@ -789,7 +787,7 @@ export default function Transferencias() {
             {/* Motivo e Responsável */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Motivo da Transferência *
                 </label>
                 <Select
@@ -807,7 +805,7 @@ export default function Transferencias() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Responsável Requerente *
                 </label>
                 <Input
@@ -821,7 +819,7 @@ export default function Transferencias() {
             {/* Documentação e Situação */}
             <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 12 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Status da Documentação Escolar *
                 </label>
                 <Select
@@ -836,7 +834,7 @@ export default function Transferencias() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Situação do Processo *
                 </label>
                 <Select
@@ -852,7 +850,7 @@ export default function Transferencias() {
 
             {/* Observações */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                 Observações / Parecer da Secretaria Escolar (Opcional)
               </label>
               <Input

@@ -266,7 +266,7 @@ export default function EventosCalendario({
       </div>
 
       {/* Barra de Filtros */}
-      <Card style={{ padding: "16px 20px" }}>
+      <Card style={{ padding: "16px 20px", background: "#1e293b", borderColor: "#2c3b52" }}>
         <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ flex: "1", minWidth: "240px" }}>
             <Input
@@ -322,7 +322,9 @@ export default function EventosCalendario({
                   justifyContent: "space-between",
                   padding: "20px",
                   borderRadius: "14px",
-                  border: isHoje ? "2px solid #0284c7" : "1px solid #e2e8f0",
+                  background: "#1e293b",
+                  borderColor: isHoje ? "#0284c7" : "#2c3b52",
+                  borderWidth: isHoje ? "2px" : "1px",
                   position: "relative",
                   overflow: "hidden",
                   transition: "transform 0.2s, box-shadow 0.2s"
@@ -378,7 +380,7 @@ export default function EventosCalendario({
                     style={{
                       fontSize: "17px",
                       fontWeight: "700",
-                      color: "#1e293b",
+                      color: "#f8fafc",
                       margin: "0 0 8px 0",
                       lineHeight: "1.3"
                     }}
@@ -389,7 +391,7 @@ export default function EventosCalendario({
                   <p
                     style={{
                       fontSize: "13px",
-                      color: "#64748b",
+                      color: "#cbd5e1",
                       margin: "0 0 16px 0",
                       lineHeight: "1.5",
                       display: "-webkit-box",
@@ -406,39 +408,40 @@ export default function EventosCalendario({
                       display: "flex",
                       flexDirection: "column",
                       gap: "8px",
-                      background: "#f8fafc",
+                      background: "#243144",
+                      border: "1px solid #2c3b52",
                       padding: "12px",
                       borderRadius: "10px",
                       fontSize: "13px",
-                      color: "#334155",
+                      color: "#cbd5e1",
                       marginBottom: "16px"
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-calendar" style={{ color: "#0284c7" }}></i>
+                      <i className="ti ti-calendar" style={{ color: "#38bdf8" }}></i>
                       <span>
-                        <strong>Data:</strong> {formatarDataBR(ev.dataEvento)}
+                        <strong style={{ color: "#ffffff" }}>Data:</strong> {formatarDataBR(ev.dataEvento)}
                       </span>
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-clock" style={{ color: "#0284c7" }}></i>
+                      <i className="ti ti-clock" style={{ color: "#38bdf8" }}></i>
                       <span>
-                        <strong>Horário:</strong> {ev.horaInicio} às {ev.horaFim}
+                        <strong style={{ color: "#ffffff" }}>Horário:</strong> {ev.horaInicio} às {ev.horaFim}
                       </span>
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-map-pin" style={{ color: "#e11d48" }}></i>
+                      <i className="ti ti-map-pin" style={{ color: "#fb7185" }}></i>
                       <span>
-                        <strong>Local:</strong> {ev.local}
+                        <strong style={{ color: "#ffffff" }}>Local:</strong> {ev.local}
                       </span>
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-users" style={{ color: "#16a34a" }}></i>
+                      <i className="ti ti-users" style={{ color: "#34d399" }}></i>
                       <span>
-                        <strong>Público:</strong> {ev.publicoAlvo} {ev.turmaAlvo && `(${ev.turmaAlvo})`}
+                        <strong style={{ color: "#ffffff" }}>Público:</strong> {ev.publicoAlvo} {ev.turmaAlvo && `(${ev.turmaAlvo})`}
                       </span>
                     </div>
                   </div>

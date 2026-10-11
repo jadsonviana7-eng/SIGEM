@@ -249,21 +249,22 @@ export default function Configuracoes() {
   return (
     <div>
       {/* Navegação por Abas Principais */}
-      <div style={{ display: "flex", borderBottom: "1px solid #e5e5e4", marginBottom: 20, gap: 12 }}>
+      <div style={{ display: "flex", borderBottom: "1px solid #33435c", marginBottom: 20, gap: 12 }}>
         <button
           onClick={() => setAbaAtiva("minha-conta")}
           style={{
             padding: "10px 16px",
             border: "none",
-            borderBottom: abaAtiva === "minha-conta" ? "3px solid #1a56db" : "3px solid transparent",
+            borderBottom: abaAtiva === "minha-conta" ? "3px solid #38bdf8" : "3px solid transparent",
             background: "none",
             fontWeight: 600,
             fontSize: 14,
             cursor: "pointer",
-            color: abaAtiva === "minha-conta" ? "#1a56db" : "#4b5563",
+            color: abaAtiva === "minha-conta" ? "#38bdf8" : "#94a3b8",
             display: "flex",
             alignItems: "center",
-            gap: 8
+            gap: 8,
+            transition: "all 0.15s ease"
           }}
         >
           <i className="ti ti-user" aria-hidden="true" /> Minha Conta
@@ -275,15 +276,16 @@ export default function Configuracoes() {
             style={{
               padding: "10px 16px",
               border: "none",
-              borderBottom: abaAtiva === "controle-usuarios" ? "3px solid #1a56db" : "3px solid transparent",
+              borderBottom: abaAtiva === "controle-usuarios" ? "3px solid #38bdf8" : "3px solid transparent",
               background: "none",
               fontWeight: 600,
               fontSize: 14,
               cursor: "pointer",
-              color: abaAtiva === "controle-usuarios" ? "#1a56db" : "#4b5563",
+              color: abaAtiva === "controle-usuarios" ? "#38bdf8" : "#94a3b8",
               display: "flex",
               alignItems: "center",
-              gap: 8
+              gap: 8,
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-users" aria-hidden="true" /> Controle de Usuários
@@ -296,15 +298,16 @@ export default function Configuracoes() {
             style={{
               padding: "10px 16px",
               border: "none",
-              borderBottom: abaAtiva === "controle-escolas" ? "3px solid #1a56db" : "3px solid transparent",
+              borderBottom: abaAtiva === "controle-escolas" ? "3px solid #38bdf8" : "3px solid transparent",
               background: "none",
               fontWeight: 600,
               fontSize: 14,
               cursor: "pointer",
-              color: abaAtiva === "controle-escolas" ? "#1a56db" : "#4b5563",
+              color: abaAtiva === "controle-escolas" ? "#38bdf8" : "#94a3b8",
               display: "flex",
               alignItems: "center",
-              gap: 8
+              gap: 8,
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-school" aria-hidden="true" /> Escolas Ativas
@@ -315,36 +318,36 @@ export default function Configuracoes() {
       {/* Conteúdo Aba 1: Minha Conta */}
       {abaAtiva === "minha-conta" && (
         <Card style={{ maxWidth: 640 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>Dados do Usuário Logado</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, color: "#ffffff" }}>Dados do Usuário Logado</h3>
 
           {alertaPerfil && <Alert tipo={alertaPerfil.tipo}>{alertaPerfil.msg}</Alert>}
 
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Foto de Perfil com Crop */}
-            <div style={{ display: "flex", alignItems: "center", gap: 20, padding: 12, background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e5e4" }}>
-              <div style={{ width: 72, height: 72, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #1a56db", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 20, padding: 14, background: "#243144", borderRadius: 8, border: "1px solid #33435c" }}>
+              <div style={{ width: 72, height: 72, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #38bdf8", flexShrink: 0 }}>
                 {fotoPerfil ? (
                   <img src={fotoPerfil} alt="Perfil" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <i className="ti ti-user" style={{ fontSize: 28, color: "#9ca3af" }} />
+                  <i className="ti ti-user" style={{ fontSize: 28, color: "#94a3b8" }} />
                 )}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Foto de Perfil</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Foto de Perfil</span>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <label style={{
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 6,
                     padding: "6px 14px",
-                    background: "#1a56db",
+                    background: "#2563eb",
                     color: "white",
                     borderRadius: 6,
                     fontSize: 13,
                     fontWeight: 500,
                     cursor: carregandoFoto ? "not-allowed" : "pointer",
                     opacity: carregandoFoto ? 0.7 : 1,
-                    border: "1px solid #1a56db"
+                    border: "1px solid #3b82f6"
                   }}>
                     <i className="ti ti-upload" />
                     {carregandoFoto ? "Carregando..." : "Alterar Foto"}
@@ -364,13 +367,13 @@ export default function Configuracoes() {
 
             <div style={{ display: "flex", gap: 12 }}>
               <div style={{ flex: 1 }}>
-                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#4b5563", marginBottom: 4 }}>Perfil no Sistema</label>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 4 }}>Perfil no Sistema</label>
                 <Badge color="blue">{user?.role || "Usuário"}</Badge>
               </div>
               {user?.role !== "Administrador" && (
                 <div style={{ flex: 1 }}>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#4b5563", marginBottom: 4 }}>Escola Vinculada</label>
-                  <span style={{ fontSize: 13, fontWeight: 500 }}>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 4 }}>Escola Vinculada</label>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: "#f8fafc" }}>
                     {escolas.find(e => e.id === user?.escolaId)?.nome || "Não informada"}
                   </span>
                 </div>
@@ -385,9 +388,9 @@ export default function Configuracoes() {
           </div>
 
           {/* Seção Dados de Teste (Mock) */}
-          <div style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid #e5e5e4" }}>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: "#1f2937", marginBottom: 6 }}>Ambiente de Demonstração / Testes</h4>
-            <p style={{ fontSize: 12, color: "#6b7280", marginBottom: 12 }}>
+          <div style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid #33435c" }}>
+            <h4 style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", marginBottom: 6 }}>Ambiente de Demonstração / Testes</h4>
+            <p style={{ fontSize: 12, color: "#94a3b8", marginBottom: 12 }}>
               Gere dados fictícios completos (alunos, turmas, professores e fluxo de caixa) na sua escola ativa para testar e explorar todas as funcionalidades do sistema.
             </p>
             <Btn variant="secondary" onClick={handleGerarMock} loading={gerandoMock} style={{ fontSize: 13 }}>
@@ -403,10 +406,10 @@ export default function Configuracoes() {
           {alertaUsuario && <Alert tipo={alertaUsuario.tipo}>{alertaUsuario.msg}</Alert>}
 
           <div style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #d1d5db", borderRadius: 6, padding: "6px 10px", flex: 1, minWidth: 200, maxWidth: 300 }}>
-              <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 6, padding: "6px 10px", flex: 1, minWidth: 200, maxWidth: 300 }}>
+              <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
               <input value={buscaUsuario} onChange={e => setBuscaUsuario(e.target.value)} placeholder="Buscar usuários..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }} />
+                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }} />
             </div>
 
             {isAdmin && (
@@ -416,11 +419,11 @@ export default function Configuracoes() {
                 style={{
                   padding: "7px 12px",
                   borderRadius: 6,
-                  border: "1px solid #d1d5db",
-                  background: "white",
+                  border: "1px solid #33435c",
+                  background: "#243144",
                   fontSize: 13,
                   fontWeight: 500,
-                  color: "#1f2937",
+                  color: "#ffffff",
                   outline: "none",
                   cursor: "pointer"
                 }}
@@ -443,9 +446,9 @@ export default function Configuracoes() {
             {carregando ? <Spinner /> : !usuariosFiltrados.length ? <EmptyState icon="users" texto="Nenhum usuário encontrado." /> : (
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
                     {["Usuário", "E-mail", "Perfil", "Escola", "Status", "Ações"].map(h => (
-                      <th key={h} style={{ textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase", borderBottom: "1px solid #e5e5e4" }}>{h}</th>
+                      <th key={h} style={{ textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -453,22 +456,22 @@ export default function Configuracoes() {
                   {usuariosFiltrados.map(u => {
                     const escolaDoc = escolas.find(esc => esc.id === u.escolaId);
                     return (
-                      <tr key={u.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                      <tr key={u.id} style={{ borderBottom: "1px solid #2c3b52" }}>
                         <td style={{ padding: "10px 12px" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                            <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #e5e5e4" }}>
+                            <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c" }}>
                               {u.fotoUrl ? (
                                 <img src={u.fotoUrl} alt={u.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                               ) : (
-                                <i className="ti ti-user" style={{ fontSize: 13, color: "#9ca3af" }} />
+                                <i className="ti ti-user" style={{ fontSize: 13, color: "#94a3b8" }} />
                               )}
                             </div>
-                            <span style={{ fontWeight: 500 }}>{u.nome}</span>
+                            <span style={{ fontWeight: 500, color: "#f8fafc" }}>{u.nome}</span>
                           </div>
                         </td>
-                        <td style={{ padding: "10px 12px", fontSize: 13 }}>{u.email}</td>
+                        <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{u.email}</td>
                         <td style={{ padding: "10px 12px" }}><Badge color="blue">{u.perfil}</Badge></td>
-                        <td style={{ padding: "10px 12px", fontSize: 13 }}>{escolaDoc ? escolaDoc.nome : <span style={{ color: "#aaa" }}>Global / Geral</span>}</td>
+                        <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{escolaDoc ? escolaDoc.nome : <span style={{ color: "#94a3b8" }}>Global / Geral</span>}</td>
                         <td style={{ padding: "10px 12px" }}><Badge color={u.status === "Ativo" ? "green" : "gray"}>{u.status}</Badge></td>
                         <td style={{ padding: "10px 12px" }}>
                           <div style={{ display: "flex", gap: 4 }}>
@@ -488,30 +491,30 @@ export default function Configuracoes() {
             <Modal titulo={usuarioEditId ? "Editar Usuário" : "Novo Usuário"} onClose={() => setModalUsuarioAberto(false)} onSave={salvarUsuario} salvando={salvandoUsuario}>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {/* Upload Foto Usuário Administrativo */}
-                <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#f9fafb", padding: 12, borderRadius: 8, border: "1px solid #e5e5e4" }}>
-                  <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #1a56db", flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c" }}>
+                  <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #38bdf8", flexShrink: 0 }}>
                     {formUsuario.fotoUrl ? (
                       <img src={formUsuario.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
-                      <i className="ti ti-camera" style={{ fontSize: 20, color: "#9ca3af" }} />
+                      <i className="ti ti-camera" style={{ fontSize: 20, color: "#94a3b8" }} />
                     )}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Foto do Usuário</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Foto do Usuário</span>
                     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                       <label style={{
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 6,
                         padding: "5px 12px",
-                        background: "#1a56db",
+                        background: "#2563eb",
                         color: "white",
                         borderRadius: 6,
                         fontSize: 12,
                         fontWeight: 500,
                         cursor: carregandoFoto ? "not-allowed" : "pointer",
                         opacity: carregandoFoto ? 0.7 : 1,
-                        border: "1px solid #1a56db"
+                        border: "1px solid #3b82f6"
                       }}>
                         <i className="ti ti-upload" />
                         {carregandoFoto ? "Carregando..." : "Enviar Foto"}
@@ -559,10 +562,10 @@ export default function Configuracoes() {
           {alertaEscola && <Alert tipo={alertaEscola.tipo}>{alertaEscola.msg}</Alert>}
 
           <div style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "center" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #d1d5db", borderRadius: 6, padding: "6px 10px", flex: 1, maxWidth: 300 }}>
-              <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 6, padding: "6px 10px", flex: 1, maxWidth: 300 }}>
+              <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
               <input value={buscaEscola} onChange={e => setBuscaEscola(e.target.value)} placeholder="Buscar escolas..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }} />
+                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }} />
             </div>
             <Btn variant="primary" onClick={abrirNovaEscola}>
               <i className="ti ti-plus" aria-hidden="true" /> Nova Escola
@@ -573,30 +576,30 @@ export default function Configuracoes() {
             {carregandoEscolas ? <Spinner /> : !escolasFiltradas.length ? <EmptyState icon="school" texto="Nenhuma escola cadastrada." /> : (
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
                     {["Escola", "CNPJ", "Código INEP", "Município", "UF", "Localização", "Status", "Ações"].map(h => (
-                      <th key={h} style={{ textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase", borderBottom: "1px solid #e5e5e4" }}>{h}</th>
+                      <th key={h} style={{ textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {escolasFiltradas.map(e => (
-                    <tr key={e.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                    <tr key={e.id} style={{ borderBottom: "1px solid #2c3b52" }}>
                       <td style={{ padding: "10px 12px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #e5e5e4", flexShrink: 0 }}>
+                          <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
                             {e.fotoUrl ? (
                               <img src={e.fotoUrl} alt={e.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                             ) : (
-                              <i className="ti ti-school" style={{ fontSize: 13, color: "#9ca3af" }} />
+                              <i className="ti ti-school" style={{ fontSize: 13, color: "#94a3b8" }} />
                             )}
                           </div>
-                          <span style={{ fontWeight: 500 }}>{e.nome}</span>
+                          <span style={{ fontWeight: 500, color: "#f8fafc" }}>{e.nome}</span>
                         </div>
                       </td>
-                      <td style={{ padding: "10px 12px", fontSize: 13 }}>{e.cnpj || "Não informado"}</td>
-                      <td style={{ padding: "10px 12px", fontSize: 13 }}>{e.inep || "—"}</td>
-                      <td style={{ padding: "10px 12px", fontSize: 13 }}>{e.municipio}</td>
+                      <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{e.cnpj || "Não informado"}</td>
+                      <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{e.inep || "—"}</td>
+                      <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{e.municipio}</td>
                       <td style={{ padding: "10px 12px" }}><Badge color="blue">{e.uf}</Badge></td>
                       <td style={{ padding: "10px 12px" }}><Badge color={e.zona === "Rural" ? "amber" : "blue"}>{e.zona || "Urbana"}</Badge></td>
                       <td style={{ padding: "10px 12px" }}><Badge color={e.status === "Ativa" ? "green" : "gray"}>{e.status}</Badge></td>
@@ -617,30 +620,30 @@ export default function Configuracoes() {
             <Modal titulo={escolaEditId ? "Editar Escola" : "Nova Escola"} onClose={() => setModalEscolaAberto(false)} onSave={salvarEscola} salvando={salvandoEscola}>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {/* Upload Foto Escola */}
-                <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#f9fafb", padding: 12, borderRadius: 8, border: "1px solid #e5e5e4", marginBottom: 4 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #1a56db", flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c", marginBottom: 4 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #38bdf8", flexShrink: 0 }}>
                     {formEscola.fotoUrl ? (
                       <img src={formEscola.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
-                      <i className="ti ti-school" style={{ fontSize: 20, color: "#9ca3af" }} />
+                      <i className="ti ti-school" style={{ fontSize: 20, color: "#94a3b8" }} />
                     )}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Logo / Avatar da Escola</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Logo / Avatar da Escola</span>
                     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                       <label style={{
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 6,
                         padding: "5px 12px",
-                        background: "#1a56db",
+                        background: "#2563eb",
                         color: "white",
                         borderRadius: 6,
                         fontSize: 12,
                         fontWeight: 500,
                         cursor: carregandoFoto ? "not-allowed" : "pointer",
                         opacity: carregandoFoto ? 0.7 : 1,
-                        border: "1px solid #1a56db"
+                        border: "1px solid #3b82f6"
                       }}>
                         <i className="ti ti-upload" />
                         {carregandoFoto ? "Carregando..." : "Enviar Foto"}

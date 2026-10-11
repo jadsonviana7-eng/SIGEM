@@ -151,18 +151,20 @@ export default function EntradasAlimentacao({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#94a3b8" }} />
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ fontSize: 13, color: "#475569" }}>
-            Total Entradas: <strong style={{ color: "#047857", fontSize: 15 }}>{totalFinanceiroEntradas.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+          <div style={{ fontSize: 13, color: "#cbd5e1" }}>
+            Total Entradas: <strong style={{ color: "#34d399", fontSize: 15 }}>{totalFinanceiroEntradas.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
           </div>
           <Btn variant="primary" onClick={abrirNovo}>
             <i className="ti ti-plus" /> Registrar Entrada / Compra
@@ -178,7 +180,7 @@ export default function EntradasAlimentacao({
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                   <th style={{ padding: "12px 16px" }}>Data do Recebimento</th>
                   <th style={{ padding: "12px 16px" }}>Alimento / Gênero</th>
                   <th style={{ padding: "12px 16px" }}>Qtd Recebida</th>
@@ -191,31 +193,31 @@ export default function EntradasAlimentacao({
               </thead>
               <tbody>
                 {entradasFiltradas.map((e) => (
-                  <tr key={e.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1e293b" }}>
+                  <tr key={e.id} style={{ borderBottom: "1px solid #243144" }}>
+                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
                       {new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#047857" }}>{e.itemNome}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>Rec: {e.responsavelRecebimento || "-"}</div>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{e.itemNome}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>Rec: {e.responsavelRecebimento || "-"}</div>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <Badge color="green">+{e.quantidade} {e.unidade}</Badge>
                     </td>
                     <td style={{ padding: "12px 16px", maxWidth: 220 }}>
-                      <div style={{ fontWeight: 500, color: "#1e293b" }}>{e.fornecedorNome || "Prefeitura / PNAE"}</div>
+                      <div style={{ fontWeight: 500, color: "#cbd5e1" }}>{e.fornecedorNome || "Prefeitura / PNAE"}</div>
                     </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#475569" }}>
+                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                       {e.numeroNotaFiscal || "-"}
                     </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                       {e.dataValidade ? (
                         <div>{new Date(e.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</div>
                       ) : "-"}
-                      {e.lote && <div style={{ fontSize: 10, color: "#64748b" }}>{e.lote}</div>}
+                      {e.lote && <div style={{ fontSize: 10, color: "#94a3b8" }}>{e.lote}</div>}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#047857" }}>
+                      <div style={{ fontWeight: 700, color: "#34d399" }}>
                         {(Number(e.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </div>
                       <div style={{ fontSize: 10, color: "#64748b" }}>

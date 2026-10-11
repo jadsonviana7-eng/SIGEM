@@ -341,11 +341,11 @@ export default function Transporte() {
       }}>
         {/* Cartão de Navegação Vertical */}
         <div style={{
-          background: "white",
+          background: "#1e293b",
           borderRadius: 14,
           padding: "16px",
-          border: "1px solid #e5e7eb",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)"
+          border: "1px solid #2c3b52",
+          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
         }}>
           <div style={{
             display: "flex",
@@ -353,26 +353,26 @@ export default function Transporte() {
             justifyContent: "space-between",
             paddingBottom: 12,
             marginBottom: 12,
-            borderBottom: "1px solid #f1f5f9"
+            borderBottom: "1px solid #2c3b52"
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{
                 width: 34,
                 height: 34,
                 borderRadius: 8,
-                background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
+                background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
                 color: "white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 18,
-                boxShadow: "0 2px 6px rgba(30, 64, 175, 0.3)"
+                boxShadow: "0 2px 8px rgba(37, 99, 235, 0.3)"
               }}>
                 <i className="ti ti-bus" />
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>Menu de Transporte</div>
-                <div style={{ fontSize: 11, color: "#6b7280" }}>Selecione o módulo</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>Menu de Transporte</div>
+                <div style={{ fontSize: 11, color: "#94a3b8" }}>Selecione o módulo</div>
               </div>
             </div>
 
@@ -382,10 +382,10 @@ export default function Transporte() {
               title="Recarregar Dados"
               style={{
                 padding: "6px 8px",
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
+                background: "#243144",
+                border: "1px solid #33435c",
                 borderRadius: 6,
-                color: "#475569",
+                color: "#cbd5e1",
                 cursor: "pointer",
                 fontSize: 12,
                 display: "flex",
@@ -427,25 +427,25 @@ export default function Transporte() {
                           padding: "8px 10px",
                           borderRadius: 8,
                           border: "none",
-                          background: isActive ? "#eff6ff" : "transparent",
-                          color: isActive ? "#1e40af" : "#334155",
+                          background: isActive ? "rgba(59, 130, 246, 0.15)" : "transparent",
+                          color: isActive ? "#60a5fa" : "#cbd5e1",
                           fontWeight: isActive ? 700 : 500,
                           fontSize: 13,
                           cursor: "pointer",
                           textAlign: "left",
                           transition: "all 0.15s ease",
-                          borderLeft: isActive ? "3px solid #1e40af" : "3px solid transparent"
+                          borderLeft: isActive ? "3px solid #3b82f6" : "3px solid transparent"
                         }}
                         onMouseOver={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = "#f8fafc";
-                            e.currentTarget.style.color = "#1e293b";
+                            e.currentTarget.style.background = "#243144";
+                            e.currentTarget.style.color = "#ffffff";
                           }
                         }}
                         onMouseOut={(e) => {
                           if (!isActive) {
                             e.currentTarget.style.background = "transparent";
-                            e.currentTarget.style.color = "#334155";
+                            e.currentTarget.style.color = "#cbd5e1";
                           }
                         }}
                       >
@@ -454,7 +454,7 @@ export default function Transporte() {
                             className={`ti ti-${item.icon}`}
                             style={{
                               fontSize: 16,
-                              color: isActive ? "#1e40af" : "#64748b",
+                              color: isActive ? "#60a5fa" : "#94a3b8",
                               flexShrink: 0
                             }}
                           />
@@ -473,8 +473,8 @@ export default function Transporte() {
                             fontWeight: 700,
                             padding: "1px 6px",
                             borderRadius: 10,
-                            background: isActive ? "#1e40af" : "#f1f5f9",
-                            color: isActive ? "white" : "#64748b",
+                            background: isActive ? "#3b82f6" : "#243144",
+                            color: isActive ? "white" : "#94a3b8",
                             flexShrink: 0
                           }}>
                             {item.badge}
@@ -491,38 +491,38 @@ export default function Transporte() {
 
         {/* Cartão de Resumo Rápido da Frota & Ações */}
         <div style={{
-          background: "#f8fafc",
+          background: "#1e293b",
           borderRadius: 14,
           padding: "14px 16px",
-          border: "1px solid #e2e8f0",
+          border: "1px solid #2c3b52",
           fontSize: 12
         }}>
-          <div style={{ fontWeight: 700, color: "#1e293b", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
-            <i className="ti ti-chart-pie" style={{ color: "#2563eb" }} /> Resumo Geral da Frota
+          <div style={{ fontWeight: 700, color: "#f8fafc", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+            <i className="ti ti-chart-pie" style={{ color: "#60a5fa" }} /> Resumo Geral da Frota
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, color: "#475569" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, color: "#94a3b8" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Rotas em Operação:</span>
-              <strong style={{ color: "#1e293b" }}>{rotas.length}</strong>
+              <strong style={{ color: "#f8fafc" }}>{rotas.length}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Veículos Cadastrados:</span>
-              <strong style={{ color: "#1e293b" }}>{veiculos.length}</strong>
+              <strong style={{ color: "#f8fafc" }}>{veiculos.length}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Alunos Transportados:</span>
-              <strong style={{ color: "#059669" }}>{alunosTransporte.length}</strong>
+              <strong style={{ color: "#34d399" }}>{alunosTransporte.length}</strong>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #e2e8f0", paddingTop: 6, marginTop: 2 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #2c3b52", paddingTop: 6, marginTop: 2 }}>
               <span>Gastos Acumulados:</span>
-              <strong style={{ color: "#991b1b" }}>
+              <strong style={{ color: "#f87171" }}>
                 {totalDespesas.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
               </strong>
             </div>
           </div>
 
-          <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #e2e8f0" }}>
+          <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #2c3b52" }}>
             <Btn
               onClick={handleGerarMock}
               disabled={gerando}

@@ -145,10 +145,11 @@ export default function AvisosComunicados({
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* BARRA SUPERIOR: BUSCA E NOVO AVISO */}
       <div style={{
-        background: "white",
+        background: "#1e293b",
         borderRadius: 14,
         padding: "16px 20px",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+        boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+        border: "1px solid #2c3b52",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -208,11 +209,11 @@ export default function AvisosComunicados({
             <div
               key={aviso.id}
               style={{
-                background: "white",
+                background: "#1e293b",
                 borderRadius: 14,
                 padding: 18,
-                boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-                border: "1px solid #e2e8f0",
+                boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                border: "1px solid #2c3b52",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -223,10 +224,10 @@ export default function AvisosComunicados({
                 {/* Header do Card */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 8 }}>
                   <div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#2563eb", textTransform: "uppercase" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#60a5fa", textTransform: "uppercase" }}>
                       {aviso.categoria}
                     </span>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#0f172a", margin: "2px 0 0" }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#f8fafc", margin: "2px 0 0" }}>
                       {aviso.titulo}
                     </h3>
                   </div>
@@ -236,30 +237,30 @@ export default function AvisosComunicados({
                     fontWeight: 700,
                     padding: "2px 8px",
                     borderRadius: 10,
-                    background: aviso.prioridade === "Urgente" ? "#fee2e2" : aviso.prioridade === "Importante" ? "#fef3c7" : "#eff6ff",
-                    color: aviso.prioridade === "Urgente" ? "#991b1b" : aviso.prioridade === "Importante" ? "#92400e" : "#1e40af"
+                    background: aviso.prioridade === "Urgente" ? "rgba(239, 68, 68, 0.2)" : aviso.prioridade === "Importante" ? "rgba(245, 158, 11, 0.2)" : "rgba(59, 130, 246, 0.2)",
+                    color: aviso.prioridade === "Urgente" ? "#f87171" : aviso.prioridade === "Importante" ? "#fbbf24" : "#93c5fd"
                   }}>
                     {aviso.prioridade}
                   </span>
                 </div>
 
                 {/* Conteúdo */}
-                <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "8px 0 14px", whiteSpace: "pre-line" }}>
+                <p style={{ fontSize: 13, color: "#cbd5e1", lineHeight: 1.5, margin: "8px 0 14px", whiteSpace: "pre-line" }}>
                   {aviso.conteudo}
                 </p>
 
                 {/* Anexo se houver */}
                 {aviso.anexoNome && (
                   <div style={{
-                    background: "#f8fafc",
+                    background: "#243144",
                     padding: "6px 10px",
                     borderRadius: 8,
                     fontSize: 11,
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 6,
-                    color: "#3b82f6",
-                    border: "1px solid #e2e8f0",
+                    color: "#60a5fa",
+                    border: "1px solid #33435c",
                     marginBottom: 10
                   }}>
                     <i className="ti ti-paperclip" /> Anexo: {aviso.anexoNome}
@@ -268,9 +269,9 @@ export default function AvisosComunicados({
               </div>
 
               {/* Rodapé e Ações */}
-              <div style={{ borderTop: "1px solid #f1f5f9", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, color: "#64748b" }}>
+              <div style={{ borderTop: "1px solid #2c3b52", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, color: "#94a3b8" }}>
                 <div>
-                  <div><strong>Destino:</strong> {aviso.publicoAlvo} {aviso.turmaAlvo ? `(${aviso.turmaAlvo})` : ""}</div>
+                  <div><strong style={{ color: "#ffffff" }}>Destino:</strong> {aviso.publicoAlvo} {aviso.turmaAlvo ? `(${aviso.turmaAlvo})` : ""}</div>
                   <div>📅 {aviso.dataPublicacao ? new Date(aviso.dataPublicacao).toLocaleDateString("pt-BR") : ""} · {aviso.autor}</div>
                 </div>
 
@@ -283,9 +284,9 @@ export default function AvisosComunicados({
                       style={{
                         padding: "5px 8px",
                         borderRadius: 6,
-                        background: "#ecfdf5",
-                        color: "#059669",
-                        border: "1px solid #a7f3d0",
+                        background: "rgba(16, 185, 129, 0.15)",
+                        color: "#34d399",
+                        border: "1px solid rgba(16, 185, 129, 0.3)",
                         cursor: "pointer",
                         fontSize: 11,
                         fontWeight: 700,
@@ -305,9 +306,9 @@ export default function AvisosComunicados({
                     style={{
                       padding: "5px 8px",
                       borderRadius: 6,
-                      background: copiadoId === aviso.id ? "#dcfce7" : "#f8fafc",
-                      color: copiadoId === aviso.id ? "#166534" : "#475569",
-                      border: "1px solid #e2e8f0",
+                      background: copiadoId === aviso.id ? "rgba(16, 185, 129, 0.2)" : "#243144",
+                      color: copiadoId === aviso.id ? "#34d399" : "#cbd5e1",
+                      border: "1px solid #33435c",
                       cursor: "pointer",
                       fontSize: 12
                     }}
@@ -322,9 +323,9 @@ export default function AvisosComunicados({
                     style={{
                       padding: "5px 8px",
                       borderRadius: 6,
-                      background: "#f8fafc",
-                      color: "#475569",
-                      border: "1px solid #e2e8f0",
+                      background: "#243144",
+                      color: "#cbd5e1",
+                      border: "1px solid #33435c",
                       cursor: "pointer",
                       fontSize: 12
                     }}
@@ -339,9 +340,9 @@ export default function AvisosComunicados({
                     style={{
                       padding: "5px 8px",
                       borderRadius: 6,
-                      background: "#fee2e2",
-                      color: "#dc2626",
-                      border: "1px solid #fecaca",
+                      background: "rgba(239, 68, 68, 0.15)",
+                      color: "#f87171",
+                      border: "1px solid rgba(239, 68, 68, 0.3)",
                       cursor: "pointer",
                       fontSize: 12
                     }}
@@ -426,7 +427,7 @@ export default function AvisosComunicados({
             </div>
 
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                 Conteúdo do Comunicado *
               </label>
               <textarea
@@ -438,7 +439,9 @@ export default function AvisosComunicados({
                   width: "100%",
                   padding: "8px 12px",
                   borderRadius: 8,
-                  border: "1px solid #d1d5db",
+                  border: "1px solid #33435c",
+                  background: "#1e293b",
+                  color: "#ffffff",
                   fontSize: 13,
                   boxSizing: "border-box"
                 }}
@@ -452,7 +455,7 @@ export default function AvisosComunicados({
               onChange={(e) => setForm({ ...form, anexoNome: e.target.value })}
             />
 
-            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: "#374151", cursor: "pointer", background: "#f8fafc", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: "#cbd5e1", cursor: "pointer", background: "#243144", padding: 10, borderRadius: 8, border: "1px solid #2c3b52" }}>
               <input
                 type="checkbox"
                 checked={form.exigeConfirmacaoLeitura}
@@ -483,20 +486,20 @@ export default function AvisosComunicados({
           esconderRodape
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <p style={{ fontSize: 13, color: "#64748b", margin: 0 }}>
+            <p style={{ fontSize: 13, color: "#94a3b8", margin: 0 }}>
               Lista de pais e responsáveis que confirmaram ciência deste comunicado:
             </p>
 
             <div style={{ maxHeight: 260, overflowY: "auto", display: "flex", flexDirection: "column", gap: 6 }}>
               {(modalConfirmacoes.confirmacoesLeitura || []).length === 0 ? (
-                <div style={{ padding: 20, textAlign: "center", color: "#94a3b8", fontSize: 12 }}>
+                <div style={{ padding: 20, textAlign: "center", color: "#64748b", fontSize: 12 }}>
                   Nenhum responsável confirmou leitura até o momento.
                 </div>
               ) : (
                 modalConfirmacoes.confirmacoesLeitura.map((c, i) => (
-                  <div key={i} style={{ background: "#f8fafc", padding: 10, borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12 }}>
-                    <span style={{ fontWeight: 600, color: "#0f172a" }}>👤 {c.responsavelNome}</span>
-                    <span style={{ color: "#64748b", fontSize: 11 }}>{c.data ? new Date(c.data).toLocaleString("pt-BR") : "Confirmado"}</span>
+                  <div key={i} style={{ background: "#243144", border: "1px solid #2c3b52", padding: 10, borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12 }}>
+                    <span style={{ fontWeight: 600, color: "#f8fafc" }}>👤 {c.responsavelNome}</span>
+                    <span style={{ color: "#94a3b8", fontSize: 11 }}>{c.data ? new Date(c.data).toLocaleString("pt-BR") : "Confirmado"}</span>
                   </div>
                 ))
               )}
@@ -521,8 +524,8 @@ export default function AvisosComunicados({
           esconderRodape
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <p style={{ fontSize: 13, color: "#475569", margin: 0 }}>
-              Tem certeza de que deseja excluir o comunicado <strong>"{modalExclusao.titulo}"</strong>? Os responsáveis não terão mais acesso a esta publicação.
+            <p style={{ fontSize: 13, color: "#cbd5e1", margin: 0 }}>
+              Tem certeza de que deseja excluir o comunicado <strong style={{ color: "#f8fafc" }}>"{modalExclusao.titulo}"</strong>? Os responsáveis não terão mais acesso a esta publicação.
             </p>
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
               <Btn onClick={() => setModalExclusao(null)}>

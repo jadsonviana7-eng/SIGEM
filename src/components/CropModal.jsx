@@ -109,25 +109,26 @@ export default function CropModal({ file, onCrop, onClose }) {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      backgroundColor: "rgba(15, 23, 42, 0.85)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       zIndex: 9999,
-      backdropFilter: "blur(4px)"
+      backdropFilter: "blur(6px)"
     }}>
       <div style={{
-        background: "white",
-        borderRadius: 12,
+        background: "#1e293b",
+        border: "1px solid #2c3b52",
+        borderRadius: 14,
         padding: 24,
         width: 320,
-        boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.5)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: 16
       }}>
-        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: "#111827" }}>Ajustar e Recortar Foto</h3>
+        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#ffffff" }}>Ajustar e Recortar Foto</h3>
 
         {/* Viewport de recorte circular */}
         <div 
@@ -140,12 +141,12 @@ export default function CropModal({ file, onCrop, onClose }) {
             width: 250,
             height: 250,
             borderRadius: "50%",
-            border: "2px solid #1a56db",
+            border: "2px solid #6366f1",
             position: "relative",
             overflow: "hidden",
             cursor: isDragging ? "grabbing" : "grab",
-            background: "#f3f4f6",
-            boxShadow: "0 0 0 9999px rgba(0,0,0,0.3)" // Escurece o fundo fora do círculo
+            background: "#243144",
+            boxShadow: "0 0 0 9999px rgba(15, 23, 42, 0.65)" // Escurece o fundo fora do círculo
           }}
           className="crop-container"
         >
@@ -175,7 +176,7 @@ export default function CropModal({ file, onCrop, onClose }) {
 
         {/* Slider de Zoom */}
         <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 6 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#4b5563" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#cbd5e1" }}>
             <span>Zoom</span>
             <span>{zoom.toFixed(1)}x</span>
           </div>
@@ -186,11 +187,11 @@ export default function CropModal({ file, onCrop, onClose }) {
             step="0.1"
             value={zoom}
             onChange={(e) => setZoom(parseFloat(e.target.value))}
-            style={{ width: "100%", cursor: "pointer" }}
+            style={{ width: "100%", cursor: "pointer", accentColor: "#6366f1" }}
           />
         </div>
 
-        <span style={{ fontSize: 11, color: "#6b7280", textAlign: "center" }}>
+        <span style={{ fontSize: 11, color: "#94a3b8", textAlign: "center" }}>
           Arraste a imagem para enquadrar o rosto no círculo.
         </span>
 

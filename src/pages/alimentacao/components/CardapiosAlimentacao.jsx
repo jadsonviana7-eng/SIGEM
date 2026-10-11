@@ -221,7 +221,7 @@ export default function CardapiosAlimentacao({
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left", borderRadius: 8, overflow: "hidden" }}>
                   <thead>
-                    <tr style={{ background: "#047857", color: "white" }}>
+                    <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                       <th style={{ padding: "10px 12px", width: "16%" }}>Refeição</th>
                       {diasNomes.map(d => (
                         <th key={d.key} style={{ padding: "10px 12px", width: "16.8%" }}>{d.label}</th>
@@ -229,34 +229,34 @@ export default function CardapiosAlimentacao({
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ borderBottom: "1px solid #e2e8f0", background: "#f8fafc" }}>
-                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#047857" }}>Lanche da Manhã</td>
+                    <tr style={{ borderBottom: "1px solid #33435c", background: "#243144" }}>
+                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#34d399" }}>Lanche da Manhã</td>
                       {diasNomes.map(d => (
-                        <td key={d.key} style={{ padding: "10px 12px", color: "#334155" }}>
+                        <td key={d.key} style={{ padding: "10px 12px", color: "#cbd5e1" }}>
                           {cardapio.diasSemana?.[d.key]?.lancheManha || "-"}
                         </td>
                       ))}
                     </tr>
-                    <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#047857" }}>Almoço Completo</td>
+                    <tr style={{ borderBottom: "1px solid #33435c", background: "#1e293b" }}>
+                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#34d399" }}>Almoço Completo</td>
                       {diasNomes.map(d => (
-                        <td key={d.key} style={{ padding: "10px 12px", color: "#1e293b", fontWeight: 500 }}>
+                        <td key={d.key} style={{ padding: "10px 12px", color: "#ffffff", fontWeight: 500 }}>
                           {cardapio.diasSemana?.[d.key]?.almoco || "-"}
                         </td>
                       ))}
                     </tr>
-                    <tr style={{ borderBottom: "1px solid #e2e8f0", background: "#f8fafc" }}>
-                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#047857" }}>Sobremesa / Fruta</td>
+                    <tr style={{ borderBottom: "1px solid #33435c", background: "#243144" }}>
+                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#34d399" }}>Sobremesa / Fruta</td>
                       {diasNomes.map(d => (
-                        <td key={d.key} style={{ padding: "10px 12px", color: "#059669" }}>
+                        <td key={d.key} style={{ padding: "10px 12px", color: "#34d399" }}>
                           🍌 {cardapio.diasSemana?.[d.key]?.sobremesa || "-"}
                         </td>
                       ))}
                     </tr>
-                    <tr>
-                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#047857" }}>Lanche da Tarde</td>
+                    <tr style={{ background: "#1e293b" }}>
+                      <td style={{ padding: "10px 12px", fontWeight: 700, color: "#34d399" }}>Lanche da Tarde</td>
                       {diasNomes.map(d => (
-                        <td key={d.key} style={{ padding: "10px 12px", color: "#334155" }}>
+                        <td key={d.key} style={{ padding: "10px 12px", color: "#cbd5e1" }}>
                           {cardapio.diasSemana?.[d.key]?.lancheTarde || "-"}
                         </td>
                       ))}
@@ -266,8 +266,8 @@ export default function CardapiosAlimentacao({
               </div>
 
               {cardapio.restricoesAlimentares && (
-                <div style={{ marginTop: 14, fontSize: 12, background: "#fef9c3", color: "#854d0e", padding: "10px 12px", borderRadius: 8, display: "flex", alignItems: "center", gap: 8 }}>
-                  <i className="ti ti-heart-handshake" style={{ fontSize: 16 }} />
+                <div style={{ marginTop: 14, fontSize: 12, background: "rgba(234, 179, 8, 0.15)", border: "1px solid rgba(234, 179, 8, 0.3)", color: "#fef08a", padding: "10px 12px", borderRadius: 8, display: "flex", alignItems: "center", gap: 8 }}>
+                  <i className="ti ti-heart-handshake" style={{ fontSize: 16, color: "#fde047" }} />
                   <span><strong>Adaptações para Restrições Alimentares:</strong> {cardapio.restricoesAlimentares}</span>
                 </div>
               )}
@@ -328,14 +328,14 @@ export default function CardapiosAlimentacao({
 
             {/* Configuração Diária dos Pratos */}
             <div>
-              <label style={{ fontSize: 13, fontWeight: 700, color: "#1f2937", marginBottom: 8, display: "block" }}>
+              <label style={{ fontSize: 13, fontWeight: 700, color: "#ffffff", marginBottom: 8, display: "block" }}>
                 Composição Nutricional Semanal (Segunda a Sexta):
               </label>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {diasNomes.map(d => (
-                  <div key={d.key} style={{ background: "#f8fafc", padding: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}>
-                    <div style={{ fontWeight: 700, color: "#047857", fontSize: 13, marginBottom: 8 }}>
+                  <div key={d.key} style={{ background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c" }}>
+                    <div style={{ fontWeight: 700, color: "#34d399", fontSize: 13, marginBottom: 8 }}>
                       📅 {d.label}
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr 1fr 1fr", gap: 8 }}>

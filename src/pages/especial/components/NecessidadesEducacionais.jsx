@@ -123,12 +123,14 @@ export default function NecessidadesEducacionais({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#64748b" }} />
           </div>
         </div>
 
@@ -143,39 +145,39 @@ export default function NecessidadesEducacionais({
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 18 }}>
           {necessidadesFiltradas.map((item) => (
-            <Card key={item.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
+            <Card key={item.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20, background: "#1e293b", borderColor: "#2c3b52" }}>
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                   <div>
-                    <h4 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#1f2937" }}>
+                    <h4 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#f8fafc" }}>
                       {item.alunoNome}
                     </h4>
-                    <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
-                      Turma: <strong>{item.turma || "Sala Regular"}</strong>
+                    <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
+                      Turma: <strong style={{ color: "#cbd5e1" }}>{item.turma || "Sala Regular"}</strong>
                     </div>
                   </div>
                   <Badge color="blue">Acessibilidade Mapeada</Badge>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: "#334155", background: "#f8fafc", padding: 12, borderRadius: 8 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: "#cbd5e1", background: "#243144", border: "1px solid #2c3b52", padding: 12, borderRadius: 8 }}>
                   <div>
-                    <strong style={{ color: "#991b1b" }}>Barreiras de Aprendizagem:</strong>
+                    <strong style={{ color: "#f87171" }}>Barreiras de Aprendizagem:</strong>
                     <div>{item.barreirasIdentificadas || "Não informadas"}</div>
                   </div>
 
                   <div>
-                    <strong style={{ color: "#047857" }}>Tecnologia Assistiva / CAA:</strong>
+                    <strong style={{ color: "#34d399" }}>Tecnologia Assistiva / CAA:</strong>
                     <div>{item.recursosTecnologiaAssistiva || "Recursos visuais adaptados"}</div>
                   </div>
 
                   <div>
-                    <strong style={{ color: "#1e40af" }}>Adaptações em Provas & Avaliações:</strong>
+                    <strong style={{ color: "#60a5fa" }}>Adaptações em Provas & Avaliações:</strong>
                     <div>{item.adaptacoesAvaliativas || "Tempo adicional e prova ilustrada"}</div>
                   </div>
 
                   {item.orientacoesProfessores && (
-                    <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 6, fontStyle: "italic", color: "#64748b" }}>
-                      <strong>Dica Pedagógica:</strong> {item.orientacoesProfessores}
+                    <div style={{ borderTop: "1px solid #33435c", paddingTop: 6, fontStyle: "italic", color: "#94a3b8" }}>
+                      <strong style={{ color: "#a78bfa" }}>Dica Pedagógica:</strong> {item.orientacoesProfessores}
                     </div>
                   )}
                 </div>

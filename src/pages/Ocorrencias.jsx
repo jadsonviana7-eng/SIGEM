@@ -402,11 +402,11 @@ export default function Ocorrencias() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span style={{ fontSize: "1.6rem" }}>📋</span>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "var(--text-primary, #1e293b)" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>
               Acompanhamento de Ocorrências Escolares
             </h1>
           </div>
-          <p style={{ margin: "0.25rem 0 0", color: "var(--text-secondary, #64748b)", fontSize: "0.9rem" }}>
+          <p style={{ margin: "0.25rem 0 0", color: "#94a3b8", fontSize: "0.9rem" }}>
             Registro minucioso, acompanhamento contínuo de conduta, linha do tempo de despachos e emissão de termos oficiais.
           </p>
         </div>
@@ -424,57 +424,57 @@ export default function Ocorrencias() {
         <div className="no-print" style={{
           padding: "10px 16px",
           borderRadius: 8,
-          background: alerta.tipo === "success" ? "#dcfce7" : "#fee2e2",
-          color: alerta.tipo === "success" ? "#166534" : "#991b1b",
-          border: `1px solid ${alerta.tipo === "success" ? "#bbf7d0" : "#fecaca"}`,
+          background: alerta.tipo === "success" ? "rgba(34, 197, 94, 0.15)" : "rgba(239, 68, 68, 0.15)",
+          color: alerta.tipo === "success" ? "#4ade80" : "#f87171",
+          border: `1px solid ${alerta.tipo === "success" ? "rgba(34, 197, 94, 0.3)" : "rgba(239, 68, 68, 0.3)"}`,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center"
         }}>
           <span>{alerta.msg}</span>
-          <button onClick={() => setAlerta(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16 }}>×</button>
+          <button onClick={() => setAlerta(null)} style={{ background: "none", border: "none", color: "#cbd5e1", cursor: "pointer", fontSize: 16 }}>×</button>
         </div>
       )}
 
       {/* CARDS DE RESUMO KPI */}
       <div className="no-print" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
-        <Card style={{ padding: "1.25rem", borderLeft: "4px solid #2563eb", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+        <Card style={{ padding: "1.25rem", borderLeft: "4px solid #6366f1", display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
             <i className="ti ti-clipboard-list" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Total Registrado</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1e293b" }}>{total}</div>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Total Registrado</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{total}</div>
           </div>
         </Card>
 
         <Card style={{ padding: "1.25rem", borderLeft: "4px solid #f59e0b", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "#fef3c7", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
             <i className="ti ti-clock-pause" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Em Apuração / Abertas</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#b45309" }}>{abertas}</div>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Em Apuração / Abertas</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{abertas}</div>
           </div>
         </Card>
 
         <Card style={{ padding: "1.25rem", borderLeft: "4px solid #8b5cf6", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "#f5f3ff", color: "#7c3aed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(139, 92, 246, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
             <i className="ti ti-bell-ringing" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Família Notificada</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#6d28d9" }}>{notificadas}</div>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Família Notificada</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{notificadas}</div>
           </div>
         </Card>
 
         <Card style={{ padding: "1.25rem", borderLeft: "4px solid #10b981", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "#ecfdf5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
             <i className="ti ti-circle-check" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Resolvidas / Concluídas</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#047857" }}>{resolvidas}</div>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Resolvidas / Concluídas</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{resolvidas}</div>
           </div>
         </Card>
       </div>
@@ -482,17 +482,17 @@ export default function Ocorrencias() {
       {/* PAINEL PRINCIPAL DE CONSULTA E ACOMPANHAMENTO */}
       <Card className="no-print">
         {/* BARRA DE FILTROS */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #f1f5f9" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #2c3b52" }}>
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
             {/* Filtro Turma */}
             <select
               value={turmaFiltro}
               onChange={(e) => setTurmaFiltro(e.target.value)}
-              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white", color: "#334155" }}
+              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #33435c", fontSize: "0.85rem", background: "#243144", color: "#ffffff" }}
             >
-              <option value="">Todas as Turmas</option>
+              <option value="" style={{ background: "#243144" }}>Todas as Turmas</option>
               {(turmas || []).map(t => (
-                <option key={t.id || t.nome} value={t.nome}>{t.nome}</option>
+                <option key={t.id || t.nome} value={t.nome} style={{ background: "#243144" }}>{t.nome}</option>
               ))}
             </select>
 
@@ -500,11 +500,11 @@ export default function Ocorrencias() {
             <select
               value={tipoFiltro}
               onChange={(e) => setTipoFiltro(e.target.value)}
-              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white", color: "#334155" }}
+              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #33435c", fontSize: "0.85rem", background: "#243144", color: "#ffffff" }}
             >
-              <option value="">Todos os Tipos</option>
+              <option value="" style={{ background: "#243144" }}>Todos os Tipos</option>
               {TIPOS_OCORRENCIA.map(t => (
-                <option key={t} value={t}>{t}</option>
+                <option key={t} value={t} style={{ background: "#243144" }}>{t}</option>
               ))}
             </select>
 
@@ -512,11 +512,11 @@ export default function Ocorrencias() {
             <select
               value={statusFiltro}
               onChange={(e) => setStatusFiltro(e.target.value)}
-              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white", color: "#334155" }}
+              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #33435c", fontSize: "0.85rem", background: "#243144", color: "#ffffff" }}
             >
-              <option value="">Todos os Status</option>
+              <option value="" style={{ background: "#243144" }}>Todos os Status</option>
               {STATUS_OCORRENCIA.map(s => (
-                <option key={s.id} value={s.id}>{s.label}</option>
+                <option key={s.id} value={s.id} style={{ background: "#243144" }}>{s.label}</option>
               ))}
             </select>
 
@@ -524,18 +524,18 @@ export default function Ocorrencias() {
             <select
               value={gravidadeFiltro}
               onChange={(e) => setGravidadeFiltro(e.target.value)}
-              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white", color: "#334155" }}
+              style={{ padding: "0.45rem 0.75rem", borderRadius: "6px", border: "1px solid #33435c", fontSize: "0.85rem", background: "#243144", color: "#ffffff" }}
             >
-              <option value="">Todas as Gravidades</option>
+              <option value="" style={{ background: "#243144" }}>Todas as Gravidades</option>
               {GRAVIDADES_OCORRENCIA.map(g => (
-                <option key={g.id} value={g.id}>{g.label}</option>
+                <option key={g.id} value={g.id} style={{ background: "#243144" }}>{g.label}</option>
               ))}
             </select>
           </div>
 
           {/* Campo de Busca */}
           <div style={{ position: "relative", minWidth: 260, flex: "1 1 260px", maxWidth: 380 }}>
-            <i className="ti ti-search" style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#818cf8" }} />
             <input
               type="text"
               placeholder="Buscar aluno, código, relato, envolvidos..."
@@ -545,7 +545,9 @@ export default function Ocorrencias() {
                 width: "100%",
                 padding: "0.45rem 0.75rem 0.45rem 2rem",
                 borderRadius: "6px",
-                border: "1px solid #cbd5e1",
+                border: "1px solid #33435c",
+                background: "#243144",
+                color: "#ffffff",
                 fontSize: "0.85rem",
                 outline: "none"
               }}
@@ -557,7 +559,7 @@ export default function Ocorrencias() {
         {carregando ? (
           <div style={{ padding: "3rem", textAlign: "center" }}>
             <Spinner />
-            <p style={{ marginTop: "0.5rem", color: "#64748b" }}>Carregando acompanhamentos...</p>
+            <p style={{ marginTop: "0.5rem", color: "#94a3b8" }}>Carregando acompanhamentos...</p>
           </div>
         ) : ocorrenciasFiltradas.length === 0 ? (
           <EmptyState
@@ -569,7 +571,7 @@ export default function Ocorrencias() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0", color: "#475569", textAlign: "left" }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#cbd5e1", textAlign: "left" }}>
                   <th style={{ padding: "10px 12px", width: "130px" }}>Código / Data</th>
                   <th style={{ padding: "10px 12px" }}>Estudante / Turma</th>
                   <th style={{ padding: "10px 12px" }}>Tipo & Gravidade</th>
@@ -591,17 +593,17 @@ export default function Ocorrencias() {
                     <tr
                       key={oc.id}
                       style={{
-                        borderBottom: "1px solid #f1f5f9",
-                        background: index % 2 === 0 ? "white" : "#fafbfc",
+                        borderBottom: "1px solid #2c3b52",
+                        background: "transparent",
                         transition: "background 0.15s"
                       }}
                     >
                       {/* Código e Data/Hora */}
                       <td style={{ padding: "10px 12px", verticalAlign: "top" }}>
-                        <div style={{ fontWeight: 700, color: "#1e293b", fontFamily: "monospace", fontSize: "0.85rem" }}>
+                        <div style={{ fontWeight: 700, color: "#818cf8", fontFamily: "monospace", fontSize: "0.85rem" }}>
                           {oc.codigo || "OCO-2026"}
                         </div>
-                        <div style={{ color: "#64748b", fontSize: "0.75rem", marginTop: 2 }}>
+                        <div style={{ color: "#94a3b8", fontSize: "0.75rem", marginTop: 2 }}>
                           {oc.data ? oc.data.split("-").reverse().join("/") : "—"} · {oc.hora || "—"}
                         </div>
                       </td>
@@ -609,7 +611,7 @@ export default function Ocorrencias() {
                       {/* Estudante e Turma */}
                       <td style={{ padding: "10px 12px", verticalAlign: "top" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#e2e8f0", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#243144", border: "1px solid #33435c", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                             {oc.alunoFotoUrl ? (
                               <img src={oc.alunoFotoUrl} alt={oc.alunoNome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                             ) : (
@@ -617,9 +619,9 @@ export default function Ocorrencias() {
                             )}
                           </div>
                           <div>
-                            <div style={{ fontWeight: 700, color: "#1e293b" }}>{oc.alunoNome}</div>
-                            <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
-                              Turma: <strong style={{ color: "#334155" }}>{oc.turma || "—"}</strong> {oc.alunoMatricula ? `· Mat: ${oc.alunoMatricula}` : ""}
+                            <div style={{ fontWeight: 700, color: "#ffffff" }}>{oc.alunoNome}</div>
+                            <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
+                              Turma: <strong style={{ color: "#cbd5e1" }}>{oc.turma || "—"}</strong> {oc.alunoMatricula ? `· Mat: ${oc.alunoMatricula}` : ""}
                             </div>
                           </div>
                         </div>
@@ -627,7 +629,7 @@ export default function Ocorrencias() {
 
                       {/* Tipo e Gravidade */}
                       <td style={{ padding: "10px 12px", verticalAlign: "top" }}>
-                        <div style={{ fontWeight: 600, color: "#334155", maxWidth: "200px", lineHeight: "1.2" }}>
+                        <div style={{ fontWeight: 600, color: "#cbd5e1", maxWidth: "200px", lineHeight: "1.2" }}>
                           {oc.tipo}
                         </div>
                         <div style={{ marginTop: 4 }}>
@@ -640,11 +642,11 @@ export default function Ocorrencias() {
 
                       {/* Descrição com Anexos */}
                       <td style={{ padding: "10px 12px", verticalAlign: "top", maxWidth: "260px" }}>
-                        <div style={{ color: "#475569", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", lineHeight: "1.3" }}>
+                        <div style={{ color: "#e2e8f0", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", lineHeight: "1.3" }}>
                           {oc.descricao}
                         </div>
                         {qtdAnexos > 0 && (
-                          <div style={{ marginTop: 4, display: "inline-flex", alignItems: "center", gap: 3, fontSize: "0.7rem", color: "#2563eb", background: "#eff6ff", padding: "1px 6px", borderRadius: 4 }}>
+                          <div style={{ marginTop: 4, display: "inline-flex", alignItems: "center", gap: 3, fontSize: "0.7rem", color: "#818cf8", background: "rgba(99, 102, 241, 0.15)", padding: "1px 6px", borderRadius: 4 }}>
                             <i className="ti ti-paperclip" /> {qtdAnexos} {qtdAnexos === 1 ? "anexo" : "anexos"}
                           </div>
                         )}
@@ -652,15 +654,15 @@ export default function Ocorrencias() {
 
                       {/* Envolvidos */}
                       <td style={{ padding: "10px 12px", verticalAlign: "top", maxWidth: "160px" }}>
-                        <div style={{ color: "#64748b", fontSize: "0.8rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {oc.envolvidos || <span style={{ color: "#cbd5e1" }}>Nenhum</span>}
+                        <div style={{ color: "#94a3b8", fontSize: "0.8rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {oc.envolvidos || <span style={{ color: "#64748b" }}>Nenhum</span>}
                         </div>
                       </td>
 
                       {/* Responsável pelo Registro */}
                       <td style={{ padding: "10px 12px", verticalAlign: "top" }}>
-                        <div style={{ fontWeight: 600, color: "#334155" }}>{oc.responsavelRegistro}</div>
-                        <div style={{ fontSize: "0.75rem", color: "#64748b" }}>{oc.cargoResponsavel || "Servidor(a)"}</div>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{oc.responsavelRegistro}</div>
+                        <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>{oc.cargoResponsavel || "Servidor(a)"}</div>
                       </td>
 
                       {/* Status */}
@@ -668,7 +670,7 @@ export default function Ocorrencias() {
                         <Badge color={statusInfo.cor}>
                           {statusInfo.label}
                         </Badge>
-                        <div style={{ fontSize: "0.7rem", color: "#64748b", marginTop: 3 }}>
+                        <div style={{ fontSize: "0.7rem", color: "#94a3b8", marginTop: 3 }}>
                           <i className="ti ti-history" style={{ marginRight: 2 }} /> {qtdAcompanhamentos} {qtdAcompanhamentos === 1 ? "despacho" : "despachos"}
                         </div>
                       </td>
@@ -683,9 +685,9 @@ export default function Ocorrencias() {
                             }}
                             title="Acompanhar ocorrência e ver timeline"
                             style={{
-                              background: "#eff6ff",
-                              border: "1px solid #bfdbfe",
-                              color: "#2563eb",
+                              background: "#243144",
+                              border: "1px solid #33435c",
+                              color: "#818cf8",
                               padding: "5px 8px",
                               borderRadius: "6px",
                               cursor: "pointer",
@@ -706,9 +708,9 @@ export default function Ocorrencias() {
                             }}
                             title="Imprimir Termo de Ocorrência Oficial"
                             style={{
-                              background: "#f8fafc",
-                              border: "1px solid #cbd5e1",
-                              color: "#334155",
+                              background: "#243144",
+                              border: "1px solid #33435c",
+                              color: "#cbd5e1",
                               padding: "5px 8px",
                               borderRadius: "6px",
                               cursor: "pointer"
@@ -721,9 +723,9 @@ export default function Ocorrencias() {
                             onClick={(e) => handleExcluirOcorrencia(oc.id, e)}
                             title="Excluir Ocorrência"
                             style={{
-                              background: "#fef2f2",
-                              border: "1px solid #fecaca",
-                              color: "#dc2626",
+                              background: "rgba(239, 68, 68, 0.15)",
+                              border: "1px solid rgba(239, 68, 68, 0.3)",
+                              color: "#f87171",
                               padding: "5px 8px",
                               borderRadius: "6px",
                               cursor: "pointer"
@@ -754,25 +756,25 @@ export default function Ocorrencias() {
         >
           <form onSubmit={handleSalvarNovaOcorrencia} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             {/* Bloco 1: Seleção do Aluno e Turma */}
-            <div style={{ background: "#f8fafc", padding: "1rem", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-              <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#1e293b", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6 }}>
-                <i className="ti ti-user" style={{ color: "#2563eb" }} /> Identificação do Estudante
+            <div style={{ background: "#243144", padding: "1rem", borderRadius: "8px", border: "1px solid #33435c" }}>
+              <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6 }}>
+                <i className="ti ti-user" style={{ color: "#6366f1" }} /> Identificação do Estudante
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "0.75rem" }}>
                 <div>
-                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                     Estudante *
                   </label>
                   <select
                     required
                     value={formNovo.alunoId}
                     onChange={(e) => handleSelecionarAluno(e.target.value)}
-                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white" }}
+                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                   >
-                    <option value="">Selecione o estudante...</option>
+                    <option value="" style={{ background: "#1e293b", color: "#94a3b8" }}>Selecione o estudante...</option>
                     {(alunos || []).map(a => (
-                      <option key={a.id} value={a.id}>
+                      <option key={a.id} value={a.id} style={{ background: "#1e293b", color: "#ffffff" }}>
                         {a.nome} — {a.turma || "Sem Turma"} {a.matricula ? `(Mat: ${a.matricula})` : ""}
                       </option>
                     ))}
@@ -780,14 +782,14 @@ export default function Ocorrencias() {
                 </div>
 
                 <div>
-                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                     Turma Atual
                   </label>
                   <input
                     type="text"
                     disabled
                     value={formNovo.turma ? `${formNovo.turma} (${formNovo.ano || ""})` : "—"}
-                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #e2e8f0", fontSize: "0.85rem", background: "#f1f5f9", color: "#64748b" }}
+                    style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#161f2e", color: "#94a3b8" }}
                   />
                 </div>
               </div>
@@ -796,7 +798,7 @@ export default function Ocorrencias() {
             {/* Bloco 2: Data, Hora, Tipo e Gravidade */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1.5fr 1fr", gap: "0.75rem" }}>
               <div>
-                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                   Data do Fato *
                 </label>
                 <input
@@ -804,12 +806,12 @@ export default function Ocorrencias() {
                   required
                   value={formNovo.data}
                   onChange={(e) => setFormNovo(prev => ({ ...prev, data: e.target.value }))}
-                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem" }}
+                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                 />
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                   Hora do Fato *
                 </label>
                 <input
@@ -817,36 +819,36 @@ export default function Ocorrencias() {
                   required
                   value={formNovo.hora}
                   onChange={(e) => setFormNovo(prev => ({ ...prev, hora: e.target.value }))}
-                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem" }}
+                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                 />
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                   Tipo de Ocorrência *
                 </label>
                 <select
                   value={formNovo.tipo}
                   onChange={(e) => setFormNovo(prev => ({ ...prev, tipo: e.target.value }))}
-                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white" }}
+                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                 >
                   {TIPOS_OCORRENCIA.map(t => (
-                    <option key={t} value={t}>{t}</option>
+                    <option key={t} value={t} style={{ background: "#1e293b", color: "#ffffff" }}>{t}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                   Gravidade *
                 </label>
                 <select
                   value={formNovo.gravidade}
                   onChange={(e) => setFormNovo(prev => ({ ...prev, gravidade: e.target.value }))}
-                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white" }}
+                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                 >
                   {GRAVIDADES_OCORRENCIA.map(g => (
-                    <option key={g.id} value={g.id}>{g.label}</option>
+                    <option key={g.id} value={g.id} style={{ background: "#1e293b", color: "#ffffff" }}>{g.label}</option>
                   ))}
                 </select>
               </div>
@@ -854,7 +856,7 @@ export default function Ocorrencias() {
 
             {/* Bloco 3: Descrição e Envolvidos */}
             <div>
-              <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+              <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                 Descrição Detalhada do Fato Ocorrido *
               </label>
               <textarea
@@ -863,12 +865,12 @@ export default function Ocorrencias() {
                 placeholder="Relate com precisão o que aconteceu, contexto, comportamento observado, local e circunstâncias..."
                 value={formNovo.descricao}
                 onChange={(e) => setFormNovo(prev => ({ ...prev, descricao: e.target.value }))}
-                style={{ width: "100%", padding: "0.65rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", resize: "vertical", fontFamily: "inherit" }}
+                style={{ width: "100%", padding: "0.65rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", resize: "vertical", fontFamily: "inherit", background: "#1e293b", color: "#ffffff" }}
               />
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+              <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                 Outros Envolvidos / Testemunhas
               </label>
               <input
@@ -876,15 +878,15 @@ export default function Ocorrencias() {
                 placeholder="Ex: Aluno Pedro Santos (7º B), Profª Mariana, Inspetor Carlos..."
                 value={formNovo.envolvidos}
                 onChange={(e) => setFormNovo(prev => ({ ...prev, envolvidos: e.target.value }))}
-                style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem" }}
+                style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
               />
             </div>
 
             {/* Bloco 4: Responsável pelo Registro & Encaminhamento Inicial */}
             <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1.2fr", gap: "0.75rem" }}>
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.75rem", fontWeight: 700, color: "#475569", marginBottom: 3 }}>
-                  <i className="ti ti-lock" style={{ color: "#2563eb", fontSize: "0.85rem" }} /> Responsável pelo Registro
+                <label style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.75rem", fontWeight: 700, color: "#cbd5e1", marginBottom: 3 }}>
+                  <i className="ti ti-lock" style={{ color: "#6366f1", fontSize: "0.85rem" }} /> Responsável pelo Registro
                 </label>
                 <input
                   type="text"
@@ -896,10 +898,10 @@ export default function Ocorrencias() {
                     width: "100%",
                     padding: "0.55rem 0.75rem",
                     borderRadius: 6,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid #33435c",
                     fontSize: "0.85rem",
-                    background: "#f1f5f9",
-                    color: "#334155",
+                    background: "#161f2e",
+                    color: "#cbd5e1",
                     fontWeight: 600,
                     cursor: "not-allowed"
                   }}
@@ -907,8 +909,8 @@ export default function Ocorrencias() {
               </div>
 
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.75rem", fontWeight: 700, color: "#475569", marginBottom: 3 }}>
-                  <i className="ti ti-lock" style={{ color: "#2563eb", fontSize: "0.85rem" }} /> Cargo / Perfil
+                <label style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.75rem", fontWeight: 700, color: "#cbd5e1", marginBottom: 3 }}>
+                  <i className="ti ti-lock" style={{ color: "#6366f1", fontSize: "0.85rem" }} /> Cargo / Perfil
                 </label>
                 <input
                   type="text"
@@ -920,10 +922,10 @@ export default function Ocorrencias() {
                     width: "100%",
                     padding: "0.55rem 0.75rem",
                     borderRadius: 6,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid #33435c",
                     fontSize: "0.85rem",
-                    background: "#f1f5f9",
-                    color: "#334155",
+                    background: "#161f2e",
+                    color: "#cbd5e1",
                     fontWeight: 600,
                     cursor: "not-allowed"
                   }}
@@ -931,33 +933,33 @@ export default function Ocorrencias() {
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                   Ação / Encaminhamento Imediato
                 </label>
                 <select
                   value={formNovo.acaoImediata}
                   onChange={(e) => setFormNovo(prev => ({ ...prev, acaoImediata: e.target.value }))}
-                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white" }}
+                  style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                 >
                   {ACOES_ENCAMINHAMENTO_OCORRENCIA.map(a => (
-                    <option key={a} value={a}>{a}</option>
+                    <option key={a} value={a} style={{ background: "#1e293b", color: "#ffffff" }}>{a}</option>
                   ))}
                 </select>
               </div>
             </div>
 
             {/* Bloco 5: Anexos e Documentos */}
-            <div style={{ background: "#f8fafc", padding: "0.85rem", borderRadius: "8px", border: "1px dashed #cbd5e1" }}>
+            <div style={{ background: "#243144", padding: "0.85rem", borderRadius: "8px", border: "1px dashed #33435c" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#334155" }}>
+                <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#ffffff" }}>
                   📎 Anexos (Fotos do ocorrido, termos, atestados, relatórios)
                 </span>
                 <label style={{
                   padding: "4px 10px",
                   borderRadius: "6px",
-                  background: "#eff6ff",
-                  border: "1px solid #bfdbfe",
-                  color: "#2563eb",
+                  background: "rgba(99, 102, 241, 0.15)",
+                  border: "1px solid rgba(99, 102, 241, 0.3)",
+                  color: "#818cf8",
                   fontSize: "0.75rem",
                   fontWeight: 600,
                   cursor: "pointer",
@@ -985,14 +987,15 @@ export default function Ocorrencias() {
                         display: "flex",
                         alignItems: "center",
                         gap: 6,
-                        background: "white",
+                        background: "#1e293b",
                         padding: "4px 8px",
                         borderRadius: 6,
-                        border: "1px solid #e2e8f0",
-                        fontSize: "0.75rem"
+                        border: "1px solid #33435c",
+                        fontSize: "0.75rem",
+                        color: "#ffffff"
                       }}
                     >
-                      <i className="ti ti-file" style={{ color: "#2563eb" }} />
+                      <i className="ti ti-file" style={{ color: "#6366f1" }} />
                       <span style={{ maxWidth: 160, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                         {anx.nome}
                       </span>
@@ -1000,7 +1003,7 @@ export default function Ocorrencias() {
                       <button
                         type="button"
                         onClick={() => handleRemoverAnexo(anx.id)}
-                        style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", padding: "0 2px" }}
+                        style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", padding: "0 2px" }}
                       >
                         ×
                       </button>
@@ -1039,10 +1042,10 @@ export default function Ocorrencias() {
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             {/* Header da Ocorrência com Status e Ações */}
-            <div style={{ background: "#f8fafc", padding: "1.25rem", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+            <div style={{ background: "#243144", padding: "1.25rem", borderRadius: "10px", border: "1px solid #33435c" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#e2e8f0", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#1e293b", border: "1px solid #33435c", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {ocorrenciaSelecionada.alunoFotoUrl ? (
                       <img src={ocorrenciaSelecionada.alunoFotoUrl} alt={ocorrenciaSelecionada.alunoNome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
@@ -1050,10 +1053,10 @@ export default function Ocorrencias() {
                     )}
                   </div>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: "1.1rem", fontWeight: 800, color: "#1e293b" }}>
+                    <h3 style={{ margin: 0, fontSize: "1.1rem", fontWeight: 800, color: "#ffffff" }}>
                       {ocorrenciaSelecionada.alunoNome}
                     </h3>
-                    <div style={{ fontSize: "0.8rem", color: "#64748b", marginTop: 2 }}>
+                    <div style={{ fontSize: "0.8rem", color: "#cbd5e1", marginTop: 2 }}>
                       Turma: <strong>{ocorrenciaSelecionada.turma || "—"}</strong> {ocorrenciaSelecionada.alunoMatricula ? `· Matrícula: ${ocorrenciaSelecionada.alunoMatricula}` : ""}
                     </div>
                   </div>
@@ -1061,63 +1064,63 @@ export default function Ocorrencias() {
 
                 {/* Seletor de Alteração de Status */}
                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 600 }}>Status Atual:</span>
+                  <span style={{ fontSize: "0.8rem", color: "#cbd5e1", fontWeight: 600 }}>Status Atual:</span>
                   <select
                     value={ocorrenciaSelecionada.status}
                     onChange={(e) => handleAlterarStatusRapido(ocorrenciaSelecionada.id, e.target.value)}
                     style={{
                       padding: "0.4rem 0.75rem",
                       borderRadius: "6px",
-                      border: "2px solid #2563eb",
+                      border: "1px solid #6366f1",
                       fontWeight: 700,
-                      color: "#1e293b",
-                      background: "#eff6ff",
+                      color: "#ffffff",
+                      background: "#1e293b",
                       fontSize: "0.85rem",
                       cursor: "pointer"
                     }}
                   >
                     {STATUS_OCORRENCIA.map(s => (
-                      <option key={s.id} value={s.id}>{s.label}</option>
+                      <option key={s.id} value={s.id} style={{ background: "#1e293b", color: "#ffffff" }}>{s.label}</option>
                     ))}
                   </select>
                 </div>
               </div>
 
               {/* Ficha Resumo dos Dados do Fato */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem", marginTop: "1rem", paddingTop: "0.85rem", borderTop: "1px solid #e2e8f0", fontSize: "0.8rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem", marginTop: "1rem", paddingTop: "0.85rem", borderTop: "1px solid #33435c", fontSize: "0.8rem" }}>
                 <div>
-                  <span style={{ color: "#64748b", display: "block" }}>Data e Horário</span>
-                  <strong style={{ color: "#1e293b" }}>{ocorrenciaSelecionada.data ? ocorrenciaSelecionada.data.split("-").reverse().join("/") : "—"} às {ocorrenciaSelecionada.hora}</strong>
+                  <span style={{ color: "#94a3b8", display: "block" }}>Data e Horário</span>
+                  <strong style={{ color: "#ffffff" }}>{ocorrenciaSelecionada.data ? ocorrenciaSelecionada.data.split("-").reverse().join("/") : "—"} às {ocorrenciaSelecionada.hora}</strong>
                 </div>
 
                 <div>
-                  <span style={{ color: "#64748b", display: "block" }}>Tipo da Ocorrência</span>
-                  <strong style={{ color: "#1e293b" }}>{ocorrenciaSelecionada.tipo}</strong>
+                  <span style={{ color: "#94a3b8", display: "block" }}>Tipo da Ocorrência</span>
+                  <strong style={{ color: "#ffffff" }}>{ocorrenciaSelecionada.tipo}</strong>
                 </div>
 
                 <div>
-                  <span style={{ color: "#64748b", display: "block" }}>Gravidade</span>
+                  <span style={{ color: "#94a3b8", display: "block" }}>Gravidade</span>
                   <Badge color={GRAVIDADES_OCORRENCIA.find(g => g.id === ocorrenciaSelecionada.gravidade)?.cor || "blue"}>
                     {GRAVIDADES_OCORRENCIA.find(g => g.id === ocorrenciaSelecionada.gravidade)?.label || "Média"}
                   </Badge>
                 </div>
 
                 <div>
-                  <span style={{ color: "#64748b", display: "block" }}>Registrado Por</span>
-                  <strong style={{ color: "#1e293b" }}>{ocorrenciaSelecionada.responsavelRegistro}</strong>
+                  <span style={{ color: "#94a3b8", display: "block" }}>Registrado Por</span>
+                  <strong style={{ color: "#ffffff" }}>{ocorrenciaSelecionada.responsavelRegistro}</strong>
                 </div>
               </div>
 
               {/* Relato do Fato */}
-              <div style={{ marginTop: "0.85rem", background: "white", padding: "0.85rem", borderRadius: "6px", border: "1px solid #e2e8f0" }}>
-                <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#475569", textTransform: "uppercase", marginBottom: 4 }}>
+              <div style={{ marginTop: "0.85rem", background: "#1e293b", padding: "0.85rem", borderRadius: "6px", border: "1px solid #33435c" }}>
+                <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase", marginBottom: 4 }}>
                   Relato do Fato
                 </div>
-                <div style={{ fontSize: "0.85rem", color: "#334155", lineHeight: "1.4" }}>
+                <div style={{ fontSize: "0.85rem", color: "#ffffff", lineHeight: "1.4" }}>
                   {ocorrenciaSelecionada.descricao}
                 </div>
                 {ocorrenciaSelecionada.envolvidos && (
-                  <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "#64748b" }}>
+                  <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "#94a3b8" }}>
                     <strong>Envolvidos / Testemunhas:</strong> {ocorrenciaSelecionada.envolvidos}
                   </div>
                 )}
@@ -1126,7 +1129,7 @@ export default function Ocorrencias() {
               {/* Anexos Registrados */}
               {ocorrenciaSelecionada.anexos && ocorrenciaSelecionada.anexos.length > 0 && (
                 <div style={{ marginTop: "0.75rem" }}>
-                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#475569", marginBottom: 4 }}>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#cbd5e1", marginBottom: 4 }}>
                     📎 Anexos e Documentos Comprobatórios ({ocorrenciaSelecionada.anexos.length}):
                   </div>
                   <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
@@ -1141,12 +1144,12 @@ export default function Ocorrencias() {
                           display: "inline-flex",
                           alignItems: "center",
                           gap: 6,
-                          background: "#eff6ff",
-                          border: "1px solid #bfdbfe",
+                          background: "rgba(99, 102, 241, 0.15)",
+                          border: "1px solid rgba(99, 102, 241, 0.3)",
                           padding: "4px 8px",
                           borderRadius: 6,
                           fontSize: "0.75rem",
-                          color: "#1e40af",
+                          color: "#818cf8",
                           fontWeight: 600
                         }}
                       >
@@ -1160,11 +1163,11 @@ export default function Ocorrencias() {
 
             {/* LINHA DO TEMPO DE ACOMPANHAMENTO (TIMELINE) */}
             <div>
-              <div style={{ fontSize: "0.95rem", fontWeight: 800, color: "#1e293b", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6 }}>
-                <i className="ti ti-timeline" style={{ color: "#2563eb" }} /> Linha do Tempo & Despachos de Acompanhamento
+              <div style={{ fontSize: "0.95rem", fontWeight: 800, color: "#ffffff", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6 }}>
+                <i className="ti ti-timeline" style={{ color: "#6366f1" }} /> Linha do Tempo & Despachos de Acompanhamento
               </div>
 
-              <div style={{ borderLeft: "2px solid #cbd5e1", marginLeft: "1rem", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div style={{ borderLeft: "2px solid #33435c", marginLeft: "1rem", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {(ocorrenciaSelecionada.historicoAcompanhamento || []).map((desp, i) => (
                   <div key={desp.id || i} style={{ position: "relative" }}>
                     {/* Marcador do Ponto na Timeline */}
@@ -1175,14 +1178,14 @@ export default function Ocorrencias() {
                       width: 14,
                       height: 14,
                       borderRadius: "50%",
-                      background: i === (ocorrenciaSelecionada.historicoAcompanhamento.length - 1) ? "#2563eb" : "#94a3b8",
-                      border: "3px solid white",
-                      boxShadow: "0 0 0 1px #cbd5e1"
+                      background: i === (ocorrenciaSelecionada.historicoAcompanhamento.length - 1) ? "#6366f1" : "#475569",
+                      border: "3px solid #1e293b",
+                      boxShadow: "0 0 0 1px #33435c"
                     }} />
 
-                    <div style={{ background: "#ffffff", padding: "0.85rem", borderRadius: "8px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+                    <div style={{ background: "#243144", padding: "0.85rem", borderRadius: "8px", border: "1px solid #33435c", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                        <span style={{ fontWeight: 700, color: "#1e293b", fontSize: "0.85rem" }}>
+                        <span style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.85rem" }}>
                           {desp.tipoAcao || "Despacho"}
                         </span>
                         <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
@@ -1190,13 +1193,13 @@ export default function Ocorrencias() {
                         </span>
                       </div>
 
-                      <div style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.4" }}>
+                      <div style={{ fontSize: "0.85rem", color: "#cbd5e1", lineHeight: "1.4" }}>
                         {desp.descricao}
                       </div>
 
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.5rem", paddingTop: "0.4rem", borderTop: "1px solid #f1f5f9", fontSize: "0.75rem" }}>
-                        <span style={{ color: "#64748b" }}>
-                          Por: <strong>{desp.autor}</strong> ({desp.cargo || "Equipe"})
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.5rem", paddingTop: "0.4rem", borderTop: "1px solid #33435c", fontSize: "0.75rem" }}>
+                        <span style={{ color: "#94a3b8" }}>
+                          Por: <strong style={{ color: "#cbd5e1" }}>{desp.autor}</strong> ({desp.cargo || "Equipe"})
                         </span>
                         {desp.statusResultante && (
                           <Badge color={STATUS_OCORRENCIA.find(s => s.id === desp.statusResultante)?.cor || "blue"}>
@@ -1211,46 +1214,46 @@ export default function Ocorrencias() {
             </div>
 
             {/* FORMULÁRIO PARA ADICIONAR NOVO DESPACHO */}
-            <div style={{ background: "#f8fafc", padding: "1rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
-              <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#1e293b", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6 }}>
-                <i className="ti ti-plus" style={{ color: "#2563eb" }} /> Adicionar Novo Despacho / Encaminhamento
+            <div style={{ background: "#243144", padding: "1rem", borderRadius: "8px", border: "1px solid #33435c" }}>
+              <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6 }}>
+                <i className="ti ti-plus" style={{ color: "#6366f1" }} /> Adicionar Novo Despacho / Encaminhamento
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: "0.75rem", marginBottom: "0.75rem" }}>
                 <div>
-                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                     Tipo de Ação / Encaminhamento
                   </label>
                   <select
                     value={novoDespacho.tipoAcao}
                     onChange={(e) => setNovoDespacho(prev => ({ ...prev, tipoAcao: e.target.value }))}
-                    style={{ width: "100%", padding: "0.5rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white" }}
+                    style={{ width: "100%", padding: "0.5rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                   >
                     {ACOES_ENCAMINHAMENTO_OCORRENCIA.map(a => (
-                      <option key={a} value={a}>{a}</option>
+                      <option key={a} value={a} style={{ background: "#1e293b", color: "#ffffff" }}>{a}</option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                     Alterar Status Para (Opcional)
                   </label>
                   <select
                     value={novoDespacho.novoStatus}
                     onChange={(e) => setNovoDespacho(prev => ({ ...prev, novoStatus: e.target.value }))}
-                    style={{ width: "100%", padding: "0.5rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "white" }}
+                    style={{ width: "100%", padding: "0.5rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", background: "#1e293b", color: "#ffffff" }}
                   >
-                    <option value="">Manter Status Atual ({ocorrenciaSelecionada.status})</option>
+                    <option value="" style={{ background: "#1e293b", color: "#94a3b8" }}>Manter Status Atual ({ocorrenciaSelecionada.status})</option>
                     {STATUS_OCORRENCIA.map(s => (
-                      <option key={s.id} value={s.id}>{s.label}</option>
+                      <option key={s.id} value={s.id} style={{ background: "#1e293b", color: "#ffffff" }}>{s.label}</option>
                     ))}
                   </select>
                 </div>
               </div>
 
               <div style={{ marginBottom: "0.75rem" }}>
-                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#475569", marginBottom: 3 }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "#cbd5e1", marginBottom: 3 }}>
                   Relato do Acompanhamento / Providência Adotada *
                 </label>
                 <textarea
@@ -1258,13 +1261,13 @@ export default function Ocorrencias() {
                   placeholder="Ex: Responsável compareceu à escola, tomou ciência do fato e assinou termo de compromisso..."
                   value={novoDespacho.descricao}
                   onChange={(e) => setNovoDespacho(prev => ({ ...prev, descricao: e.target.value }))}
-                  style={{ width: "100%", padding: "0.5rem 0.75rem", borderRadius: 6, border: "1px solid #cbd5e1", fontSize: "0.85rem", resize: "vertical", fontFamily: "inherit" }}
+                  style={{ width: "100%", padding: "0.5rem 0.75rem", borderRadius: 6, border: "1px solid #33435c", fontSize: "0.85rem", resize: "vertical", fontFamily: "inherit", background: "#1e293b", color: "#ffffff" }}
                 />
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
-                  Autor: <strong>{novoDespacho.autor}</strong>
+                <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
+                  Autor: <strong style={{ color: "#cbd5e1" }}>{novoDespacho.autor}</strong>
                 </div>
                 <Btn variant="primary" onClick={handleSalvarDespacho} disabled={salvandoDespacho || !novoDespacho.descricao.trim()}>
                   {salvandoDespacho ? "Salvando..." : "Salvar Despacho"}
@@ -1273,7 +1276,7 @@ export default function Ocorrencias() {
             </div>
 
             {/* Ações do Rodapé do Modal */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem", borderTop: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem", borderTop: "1px solid #33435c" }}>
               <Btn variant="default" onClick={() => { setModalAcompanhamentoAberto(false); setModalImprimirAberto(true); }}>
                 <i className="ti ti-printer" /> Imprimir Termo Oficial
               </Btn>

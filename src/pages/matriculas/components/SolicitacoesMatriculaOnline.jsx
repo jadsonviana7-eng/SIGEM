@@ -137,106 +137,106 @@ export default function SolicitacoesMatriculaOnline({
         <div
           onClick={() => setFiltroStatus("Pendente")}
           style={{
-            background: filtroStatus === "Pendente" ? "#fef9c3" : "white",
-            border: filtroStatus === "Pendente" ? "2px solid #ca8a04" : "1px solid #e2e8f0",
+            background: filtroStatus === "Pendente" ? "rgba(251, 191, 36, 0.15)" : "#1e293b",
+            border: filtroStatus === "Pendente" ? "2px solid #fbbf24" : "1px solid #2c3b52",
             borderRadius: 12,
             padding: "16px 18px",
             cursor: "pointer",
-            transition: "all 0.15s",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)"
+            transition: "all 0.15s ease",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#854d0e", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#fbbf24", textTransform: "uppercase" }}>
               🟡 Pendentes de Análise
             </span>
-            <i className="ti ti-clock" style={{ fontSize: 18, color: "#ca8a04" }} />
+            <i className="ti ti-clock" style={{ fontSize: 18, color: "#fbbf24" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#854d0e", marginTop: 4 }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "#fbbf24", marginTop: 4 }}>
             {contadores.pendentes}
           </div>
-          <div style={{ fontSize: 11, color: "#a16207", marginTop: 2 }}>Aguardando deferimento</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>Aguardando deferimento</div>
         </div>
 
         <div
           onClick={() => setFiltroStatus("Aprovada")}
           style={{
-            background: filtroStatus === "Aprovada" ? "#dcfce7" : "white",
-            border: filtroStatus === "Aprovada" ? "2px solid #16a34a" : "1px solid #e2e8f0",
+            background: filtroStatus === "Aprovada" ? "rgba(52, 211, 153, 0.15)" : "#1e293b",
+            border: filtroStatus === "Aprovada" ? "2px solid #34d399" : "1px solid #2c3b52",
             borderRadius: 12,
             padding: "16px 18px",
             cursor: "pointer",
-            transition: "all 0.15s",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)"
+            transition: "all 0.15s ease",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#166534", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#34d399", textTransform: "uppercase" }}>
               🟢 Matrículas Aprovadas
             </span>
-            <i className="ti ti-check" style={{ fontSize: 18, color: "#16a34a" }} />
+            <i className="ti ti-check" style={{ fontSize: 18, color: "#34d399" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#166534", marginTop: 4 }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "#34d399", marginTop: 4 }}>
             {contadores.aprovadas}
           </div>
-          <div style={{ fontSize: 11, color: "#15803d", marginTop: 2 }}>Efetivadas no SIGEM</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>Efetivadas no SIGEM</div>
         </div>
 
         <div
           onClick={() => setFiltroStatus("Aguardando Correção")}
           style={{
-            background: filtroStatus === "Aguardando Correção" ? "#e0f2fe" : "white",
-            border: filtroStatus === "Aguardando Correção" ? "2px solid #0284c7" : "1px solid #e2e8f0",
+            background: filtroStatus === "Aguardando Correção" ? "rgba(56, 189, 248, 0.15)" : "#1e293b",
+            border: filtroStatus === "Aguardando Correção" ? "2px solid #38bdf8" : "1px solid #2c3b52",
             borderRadius: 12,
             padding: "16px 18px",
             cursor: "pointer",
-            transition: "all 0.15s",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)"
+            transition: "all 0.15s ease",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#075985", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#38bdf8", textTransform: "uppercase" }}>
               🔵 Aguardando Correção
             </span>
-            <i className="ti ti-file-alert" style={{ fontSize: 18, color: "#0284c7" }} />
+            <i className="ti ti-file-alert" style={{ fontSize: 18, color: "#38bdf8" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#075985", marginTop: 4 }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "#38bdf8", marginTop: 4 }}>
             {contadores.correcao}
           </div>
-          <div style={{ fontSize: 11, color: "#0369a1", marginTop: 2 }}>Pendência de documentos</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>Pendência de documentos</div>
         </div>
 
         <div
           onClick={() => setFiltroStatus("Indeferida")}
           style={{
-            background: filtroStatus === "Indeferida" ? "#fee2e2" : "white",
-            border: filtroStatus === "Indeferida" ? "2px solid #dc2626" : "1px solid #e2e8f0",
+            background: filtroStatus === "Indeferida" ? "rgba(248, 113, 113, 0.15)" : "#1e293b",
+            border: filtroStatus === "Indeferida" ? "2px solid #f87171" : "1px solid #2c3b52",
             borderRadius: 12,
             padding: "16px 18px",
             cursor: "pointer",
-            transition: "all 0.15s",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)"
+            transition: "all 0.15s ease",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#991b1b", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#f87171", textTransform: "uppercase" }}>
               🔴 Indeferidas
             </span>
-            <i className="ti ti-x" style={{ fontSize: 18, color: "#dc2626" }} />
+            <i className="ti ti-x" style={{ fontSize: 18, color: "#f87171" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#991b1b", marginTop: 4 }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "#f87171", marginTop: 4 }}>
             {contadores.indeferidas}
           </div>
-          <div style={{ fontSize: 11, color: "#b91c1c", marginTop: 2 }}>Sem vaga ou recusa</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>Sem vaga ou recusa</div>
         </div>
       </div>
 
       {/* BARRA DE AÇÕES E FILTROS */}
       <div style={{
-        background: "white",
+        background: "#1e293b",
         borderRadius: 14,
         padding: "16px 20px",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+        border: "1px solid #2c3b52",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -279,15 +279,17 @@ export default function SolicitacoesMatriculaOnline({
             rel="noreferrer"
             style={{
               padding: "7px 14px",
-              borderRadius: 6,
-              background: "#1e40af",
-              color: "white",
+              borderRadius: 8,
+              background: "rgba(59, 130, 246, 0.15)",
+              color: "#93c5fd",
+              border: "1px solid #2c3b52",
               textDecoration: "none",
               fontSize: 13,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
-              gap: 6
+              gap: 6,
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-external-link" />
@@ -298,15 +300,15 @@ export default function SolicitacoesMatriculaOnline({
 
       {/* TABELA DE SOLICITAÇÕES */}
       <div style={{
-        background: "white",
+        background: "#1e293b",
         borderRadius: 14,
-        boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+        border: "1px solid #2c3b52",
         overflow: "hidden"
       }}>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
             <thead>
-              <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", fontSize: 11, textTransform: "uppercase" }}>
+              <tr style={{ background: "rgba(36, 49, 68, 0.6)", borderBottom: "1px solid #2c3b52", color: "#94a3b8", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 <th style={{ padding: "12px 16px" }}>Protocolo / Data</th>
                 <th style={{ padding: "12px 16px" }}>Estudante</th>
                 <th style={{ padding: "12px 16px" }}>Responsável Legal</th>
@@ -328,14 +330,14 @@ export default function SolicitacoesMatriculaOnline({
                   <tr
                     key={sol.id}
                     style={{
-                      borderBottom: "1px solid #f1f5f9",
-                      transition: "background 0.15s"
+                      borderBottom: "1px solid #2c3b52",
+                      transition: "background 0.15s ease"
                     }}
-                    onMouseOver={(e) => e.currentTarget.style.background = "#f8fafc"}
-                    onMouseOut={(e) => e.currentTarget.style.background = "white"}
+                    onMouseOver={(e) => e.currentTarget.style.background = "rgba(99, 102, 241, 0.08)"}
+                    onMouseOut={(e) => e.currentTarget.style.background = "transparent"}
                   >
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 800, color: "#1e40af", fontFamily: "monospace", fontSize: 13 }}>
+                      <div style={{ fontWeight: 800, color: "#60a5fa", fontFamily: "monospace", fontSize: 13 }}>
                         {sol.protocolo}
                       </div>
                       <div style={{ fontSize: 11, color: "#94a3b8" }}>
@@ -344,32 +346,33 @@ export default function SolicitacoesMatriculaOnline({
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#0f172a" }}>{sol.alunoNome}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>
+                      <div style={{ fontWeight: 700, color: "#ffffff" }}>{sol.alunoNome}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>
                         {sol.alunoDataNasc ? `Nasc: ${sol.alunoDataNasc}` : ""} {sol.alunoPcd ? "· ♿ PCD/TEA" : ""}
                       </div>
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#334155" }}>{sol.responsavelNome}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>
+                      <div style={{ fontWeight: 600, color: "#cbd5e1" }}>{sol.responsavelNome}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>
                         {sol.responsavelParentesco} · {sol.responsavelTelefone}
                       </div>
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>{sol.serieAno}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>Turno: {sol.serieTurno}</div>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{sol.serieAno}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>Turno: {sol.serieTurno}</div>
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
                       <span style={{
                         fontSize: 11,
-                        padding: "2px 8px",
+                        padding: "3px 8px",
                         borderRadius: 8,
-                        background: "#f1f5f9",
-                        color: "#475569",
-                        fontWeight: 600
+                        background: "#243144",
+                        color: "#cbd5e1",
+                        fontWeight: 600,
+                        border: "1px solid #33435c"
                       }}>
                         {sol.documentos?.length || 0} doc(s) anexados
                       </span>
@@ -377,22 +380,22 @@ export default function SolicitacoesMatriculaOnline({
 
                     <td style={{ padding: "14px 16px" }}>
                       {sol.status === "Pendente" && (
-                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "#fef9c3", color: "#854d0e" }}>
+                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", border: "1px solid rgba(251, 191, 36, 0.3)" }}>
                           🟡 Pendente
                         </span>
                       )}
                       {sol.status === "Aprovada" && (
-                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "#dcfce7", color: "#166534" }}>
+                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", border: "1px solid rgba(52, 211, 153, 0.3)" }}>
                           🟢 Aprovada
                         </span>
                       )}
                       {sol.status === "Aguardando Correção" && (
-                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "#e0f2fe", color: "#0369a1" }}>
+                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
                           🔵 Pendência
                         </span>
                       )}
                       {sol.status === "Indeferida" && (
-                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "#fee2e2", color: "#991b1b" }}>
+                        <span style={{ padding: "3px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: "rgba(248, 113, 113, 0.15)", color: "#f87171", border: "1px solid rgba(248, 113, 113, 0.3)" }}>
                           🔴 Indeferida
                         </span>
                       )}
@@ -434,46 +437,46 @@ export default function SolicitacoesMatriculaOnline({
 
             {/* Resumo da Solicitação */}
             <div style={{
-              background: "#f8fafc",
+              background: "#161f2e",
               borderRadius: 12,
               padding: 16,
-              border: "1px solid #e2e8f0",
+              border: "1px solid #2c3b52",
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: 12,
               fontSize: 13
             }}>
               <div>
-                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Aluno</span>
-                <div style={{ fontWeight: 800, color: "#0f172a" }}>{solicitacaoAnalise.alunoNome}</div>
-                <div style={{ color: "#475569", fontSize: 12 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Aluno</span>
+                <div style={{ fontWeight: 800, color: "#ffffff" }}>{solicitacaoAnalise.alunoNome}</div>
+                <div style={{ color: "#cbd5e1", fontSize: 12 }}>
                   Nasc: {solicitacaoAnalise.alunoDataNasc} · Sexo: {solicitacaoAnalise.alunoSexo} · Cor: {solicitacaoAnalise.alunoCorRaca}
                 </div>
                 {solicitacaoAnalise.alunoPcd && (
-                  <div style={{ color: "#b45309", fontWeight: 600, fontSize: 12, marginTop: 4 }}>
+                  <div style={{ color: "#fbbf24", fontWeight: 600, fontSize: 12, marginTop: 4 }}>
                     ♿ Necessidade Especial: {solicitacaoAnalise.alunoTipoPcd || "Sim"}
                   </div>
                 )}
               </div>
 
               <div>
-                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Responsável Legal</span>
-                <div style={{ fontWeight: 700, color: "#0f172a" }}>{solicitacaoAnalise.responsavelNome} ({solicitacaoAnalise.responsavelParentesco})</div>
-                <div style={{ color: "#475569", fontSize: 12 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Responsável Legal</span>
+                <div style={{ fontWeight: 700, color: "#ffffff" }}>{solicitacaoAnalise.responsavelNome} ({solicitacaoAnalise.responsavelParentesco})</div>
+                <div style={{ color: "#cbd5e1", fontSize: 12 }}>
                   CPF: {solicitacaoAnalise.responsavelCpf || "Não informado"} · Tel: {solicitacaoAnalise.responsavelTelefone}
                 </div>
               </div>
 
-              <div style={{ gridColumn: "span 2", borderTop: "1px solid #e2e8f0", paddingTop: 8 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Endereço Residencial</span>
-                <div style={{ color: "#334155" }}>
+              <div style={{ gridColumn: "span 2", borderTop: "1px solid #2c3b52", paddingTop: 8 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Endereço Residencial</span>
+                <div style={{ color: "#cbd5e1" }}>
                   {solicitacaoAnalise.enderecoRua}, {solicitacaoAnalise.enderecoNumero} - {solicitacaoAnalise.enderecoBairro}, {solicitacaoAnalise.enderecoCidade}/{solicitacaoAnalise.enderecoUf}
                 </div>
               </div>
 
-              <div style={{ gridColumn: "span 2", borderTop: "1px solid #e2e8f0", paddingTop: 8 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Série Solicitada</span>
-                <div style={{ fontWeight: 700, color: "#1d4ed8" }}>
+              <div style={{ gridColumn: "span 2", borderTop: "1px solid #2c3b52", paddingTop: 8 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Série Solicitada</span>
+                <div style={{ fontWeight: 700, color: "#60a5fa" }}>
                   {solicitacaoAnalise.serieAno} (Turno: {solicitacaoAnalise.serieTurno})
                 </div>
               </div>
@@ -481,7 +484,7 @@ export default function SolicitacoesMatriculaOnline({
 
             {/* Documentos Anexados */}
             <div>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#334155", margin: "0 0 8px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ffffff", margin: "0 0 8px" }}>
                 Documentos Enviados pelo Responsável:
               </h4>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -489,17 +492,18 @@ export default function SolicitacoesMatriculaOnline({
                   <div
                     key={idx}
                     style={{
-                      background: "#f1f5f9",
+                      background: "#243144",
                       padding: "6px 12px",
                       borderRadius: 8,
                       fontSize: 12,
                       display: "flex",
                       alignItems: "center",
                       gap: 6,
-                      border: "1px solid #e2e8f0"
+                      border: "1px solid #33435c",
+                      color: "#cbd5e1"
                     }}
                   >
-                    <i className="ti ti-file-text" style={{ color: "#3b82f6" }} />
+                    <i className="ti ti-file-text" style={{ color: "#60a5fa" }} />
                     <span><strong>{doc.tipo}:</strong> {doc.nomeArquivo}</span>
                   </div>
                 ))}
@@ -508,7 +512,7 @@ export default function SolicitacoesMatriculaOnline({
 
             {/* Seletor de Ação da Secretaria */}
             {solicitacaoAnalise.status === "Pendente" || solicitacaoAnalise.status === "Aguardando Correção" ? (
-              <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 14 }}>
+              <div style={{ borderTop: "1px solid #2c3b52", paddingTop: 14 }}>
                 <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
                   <button
                     type="button"
@@ -517,12 +521,13 @@ export default function SolicitacoesMatriculaOnline({
                       flex: 1,
                       padding: "8px 12px",
                       borderRadius: 8,
-                      border: acaoTipo === "aprovar" ? "2px solid #16a34a" : "1px solid #e2e8f0",
-                      background: acaoTipo === "aprovar" ? "#dcfce7" : "white",
-                      color: acaoTipo === "aprovar" ? "#166534" : "#475569",
+                      border: acaoTipo === "aprovar" ? "2px solid #34d399" : "1px solid #2c3b52",
+                      background: acaoTipo === "aprovar" ? "rgba(52, 211, 153, 0.15)" : "#161f2e",
+                      color: acaoTipo === "aprovar" ? "#34d399" : "#cbd5e1",
                       fontWeight: 700,
                       cursor: "pointer",
-                      fontSize: 13
+                      fontSize: 13,
+                      transition: "all 0.15s ease"
                     }}
                   >
                     <i className="ti ti-check" /> 1. Aprovar & Efetivar
@@ -535,12 +540,13 @@ export default function SolicitacoesMatriculaOnline({
                       flex: 1,
                       padding: "8px 12px",
                       borderRadius: 8,
-                      border: acaoTipo === "correcao" ? "2px solid #0284c7" : "1px solid #e2e8f0",
-                      background: acaoTipo === "correcao" ? "#e0f2fe" : "white",
-                      color: acaoTipo === "correcao" ? "#0369a1" : "#475569",
+                      border: acaoTipo === "correcao" ? "2px solid #38bdf8" : "1px solid #2c3b52",
+                      background: acaoTipo === "correcao" ? "rgba(56, 189, 248, 0.15)" : "#161f2e",
+                      color: acaoTipo === "correcao" ? "#38bdf8" : "#cbd5e1",
                       fontWeight: 700,
                       cursor: "pointer",
-                      fontSize: 13
+                      fontSize: 13,
+                      transition: "all 0.15s ease"
                     }}
                   >
                     <i className="ti ti-file-alert" /> 2. Solicitar Correção
@@ -553,12 +559,13 @@ export default function SolicitacoesMatriculaOnline({
                       flex: 1,
                       padding: "8px 12px",
                       borderRadius: 8,
-                      border: acaoTipo === "indeferir" ? "2px solid #dc2626" : "1px solid #e2e8f0",
-                      background: acaoTipo === "indeferir" ? "#fee2e2" : "white",
-                      color: acaoTipo === "indeferir" ? "#991b1b" : "#475569",
+                      border: acaoTipo === "indeferir" ? "2px solid #f87171" : "1px solid #2c3b52",
+                      background: acaoTipo === "indeferir" ? "rgba(248, 113, 113, 0.15)" : "#161f2e",
+                      color: acaoTipo === "indeferir" ? "#f87171" : "#cbd5e1",
                       fontWeight: 700,
                       cursor: "pointer",
-                      fontSize: 13
+                      fontSize: 13,
+                      transition: "all 0.15s ease"
                     }}
                   >
                     <i className="ti ti-x" /> 3. Indeferir
@@ -566,8 +573,8 @@ export default function SolicitacoesMatriculaOnline({
                 </div>
 
                 {acaoTipo === "aprovar" && (
-                  <div style={{ background: "#f0fdf4", padding: 14, borderRadius: 10, border: "1px solid #bbf7d0" }}>
-                    <label style={{ fontSize: 13, fontWeight: 700, color: "#166534", display: "block", marginBottom: 6 }}>
+                  <div style={{ background: "rgba(52, 211, 153, 0.1)", padding: 14, borderRadius: 10, border: "1px solid rgba(52, 211, 153, 0.3)" }}>
+                    <label style={{ fontSize: 13, fontWeight: 700, color: "#34d399", display: "block", marginBottom: 6 }}>
                       Selecione a Turma da Escola para Enturmação do Estudante:
                     </label>
                     <Select
@@ -585,15 +592,15 @@ export default function SolicitacoesMatriculaOnline({
                         );
                       })}
                     </Select>
-                    <p style={{ fontSize: 12, color: "#15803d", margin: "6px 0 0" }}>
+                    <p style={{ fontSize: 12, color: "#a7f3d0", margin: "6px 0 0" }}>
                       Ao aprovar, o estudante será cadastrado automaticamente como Aluno Ativo com geração do número oficial de matrícula.
                     </p>
                   </div>
                 )}
 
                 {acaoTipo === "correcao" && (
-                  <div style={{ background: "#f0f9ff", padding: 14, borderRadius: 10, border: "1px solid #bae6fd" }}>
-                    <label style={{ fontSize: 13, fontWeight: 700, color: "#0369a1", display: "block", marginBottom: 6 }}>
+                  <div style={{ background: "rgba(56, 189, 248, 0.1)", padding: 14, borderRadius: 10, border: "1px solid rgba(56, 189, 248, 0.3)" }}>
+                    <label style={{ fontSize: 13, fontWeight: 700, color: "#38bdf8", display: "block", marginBottom: 6 }}>
                       Descreva o documento faltante ou instrução para o Responsável:
                     </label>
                     <textarea
@@ -603,19 +610,22 @@ export default function SolicitacoesMatriculaOnline({
                       placeholder="Ex: Favor anexar o Cartão de Vacinação legível e o comprovante de residência atualizado..."
                       style={{
                         width: "100%",
-                        padding: 8,
-                        borderRadius: 6,
-                        border: "1px solid #7dd3fc",
+                        padding: 10,
+                        borderRadius: 8,
+                        border: "1px solid #33435c",
+                        background: "#161f2e",
+                        color: "#ffffff",
                         fontSize: 13,
-                        boxSizing: "border-box"
+                        boxSizing: "border-box",
+                        outline: "none"
                       }}
                     />
                   </div>
                 )}
 
                 {acaoTipo === "indeferir" && (
-                  <div style={{ background: "#fef2f2", padding: 14, borderRadius: 10, border: "1px solid #fecaca" }}>
-                    <label style={{ fontSize: 13, fontWeight: 700, color: "#991b1b", display: "block", marginBottom: 6 }}>
+                  <div style={{ background: "rgba(248, 113, 113, 0.1)", padding: 14, borderRadius: 10, border: "1px solid rgba(248, 113, 113, 0.3)" }}>
+                    <label style={{ fontSize: 13, fontWeight: 700, color: "#f87171", display: "block", marginBottom: 6 }}>
                       Justificativa do Indeferimento:
                     </label>
                     <textarea
@@ -625,11 +635,14 @@ export default function SolicitacoesMatriculaOnline({
                       placeholder="Ex: Ausência de vagas disponíveis na série solicitada nesta unidade escolar..."
                       style={{
                         width: "100%",
-                        padding: 8,
-                        borderRadius: 6,
-                        border: "1px solid #fca5a5",
+                        padding: 10,
+                        borderRadius: 8,
+                        border: "1px solid #33435c",
+                        background: "#161f2e",
+                        color: "#ffffff",
                         fontSize: 13,
-                        boxSizing: "border-box"
+                        boxSizing: "border-box",
+                        outline: "none"
                       }}
                     />
                   </div>
@@ -653,21 +666,21 @@ export default function SolicitacoesMatriculaOnline({
               </div>
             ) : (
               <div style={{
-                background: solicitacaoAnalise.status === "Aprovada" ? "#ecfdf5" : "#fef2f2",
+                background: solicitacaoAnalise.status === "Aprovada" ? "rgba(52, 211, 153, 0.1)" : "rgba(248, 113, 113, 0.1)",
                 padding: 14,
                 borderRadius: 10,
-                border: `1px solid ${solicitacaoAnalise.status === "Aprovada" ? "#a7f3d0" : "#fecaca"}`
+                border: `1px solid ${solicitacaoAnalise.status === "Aprovada" ? "rgba(52, 211, 153, 0.3)" : "rgba(248, 113, 113, 0.3)"}`
               }}>
-                <div style={{ fontWeight: 700, color: solicitacaoAnalise.status === "Aprovada" ? "#065f46" : "#991b1b" }}>
+                <div style={{ fontWeight: 700, color: solicitacaoAnalise.status === "Aprovada" ? "#34d399" : "#f87171" }}>
                   Status: {solicitacaoAnalise.status}
                 </div>
                 {solicitacaoAnalise.matriculaOficial && (
-                  <div style={{ fontSize: 13, color: "#047857", marginTop: 4 }}>
+                  <div style={{ fontSize: 13, color: "#34d399", marginTop: 4 }}>
                     Estudante matriculado sob o número <strong>{solicitacaoAnalise.matriculaOficial}</strong> na turma <strong>{solicitacaoAnalise.turmaAprovada}</strong>.
                   </div>
                 )}
                 {solicitacaoAnalise.motivoIndeferimento && (
-                  <div style={{ fontSize: 13, color: "#b91c1c", marginTop: 4 }}>
+                  <div style={{ fontSize: 13, color: "#f87171", marginTop: 4 }}>
                     Motivo: {solicitacaoAnalise.motivoIndeferimento}
                   </div>
                 )}

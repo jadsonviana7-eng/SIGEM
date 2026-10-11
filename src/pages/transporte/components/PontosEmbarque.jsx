@@ -118,14 +118,16 @@ export default function PontosEmbarque({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
         </div>
 
@@ -144,16 +146,17 @@ export default function PontosEmbarque({
             const alunosQueEmbarcam = alunos.filter(a => a.pontoId === ponto.id && (a.status === "Ativo" || !a.status));
 
             return (
-              <Card key={ponto.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
+              <Card key={ponto.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20, background: "#1e293b", border: "1px solid #2c3b52" }}>
                 <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{
                         width: 44,
                         height: 44,
-                        borderRadius: 10,
-                        background: "#eff6ff",
-                        color: "#2563eb",
+                        borderRadius: 12,
+                        background: "rgba(59, 130, 246, 0.15)",
+                        color: "#60a5fa",
+                        border: "1px solid rgba(59, 130, 246, 0.3)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -162,10 +165,10 @@ export default function PontosEmbarque({
                         <i className="ti ti-map-pin" />
                       </div>
                       <div>
-                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#1f2937" }}>
+                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
                           {ponto.nome}
                         </h4>
-                        <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+                        <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                           {ponto.tipoParada || "Ponto de Parada"}
                         </div>
                       </div>
@@ -177,25 +180,25 @@ export default function PontosEmbarque({
                   </div>
 
                   {/* Informações de Localização */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#4b5563", background: "#f8fafc", padding: 12, borderRadius: 8, marginTop: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 7, fontSize: 12, color: "#cbd5e1", background: "#161f2e", padding: "12px", borderRadius: 10, border: "1px solid #243144", marginTop: 10 }}>
                     <div>
-                      <strong>Endereço / Vicinal:</strong> {ponto.endereco || "Não informado"}
+                      <strong style={{ color: "#94a3b8" }}>Endereço / Vicinal:</strong> {ponto.endereco || "Não informado"}
                     </div>
                     {ponto.referencia && (
                       <div>
-                        <strong>Ponto de Ref.:</strong> {ponto.referencia}
+                        <strong style={{ color: "#94a3b8" }}>Ponto de Ref.:</strong> {ponto.referencia}
                       </div>
                     )}
-                    <div style={{ display: "flex", gap: 16, marginTop: 4, borderTop: "1px solid #e2e8f0", paddingTop: 6 }}>
-                      <span><i className="ti ti-clock" style={{ color: "#2563eb" }} /> Ida: <strong>{ponto.horarioIda || "-"}</strong></span>
-                      <span><i className="ti ti-clock" style={{ color: "#d97706" }} /> Volta: <strong>{ponto.horarioVolta || "-"}</strong></span>
+                    <div style={{ display: "flex", gap: 16, marginTop: 4, borderTop: "1px solid #243144", paddingTop: 8 }}>
+                      <span><i className="ti ti-clock" style={{ color: "#60a5fa" }} /> Ida: <strong style={{ color: "#ffffff" }}>{ponto.horarioIda || "-"}</strong></span>
+                      <span><i className="ti ti-clock" style={{ color: "#fbbf24" }} /> Volta: <strong style={{ color: "#ffffff" }}>{ponto.horarioVolta || "-"}</strong></span>
                     </div>
                   </div>
 
                   {/* Rotas que atendem o ponto */}
                   {rotasQuePassam.length > 0 && (
-                    <div style={{ marginTop: 10 }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>Linhas que passam neste ponto:</span>
+                    <div style={{ marginTop: 12 }}>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Linhas que passam neste ponto:</span>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
                         {rotasQuePassam.map(r => (
                           <Badge key={r.id} color="green">{r.nome}</Badge>
@@ -206,8 +209,8 @@ export default function PontosEmbarque({
                 </div>
 
                 {/* Ações */}
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 14, paddingTop: 10, borderTop: "1px solid #f1f5f9" }}>
-                  <Btn onClick={() => abrirEditar(ponto)} style={{ padding: "6px 10px", fontSize: 12 }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 16, paddingTop: 12, borderTop: "1px solid #2c3b52" }}>
+                  <Btn onClick={() => abrirEditar(ponto)} style={{ padding: "6px 12px", fontSize: 12 }}>
                     <i className="ti ti-edit" /> Editar
                   </Btn>
                   <Btn variant="danger" onClick={() => handleExcluir(ponto.id, ponto.nome)} style={{ padding: "6px 10px", fontSize: 12 }}>

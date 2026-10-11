@@ -127,70 +127,70 @@ export default function DashboardEspecial({
 
       {/* Grid de Cards de Estatísticas Principais */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #4f46e5" }}>
+        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #6366f1", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Alunos no AEE</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
-                {stats.alunosAtivosAEE} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>estudantes</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Alunos no AEE</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+                {stats.alunosAtivosAEE} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>estudantes</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#eef2ff", color: "#4f46e5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#243144", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-users" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             {stats.alunosComLaudo} com laudo médico homologado
           </div>
         </Card>
 
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #10b981" }}>
+        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #10b981", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Apoio / Mediadores</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
-                {stats.alunosComApoio} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>atendidos</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Apoio / Mediadores</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+                {stats.alunosComApoio} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>atendidos</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#ecfdf5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#243144", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-user-heart" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             Mediação pedagógica e suporte integral em sala
           </div>
         </Card>
 
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #f59e0b" }}>
+        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #f59e0b", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Salas de Recursos</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
-                {stats.totalSalas} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>SRM ativas</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Salas de Recursos</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+                {stats.totalSalas} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>SRM ativas</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#fffbeb", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#243144", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-chalkboard" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             Equipadas com Tecnologia Assistiva e CAA
           </div>
         </Card>
 
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #8b5cf6" }}>
+        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #8b5cf6", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Equipe Especializada</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
-                {stats.totalProfissionais} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>profissionais</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Equipe Especializada</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+                {stats.totalProfissionais} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>profissionais</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#f5f3ff", color: "#7c3aed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#243144", color: "#a78bfa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-certificate" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             Professores de AEE, TILS e Psicopedagoga
           </div>
         </Card>
@@ -199,21 +199,21 @@ export default function DashboardEspecial({
       {/* Seção Central: Diagnósticos Atendidos & Alertas de PEI */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
         {/* Distribuição de Alunos por Diagnóstico / Necessidade */}
-        <Card>
+        <Card style={{ background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: "#1f2937", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
-              <i className="ti ti-chart-pie" style={{ color: "#4f46e5" }} /> Perfil dos Estudantes Atendidos
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: "#f8fafc", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+              <i className="ti ti-chart-pie" style={{ color: "#818cf8" }} /> Perfil dos Estudantes Atendidos
             </h3>
             <button
               onClick={() => onNavigateTab("alunos")}
-              style={{ background: "none", border: "none", color: "#4f46e5", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              style={{ background: "none", border: "none", color: "#818cf8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
             >
               Ver Lista <i className="ti ti-chevron-right" />
             </button>
           </div>
 
           {Object.keys(stats.diagnosticos).length === 0 ? (
-            <div style={{ padding: 24, textAlign: "center", color: "#9ca3af" }}>
+            <div style={{ padding: 24, textAlign: "center", color: "#64748b" }}>
               Nenhum aluno cadastrado no momento.
             </div>
           ) : (
@@ -223,15 +223,15 @@ export default function DashboardEspecial({
                 return (
                   <div key={idx}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                      <span style={{ fontWeight: 600, color: "#334155" }}>{diag}</span>
-                      <strong style={{ color: "#4f46e5" }}>{qtd} aluno(s) ({pct}%)</strong>
+                      <span style={{ fontWeight: 600, color: "#cbd5e1" }}>{diag}</span>
+                      <strong style={{ color: "#a5b4fc" }}>{qtd} aluno(s) ({pct}%)</strong>
                     </div>
-                    <div style={{ width: "100%", height: 7, background: "#e2e8f0", borderRadius: 4, overflow: "hidden" }}>
+                    <div style={{ width: "100%", height: 7, background: "#0f172a", borderRadius: 4, overflow: "hidden", border: "1px solid #33435c" }}>
                       <div
                         style={{
                           width: `${pct}%`,
                           height: "100%",
-                          background: "linear-gradient(90deg, #4f46e5, #7c3aed)",
+                          background: "linear-gradient(90deg, #6366f1, #8b5cf6)",
                           borderRadius: 4
                         }}
                       />
@@ -244,21 +244,21 @@ export default function DashboardEspecial({
         </Card>
 
         {/* Prazos & Revisão de PEIs */}
-        <Card style={{ display: "flex", flexDirection: "column" }}>
+        <Card style={{ display: "flex", flexDirection: "column", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: "#1f2937", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
-              <i className="ti ti-clock-hour-4" style={{ color: "#f59e0b" }} /> Revisões de PEI & Prazos
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: "#f8fafc", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+              <i className="ti ti-clock-hour-4" style={{ color: "#fbbf24" }} /> Revisões de PEI & Prazos
             </h3>
-            <span style={{ fontSize: 12, color: "#6b7280" }}>
+            <span style={{ fontSize: 12, color: "#94a3b8" }}>
               {stats.alertas.length} pendência(s)
             </span>
           </div>
 
           {stats.alertas.length === 0 ? (
-            <div style={{ padding: "32px 16px", textAlign: "center", color: "#10b981", background: "#f0fdf4", borderRadius: 8, margin: "auto 0" }}>
+            <div style={{ padding: "32px 16px", textAlign: "center", color: "#34d399", background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.2)", borderRadius: 8, margin: "auto 0" }}>
               <i className="ti ti-circle-check" style={{ fontSize: 32, display: "block", marginBottom: 8 }} />
               <div style={{ fontWeight: 600, fontSize: 14 }}>Planos de Atendimento em Dia!</div>
-              <div style={{ fontSize: 12, color: "#047857" }}>Todos os PEIs e avaliações pedagógicas estão dentro do prazo de vigência.</div>
+              <div style={{ fontSize: 12, color: "#6ee7b7" }}>Todos os PEIs e avaliações pedagógicas estão dentro do prazo de vigência.</div>
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 260, overflowY: "auto" }}>
@@ -269,18 +269,18 @@ export default function DashboardEspecial({
                   style={{
                     padding: "12px 14px",
                     borderRadius: 8,
-                    background: al.tipo === "danger" ? "#fef2f2" : "#fffbeb",
+                    background: al.tipo === "danger" ? "rgba(239, 68, 68, 0.15)" : "rgba(245, 158, 11, 0.15)",
                     borderLeft: `4px solid ${al.tipo === "danger" ? "#ef4444" : "#f59e0b"}`,
                     cursor: "pointer"
                   }}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2 }}>
-                    <span style={{ fontWeight: 600, fontSize: 13, color: al.tipo === "danger" ? "#991b1b" : "#92400e" }}>
+                    <span style={{ fontWeight: 600, fontSize: 13, color: al.tipo === "danger" ? "#fca5a5" : "#fde68a" }}>
                       {al.titulo}
                     </span>
                     <Badge color={al.tipo === "danger" ? "red" : "amber"}>Ação</Badge>
                   </div>
-                  <div style={{ fontSize: 12, color: "#4b5563" }}>
+                  <div style={{ fontSize: 12, color: "#cbd5e1" }}>
                     {al.descricao}
                   </div>
                 </div>
@@ -292,8 +292,8 @@ export default function DashboardEspecial({
 
       {/* Aviso de Sigilo e LGPD */}
       <div style={{
-        background: "#f8fafc",
-        border: "1px solid #cbd5e1",
+        background: "#1e293b",
+        border: "1px solid #2c3b52",
         borderRadius: 12,
         padding: "14px 18px",
         display: "flex",
@@ -303,10 +303,10 @@ export default function DashboardEspecial({
         gap: 12
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <i className="ti ti-shield-lock" style={{ fontSize: 24, color: "#4f46e5" }} />
+          <i className="ti ti-shield-lock" style={{ fontSize: 24, color: "#818cf8" }} />
           <div>
-            <strong style={{ fontSize: 13, color: "#1e293b" }}>Proteção de Dados Sensíveis de Saúde & Educação (LGPD)</strong>
-            <div style={{ fontSize: 12, color: "#64748b" }}>
+            <strong style={{ fontSize: 13, color: "#f8fafc" }}>Proteção de Dados Sensíveis de Saúde & Educação (LGPD)</strong>
+            <div style={{ fontSize: 12, color: "#94a3b8" }}>
               Todos os acessos aos laudos médicos e prontuários pedagógicos são auditados com registro de data, hora e usuário logado.
             </div>
           </div>
@@ -314,14 +314,15 @@ export default function DashboardEspecial({
         <button
           onClick={() => onNavigateTab("sigilo")}
           style={{
-            background: "#4f46e5",
+            background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
             color: "white",
             border: "none",
-            padding: "7px 14px",
-            borderRadius: 6,
+            padding: "8px 16px",
+            borderRadius: 8,
             fontSize: 12,
             fontWeight: 600,
-            cursor: "pointer"
+            cursor: "pointer",
+            boxShadow: "0 2px 8px rgba(99, 102, 241, 0.3)"
           }}
         >
           Ver Logs de Acesso

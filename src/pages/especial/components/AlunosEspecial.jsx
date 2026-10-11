@@ -198,18 +198,20 @@ export default function AlunosEspecial({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#64748b" }} />
           </div>
 
           <select
             value={filtroStatus}
             onChange={(e) => setFiltroStatus(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #33435c", fontSize: 13, background: "#1e293b", color: "#ffffff" }}
           >
             <option value="">Todos os Status</option>
             <option value="Ativo no AEE">Ativo no AEE</option>
@@ -225,14 +227,14 @@ export default function AlunosEspecial({
       </div>
 
       {/* Tabela de Alunos da Educação Especial */}
-      <Card style={{ padding: 0, overflow: "hidden" }}>
+      <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", borderColor: "#2c3b52" }}>
         {alunosFiltrados.length === 0 ? (
           <EmptyState icon="users" texto="Nenhum estudante com cadastro de Educação Especial encontrado." />
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#161f2e", borderBottom: "1px solid #2c3b52", color: "#94a3b8" }}>
                   <th style={{ padding: "12px 16px" }}>Estudante</th>
                   <th style={{ padding: "12px 16px" }}>Turma Regular</th>
                   <th style={{ padding: "12px 16px" }}>Diagnóstico / CID</th>
@@ -245,29 +247,29 @@ export default function AlunosEspecial({
               </thead>
               <tbody>
                 {alunosFiltrados.map((aluno) => (
-                  <tr key={aluno.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  <tr key={aluno.id} style={{ borderBottom: "1px solid #243144" }}>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>{aluno.nomeAluno}</div>
+                      <div style={{ fontWeight: 600, color: "#f8fafc" }}>{aluno.nomeAluno}</div>
                       {aluno.responsavelNome && (
-                        <div style={{ fontSize: 11, color: "#64748b" }}>Resp: {aluno.responsavelNome}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Resp: {aluno.responsavelNome}</div>
                       )}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <span style={{ fontWeight: 500, color: "#334155" }}>{aluno.turmaRegular || "-"}</span>
+                      <span style={{ fontWeight: 500, color: "#cbd5e1" }}>{aluno.turmaRegular || "-"}</span>
                     </td>
                     <td style={{ padding: "12px 16px", maxWidth: 240 }}>
-                      <div style={{ fontWeight: 600, color: "#4f46e5" }}>{aluno.diagnosticoPrincipal}</div>
-                      {aluno.cid10 && <div style={{ fontSize: 11, color: "#64748b" }}>{aluno.cid10}</div>}
+                      <div style={{ fontWeight: 600, color: "#818cf8" }}>{aluno.diagnosticoPrincipal}</div>
+                      {aluno.cid10 && <div style={{ fontSize: 11, color: "#94a3b8" }}>{aluno.cid10}</div>}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <Badge color={aluno.temLaudoMedico?.includes("Sim") ? "green" : "amber"}>
                         {aluno.temLaudoMedico || "Pendente"}
                       </Badge>
                     </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                       <div>{aluno.frequenciaAEE || "A definir"}</div>
                       {aluno.professorAEEResponsavel && (
-                        <div style={{ fontSize: 11, color: "#64748b" }}>Prof(a): {aluno.professorAEEResponsavel}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Prof(a): {aluno.professorAEEResponsavel}</div>
                       )}
                     </td>
                     <td style={{ padding: "12px 16px", fontSize: 12 }}>
@@ -275,11 +277,11 @@ export default function AlunosEspecial({
                         <div>
                           <Badge color="blue">Com Mediador(a)</Badge>
                           {aluno.profissionalApoio && (
-                            <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>{aluno.profissionalApoio}</div>
+                            <div style={{ fontSize: 11, color: "#cbd5e1", marginTop: 2 }}>{aluno.profissionalApoio}</div>
                           )}
                         </div>
                       ) : (
-                        <span style={{ color: "#9ca3af" }}>Autônomo</span>
+                        <span style={{ color: "#64748b" }}>Autônomo</span>
                       )}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
@@ -293,11 +295,11 @@ export default function AlunosEspecial({
                           onClick={() => abrirProntuarioSigiloso(aluno)}
                           title="Ver Prontuário Confidencial"
                           style={{
-                            background: "#eef2ff",
-                            color: "#4f46e5",
-                            border: "1px solid #c7d2fe",
+                            background: "#243144",
+                            color: "#818cf8",
+                            border: "1px solid #33435c",
                             borderRadius: 6,
-                            padding: "4px 8px",
+                            padding: "6px 10px",
                             fontSize: 12,
                             fontWeight: 600,
                             cursor: "pointer",
@@ -494,15 +496,15 @@ export default function AlunosEspecial({
           semRodape
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "2px solid #4f46e5", paddingBottom: 10 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "2px solid #6366f1", paddingBottom: 10 }}>
               <div>
-                <h3 style={{ margin: 0, color: "#4f46e5", fontSize: 18 }}>SIGEM — Ficha Confidencial de Educação Especial (AEE)</h3>
-                <div style={{ fontSize: 12, color: "#64748b" }}>Documento Sigiloso · Protegido pela LGPD e Lei Brasileira de Inclusão (LBI)</div>
+                <h3 style={{ margin: 0, color: "#818cf8", fontSize: 18 }}>SIGEM — Ficha Confidencial de Educação Especial (AEE)</h3>
+                <div style={{ fontSize: 12, color: "#94a3b8" }}>Documento Sigiloso · Protegido pela LGPD e Lei Brasileira de Inclusão (LBI)</div>
               </div>
               <button
                 onClick={() => window.print()}
                 style={{
-                  background: "#4f46e5",
+                  background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
                   color: "white",
                   border: "none",
                   padding: "8px 14px",
@@ -512,7 +514,8 @@ export default function AlunosEspecial({
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
-                  gap: 6
+                  gap: 6,
+                  boxShadow: "0 2px 8px rgba(99, 102, 241, 0.3)"
                 }}
               >
                 <i className="ti ti-printer" /> Imprimir Ficha Oficial
@@ -520,68 +523,68 @@ export default function AlunosEspecial({
             </div>
 
             {/* Dados do Estudante */}
-            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 12, background: "#f8fafc", padding: 14, borderRadius: 8, fontSize: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 12, background: "#243144", border: "1px solid #2c3b52", padding: 14, borderRadius: 8, fontSize: 12, color: "#cbd5e1" }}>
               <div>
-                <strong>Nome do Estudante:</strong>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#1e293b" }}>{alunoProntuario.nomeAluno}</div>
+                <strong style={{ color: "#94a3b8" }}>Nome do Estudante:</strong>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff" }}>{alunoProntuario.nomeAluno}</div>
               </div>
               <div>
-                <strong>Turma Regular:</strong>
-                <div>{alunoProntuario.turmaRegular || "-"}</div>
+                <strong style={{ color: "#94a3b8" }}>Turma Regular:</strong>
+                <div style={{ color: "#f8fafc" }}>{alunoProntuario.turmaRegular || "-"}</div>
               </div>
               <div>
-                <strong>Status AEE:</strong>
+                <strong style={{ color: "#94a3b8" }}>Status AEE:</strong>
                 <div><Badge color="green">{alunoProntuario.status || "Ativo"}</Badge></div>
               </div>
               <div>
-                <strong>Diagnóstico:</strong>
-                <div style={{ color: "#4f46e5", fontWeight: 600 }}>{alunoProntuario.diagnosticoPrincipal}</div>
+                <strong style={{ color: "#94a3b8" }}>Diagnóstico:</strong>
+                <div style={{ color: "#818cf8", fontWeight: 600 }}>{alunoProntuario.diagnosticoPrincipal}</div>
               </div>
               <div>
-                <strong>CID:</strong>
-                <div>{alunoProntuario.cid10 || "-"}</div>
+                <strong style={{ color: "#94a3b8" }}>CID:</strong>
+                <div style={{ color: "#f8fafc" }}>{alunoProntuario.cid10 || "-"}</div>
               </div>
               <div>
-                <strong>Laudo Médico:</strong>
-                <div>{alunoProntuario.temLaudoMedico} ({alunoProntuario.dataLaudo ? new Date(alunoProntuario.dataLaudo + "T00:00:00").toLocaleDateString("pt-BR") : "Não inf."})</div>
+                <strong style={{ color: "#94a3b8" }}>Laudo Médico:</strong>
+                <div style={{ color: "#f8fafc" }}>{alunoProntuario.temLaudoMedico} ({alunoProntuario.dataLaudo ? new Date(alunoProntuario.dataLaudo + "T00:00:00").toLocaleDateString("pt-BR") : "Não inf."})</div>
               </div>
               <div style={{ gridColumn: "span 3" }}>
-                <strong>Médico Responsável pelo Laudo:</strong> {alunoProntuario.medicoLaudo || "Não informado"}
+                <strong style={{ color: "#94a3b8" }}>Médico Responsável pelo Laudo:</strong> <span style={{ color: "#f8fafc" }}>{alunoProntuario.medicoLaudo || "Não informado"}</span>
               </div>
             </div>
 
             {/* Atendimento e Suporte */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, background: "#eef2ff", padding: 14, borderRadius: 8 }}>
-              <div><strong>Professor(a) de AEE:</strong> {alunoProntuario.professorAEEResponsavel || "Equipe AEE"}</div>
-              <div><strong>Frequência Contraturno:</strong> {alunoProntuario.frequenciaAEE || "Sessões semanais"}</div>
-              <div><strong>Profissional de Apoio / Mediador:</strong> {alunoProntuario.necessitaMediadorApoio} {alunoProntuario.profissionalApoio ? `(${alunoProntuario.profissionalApoio})` : ""}</div>
-              <div><strong>Tecnologia Assistiva / CAA:</strong> {alunoProntuario.recursosTecnologiaAssistiva || "Recursos visuais e pranchas adaptadas"}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, background: "rgba(99, 102, 241, 0.12)", border: "1px solid rgba(99, 102, 241, 0.25)", padding: 14, borderRadius: 8, color: "#cbd5e1" }}>
+              <div><strong style={{ color: "#ffffff" }}>Professor(a) de AEE:</strong> {alunoProntuario.professorAEEResponsavel || "Equipe AEE"}</div>
+              <div><strong style={{ color: "#ffffff" }}>Frequência Contraturno:</strong> {alunoProntuario.frequenciaAEE || "Sessões semanais"}</div>
+              <div><strong style={{ color: "#ffffff" }}>Profissional de Apoio / Mediador:</strong> {alunoProntuario.necessitaMediadorApoio} {alunoProntuario.profissionalApoio ? `(${alunoProntuario.profissionalApoio})` : ""}</div>
+              <div><strong style={{ color: "#ffffff" }}>Tecnologia Assistiva / CAA:</strong> {alunoProntuario.recursosTecnologiaAssistiva || "Recursos visuais e pranchas adaptadas"}</div>
             </div>
 
             {/* Observações Confidenciais */}
             {alunoProntuario.observacoesConfidenciais && (
-              <div style={{ fontSize: 12, background: "#fffbeb", color: "#92400e", padding: 12, borderRadius: 8, border: "1px solid #fde68a" }}>
+              <div style={{ fontSize: 12, background: "rgba(245, 158, 11, 0.12)", color: "#fde68a", padding: 12, borderRadius: 8, border: "1px solid rgba(245, 158, 11, 0.3)" }}>
                 <strong>Orientações Confidenciais de Manejo e Saúde:</strong>
                 <p style={{ margin: "4px 0 0 0" }}>{alunoProntuario.observacoesConfidenciais}</p>
               </div>
             )}
 
             {/* Contato dos Pais */}
-            <div style={{ fontSize: 12, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
-              <strong>Responsável Legal:</strong> {alunoProntuario.responsavelNome || "-"} · <strong>Telefone:</strong> {alunoProntuario.responsavelTelefone || "-"}
+            <div style={{ fontSize: 12, borderTop: "1px solid #2c3b52", paddingTop: 10, color: "#94a3b8" }}>
+              <strong style={{ color: "#ffffff" }}>Responsável Legal:</strong> <span style={{ color: "#cbd5e1" }}>{alunoProntuario.responsavelNome || "-"}</span> · <strong style={{ color: "#ffffff" }}>Telefone:</strong> <span style={{ color: "#cbd5e1" }}>{alunoProntuario.responsavelTelefone || "-"}</span>
             </div>
 
             {/* Assinaturas */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginTop: 20, paddingTop: 16, borderTop: "1px dashed #cbd5e1", textAlign: "center", fontSize: 11 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginTop: 20, paddingTop: 16, borderTop: "1px dashed #33435c", textAlign: "center", fontSize: 11, color: "#cbd5e1" }}>
               <div>
                 <div style={{ borderBottom: "1px solid #475569", width: "80%", margin: "0 auto 6px" }} />
                 <div>Professor(a) Especialista em AEE</div>
-                <div style={{ color: "#64748b" }}>{alunoProntuario.professorAEEResponsavel || "Sala de Recursos Multifuncionais"}</div>
+                <div style={{ color: "#94a3b8" }}>{alunoProntuario.professorAEEResponsavel || "Sala de Recursos Multifuncionais"}</div>
               </div>
               <div>
                 <div style={{ borderBottom: "1px solid #475569", width: "80%", margin: "0 auto 6px" }} />
                 <div>Coordenação Pedagógica / Direção</div>
-                <div style={{ color: "#64748b" }}>Secretaria Municipal de Educação</div>
+                <div style={{ color: "#94a3b8" }}>Secretaria Municipal de Educação</div>
               </div>
             </div>
           </div>

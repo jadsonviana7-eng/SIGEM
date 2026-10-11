@@ -379,21 +379,22 @@ export default function NovaMatricula() {
               gap: 6,
               background: "none",
               border: "none",
-              color: "#1a56db",
+              color: "#60a5fa",
               fontSize: 13,
               fontWeight: 600,
               cursor: "pointer",
               padding: "4px 0",
-              marginBottom: 4
+              marginBottom: 4,
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-arrow-left" /> Voltar ao Painel de Matrículas & Vagas
           </button>
-          <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "#0f172a", display: "flex", alignItems: "center", gap: 10 }}>
-            <i className="ti ti-user-plus" style={{ color: "#1a56db" }} />
+          <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
+            <i className="ti ti-user-plus" style={{ color: "#60a5fa" }} />
             Processo de Nova Matrícula Escolar
           </h1>
-          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#64748b" }}>
+          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#94a3b8" }}>
             Ano Letivo {ANO_LETIVO_ATUAL} · Ficha completa do estudante, censo escolar e documentação obrigatória.
           </p>
         </div>
@@ -409,7 +410,7 @@ export default function NovaMatricula() {
       </div>
 
       {/* Barra de Etapas / Stepper */}
-      <Card style={{ padding: "14px 18px", background: "white" }}>
+      <Card style={{ padding: "14px 18px", background: "#1e293b", border: "1px solid #2c3b52" }}>
         <div style={{ display: "grid", gridTemplateColumns: `repeat(${ETAPAS_FLUXO.length}, 1fr)`, gap: 8 }}>
           {ETAPAS_FLUXO.map((etapa) => {
             const isAtivo = passoAtivo === etapa.numero;
@@ -427,8 +428,8 @@ export default function NovaMatricula() {
                   gap: 6,
                   padding: "10px 8px",
                   borderRadius: 8,
-                  border: isAtivo ? "1.5px solid #1a56db" : "1px solid #e2e8f0",
-                  background: isAtivo ? "#eff6ff" : isConcluido ? "#f0fdf4" : "#ffffff",
+                  border: isAtivo ? "1.5px solid #3b82f6" : "1px solid #2c3b52",
+                  background: isAtivo ? "rgba(59, 130, 246, 0.15)" : isConcluido ? "rgba(52, 211, 153, 0.1)" : "#161f2e",
                   cursor: "pointer",
                   transition: "all 0.15s ease",
                   textAlign: "center"
@@ -438,8 +439,8 @@ export default function NovaMatricula() {
                   width: 28,
                   height: 28,
                   borderRadius: "50%",
-                  background: isAtivo ? "#1a56db" : isConcluido ? "#16a34a" : "#e2e8f0",
-                  color: isAtivo || isConcluido ? "white" : "#64748b",
+                  background: isAtivo ? "#3b82f6" : isConcluido ? "#10b981" : "#243144",
+                  color: isAtivo || isConcluido ? "#ffffff" : "#94a3b8",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -448,11 +449,11 @@ export default function NovaMatricula() {
                 }}>
                   {isConcluido ? <i className="ti ti-check" /> : etapa.numero}
                 </div>
-                <span style={{ fontSize: 12, fontWeight: isAtivo ? 700 : 600, color: isAtivo ? "#1a56db" : isConcluido ? "#166534" : "#475569" }}>
+                <span style={{ fontSize: 12, fontWeight: isAtivo ? 700 : 600, color: isAtivo ? "#60a5fa" : isConcluido ? "#34d399" : "#94a3b8" }}>
                   {etapa.label}
                 </span>
                 {etapa.id === "documentos" && (
-                  <span style={{ fontSize: 10, fontWeight: 700, color: qtdDocsAnexados >= 4 ? "#166534" : "#ca8a04" }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: qtdDocsAnexados >= 4 ? "#34d399" : "#fbbf24" }}>
                     {qtdDocsAnexados}/{TIPOS_DOCUMENTOS_ALUNO.length} anexados
                   </span>
                 )}
@@ -463,7 +464,7 @@ export default function NovaMatricula() {
       </Card>
 
       {/* Conteúdo da Etapa Atual */}
-      <Card style={{ padding: "28px" }}>
+      <Card style={{ padding: "28px", background: "#1e293b", border: "1px solid #2c3b52" }}>
         
         {/* ========================================================================= */}
         {/* PASSO 1: ESCOLA, ETAPA E TURMA                                            */}
@@ -471,18 +472,18 @@ export default function NovaMatricula() {
         {passoAtivo === 1 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
                 1. Escola, Etapa de Ensino e Verificação de Vagas
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
                 Defina a unidade de ensino e a turma para vinculação do estudante.
               </p>
             </div>
 
             {/* Painel de Vagas da Turma */}
-            <div style={{ background: "#eff6ff", border: "1.5px solid #bfdbfe", padding: 18, borderRadius: 10 }}>
+            <div style={{ background: "#161f2e", border: "1.5px solid #2c3b52", padding: 18, borderRadius: 10 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: "#1e40af" }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "#60a5fa" }}>
                   Disponibilidade de Vagas na Turma Pretendida
                 </span>
                 {infoTurmaAtual && (
@@ -494,7 +495,7 @@ export default function NovaMatricula() {
 
               <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 16 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: "#374151", display: "block", marginBottom: 6 }}>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                     Turma Pretendida *
                   </label>
                   <Select
@@ -528,8 +529,8 @@ export default function NovaMatricula() {
               {infoTurmaAtual && (
                 <div style={{ marginTop: 14 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                    <span style={{ color: "#475569" }}>Ocupação da Turma</span>
-                    <strong>{infoTurmaAtual.ocupadas} de {infoTurmaAtual.totalVagas} alunos ({infoTurmaAtual.percentual}%)</strong>
+                    <span style={{ color: "#94a3b8" }}>Ocupação da Turma</span>
+                    <strong style={{ color: "#ffffff" }}>{infoTurmaAtual.ocupadas} de {infoTurmaAtual.totalVagas} alunos ({infoTurmaAtual.percentual}%)</strong>
                   </div>
                   <ProgressBar value={infoTurmaAtual.percentual} />
                 </div>
@@ -538,7 +539,7 @@ export default function NovaMatricula() {
 
             <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 500, color: "#374151", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 500, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
                   Unidade Escolar
                 </label>
                 <Select
@@ -596,17 +597,17 @@ export default function NovaMatricula() {
         {passoAtivo === 2 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
                 2. Dados Pessoais do Estudante (Censo Escolar 2026)
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
                 Informações cadastrais e de identificação civil do aluno.
               </p>
             </div>
 
             {/* Foto 3x4 */}
-            <div style={{ display: "flex", alignItems: "center", gap: 20, background: "#f8fafc", padding: 16, borderRadius: 10, border: "1px solid #e2e8f0" }}>
-              <div style={{ width: 68, height: 68, borderRadius: "50%", overflow: "hidden", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #1a56db", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 20, background: "#161f2e", padding: 16, borderRadius: 10, border: "1px solid #2c3b52" }}>
+              <div style={{ width: 68, height: 68, borderRadius: "50%", overflow: "hidden", background: "#243144", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #3b82f6", flexShrink: 0 }}>
                 {form.fotoUrl ? (
                   <img src={form.fotoUrl} alt="Foto Aluno" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
@@ -614,21 +615,22 @@ export default function NovaMatricula() {
                 )}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: "#1e293b" }}>Foto 3x4 do Estudante</span>
-                <span style={{ fontSize: 12, color: "#64748b" }}>Anexe uma foto nítida para a ficha do aluno e carteirinha escolar.</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "#ffffff" }}>Foto 3x4 do Estudante</span>
+                <span style={{ fontSize: 12, color: "#94a3b8" }}>Anexe uma foto nítida para a ficha do aluno e carteirinha escolar.</span>
                 <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 4 }}>
                   <label style={{
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 6,
                     padding: "6px 14px",
-                    background: "#1a56db",
+                    background: "#3b82f6",
                     color: "white",
                     borderRadius: 6,
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: carregandoFoto ? "not-allowed" : "pointer",
-                    opacity: carregandoFoto ? 0.7 : 1
+                    opacity: carregandoFoto ? 0.7 : 1,
+                    transition: "all 0.15s ease"
                   }}>
                     <i className="ti ti-upload" />
                     {carregandoFoto ? "Processando..." : "Carregar Foto"}
@@ -759,15 +761,16 @@ export default function NovaMatricula() {
         )}
 
         {/* ========================================================================= */}
+        {/* ========================================================================= */}
         {/* PASSO 3: ENDEREÇO E CONTATO                                               */}
         {/* ========================================================================= */}
         {passoAtivo === 3 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
                 3. Endereço e Contato do Estudante
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
                 Endereço residencial e canais de comunicação com a família.
               </p>
             </div>
@@ -854,10 +857,10 @@ export default function NovaMatricula() {
         {passoAtivo === 4 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
                 4. Dados dos Pais e Responsáveis Legais
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
                 Filiação e identificação do responsável legal perante a instituição escolar.
               </p>
             </div>
@@ -916,10 +919,10 @@ export default function NovaMatricula() {
         {passoAtivo === 5 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
                 5. Histórico Escolar, Procedência e Exigências do Censo (AEE)
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
                 Dados da trajetória escolar anterior, transporte público e atendimento educacional especializado.
               </p>
             </div>
@@ -996,16 +999,17 @@ export default function NovaMatricula() {
             </div>
 
             {form.possuiDeficiencia === "Sim" && (
-              <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
-                <label style={{ fontSize: 13, fontWeight: 700, color: "#374151" }}>Selecione as deficiências declaradas (Exige laudo comprobatório):</label>
+              <div style={{ background: "#161f2e", border: "1px solid #2c3b52", borderRadius: 10, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+                <label style={{ fontSize: 13, fontWeight: 700, color: "#cbd5e1" }}>Selecione as deficiências declaradas (Exige laudo comprobatório):</label>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   {DEFICIENCIAS_INEP_2026.map(def => {
                     const checked = (form.deficienciasSelecionadas || []).includes(def);
                     return (
-                      <label key={def} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer", background: checked ? "#eff6ff" : "white", padding: "8px 12px", borderRadius: 6, border: checked ? "1px solid #93c5fd" : "1px solid #e2e8f0" }}>
+                      <label key={def} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer", background: checked ? "rgba(59, 130, 246, 0.15)" : "#243144", padding: "8px 12px", borderRadius: 6, border: checked ? "1px solid #3b82f6" : "1px solid #2c3b52", color: checked ? "#ffffff" : "#cbd5e1" }}>
                         <input
                           type="checkbox"
                           checked={checked}
+                          style={{ accentColor: "#3b82f6" }}
                           onChange={() => {
                             const list = form.deficienciasSelecionadas || [];
                             if (checked) {
@@ -1031,15 +1035,15 @@ export default function NovaMatricula() {
         {passoAtivo === 6 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
                 6. Documentação Digital Exigida para Matrícula
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
                 Anexe os arquivos digitais (PDF ou Imagem) dos documentos comprobatórios.
               </p>
             </div>
 
-            <div style={{ fontSize: 13, color: "#1e40af", background: "#eff6ff", padding: "12px 16px", borderRadius: 8, border: "1px solid #bfdbfe", display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ fontSize: 13, color: "#93c5fd", background: "rgba(59, 130, 246, 0.1)", padding: "12px 16px", borderRadius: 8, border: "1px solid rgba(59, 130, 246, 0.3)", display: "flex", alignItems: "center", gap: 10 }}>
               <i className="ti ti-info-circle" style={{ fontSize: 20, flexShrink: 0 }} />
               <span>
                 Documentos obrigatórios estão destacados em vermelho. Documentos complementares podem ser anexados agora ou atualizados posteriormente na <strong>Ficha do Aluno</strong>.
@@ -1055,10 +1059,10 @@ export default function NovaMatricula() {
                   <div
                     key={tipoDoc.id}
                     style={{
-                      border: docAnexado ? "1.5px solid #86efac" : "1px solid #e2e8f0",
+                      border: docAnexado ? "1.5px solid rgba(52, 211, 153, 0.5)" : "1px solid #2c3b52",
                       borderRadius: 10,
                       padding: 16,
-                      background: docAnexado ? "#f0fdf4" : "white",
+                      background: docAnexado ? "rgba(52, 211, 153, 0.08)" : "#161f2e",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
@@ -1068,37 +1072,37 @@ export default function NovaMatricula() {
                     <div>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: 8, background: docAnexado ? "#dcfce7" : "#eff6ff", color: docAnexado ? "#16a34a" : "#1a56db", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: 8, background: docAnexado ? "rgba(52, 211, 153, 0.15)" : "rgba(59, 130, 246, 0.15)", color: docAnexado ? "#34d399" : "#60a5fa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
                             <i className={`ti ti-${tipoDoc.icone || "file"}`} />
                           </div>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>{tipoDoc.label}</span>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>{tipoDoc.label}</span>
                         </div>
                         {tipoDoc.obrigatorio && (
-                          <span style={{ fontSize: 10, color: "#dc2626", background: "#fee2e2", padding: "2px 6px", borderRadius: 4, fontWeight: 700 }}>
+                          <span style={{ fontSize: 10, color: "#f87171", background: "rgba(248, 113, 113, 0.15)", padding: "2px 6px", borderRadius: 4, fontWeight: 700, border: "1px solid rgba(248, 113, 113, 0.3)" }}>
                             OBRIGATÓRIO
                           </span>
                         )}
                       </div>
-                      <div style={{ fontSize: 12, color: "#64748b" }}>{tipoDoc.descricao}</div>
+                      <div style={{ fontSize: 12, color: "#94a3b8" }}>{tipoDoc.descricao}</div>
                     </div>
 
                     {docAnexado ? (
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "white", padding: "8px 12px", borderRadius: 8, border: "1px solid #bbf7d0" }}>
-                        <span style={{ fontSize: 12, color: "#16a34a", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 220 }} title={docAnexado.nome}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#243144", padding: "8px 12px", borderRadius: 8, border: "1px solid #33435c" }}>
+                        <span style={{ fontSize: 12, color: "#34d399", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 220 }} title={docAnexado.nome}>
                           ✓ {docAnexado.nome || "Anexado"}
                         </span>
                         <div style={{ display: "flex", gap: 6 }}>
                           <button
                             type="button"
                             onClick={() => setDocVisualizando(docAnexado)}
-                            style={{ background: "#e0e7ff", border: "none", color: "#3730a3", padding: "5px 10px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontWeight: 600 }}
+                            style={{ background: "rgba(99, 102, 241, 0.2)", border: "1px solid rgba(99, 102, 241, 0.4)", color: "#a5b4fc", padding: "5px 10px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontWeight: 600 }}
                           >
                             Visualizar
                           </button>
                           <button
                             type="button"
                             onClick={() => handleRemoverDoc(tipoDoc.id)}
-                            style={{ background: "#fee2e2", border: "none", color: "#991b1b", padding: "5px 10px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontWeight: 600 }}
+                            style={{ background: "rgba(248, 113, 113, 0.2)", border: "1px solid rgba(248, 113, 113, 0.4)", color: "#fca5a5", padding: "5px 10px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontWeight: 600 }}
                           >
                             Excluir
                           </button>
@@ -1113,12 +1117,12 @@ export default function NovaMatricula() {
                         padding: "10px 14px",
                         fontSize: 12,
                         borderRadius: 8,
-                        background: "#f8fafc",
-                        color: "#374151",
+                        background: "#243144",
+                        color: "#cbd5e1",
                         cursor: isUploading ? "not-allowed" : "pointer",
-                        border: "1.5px dashed #cbd5e1",
+                        border: "1.5px dashed #33435c",
                         fontWeight: 600,
-                        transition: "all 0.15s"
+                        transition: "all 0.15s ease"
                       }}>
                         <i className={`ti ${isUploading ? "ti-loader" : "ti-upload"}`} />
                         {isUploading ? "Enviando arquivo..." : "Selecionar PDF ou Foto"}
@@ -1139,7 +1143,7 @@ export default function NovaMatricula() {
         )}
 
         {/* Rodapé de Ações de Navegação dos Passos */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 32, paddingTop: 20, borderTop: "1px solid #e2e8f0" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 32, paddingTop: 20, borderTop: "1px solid #2c3b52" }}>
           <div>
             {passoAtivo > 1 && (
               <Btn variant="default" onClick={voltarPasso} style={{ padding: "10px 18px", fontSize: 13 }}>

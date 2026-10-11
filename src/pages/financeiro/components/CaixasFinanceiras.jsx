@@ -66,8 +66,8 @@ export default function CaixasFinanceiras({ caixas, transacoes, onReload, escola
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600 }}>Contas e Caixas</h3>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>Contas e Caixas</h3>
         <Btn variant="primary" onClick={handleOpenNew}><i className="ti ti-plus" /> Nova Conta</Btn>
       </div>
 
@@ -82,17 +82,17 @@ export default function CaixasFinanceiras({ caixas, transacoes, onReload, escola
             <Card key={c.id}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                 <div>
-                  <h4 style={{ fontSize: 15, fontWeight: 600, color: "#1f2937", marginBottom: 4 }}>{c.nome}</h4>
-                  {(c.banco || c.conta) && <div style={{ fontSize: 12, color: "#6b7280" }}>{c.banco} • Ag {c.agencia} • Cc {c.conta}</div>}
+                  <h4 style={{ fontSize: 15, fontWeight: 700, color: "#f8fafc", marginBottom: 4 }}>{c.nome}</h4>
+                  {(c.banco || c.conta) && <div style={{ fontSize: 12, color: "#94a3b8" }}>{c.banco} • Ag {c.agencia} • Cc {c.conta}</div>}
                 </div>
                 <div style={{ display: "flex", gap: 4 }}>
                   <Btn onClick={() => handleOpenEdit(c)} style={{ padding: "4px 8px" }}><i className="ti ti-edit" /></Btn>
                   <Btn variant="danger" onClick={() => handleDelete(c.id)} style={{ padding: "4px 8px" }}><i className="ti ti-trash" /></Btn>
                 </div>
               </div>
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px dashed #e5e7eb" }}>
-                <div style={{ fontSize: 11, color: "#6b7280", textTransform: "uppercase", letterSpacing: 0.5 }}>Saldo Atual</div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: saldo < 0 ? "#ef4444" : "#10b981", marginTop: 4 }}>
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px dashed #33435c" }}>
+                <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 600 }}>Saldo Atual</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: saldo < 0 ? "#f87171" : "#34d399", marginTop: 4 }}>
                   {formatarMoeda(saldo)}
                 </div>
               </div>

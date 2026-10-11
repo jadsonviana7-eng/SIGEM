@@ -59,12 +59,12 @@ export default function InstallPwaPrompt() {
       zIndex: 9999,
       maxWidth: '92%',
       width: '420px',
-      backgroundColor: '#0f172a',
+      backgroundColor: '#1e293b',
       color: '#ffffff',
       padding: '14px 18px',
       borderRadius: '16px',
-      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5)',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
+      boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 8px 12px -6px rgba(0, 0, 0, 0.7)',
+      border: '1px solid #2c3b52',
       display: 'flex',
       alignItems: 'center',
       gap: '12px',
@@ -73,10 +73,10 @@ export default function InstallPwaPrompt() {
       <img
         src="/logo.png"
         alt="SIGEM Logo"
-        style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'contain', background: '#1e293b', padding: '4px' }}
+        style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'contain', background: '#243144', border: '1px solid #33435c', padding: '4px' }}
       />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontWeight: 600, fontSize: '14px', color: '#f8fafc' }}>
+        <div style={{ fontWeight: 600, fontSize: '14px', color: '#ffffff' }}>
           Instalar o App SIGEM
         </div>
         <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>
@@ -88,20 +88,21 @@ export default function InstallPwaPrompt() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
         {showPrompt && (
           <button
             onClick={handleInstallClick}
             style={{
-              backgroundColor: '#2563eb',
+              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
               color: '#ffffff',
               border: 'none',
-              borderRadius: '8px',
-              padding: '8px 14px',
+              borderRadius: '10px',
+              padding: '8px 16px',
               fontSize: '13px',
               fontWeight: 600,
               cursor: 'pointer',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.35)'
             }}
           >
             Instalar
@@ -116,13 +117,14 @@ export default function InstallPwaPrompt() {
           style={{
             background: 'none',
             border: 'none',
-            color: '#64748b',
+            color: '#94a3b8',
             cursor: 'pointer',
             padding: '4px',
             fontSize: '18px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            transition: 'color 0.15s ease'
           }}
         >
           ✕

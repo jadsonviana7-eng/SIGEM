@@ -312,11 +312,11 @@ export default function Alimentacao() {
       }}>
         {/* Cartão de Navegação Vertical */}
         <div style={{
-          background: "white",
+          background: "#1e293b",
           borderRadius: 14,
           padding: "16px",
-          border: "1px solid #e5e7eb",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)"
+          border: "1px solid #2c3b52",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)"
         }}>
           <div style={{
             display: "flex",
@@ -324,26 +324,26 @@ export default function Alimentacao() {
             justifyContent: "space-between",
             paddingBottom: 12,
             marginBottom: 12,
-            borderBottom: "1px solid #f1f5f9"
+            borderBottom: "1px solid #2c3b52"
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{
                 width: 34,
                 height: 34,
                 borderRadius: 8,
-                background: "linear-gradient(135deg, #047857 0%, #10b981 100%)",
+                background: "linear-gradient(135deg, #059669 0%, #10b981 100%)",
                 color: "white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 18,
-                boxShadow: "0 2px 6px rgba(4, 120, 87, 0.3)"
+                boxShadow: "0 2px 6px rgba(5, 150, 105, 0.3)"
               }}>
                 <i className="ti ti-salad" />
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>Alimentação Escolar</div>
-                <div style={{ fontSize: 11, color: "#6b7280" }}>PNAE & Merenda</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>Alimentação Escolar</div>
+                <div style={{ fontSize: 11, color: "#94a3b8" }}>PNAE & Merenda</div>
               </div>
             </div>
 
@@ -353,10 +353,10 @@ export default function Alimentacao() {
               title="Recarregar Dados"
               style={{
                 padding: "6px 8px",
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
+                background: "#243144",
+                border: "1px solid #33435c",
                 borderRadius: 6,
-                color: "#475569",
+                color: "#cbd5e1",
                 cursor: "pointer",
                 fontSize: 12,
                 display: "flex",
@@ -398,25 +398,25 @@ export default function Alimentacao() {
                           padding: "8px 10px",
                           borderRadius: 8,
                           border: "none",
-                          background: isActive ? "#ecfdf5" : "transparent",
-                          color: isActive ? "#047857" : "#334155",
+                          background: isActive ? "rgba(16, 185, 129, 0.15)" : "transparent",
+                          color: isActive ? "#34d399" : "#cbd5e1",
                           fontWeight: isActive ? 700 : 500,
                           fontSize: 13,
                           cursor: "pointer",
                           textAlign: "left",
                           transition: "all 0.15s ease",
-                          borderLeft: isActive ? "3px solid #059669" : "3px solid transparent"
+                          borderLeft: isActive ? "3px solid #10b981" : "3px solid transparent"
                         }}
                         onMouseOver={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = "#f8fafc";
-                            e.currentTarget.style.color = "#1e293b";
+                            e.currentTarget.style.background = "#243144";
+                            e.currentTarget.style.color = "#ffffff";
                           }
                         }}
                         onMouseOut={(e) => {
                           if (!isActive) {
                             e.currentTarget.style.background = "transparent";
-                            e.currentTarget.style.color = "#334155";
+                            e.currentTarget.style.color = "#cbd5e1";
                           }
                         }}
                       >
@@ -425,7 +425,7 @@ export default function Alimentacao() {
                             className={`ti ti-${item.icon}`}
                             style={{
                               fontSize: 16,
-                              color: isActive ? "#047857" : "#64748b",
+                              color: isActive ? "#34d399" : "#94a3b8",
                               flexShrink: 0
                             }}
                           />
@@ -444,8 +444,8 @@ export default function Alimentacao() {
                             fontWeight: 700,
                             padding: "1px 6px",
                             borderRadius: 10,
-                            background: isActive ? "#059669" : "#f1f5f9",
-                            color: isActive ? "white" : "#64748b",
+                            background: isActive ? "#10b981" : "#243144",
+                            color: isActive ? "white" : "#94a3b8",
                             flexShrink: 0
                           }}>
                             {item.badge}
@@ -462,38 +462,38 @@ export default function Alimentacao() {
 
         {/* Cartão de Resumo Rápido da Despensa & Ações */}
         <div style={{
-          background: "#f8fafc",
+          background: "#1e293b",
           borderRadius: 14,
           padding: "14px 16px",
-          border: "1px solid #e2e8f0",
+          border: "1px solid #2c3b52",
           fontSize: 12
         }}>
-          <div style={{ fontWeight: 700, color: "#1e293b", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
-            <i className="ti ti-chart-pie" style={{ color: "#059669" }} /> Resumo da Despensa
+          <div style={{ fontWeight: 700, color: "#ffffff", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+            <i className="ti ti-chart-pie" style={{ color: "#34d399" }} /> Resumo da Despensa
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, color: "#475569" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, color: "#cbd5e1" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Itens Cadastrados:</span>
-              <strong style={{ color: "#1e293b" }}>{itensEstoque.length}</strong>
+              <span style={{ color: "#94a3b8" }}>Itens Cadastrados:</span>
+              <strong style={{ color: "#ffffff" }}>{itensEstoque.length}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Refeições Servidas:</span>
-              <strong style={{ color: "#059669" }}>{totalRefeicoes}</strong>
+              <span style={{ color: "#94a3b8" }}>Refeições Servidas:</span>
+              <strong style={{ color: "#34d399" }}>{totalRefeicoes}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Fornecedores Ativos:</span>
-              <strong style={{ color: "#1e293b" }}>{fornecedores.length}</strong>
+              <span style={{ color: "#94a3b8" }}>Fornecedores Ativos:</span>
+              <strong style={{ color: "#ffffff" }}>{fornecedores.length}</strong>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #e2e8f0", paddingTop: 6, marginTop: 2 }}>
-              <span>Valor Estocado:</span>
-              <strong style={{ color: "#047857" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #2c3b52", paddingTop: 6, marginTop: 2 }}>
+              <span style={{ color: "#94a3b8" }}>Valor Estocado:</span>
+              <strong style={{ color: "#34d399" }}>
                 {totalValorEstoque.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
               </strong>
             </div>
           </div>
 
-          <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #e2e8f0" }}>
+          <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #2c3b52" }}>
             <Btn
               onClick={handleGerarMock}
               disabled={gerando}

@@ -191,11 +191,11 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
       
       {/* 0. CARD DE BOAS-VINDAS AO USUÁRIO DIRETOR */}
       <div style={{
-        background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+        background: "#1e293b",
         borderRadius: 16,
         padding: "20px 24px",
-        border: "1px solid #e2e8f0",
-        boxShadow: "0 4px 15px -2px rgba(0, 0, 0, 0.05)",
+        border: "1px solid #2c3b52",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.25)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -208,14 +208,14 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
             width: 54,
             height: 54,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
+            background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
             color: "white",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: 20,
             fontWeight: 700,
-            boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)",
+            boxShadow: "0 4px 12px rgba(99, 102, 241, 0.35)",
             overflow: "hidden",
             flexShrink: 0
           }}>
@@ -228,16 +228,16 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
 
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
+              <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 500 }}>
                 {saudacao},
               </span>
-              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.3px" }}>
+              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#ffffff", margin: 0, letterSpacing: "-0.3px" }}>
                 {user?.displayName || "Diretor(a)"}
               </h2>
               <span style={{
-                background: "#eff6ff",
-                color: "#1d4ed8",
-                border: "1px solid #bfdbfe",
+                background: "rgba(99, 102, 241, 0.15)",
+                color: "#818cf8",
+                border: "1px solid rgba(99, 102, 241, 0.3)",
                 padding: "2px 10px",
                 borderRadius: 12,
                 fontSize: 11,
@@ -250,14 +250,14 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
                 {user?.role || "Direção"}
               </span>
             </div>
-            <div style={{ fontSize: 13, color: "#64748b", marginTop: 4, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#334155", fontWeight: 600 }}>
-                <i className="ti ti-school" style={{ color: "#2563eb" }} />
+            <div style={{ fontSize: 13, color: "#94a3b8", marginTop: 4, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#cbd5e1", fontWeight: 600 }}>
+                <i className="ti ti-school" style={{ color: "#60a5fa" }} />
                 {escolaAtual.nome || "Escola Municipal"}
               </span>
               <span>•</span>
-              <span style={{ textTransform: "capitalize" }}>
-                <i className="ti ti-calendar" style={{ marginRight: 4, color: "#64748b" }} />
+              <span style={{ textTransform: "capitalize", color: "#94a3b8" }}>
+                <i className="ti ti-calendar" style={{ marginRight: 4, color: "#94a3b8" }} />
                 {dataFormatada}
               </span>
             </div>
@@ -267,43 +267,46 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         {/* Status rápido da Unidade */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <div style={{
-            background: "#f1f5f9",
+            background: "#243144",
+            border: "1px solid #33435c",
             borderRadius: 10,
             padding: "8px 14px",
             textAlign: "center"
           }}>
-            <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Alunos Ativos</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#0f172a" }}>{metricasEscola.alunosAtivos}</div>
+            <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Alunos Ativos</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "#38bdf8" }}>{metricasEscola.alunosAtivos}</div>
           </div>
           <div style={{
-            background: "#f1f5f9",
+            background: "#243144",
+            border: "1px solid #33435c",
             borderRadius: 10,
             padding: "8px 14px",
             textAlign: "center"
           }}>
-            <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Servidores</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#0f172a" }}>{metricasEscola.totalServidores}</div>
+            <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Servidores</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "#fbbf24" }}>{metricasEscola.totalServidores}</div>
           </div>
           <div style={{
-            background: "#ecfdf5",
-            border: "1px solid #a7f3d0",
+            background: "rgba(52, 211, 153, 0.15)",
+            border: "1px solid rgba(52, 211, 153, 0.3)",
             borderRadius: 10,
             padding: "8px 14px",
             textAlign: "center"
           }}>
-            <div style={{ fontSize: 11, color: "#065f46", fontWeight: 600, textTransform: "uppercase" }}>Frequência</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#047857" }}>{metricasEscola.frequenciaMedia}%</div>
+            <div style={{ fontSize: 11, color: "#34d399", fontWeight: 600, textTransform: "uppercase" }}>Frequência</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "#34d399" }}>{metricasEscola.frequenciaMedia}%</div>
           </div>
         </div>
       </div>
 
       {/* 1. HERO INSTITUCIONAL DO DIRETOR DA ESCOLA */}
       <div style={{
-        background: "linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%)",
+        background: "linear-gradient(135deg, #1e293b 0%, #1e1b4b 60%, #0f172a 100%)",
         borderRadius: 16,
         padding: "24px 28px",
         color: "white",
-        boxShadow: "0 10px 25px -5px rgba(30, 58, 138, 0.3)",
+        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)",
+        border: "1px solid #33435c",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -317,15 +320,15 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
             width: 64,
             height: 64,
             borderRadius: 14,
-            background: escolaAtual.fotoUrl ? "transparent" : "rgba(255, 255, 255, 0.2)",
-            color: "white",
+            background: escolaAtual.fotoUrl ? "transparent" : "#243144",
+            color: "#60a5fa",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: 26,
             fontWeight: 800,
             overflow: "hidden",
-            border: "2px solid rgba(255, 255, 255, 0.4)",
+            border: "2px solid #33435c",
             flexShrink: 0
           }}>
             {escolaAtual.fotoUrl ? (
@@ -338,7 +341,9 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <span style={{
-                background: "rgba(255, 255, 255, 0.2)",
+                background: "rgba(99, 102, 241, 0.2)",
+                color: "#a5b4fc",
+                border: "1px solid rgba(99, 102, 241, 0.35)",
                 padding: "3px 10px",
                 borderRadius: 20,
                 fontSize: 11,
@@ -351,14 +356,14 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
               <Badge color={escolaAtual.zona === "Rural" ? "amber" : "blue"}>{escolaAtual.zona || "Zona Urbana"}</Badge>
             </div>
 
-            <h1 style={{ fontSize: 22, fontWeight: 800, margin: "2px 0 4px 0", letterSpacing: "-0.5px" }}>
+            <h1 style={{ fontSize: 22, fontWeight: 800, margin: "2px 0 4px 0", letterSpacing: "-0.5px", color: "#ffffff" }}>
               {escolaAtual.nome || "Escola Municipal"}
             </h1>
 
-            <div style={{ fontSize: 12, opacity: 0.9, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span><i className="ti ti-map-pin" /> {escolaAtual.municipio || "Maceió"} - {escolaAtual.uf || "AL"}</span>
-              {escolaAtual.inep && <span>• INEP: <b>{escolaAtual.inep}</b></span>}
-              {escolaAtual.diretor && <span>• Direção: <b>{escolaAtual.diretor}</b></span>}
+            <div style={{ fontSize: 12, color: "#cbd5e1", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span><i className="ti ti-map-pin" style={{ color: "#60a5fa" }} /> {escolaAtual.municipio || "Maceió"} - {escolaAtual.uf || "AL"}</span>
+              {escolaAtual.inep && <span>• INEP: <b style={{ color: "#ffffff" }}>{escolaAtual.inep}</b></span>}
+              {escolaAtual.diretor && <span>• Direção: <b style={{ color: "#ffffff" }}>{escolaAtual.diretor}</b></span>}
             </div>
           </div>
         </div>
@@ -369,9 +374,9 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
             <button
               onClick={onVoltarParaRede}
               style={{
-                background: "rgba(255, 255, 255, 0.15)",
-                color: "white",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: "#243144",
+                color: "#cbd5e1",
+                border: "1px solid #33435c",
                 padding: "9px 14px",
                 borderRadius: 8,
                 fontSize: 12,
@@ -389,8 +394,8 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
           <button
             onClick={() => navigate("/alunos")}
             style={{
-              background: "white",
-              color: "#1e3a8a",
+              background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+              color: "#ffffff",
               border: "none",
               padding: "9px 16px",
               borderRadius: 8,
@@ -400,7 +405,7 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
               display: "flex",
               alignItems: "center",
               gap: 6,
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)"
+              boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)"
             }}
           >
             <i className="ti ti-user-plus" /> Matricular Aluno
@@ -409,9 +414,9 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
           <button
             onClick={() => navigate("/frequencia")}
             style={{
-              background: "rgba(255, 255, 255, 0.2)",
-              color: "white",
-              border: "1px solid rgba(255, 255, 255, 0.35)",
+              background: "#243144",
+              color: "#cbd5e1",
+              border: "1px solid #33435c",
               padding: "9px 14px",
               borderRadius: 8,
               fontSize: 12,
@@ -431,87 +436,87 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 14 }}>
         
         {/* Total de Alunos */}
-        <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Alunos Matriculados</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Alunos Matriculados</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-users" />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: "#1e3a8a" }}>{metricasEscola.totalAlunos}</div>
-          <div style={{ fontSize: 11, color: "#059669", marginTop: 4, fontWeight: 600 }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: "#ffffff" }}>{metricasEscola.totalAlunos}</div>
+          <div style={{ fontSize: 11, color: "#34d399", marginTop: 4, fontWeight: 600 }}>
             {metricasEscola.alunosAtivos} ativos ({metricasEscola.transferidos} transf.)
           </div>
         </div>
 
         {/* Quadro de Servidores */}
-        <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Corpo Docente / Apoio</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fef3c7", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Corpo Docente / Apoio</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-user-star" />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: "#b45309" }}>{metricasEscola.totalServidores}</div>
-          <div style={{ fontSize: 11, color: "#4b5563", marginTop: 4 }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: "#fbbf24" }}>{metricasEscola.totalServidores}</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             {metricasEscola.docentes} professores · {metricasEscola.apoio} apoio
           </div>
         </div>
 
         {/* Turmas Ativas */}
-        <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Turmas Ativas</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#f3e8ff", color: "#9333ea", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Turmas Ativas</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(192, 132, 252, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-books" />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: "#7e22ce" }}>{metricasEscola.totalTurmas}</div>
-          <div style={{ fontSize: 11, color: "#4b5563", marginTop: 4 }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: "#c084fc" }}>{metricasEscola.totalTurmas}</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             Média de {metricasEscola.mediaAlunosTurma} alunos / turma
           </div>
         </div>
 
         {/* Frequência Média */}
-        <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Frequência Escolar</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#ecfdf5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Frequência Escolar</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-calendar-check" />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: "#059669" }}>{metricasEscola.frequenciaMedia}%</div>
-          <div style={{ fontSize: 11, color: "#059669", marginTop: 4, fontWeight: 600 }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: "#34d399" }}>{metricasEscola.frequenciaMedia}%</div>
+          <div style={{ fontSize: 11, color: "#34d399", marginTop: 4, fontWeight: 600 }}>
             Acima da meta municipal (90%)
           </div>
         </div>
 
         {/* Rendimento / Média Geral */}
-        <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Média de Notas</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fdf2f8", color: "#db2777", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Média de Notas</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(244, 114, 182, 0.15)", color: "#f472b6", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-award" />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 800, color: "#be185d" }}>{metricasEscola.mediaGeralNotas} pts</div>
-          <div style={{ fontSize: 11, color: "#4b5563", marginTop: 4 }}>
+          <div style={{ fontSize: 26, fontWeight: 800, color: "#f472b6" }}>{metricasEscola.mediaGeralNotas} pts</div>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             Média geral bimestral
           </div>
         </div>
 
         {/* Saldo Caixa Escolar */}
-        <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Caixa Escolar</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#ecfeff", color: "#0891b2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Caixa Escolar</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(45, 212, 191, 0.15)", color: "#2dd4bf", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-wallet" />
             </div>
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: metricasEscola.saldoTotal >= 0 ? "#059669" : "#dc2626" }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: metricasEscola.saldoTotal >= 0 ? "#34d399" : "#f87171" }}>
             {metricasEscola.saldoTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#6b7280", marginTop: 4 }}>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             PDDE e contas da escola
           </div>
         </div>
@@ -525,11 +530,11 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-                <i className="ti ti-chart-donut" style={{ marginRight: 6, color: "#2563eb" }} />
+              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-chart-donut" style={{ marginRight: 6, color: "#38bdf8" }} />
                 Matrículas por Ano / Série
               </h3>
-              <span style={{ fontSize: 11, color: "#6b7280" }}>Distribuição de turmas no Ensino Fundamental</span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Distribuição de turmas no Ensino Fundamental</span>
             </div>
             <Badge color="blue">{metricasEscola.totalAlunos} Alunos</Badge>
           </div>
@@ -547,11 +552,11 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-                <i className="ti ti-chart-donut" style={{ marginRight: 6, color: "#d97706" }} />
+              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-chart-donut" style={{ marginRight: 6, color: "#fbbf24" }} />
                 Quadro de Servidores da Escola
               </h3>
-              <span style={{ fontSize: 11, color: "#6b7280" }}>Cargos docentes e equipe de apoio</span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Cargos docentes e equipe de apoio</span>
             </div>
             <Badge color="amber">{metricasEscola.totalServidores} Servidores</Badge>
           </div>
@@ -569,11 +574,11 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-                <i className="ti ti-chart-donut" style={{ marginRight: 6, color: "#10b981" }} />
+              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-chart-donut" style={{ marginRight: 6, color: "#34d399" }} />
                 Situação das Matrículas
               </h3>
-              <span style={{ fontSize: 11, color: "#6b7280" }}>Status ativo vs movimentações</span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Status ativo vs movimentações</span>
             </div>
             <Badge color="green">Ano {new Date().getFullYear()}</Badge>
           </div>
@@ -596,22 +601,22 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-                <i className="ti ti-chart-line" style={{ marginRight: 6, color: "#2563eb" }} />
+              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-chart-line" style={{ marginRight: 6, color: "#38bdf8" }} />
                 Evolução da Frequência Escolar Mensal
               </h3>
-              <span style={{ fontSize: 11, color: "#6b7280" }}>Taxa média de presença dos alunos ao longo do ano</span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Taxa média de presença dos alunos ao longo do ano</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#10b981" }} />
-              <span style={{ fontSize: 11, color: "#059669", fontWeight: 700 }}>Meta 90%</span>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#34d399" }} />
+              <span style={{ fontSize: 11, color: "#34d399", fontWeight: 700 }}>Meta 90%</span>
             </div>
           </div>
 
           <LineChart
             dados={dadosLinhaFrequencia}
-            corLinha="#2563eb"
-            corGradiente="#3b82f6"
+            corLinha="#38bdf8"
+            corGradiente="#0284c7"
             valorMinimo={80}
             valorMaximo={100}
             valorMeta={90}
@@ -624,19 +629,19 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-                <i className="ti ti-chart-line" style={{ marginRight: 6, color: "#10b981" }} />
+              <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-chart-line" style={{ marginRight: 6, color: "#34d399" }} />
                 Desempenho Acadêmico por Bimestre
               </h3>
-              <span style={{ fontSize: 11, color: "#6b7280" }}>Evolução da média geral de notas da escola</span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Evolução da média geral de notas da escola</span>
             </div>
             <Badge color="green">Média 7.8 pts</Badge>
           </div>
 
           <LineChart
             dados={dadosLinhaNotas}
-            corLinha="#10b981"
-            corGradiente="#10b981"
+            corLinha="#34d399"
+            corGradiente="#059669"
             valorMinimo={5.0}
             valorMaximo={10.0}
             valorMeta={7.0}
@@ -652,9 +657,9 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
         
         {/* Quadro de Turmas */}
         <Card style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ padding: "16px 20px", borderBottom: "1px solid #f1f5f9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-              <i className="ti ti-books" style={{ marginRight: 6, color: "#7c3aed" }} />
+          <div style={{ padding: "16px 20px", borderBottom: "1px solid #2c3b52", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+              <i className="ti ti-books" style={{ marginRight: 6, color: "#c084fc" }} />
               Quadro de Turmas da Unidade ({turmas.length})
             </h3>
             <Btn onClick={() => navigate("/turmas")} style={{ padding: "4px 8px", fontSize: 11 }}>
@@ -665,7 +670,7 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", textTransform: "uppercase", fontSize: 11 }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#94a3b8", textTransform: "uppercase", fontSize: 11 }}>
                   <th style={{ padding: "10px 14px", textAlign: "left" }}>Turma</th>
                   <th style={{ padding: "10px 14px", textAlign: "left" }}>Turno</th>
                   <th style={{ padding: "10px 14px", textAlign: "center" }}>Alunos</th>
@@ -675,16 +680,16 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
               <tbody>
                 {turmas.length === 0 ? (
                   <tr>
-                    <td colSpan={4} style={{ padding: 16, textAlign: "center", color: "#9ca3af" }}>Nenhuma turma cadastrada.</td>
+                    <td colSpan={4} style={{ padding: 16, textAlign: "center", color: "#94a3b8" }}>Nenhuma turma cadastrada.</td>
                   </tr>
                 ) : (
                   turmas.map(t => {
                     const qAlunos = (alunos || []).filter(a => a.turma === t.nome).length;
                     return (
-                      <tr key={t.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "10px 14px", fontWeight: 600, color: "#1e293b" }}>{t.nome}</td>
-                        <td style={{ padding: "10px 14px", color: "#64748b" }}>{t.turno || "Manhã"}</td>
-                        <td style={{ padding: "10px 14px", textAlign: "center", fontWeight: 700, color: "#1e3a8a" }}>
+                      <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                        <td style={{ padding: "10px 14px", fontWeight: 600, color: "#ffffff" }}>{t.nome}</td>
+                        <td style={{ padding: "10px 14px", color: "#94a3b8" }}>{t.turno || "Manhã"}</td>
+                        <td style={{ padding: "10px 14px", textAlign: "center", fontWeight: 700, color: "#38bdf8" }}>
                           {qAlunos} alunos
                         </td>
                         <td style={{ padding: "10px 14px", textAlign: "right" }}>
@@ -703,9 +708,9 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
 
         {/* Últimos Alunos Matriculados */}
         <Card style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ padding: "16px 20px", borderBottom: "1px solid #f1f5f9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#111827" }}>
-              <i className="ti ti-user-plus" style={{ marginRight: 6, color: "#10b981" }} />
+          <div style={{ padding: "16px 20px", borderBottom: "1px solid #2c3b52", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+              <i className="ti ti-user-plus" style={{ marginRight: 6, color: "#34d399" }} />
               Últimas Matrículas
             </h3>
             <Btn onClick={() => navigate("/alunos")} style={{ padding: "4px 8px", fontSize: 11 }}>
@@ -716,7 +721,7 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b", textTransform: "uppercase", fontSize: 11 }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#94a3b8", textTransform: "uppercase", fontSize: 11 }}>
                   <th style={{ padding: "10px 14px", textAlign: "left" }}>Aluno</th>
                   <th style={{ padding: "10px 14px", textAlign: "left" }}>Turma</th>
                   <th style={{ padding: "10px 14px", textAlign: "right" }}>Status</th>
@@ -725,12 +730,12 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
               <tbody>
                 {alunos.length === 0 ? (
                   <tr>
-                    <td colSpan={3} style={{ padding: 16, textAlign: "center", color: "#9ca3af" }}>Nenhum aluno matriculado nesta escola.</td>
+                    <td colSpan={3} style={{ padding: 16, textAlign: "center", color: "#94a3b8" }}>Nenhum aluno matriculado nesta escola.</td>
                   </tr>
                 ) : (
                   alunos.slice(-5).reverse().map(a => (
-                    <tr key={a.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                      <td style={{ padding: "10px 14px", fontWeight: 600, color: "#1e293b" }}>{a.nome}</td>
+                    <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                      <td style={{ padding: "10px 14px", fontWeight: 600, color: "#ffffff" }}>{a.nome}</td>
                       <td style={{ padding: "10px 14px" }}><Badge>{a.turma || a.ano || "-"}</Badge></td>
                       <td style={{ padding: "10px 14px", textAlign: "right" }}>
                         <Badge color={a.status === "Ativo" || !a.status ? "green" : "amber"}>

@@ -129,14 +129,16 @@ export default function MotoristasTransporte({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
         </div>
 
@@ -155,16 +157,17 @@ export default function MotoristasTransporte({
             const cnhVencida = m.validadeCnh && m.validadeCnh !== "-" && new Date(m.validadeCnh) < hoje;
 
             return (
-              <Card key={m.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
+              <Card key={m.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20, background: "#1e293b", border: "1px solid #2c3b52" }}>
                 <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{
                         width: 48,
                         height: 48,
                         borderRadius: "50%",
-                        background: m.tipo === "Monitor(a)" ? "#fdf2f8" : "#eff6ff",
-                        color: m.tipo === "Monitor(a)" ? "#db2777" : "#1d4ed8",
+                        background: m.tipo === "Monitor(a)" ? "rgba(236, 72, 153, 0.15)" : "rgba(59, 130, 246, 0.15)",
+                        color: m.tipo === "Monitor(a)" ? "#f472b6" : "#60a5fa",
+                        border: `1px solid ${m.tipo === "Monitor(a)" ? "rgba(236, 72, 153, 0.3)" : "rgba(59, 130, 246, 0.3)"}`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -174,10 +177,10 @@ export default function MotoristasTransporte({
                         <i className={`ti ti-${m.tipo === "Monitor(a)" ? "user-heart" : "steering-wheel"}`} />
                       </div>
                       <div>
-                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#1f2937" }}>
+                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
                           {m.nome}
                         </h4>
-                        <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+                        <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                           {m.tipo || "Motorista"} · CPF: {m.cpf || "Não informado"}
                         </div>
                       </div>
@@ -189,21 +192,21 @@ export default function MotoristasTransporte({
                   </div>
 
                   {/* Informações de Habilitação & Cursos */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: "#4b5563", background: "#f8fafc", padding: "12px", borderRadius: 8, marginTop: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 9, fontSize: 12, color: "#cbd5e1", background: "#161f2e", padding: "12px", borderRadius: 10, border: "1px solid #243144", marginTop: 10 }}>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span><i className="ti ti-phone" style={{ marginRight: 4 }} /> Telefone:</span>
-                      <strong style={{ color: "#1f2937" }}>{m.telefone || "Não informado"}</strong>
+                      <span style={{ color: "#94a3b8" }}><i className="ti ti-phone" style={{ marginRight: 4 }} /> Telefone:</span>
+                      <strong style={{ color: "#f8fafc" }}>{m.telefone || "Não informado"}</strong>
                     </div>
 
                     {m.tipo !== "Monitor(a)" && (
                       <>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span><i className="ti ti-license" style={{ marginRight: 4 }} /> CNH (Cat. {m.categoriaCnh}):</span>
-                          <strong style={{ color: "#1f2937" }}>{m.cnh || "-"}</strong>
+                          <span style={{ color: "#94a3b8" }}><i className="ti ti-license" style={{ marginRight: 4 }} /> CNH (Cat. {m.categoriaCnh}):</span>
+                          <strong style={{ color: "#f8fafc" }}>{m.cnh || "-"}</strong>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span><i className="ti ti-calendar" style={{ marginRight: 4 }} /> Validade da CNH:</span>
-                          <strong style={{ color: cnhVencida ? "#dc2626" : "#1f2937" }}>
+                          <span style={{ color: "#94a3b8" }}><i className="ti ti-calendar" style={{ marginRight: 4 }} /> Validade da CNH:</span>
+                          <strong style={{ color: cnhVencida ? "#f87171" : "#34d399" }}>
                             {m.validadeCnh ? new Date(m.validadeCnh + "T00:00:00").toLocaleDateString("pt-BR") : "Não inf."}
                             {cnhVencida && " ⚠️ Vencida"}
                           </strong>
@@ -211,15 +214,15 @@ export default function MotoristasTransporte({
                       </>
                     )}
 
-                    <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 6, fontSize: 11, color: "#64748b" }}>
-                      <strong>Capacitação:</strong> {m.cursoTransporte || "Conforme diretrizes municipais"}
+                    <div style={{ borderTop: "1px solid #243144", paddingTop: 8, fontSize: 11, color: "#94a3b8" }}>
+                      <strong style={{ color: "#cbd5e1" }}>Capacitação:</strong> {m.cursoTransporte || "Conforme diretrizes municipais"}
                     </div>
                   </div>
 
                   {/* Rotas Vinculadas */}
                   {rotasAtendidas.length > 0 && (
-                    <div style={{ marginTop: 10 }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>Linha / Rota Atribuída:</span>
+                    <div style={{ marginTop: 12 }}>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Linha / Rota Atribuída:</span>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
                         {rotasAtendidas.map(r => (
                           <Badge key={r.id} color="blue">{r.nome}</Badge>
@@ -230,8 +233,8 @@ export default function MotoristasTransporte({
                 </div>
 
                 {/* Ações */}
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 14, paddingTop: 10, borderTop: "1px solid #f1f5f9" }}>
-                  <Btn onClick={() => abrirEditar(m)} style={{ padding: "6px 10px", fontSize: 12 }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 16, paddingTop: 12, borderTop: "1px solid #2c3b52" }}>
+                  <Btn onClick={() => abrirEditar(m)} style={{ padding: "6px 12px", fontSize: 12 }}>
                     <i className="ti ti-edit" /> Editar
                   </Btn>
                   <Btn variant="danger" onClick={() => handleExcluir(m.id, m.nome)} style={{ padding: "6px 10px", fontSize: 12 }}>

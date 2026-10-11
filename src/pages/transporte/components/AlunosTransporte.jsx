@@ -160,20 +160,22 @@ export default function AlunosTransporte({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
 
           <select
             value={filtroRota}
             onChange={(e) => setFiltroRota(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "10px 14px", borderRadius: 10, border: "1px solid #2c3b52", fontSize: 13, background: "#1e293b", color: "#f8fafc", outline: "none" }}
           >
             <option value="">Todas as Rotas</option>
             {rotas.map(r => (
@@ -184,7 +186,7 @@ export default function AlunosTransporte({
           <select
             value={filtroTurno}
             onChange={(e) => setFiltroTurno(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "10px 14px", borderRadius: 10, border: "1px solid #2c3b52", fontSize: 13, background: "#1e293b", color: "#f8fafc", outline: "none" }}
           >
             <option value="">Todos os Turnos</option>
             <option value="Manhã">Manhã</option>
@@ -200,14 +202,14 @@ export default function AlunosTransporte({
       </div>
 
       {/* Tabela de Alunos Transportados */}
-      <Card style={{ padding: 0, overflow: "hidden" }}>
+      <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", border: "1px solid #2c3b52" }}>
         {alunosFiltrados.length === 0 ? (
           <EmptyState icon="users" texto="Nenhum aluno transportado encontrado com os filtros selecionados." />
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
                   <th style={{ padding: "12px 16px" }}>Estudante</th>
                   <th style={{ padding: "12px 16px" }}>Turma / Turno</th>
                   <th style={{ padding: "12px 16px" }}>Rota / Linha</th>
@@ -219,33 +221,33 @@ export default function AlunosTransporte({
                 </tr>
               </thead>
               <tbody>
-                {alunosFiltrados.map((aluno) => (
-                  <tr key={aluno.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                {alunosFiltrados.map((aluno, idx) => (
+                  <tr key={aluno.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>{aluno.nomeAluno}</div>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{aluno.nomeAluno}</div>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <span style={{ fontWeight: 500 }}>{aluno.turma || "-"}</span>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>{aluno.turno}</div>
+                      <span style={{ fontWeight: 500, color: "#f8fafc" }}>{aluno.turma || "-"}</span>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{aluno.turno}</div>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <Badge color="blue">{aluno.rotaNome || "Sem rota"}</Badge>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#334155" }}>
-                        <i className="ti ti-map-pin" style={{ color: "#ef4444" }} />
+                      <span style={{ display: "flex", alignItems: "center", gap: 5, color: "#cbd5e1" }}>
+                        <i className="ti ti-map-pin" style={{ color: "#f87171" }} />
                         {aluno.pontoNome || "Ponto Principal"}
                       </span>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div>{aluno.responsavel || "-"}</div>
-                      <div style={{ fontSize: 11, color: "#2563eb", fontWeight: 500 }}>{aluno.telefoneContato || "-"}</div>
+                      <div style={{ color: "#cbd5e1" }}>{aluno.responsavel || "-"}</div>
+                      <div style={{ fontSize: 11, color: "#60a5fa", fontWeight: 500 }}>{aluno.telefoneContato || "-"}</div>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       {aluno.necessidadeEspecial && aluno.necessidadeEspecial !== "Nenhuma" ? (
                         <Badge color="red">{aluno.necessidadeEspecial}</Badge>
                       ) : (
-                        <span style={{ color: "#9ca3af" }}>-</span>
+                        <span style={{ color: "#64748b" }}>-</span>
                       )}
                     </td>
                     <td style={{ padding: "12px 16px" }}>

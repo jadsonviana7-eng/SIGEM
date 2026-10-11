@@ -140,14 +140,16 @@ export default function VeiculosTransporte({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
         </div>
 
@@ -167,16 +169,17 @@ export default function VeiculosTransporte({
             const vistoriaVencida = veiculo.vistoriaVencimento && new Date(veiculo.vistoriaVencimento) < hoje;
 
             return (
-              <Card key={veiculo.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
+              <Card key={veiculo.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20, background: "#1e293b", border: "1px solid #2c3b52" }}>
                 <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{
                         width: 48,
                         height: 48,
-                        borderRadius: 10,
-                        background: veiculo.tipo === "Ônibus" ? "#dbeafe" : veiculo.tipo === "Van" ? "#fef3c7" : "#e0e7ff",
-                        color: veiculo.tipo === "Ônibus" ? "#1e40af" : veiculo.tipo === "Van" ? "#b45309" : "#4338ca",
+                        borderRadius: 12,
+                        background: veiculo.tipo === "Ônibus" ? "rgba(59, 130, 246, 0.15)" : veiculo.tipo === "Van" ? "rgba(245, 158, 11, 0.15)" : "rgba(99, 102, 241, 0.15)",
+                        color: veiculo.tipo === "Ônibus" ? "#60a5fa" : veiculo.tipo === "Van" ? "#fbbf24" : "#818cf8",
+                        border: `1px solid ${veiculo.tipo === "Ônibus" ? "rgba(59, 130, 246, 0.3)" : veiculo.tipo === "Van" ? "rgba(245, 158, 11, 0.3)" : "rgba(99, 102, 241, 0.3)"}`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -186,16 +189,16 @@ export default function VeiculosTransporte({
                       </div>
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", letterSpacing: "0.5px" }}>
+                          <span style={{ fontSize: 17, fontWeight: 700, color: "#ffffff", letterSpacing: "0.5px" }}>
                             {veiculo.placa}
                           </span>
                           {veiculo.acessibilidade && (
-                            <span title="Acessível para PCD" style={{ color: "#2563eb", fontSize: 14 }}>
+                            <span title="Acessível para PCD" style={{ color: "#60a5fa", fontSize: 14 }}>
                               ♿
                             </span>
                           )}
                         </div>
-                        <div style={{ fontSize: 12, color: "#6b7280" }}>
+                        <div style={{ fontSize: 12, color: "#94a3b8" }}>
                           {veiculo.tipo} · Ano {veiculo.ano}
                         </div>
                       </div>
@@ -206,27 +209,27 @@ export default function VeiculosTransporte({
                     </Badge>
                   </div>
 
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", margin: "10px 0 6px 0" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#e2e8f0", margin: "10px 0 8px 0" }}>
                     {veiculo.modelo}
                   </div>
 
                   {/* Detalhes Técnicos */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, fontSize: 12, color: "#4b5563", background: "#f8fafc", padding: "10px 12px", borderRadius: 8, marginTop: 8 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9, fontSize: 12, color: "#cbd5e1", background: "#161f2e", padding: "12px", borderRadius: 10, border: "1px solid #243144", marginTop: 8 }}>
                     <div>
-                      <span style={{ color: "#6b7280" }}>Capacidade:</span>
-                      <div style={{ fontWeight: 600, color: "#1f2937" }}>{veiculo.capacidade} assentos</div>
+                      <span style={{ color: "#94a3b8" }}>Capacidade:</span>
+                      <div style={{ fontWeight: 600, color: "#ffffff", marginTop: 2 }}>{veiculo.capacidade} assentos</div>
                     </div>
                     <div>
-                      <span style={{ color: "#6b7280" }}>KM Atual:</span>
-                      <div style={{ fontWeight: 600, color: "#1f2937" }}>{veiculo.kmAtual ? `${Number(veiculo.kmAtual).toLocaleString("pt-BR")} km` : "-"}</div>
+                      <span style={{ color: "#94a3b8" }}>KM Atual:</span>
+                      <div style={{ fontWeight: 600, color: "#ffffff", marginTop: 2 }}>{veiculo.kmAtual ? `${Number(veiculo.kmAtual).toLocaleString("pt-BR")} km` : "-"}</div>
                     </div>
                     <div>
-                      <span style={{ color: "#6b7280" }}>Combustível:</span>
-                      <div style={{ fontWeight: 600, color: "#1f2937" }}>{veiculo.combustivel || "Diesel"}</div>
+                      <span style={{ color: "#94a3b8" }}>Combustível:</span>
+                      <div style={{ fontWeight: 600, color: "#ffffff", marginTop: 2 }}>{veiculo.combustivel || "Diesel"}</div>
                     </div>
                     <div>
-                      <span style={{ color: "#6b7280" }}>Vistoria DETRAN:</span>
-                      <div style={{ fontWeight: 600, color: vistoriaVencida ? "#dc2626" : "#059669" }}>
+                      <span style={{ color: "#94a3b8" }}>Vistoria DETRAN:</span>
+                      <div style={{ fontWeight: 600, color: vistoriaVencida ? "#f87171" : "#34d399", marginTop: 2 }}>
                         {veiculo.vistoriaVencimento ? new Date(veiculo.vistoriaVencimento + "T00:00:00").toLocaleDateString("pt-BR") : "Não inf."}
                         {vistoriaVencida && " ⚠️"}
                       </div>
@@ -234,20 +237,20 @@ export default function VeiculosTransporte({
                   </div>
 
                   {rotaVinculada && (
-                    <div style={{ marginTop: 10, fontSize: 12, color: "#1e40af", background: "#eff6ff", padding: "6px 10px", borderRadius: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ marginTop: 10, fontSize: 12, color: "#93c5fd", background: "rgba(59, 130, 246, 0.15)", border: "1px solid rgba(59, 130, 246, 0.25)", padding: "8px 12px", borderRadius: 8, display: "flex", alignItems: "center", gap: 6 }}>
                       <i className="ti ti-route" /> Vinculado a: <strong>{rotaVinculada.nome}</strong>
                     </div>
                   )}
                 </div>
 
                 {/* Ações */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 14, paddingTop: 10, borderTop: "1px solid #f1f5f9" }}>
-                  <span style={{ fontSize: 11, color: "#64748b" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, paddingTop: 12, borderTop: "1px solid #2c3b52" }}>
+                  <span style={{ fontSize: 12, color: "#94a3b8" }}>
                     <i className="ti ti-wrench" /> {totalManutencoes} manutenções
                   </span>
 
                   <div style={{ display: "flex", gap: 6 }}>
-                    <Btn onClick={() => abrirEditar(veiculo)} style={{ padding: "6px 10px", fontSize: 12 }}>
+                    <Btn onClick={() => abrirEditar(veiculo)} style={{ padding: "6px 12px", fontSize: 12 }}>
                       <i className="ti ti-edit" /> Editar
                     </Btn>
                     <Btn variant="danger" onClick={() => handleExcluir(veiculo.id, veiculo.placa)} style={{ padding: "6px 10px", fontSize: 12 }}>
@@ -364,13 +367,13 @@ export default function VeiculosTransporte({
               />
             </div>
 
-            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer", padding: "6px 0" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "#cbd5e1", cursor: "pointer", padding: "8px 12px", background: "#161f2e", borderRadius: 8, border: "1px solid #2c3b52" }}>
               <input
                 type="checkbox"
                 checked={form.acessibilidade}
                 onChange={(e) => setForm({ ...form, acessibilidade: e.target.checked })}
               />
-              <span><strong>Possui Acessibilidade PCD</strong> (Plataforma elevatória / rampa de acesso)</span>
+              <span><strong style={{ color: "#ffffff" }}>Possui Acessibilidade PCD</strong> (Plataforma elevatória / rampa de acesso)</span>
             </label>
 
             <Input

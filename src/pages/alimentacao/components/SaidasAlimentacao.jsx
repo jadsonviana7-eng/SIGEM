@@ -120,12 +120,14 @@ export default function SaidasAlimentacao({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#94a3b8" }} />
           </div>
         </div>
 
@@ -142,7 +144,7 @@ export default function SaidasAlimentacao({
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                   <th style={{ padding: "12px 16px" }}>Data da Retirada</th>
                   <th style={{ padding: "12px 16px" }}>Alimento / Gênero</th>
                   <th style={{ padding: "12px 16px" }}>Qtd Retirada</th>
@@ -154,24 +156,24 @@ export default function SaidasAlimentacao({
               </thead>
               <tbody>
                 {saidasFiltradas.map((s) => (
-                  <tr key={s.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1e293b" }}>
+                  <tr key={s.id} style={{ borderBottom: "1px solid #243144" }}>
+                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
                       {new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>{s.itemNome}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>{s.motivo || "Cardápio do dia"}</div>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{s.itemNome}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{s.motivo || "Cardápio do dia"}</div>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <Badge color="amber">-{s.quantidade} {s.unidade}</Badge>
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#047857", fontWeight: 500 }}>
+                    <td style={{ padding: "12px 16px", color: "#34d399", fontWeight: 500 }}>
                       {s.destino}
                     </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <span style={{ fontWeight: 600 }}>{s.refeicoesEstimadas || "-"}</span> porções
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
+                      <span style={{ fontWeight: 600, color: "#ffffff" }}>{s.refeicoesEstimadas || "-"}</span> porções
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#475569", fontSize: 12 }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1", fontSize: 12 }}>
                       {s.responsavelRetirada}
                     </td>
                     <td style={{ padding: "12px 16px", textAlign: "right" }}>

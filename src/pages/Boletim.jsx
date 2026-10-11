@@ -283,23 +283,23 @@ export default function Boletim() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span style={{ fontSize: "1.6rem" }}>📑</span>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "var(--text-primary, #1e293b)" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>
               Boletim Escolar Digital
             </h1>
           </div>
-          <p style={{ margin: "0.25rem 0 0", color: "var(--text-secondary, #64748b)", fontSize: "0.9rem" }}>
+          <p style={{ margin: "0.25rem 0 0", color: "#94a3b8", fontSize: "0.9rem" }}>
             Geração automática de boletins, cálculo de médias, frequências e emissão em PDF / Impressão.
           </p>
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
           {/* Seletor de Turma */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#ffffff", padding: "0.4rem 0.85rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
-            <i className="ti ti-books" style={{ color: "#3b82f6" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#243144", padding: "0.4rem 0.85rem", borderRadius: "10px", border: "1px solid #33435c" }}>
+            <i className="ti ti-books" style={{ color: "#818cf8" }} />
             <select
               value={turmaSelecionada}
               onChange={(e) => setTurmaSelecionada(e.target.value)}
-              style={{ background: "transparent", border: "none", fontWeight: 600, color: "#1e293b", cursor: "pointer", outline: "none", fontSize: "0.9rem" }}
+              style={{ background: "transparent", border: "none", fontWeight: 600, color: "#ffffff", cursor: "pointer", outline: "none", fontSize: "0.9rem" }}
             >
               {(turmas || []).map(t => (
                 <option key={t.id || t.nome} value={t.nome}>{t.nome} ({t.turno})</option>
@@ -309,9 +309,9 @@ export default function Boletim() {
 
           {/* Botão Impressão em Lote */}
           <Btn
-            variante="primario"
+            variant="primary"
             onClick={handleImprimirLote}
-            desabilitado={boletinsCalculados.length === 0}
+            disabled={boletinsCalculados.length === 0}
           >
             <i className="ti ti-printer" />
             Imprimir Turma em Lote
@@ -319,34 +319,34 @@ export default function Boletim() {
         </div>
       </div>
 
-      {/* CARDS DE SITUAÇÃO AUTOMÁTICA (EXATAMENTE CONFORME SOLICITADO) */}
+      {/* CARDS DE SITUAÇÃO AUTOMÁTICA */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
         {/* 🟢 APROVADOS */}
         <div
           onClick={() => setFiltroStatus("APROVADO")}
           style={{
-            background: "#ffffff",
-            borderRadius: "12px",
+            background: "#1e293b",
+            borderRadius: "14px",
             padding: "1.1rem 1.25rem",
-            border: "1px solid #bbf7d0",
-            boxShadow: "0 2px 6px rgba(34, 197, 94, 0.06)",
+            border: "1px solid #2c3b52",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
             cursor: "pointer",
-            borderLeft: "5px solid #22c55e",
+            borderLeft: "5px solid #34d399",
             transition: "transform 0.15s"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#166534" }}>
+            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#34d399" }}>
               🟢 Aprovados
             </div>
-            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", color: "#16a34a" }}>
+            <div style={{ width: 34, height: 34, borderRadius: "10px", background: "rgba(16, 185, 129, 0.15)", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", color: "#34d399" }}>
               <i className="ti ti-circle-check" />
             </div>
           </div>
-          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#16a34a", marginTop: "0.25rem" }}>
+          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#34d399", marginTop: "0.25rem" }}>
             {contadores.aprovados}
           </div>
-          <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
             Média ≥ 6.0 e Presença ≥ 75%
           </div>
         </div>
@@ -355,28 +355,28 @@ export default function Boletim() {
         <div
           onClick={() => setFiltroStatus("RECUPERACAO")}
           style={{
-            background: "#ffffff",
-            borderRadius: "12px",
+            background: "#1e293b",
+            borderRadius: "14px",
             padding: "1.1rem 1.25rem",
-            border: "1px solid #fde68a",
-            boxShadow: "0 2px 6px rgba(245, 158, 11, 0.06)",
+            border: "1px solid #2c3b52",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
             cursor: "pointer",
-            borderLeft: "5px solid #f59e0b",
+            borderLeft: "5px solid #fbbf24",
             transition: "transform 0.15s"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#92400e" }}>
+            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#fbbf24" }}>
               🟡 Recuperação
             </div>
-            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "center", color: "#f59e0b" }}>
+            <div style={{ width: 34, height: 34, borderRadius: "10px", background: "rgba(245, 158, 11, 0.15)", border: "1px solid rgba(245, 158, 11, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fbbf24" }}>
               <i className="ti ti-alert-circle" />
             </div>
           </div>
-          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#d97706", marginTop: "0.25rem" }}>
+          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#fbbf24", marginTop: "0.25rem" }}>
             {contadores.recuperacao}
           </div>
-          <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
             Média entre 4.0 e 5.9
           </div>
         </div>
@@ -385,28 +385,28 @@ export default function Boletim() {
         <div
           onClick={() => setFiltroStatus("REPROVADO")}
           style={{
-            background: "#ffffff",
-            borderRadius: "12px",
+            background: "#1e293b",
+            borderRadius: "14px",
             padding: "1.1rem 1.25rem",
-            border: "1px solid #fecaca",
-            boxShadow: "0 2px 6px rgba(239, 68, 68, 0.06)",
+            border: "1px solid #2c3b52",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
             cursor: "pointer",
-            borderLeft: "5px solid #ef4444",
+            borderLeft: "5px solid #f87171",
             transition: "transform 0.15s"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#991b1b" }}>
+            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#f87171" }}>
               🔴 Reprovados
             </div>
-            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", color: "#ef4444" }}>
+            <div style={{ width: 34, height: 34, borderRadius: "10px", background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", color: "#f87171" }}>
               <i className="ti ti-circle-x" />
             </div>
           </div>
-          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#ef4444", marginTop: "0.25rem" }}>
+          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#f87171", marginTop: "0.25rem" }}>
             {contadores.reprovados}
           </div>
-          <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
             Média &lt; 4.0 ou Faltas &gt; 25%
           </div>
         </div>
@@ -415,46 +415,46 @@ export default function Boletim() {
         <div
           onClick={() => setFiltroStatus("CURSANDO")}
           style={{
-            background: "#ffffff",
-            borderRadius: "12px",
+            background: "#1e293b",
+            borderRadius: "14px",
             padding: "1.1rem 1.25rem",
-            border: "1px solid #bfdbfe",
-            boxShadow: "0 2px 6px rgba(59, 130, 246, 0.06)",
+            border: "1px solid #2c3b52",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
             cursor: "pointer",
-            borderLeft: "5px solid #3b82f6",
+            borderLeft: "5px solid #38bdf8",
             transition: "transform 0.15s"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#1e40af" }}>
+            <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#38bdf8" }}>
               🔵 Cursando
             </div>
-            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", color: "#3b82f6" }}>
+            <div style={{ width: 34, height: 34, borderRadius: "10px", background: "rgba(56, 189, 248, 0.15)", border: "1px solid rgba(56, 189, 248, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", color: "#38bdf8" }}>
               <i className="ti ti-school" />
             </div>
           </div>
-          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#2563eb", marginTop: "0.25rem" }}>
+          <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "#38bdf8", marginTop: "0.25rem" }}>
             {contadores.cursando}
           </div>
-          <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
             Período letivo em andamento
           </div>
         </div>
       </div>
 
       {/* PAINEL PRINCIPAL DE ALUNOS & BOLETINS */}
-      <Card>
+      <Card style={{ background: "#1e293b", border: "1px solid #2c3b52" }}>
         {/* BARRA DE FILTROS & BUSCA */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #f1f5f9" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #2c3b52" }}>
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
             <button
               onClick={() => setFiltroStatus("TODOS")}
               style={{
-                padding: "0.35rem 0.8rem",
+                padding: "0.4rem 0.9rem",
                 borderRadius: "20px",
-                border: filtroStatus === "TODOS" ? "1px solid #3b82f6" : "1px solid #e2e8f0",
-                background: filtroStatus === "TODOS" ? "#eff6ff" : "#ffffff",
-                color: filtroStatus === "TODOS" ? "#1d4ed8" : "#64748b",
+                border: filtroStatus === "TODOS" ? "1px solid rgba(99, 102, 241, 0.4)" : "1px solid #33435c",
+                background: filtroStatus === "TODOS" ? "rgba(99, 102, 241, 0.15)" : "#243144",
+                color: filtroStatus === "TODOS" ? "#818cf8" : "#cbd5e1",
                 fontWeight: 600,
                 fontSize: "0.85rem",
                 cursor: "pointer"
@@ -465,11 +465,11 @@ export default function Boletim() {
             <button
               onClick={() => setFiltroStatus("APROVADO")}
               style={{
-                padding: "0.35rem 0.8rem",
+                padding: "0.4rem 0.9rem",
                 borderRadius: "20px",
-                border: filtroStatus === "APROVADO" ? "1px solid #22c55e" : "1px solid #e2e8f0",
-                background: filtroStatus === "APROVADO" ? "#f0fdf4" : "#ffffff",
-                color: filtroStatus === "APROVADO" ? "#15803d" : "#64748b",
+                border: filtroStatus === "APROVADO" ? "1px solid rgba(16, 185, 129, 0.4)" : "1px solid #33435c",
+                background: filtroStatus === "APROVADO" ? "rgba(16, 185, 129, 0.15)" : "#243144",
+                color: filtroStatus === "APROVADO" ? "#34d399" : "#cbd5e1",
                 fontWeight: 600,
                 fontSize: "0.85rem",
                 cursor: "pointer"
@@ -480,11 +480,11 @@ export default function Boletim() {
             <button
               onClick={() => setFiltroStatus("RECUPERACAO")}
               style={{
-                padding: "0.35rem 0.8rem",
+                padding: "0.4rem 0.9rem",
                 borderRadius: "20px",
-                border: filtroStatus === "RECUPERACAO" ? "1px solid #f59e0b" : "1px solid #e2e8f0",
-                background: filtroStatus === "RECUPERACAO" ? "#fffbeb" : "#ffffff",
-                color: filtroStatus === "RECUPERACAO" ? "#d97706" : "#64748b",
+                border: filtroStatus === "RECUPERACAO" ? "1px solid rgba(245, 158, 11, 0.4)" : "1px solid #33435c",
+                background: filtroStatus === "RECUPERACAO" ? "rgba(245, 158, 11, 0.15)" : "#243144",
+                color: filtroStatus === "RECUPERACAO" ? "#fbbf24" : "#cbd5e1",
                 fontWeight: 600,
                 fontSize: "0.85rem",
                 cursor: "pointer"
@@ -495,11 +495,11 @@ export default function Boletim() {
             <button
               onClick={() => setFiltroStatus("REPROVADO")}
               style={{
-                padding: "0.35rem 0.8rem",
+                padding: "0.4rem 0.9rem",
                 borderRadius: "20px",
-                border: filtroStatus === "REPROVADO" ? "1px solid #ef4444" : "1px solid #e2e8f0",
-                background: filtroStatus === "REPROVADO" ? "#fef2f2" : "#ffffff",
-                color: filtroStatus === "REPROVADO" ? "#dc2626" : "#64748b",
+                border: filtroStatus === "REPROVADO" ? "1px solid rgba(239, 68, 68, 0.4)" : "1px solid #33435c",
+                background: filtroStatus === "REPROVADO" ? "rgba(239, 68, 68, 0.15)" : "#243144",
+                color: filtroStatus === "REPROVADO" ? "#f87171" : "#cbd5e1",
                 fontWeight: 600,
                 fontSize: "0.85rem",
                 cursor: "pointer"
@@ -510,11 +510,11 @@ export default function Boletim() {
             <button
               onClick={() => setFiltroStatus("CURSANDO")}
               style={{
-                padding: "0.35rem 0.8rem",
+                padding: "0.4rem 0.9rem",
                 borderRadius: "20px",
-                border: filtroStatus === "CURSANDO" ? "1px solid #3b82f6" : "1px solid #e2e8f0",
-                background: filtroStatus === "CURSANDO" ? "#eff6ff" : "#ffffff",
-                color: filtroStatus === "CURSANDO" ? "#2563eb" : "#64748b",
+                border: filtroStatus === "CURSANDO" ? "1px solid rgba(56, 189, 248, 0.4)" : "1px solid #33435c",
+                background: filtroStatus === "CURSANDO" ? "rgba(56, 189, 248, 0.15)" : "#243144",
+                color: filtroStatus === "CURSANDO" ? "#38bdf8" : "#cbd5e1",
                 fontWeight: 600,
                 fontSize: "0.85rem",
                 cursor: "pointer"
@@ -533,9 +533,11 @@ export default function Boletim() {
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "0.45rem 0.75rem 0.45rem 2.2rem",
-                borderRadius: "8px",
-                border: "1px solid #cbd5e1",
+                padding: "0.5rem 0.75rem 0.5rem 2.2rem",
+                borderRadius: "10px",
+                border: "1px solid #33435c",
+                background: "#243144",
+                color: "#ffffff",
                 fontSize: "0.85rem",
                 outline: "none"
               }}
@@ -547,7 +549,7 @@ export default function Boletim() {
         {carregandoBoletins || cAlunos ? (
           <div style={{ padding: "3rem", textAlign: "center" }}>
             <Spinner />
-            <p style={{ marginTop: "1rem", color: "#64748b" }}>Calculando médias, faltas e gerando boletins...</p>
+            <p style={{ marginTop: "1rem", color: "#94a3b8" }}>Calculando médias, faltas e gerando boletins...</p>
           </div>
         ) : boletinsFiltrados.length === 0 ? (
           <EmptyState
@@ -559,7 +561,7 @@ export default function Boletim() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#cbd5e1" }}>
                   <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Aluno / Matrícula</th>
                   <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma & Ano</th>
                   <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>Média Geral</th>
@@ -580,23 +582,23 @@ export default function Boletim() {
                     <tr
                       key={b.alunoId}
                       style={{
-                        borderBottom: "1px solid #f1f5f9",
+                        borderBottom: "1px solid #2c3b52",
                         transition: "background 0.15s"
                       }}
                     >
                       {/* NOME & MATRICULA */}
                       <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 700, color: "#1e293b", fontSize: "0.95rem" }}>
+                        <div style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.95rem" }}>
                           {b.alunoNome}
                         </div>
-                        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
                           Matrícula: {b.alunoMatricula}
                         </span>
                       </td>
 
                       {/* TURMA */}
                       <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 600, color: "#334155" }}>
+                        <div style={{ fontWeight: 600, color: "#cbd5e1" }}>
                           {b.turma}
                         </div>
                         <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
@@ -610,7 +612,7 @@ export default function Boletim() {
                           style={{
                             fontWeight: 800,
                             fontSize: "1rem",
-                            color: b.mediaGeral === null ? "#94a3b8" : b.mediaGeral >= 6.0 ? "#16a34a" : b.mediaGeral >= 4.0 ? "#d97706" : "#ef4444"
+                            color: b.mediaGeral === null ? "#94a3b8" : b.mediaGeral >= 6.0 ? "#34d399" : b.mediaGeral >= 4.0 ? "#fbbf24" : "#f87171"
                           }}
                         >
                           {b.mediaGeral !== null ? b.mediaGeral.toFixed(1) : "—"}
@@ -619,14 +621,14 @@ export default function Boletim() {
 
                       {/* TOTAL FALTAS */}
                       <td style={{ padding: "1rem", textAlign: "center" }}>
-                        <span style={{ fontWeight: 600, color: b.totalFaltas > 40 ? "#ef4444" : "#334155" }}>
+                        <span style={{ fontWeight: 600, color: b.totalFaltas > 40 ? "#f87171" : "#cbd5e1" }}>
                           {b.totalFaltas} {b.totalFaltas === 1 ? "falta" : "faltas"}
                         </span>
                       </td>
 
                       {/* FREQUÊNCIA */}
                       <td style={{ padding: "1rem", textAlign: "center" }}>
-                        <span style={{ fontWeight: 700, color: b.frequenciaPerc >= 75 ? "#16a34a" : "#ef4444" }}>
+                        <span style={{ fontWeight: 700, color: b.frequenciaPerc >= 75 ? "#34d399" : "#f87171" }}>
                           {b.frequenciaPerc}%
                         </span>
                       </td>
@@ -634,25 +636,25 @@ export default function Boletim() {
                       {/* SITUAÇÃO / RESULTADO COM BADGE COLORIDO */}
                       <td style={{ padding: "1rem" }}>
                         {isAprovado && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#f0fdf4", color: "#166534", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #bbf7d0" }}>
+                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(16, 185, 129, 0.15)", color: "#34d399", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(16, 185, 129, 0.3)" }}>
                             <span style={{ fontSize: "0.9rem" }}>🟢</span>
                             Aprovado
                           </div>
                         )}
                         {isRecuperacao && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#fffbeb", color: "#b45309", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #fde68a" }}>
+                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(245, 158, 11, 0.3)" }}>
                             <span style={{ fontSize: "0.9rem" }}>🟡</span>
                             Recuperação
                           </div>
                         )}
                         {isReprovado && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#fef2f2", color: "#b91c1c", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #fecaca" }}>
+                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(239, 68, 68, 0.15)", color: "#f87171", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(239, 68, 68, 0.3)" }}>
                             <span style={{ fontSize: "0.9rem" }}>🔴</span>
                             Reprovado
                           </div>
                         )}
                         {isCursando && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#eff6ff", color: "#1d4ed8", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #bfdbfe" }}>
+                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
                             <span style={{ fontSize: "0.9rem" }}>🔵</span>
                             Cursando
                           </div>
@@ -668,10 +670,10 @@ export default function Boletim() {
                             title="Visualizar Boletim Escolar"
                             style={{
                               padding: "0.35rem 0.65rem",
-                              borderRadius: "6px",
-                              border: "1px solid #cbd5e1",
-                              background: "#ffffff",
-                              color: "#334155",
+                              borderRadius: "8px",
+                              border: "1px solid #33435c",
+                              background: "#243144",
+                              color: "#cbd5e1",
                               fontSize: "0.8rem",
                               fontWeight: 600,
                               cursor: "pointer",
@@ -680,7 +682,7 @@ export default function Boletim() {
                               gap: "0.3rem"
                             }}
                           >
-                            <i className="ti ti-eye" style={{ color: "#3b82f6" }} />
+                            <i className="ti ti-eye" style={{ color: "#818cf8" }} />
                             Visualizar
                           </button>
 
@@ -693,10 +695,10 @@ export default function Boletim() {
                             title="Baixar Boletim em PDF"
                             style={{
                               padding: "0.35rem 0.65rem",
-                              borderRadius: "6px",
-                              border: "1px solid #cbd5e1",
-                              background: "#ffffff",
-                              color: "#334155",
+                              borderRadius: "8px",
+                              border: "1px solid #33435c",
+                              background: "#243144",
+                              color: "#cbd5e1",
                               fontSize: "0.8rem",
                               fontWeight: 600,
                               cursor: "pointer",
@@ -705,7 +707,7 @@ export default function Boletim() {
                               gap: "0.3rem"
                             }}
                           >
-                            <i className="ti ti-file-download" style={{ color: "#ef4444" }} />
+                            <i className="ti ti-file-download" style={{ color: "#f87171" }} />
                             Baixar PDF
                           </button>
 
@@ -718,10 +720,10 @@ export default function Boletim() {
                             title="Imprimir Boletim Oficial"
                             style={{
                               padding: "0.35rem 0.65rem",
-                              borderRadius: "6px",
-                              border: "1px solid #cbd5e1",
-                              background: "#ffffff",
-                              color: "#334155",
+                              borderRadius: "8px",
+                              border: "1px solid #33435c",
+                              background: "#243144",
+                              color: "#cbd5e1",
                               fontSize: "0.8rem",
                               fontWeight: 600,
                               cursor: "pointer",
@@ -730,7 +732,7 @@ export default function Boletim() {
                               gap: "0.3rem"
                             }}
                           >
-                            <i className="ti ti-printer" style={{ color: "#16a34a" }} />
+                            <i className="ti ti-printer" style={{ color: "#34d399" }} />
                             Imprimir
                           </button>
                         </div>

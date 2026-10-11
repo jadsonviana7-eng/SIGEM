@@ -376,11 +376,11 @@ export default function Matriculas() {
       {/* Cabeçalho Principal do Módulo */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#111827", display: "flex", alignItems: "center", gap: 10 }}>
-            <i className="ti ti-clipboard-check" style={{ color: "#1a56db", fontSize: 26 }} />
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
+            <i className="ti ti-clipboard-check" style={{ color: "#60a5fa", fontSize: 26 }} />
             Fluxo de Matrículas, Rematrículas & Remanejamentos
           </h1>
-          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#64748b" }}>
+          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#94a3b8" }}>
             Gestão inteligente de vagas por turma, admissão completa de novos estudantes, rematrícula e remanejamento entre turmas.
           </p>
         </div>
@@ -395,13 +395,14 @@ export default function Matriculas() {
               alignItems: "center",
               gap: 6,
               padding: "7px 14px",
-              borderRadius: 6,
-              background: "#eff6ff",
-              color: "#1d4ed8",
-              border: "1px solid #bfdbfe",
+              borderRadius: 8,
+              background: "rgba(59, 130, 246, 0.15)",
+              color: "#93c5fd",
+              border: "1px solid #2c3b52",
               fontSize: 13,
               fontWeight: 600,
-              textDecoration: "none"
+              textDecoration: "none",
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-external-link" /> Portal do Responsável
@@ -421,45 +422,45 @@ export default function Matriculas() {
       {/* Painel Geral de Indicadores de Capacidade */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "#eff6ff", color: "#1a56db", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-building-community" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Capacidade Total</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#0f172a" }}>{totalCapacidade} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>vagas</span></div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Capacidade Total</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#ffffff" }}>{totalCapacidade} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>vagas</span></div>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-user-check" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Vagas Ocupadas</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>{totalOcupadas} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>matriculados</span></div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Vagas Ocupadas</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#34d399" }}>{totalOcupadas} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>matriculados</span></div>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: totalDisponiveis > 10 ? "#fefce8" : "#fee2e2", color: totalDisponiveis > 10 ? "#ca8a04" : "#dc2626", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: totalDisponiveis > 10 ? "rgba(251, 191, 36, 0.15)" : "rgba(248, 113, 113, 0.15)", color: totalDisponiveis > 10 ? "#fbbf24" : "#f87171", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-door-enter" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Vagas Disponíveis</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: totalDisponiveis > 0 ? "#0f172a" : "#dc2626" }}>
-              {totalDisponiveis} <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>livres</span>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Vagas Disponíveis</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: totalDisponiveis > 0 ? "#ffffff" : "#f87171" }}>
+              {totalDisponiveis} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>livres</span>
             </div>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "#faf5ff", color: "#9333ea", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
             <i className="ti ti-chart-pie" />
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>Ocupação Geral</span>
-              <strong style={{ fontSize: 14, color: "#9333ea" }}>{percentualOcupacaoGeral}%</strong>
+              <span style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Ocupação Geral</span>
+              <strong style={{ fontSize: 14, color: "#c084fc" }}>{percentualOcupacaoGeral}%</strong>
             </div>
             <ProgressBar value={percentualOcupacaoGeral} />
           </div>
@@ -472,7 +473,7 @@ export default function Matriculas() {
         style={{
           display: "flex",
           gap: 8,
-          borderBottom: "2px solid #e2e8f0",
+          borderBottom: "2px solid #2c3b52",
           overflowX: "auto",
           overflowY: "hidden",
           scrollbarWidth: "none",
@@ -504,9 +505,9 @@ export default function Matriculas() {
                 padding: "10px 18px",
                 border: "none",
                 background: "transparent",
-                borderBottom: ativa ? "3px solid #1a56db" : "3px solid transparent",
+                borderBottom: ativa ? "3px solid #3b82f6" : "3px solid transparent",
                 marginBottom: -2,
-                color: ativa ? "#1a56db" : "#64748b",
+                color: ativa ? "#60a5fa" : "#94a3b8",
                 fontWeight: ativa ? 700 : 500,
                 fontSize: 14,
                 cursor: "pointer",
@@ -518,10 +519,10 @@ export default function Matriculas() {
               {tab.label}
               <span style={{
                 fontSize: 11,
-                padding: "1px 7px",
+                padding: "2px 8px",
                 borderRadius: 10,
-                background: ativa ? "#1a56db" : (tab.id === "online" && solicitacoesPendentes.length > 0 ? "#fef08a" : "#e2e8f0"),
-                color: ativa ? "white" : (tab.id === "online" && solicitacoesPendentes.length > 0 ? "#854d0e" : "#475569"),
+                background: ativa ? "#3b82f6" : (tab.id === "online" && solicitacoesPendentes.length > 0 ? "rgba(245, 158, 11, 0.2)" : "#243144"),
+                color: ativa ? "#ffffff" : (tab.id === "online" && solicitacoesPendentes.length > 0 ? "#fbbf24" : "#cbd5e1"),
                 fontWeight: 700
               }}>
                 {tab.badge}
@@ -548,7 +549,6 @@ export default function Matriculas() {
         />
       )}
 
-
       {/* ========================================================================= */}
       {/* ABA 1: PAINEL DE VAGAS POR TURMA                                          */}
       {/* ========================================================================= */}
@@ -567,8 +567,8 @@ export default function Matriculas() {
                     key={t.id}
                     style={{
                       padding: 20,
-                      border: isLotada ? "1.5px solid #fecaca" : isLimitada ? "1.5px solid #fef08a" : "1px solid #e2e8f0",
-                      background: "white",
+                      border: isLotada ? "1.5px solid rgba(248, 113, 113, 0.5)" : isLimitada ? "1.5px solid rgba(251, 191, 36, 0.5)" : "1px solid #2c3b52",
+                      background: "#1e293b",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
@@ -578,8 +578,8 @@ export default function Matriculas() {
                     <div>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                         <div>
-                          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#0f172a" }}>{t.nome}</h3>
-                          <span style={{ fontSize: 12, color: "#64748b" }}>{t.ano} · Turno {t.turno}</span>
+                          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#ffffff" }}>{t.nome}</h3>
+                          <span style={{ fontSize: 12, color: "#94a3b8" }}>{t.ano} · Turno {t.turno}</span>
                         </div>
                         <Badge color={isLotada ? "red" : isLimitada ? "amber" : "green"}>
                           {isLotada ? "Turma Lotada" : isLimitada ? `${t.disponiveis} Vagas Restantes` : `${t.disponiveis} Vagas Livres`}
@@ -589,8 +589,8 @@ export default function Matriculas() {
                       {/* Barra de Progresso da Turma */}
                       <div style={{ marginTop: 12 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                          <span style={{ color: "#64748b" }}>Ocupação</span>
-                          <span style={{ fontWeight: 700, color: isLotada ? "#dc2626" : "#0f172a" }}>
+                          <span style={{ color: "#94a3b8" }}>Ocupação</span>
+                          <span style={{ fontWeight: 700, color: isLotada ? "#f87171" : "#ffffff" }}>
                             {t.ocupadas} / {t.totalVagas} alunos ({t.percentual}%)
                           </span>
                         </div>
@@ -598,9 +598,9 @@ export default function Matriculas() {
                       </div>
                     </div>
 
-                    <div style={{ borderTop: "1px solid #f1f5f9", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-                      <span style={{ fontSize: 12, color: "#64748b" }}>
-                        Matriculados: <strong>{t.ocupadas}</strong>
+                    <div style={{ borderTop: "1px solid #2c3b52", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+                      <span style={{ fontSize: 12, color: "#94a3b8" }}>
+                        Matriculados: <strong style={{ color: "#ffffff" }}>{t.ocupadas}</strong>
                       </span>
                       <div style={{ display: "flex", gap: 6 }}>
                         <Btn
@@ -638,7 +638,7 @@ export default function Matriculas() {
       {abaAtiva === "remanejamento" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Sub-abas de Remanejamento */}
-          <div style={{ display: "flex", gap: 8, background: "#f1f5f9", padding: 4, borderRadius: 8, width: "fit-content" }}>
+          <div style={{ display: "flex", gap: 8, background: "#161f2e", border: "1px solid #2c3b52", padding: 4, borderRadius: 8, width: "fit-content" }}>
             {[
               { id: "individual", label: "Remanejamento Individual", icon: "user" },
               { id: "lote", label: "Remanejamento em Lote (Coletivo)", icon: "users" },
@@ -655,19 +655,20 @@ export default function Matriculas() {
                     gap: 6,
                     padding: "7px 14px",
                     borderRadius: 6,
-                    border: "none",
-                    background: sel ? "white" : "transparent",
-                    color: sel ? "#1a56db" : "#475569",
+                    border: sel ? "1px solid #33435c" : "1px solid transparent",
+                    background: sel ? "#1e293b" : "transparent",
+                    color: sel ? "#60a5fa" : "#94a3b8",
                     fontWeight: sel ? 700 : 500,
                     fontSize: 13,
-                    boxShadow: sel ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
-                    cursor: "pointer"
+                    boxShadow: sel ? "0 1px 3px rgba(0,0,0,0.2)" : "none",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease"
                   }}
                 >
                   <i className={`ti ti-${sub.icon}`} />
                   {sub.label}
                   {sub.count !== undefined && (
-                    <span style={{ fontSize: 11, background: sel ? "#eff6ff" : "#e2e8f0", color: sel ? "#1a56db" : "#64748b", padding: "1px 6px", borderRadius: 10, fontWeight: 700 }}>
+                    <span style={{ fontSize: 11, background: sel ? "rgba(59, 130, 246, 0.2)" : "#243144", color: sel ? "#60a5fa" : "#94a3b8", padding: "1px 6px", borderRadius: 10, fontWeight: 700 }}>
                       {sub.count}
                     </span>
                   )}
@@ -680,23 +681,23 @@ export default function Matriculas() {
           {subAbaRemanejamento === "individual" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #d1d5db", borderRadius: 6, padding: "6px 10px", flex: 1, maxWidth: 360 }}>
-                  <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+                <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 10, padding: "8px 12px", flex: 1, maxWidth: 360 }}>
+                  <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
                   <input
                     value={buscaRemanejamento}
                     onChange={e => setBuscaRemanejamento(e.target.value)}
                     placeholder="Buscar estudante por nome ou matrícula..."
-                    style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }}
+                    style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }}
                   />
                 </div>
                 <select
                   value={filtroTurmaRemanejamento}
                   onChange={e => setFiltroTurmaRemanejamento(e.target.value)}
-                  style={{ padding: "6.5px 10px", border: "1px solid #d1d5db", borderRadius: 6, fontSize: 13, outline: "none", background: "white", color: "#374151" }}
+                  style={{ padding: "8.5px 12px", border: "1px solid #33435c", borderRadius: 10, fontSize: 13, outline: "none", background: "#243144", color: "#ffffff", cursor: "pointer" }}
                 >
-                  <option value="">Todas as Turmas Atuais</option>
+                  <option value="" style={{ background: "#1e293b", color: "#ffffff" }}>Todas as Turmas Atuais</option>
                   {turmas.map(t => (
-                    <option key={t.id} value={t.nome}>{t.nome}</option>
+                    <option key={t.id} value={t.nome} style={{ background: "#1e293b", color: "#ffffff" }}>{t.nome}</option>
                   ))}
                 </select>
               </div>
@@ -704,9 +705,9 @@ export default function Matriculas() {
               <Card style={{ padding: 0, overflow: "hidden" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <thead>
-                    <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e5e5e4" }}>
+                    <tr style={{ background: "rgba(36, 49, 68, 0.5)", borderBottom: "1px solid #2c3b52" }}>
                       {["Matrícula", "Estudante", "Turma Atual", "Turno", "Histórico de Mudanças", "Ação"].map(h => (
-                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase" }}>{h}</th>
+                        <th key={h} style={{ textAlign: "left", padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -720,17 +721,20 @@ export default function Matriculas() {
                       .map(a => {
                         const temHistorico = Array.isArray(a.historicoRemanejamento) && a.historicoRemanejamento.length > 0;
                         return (
-                          <tr key={a.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                            <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#6b7280" }}>{a.matricula || "—"}</td>
+                          <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
+                            onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
+                            onMouseOut={e => e.currentTarget.style.background="transparent"}
+                          >
+                            <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#94a3b8" }}>{a.matricula || "—"}</td>
                             <td style={{ padding: "12px 14px" }}>
-                              <div style={{ fontWeight: 600, color: "#111827" }}>{a.nome}</div>
-                              <div style={{ fontSize: 11, color: "#64748b" }}>{a.mae || a.responsavel || "—"}</div>
+                              <div style={{ fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{a.nome}</div>
+                              <div style={{ fontSize: 11, color: "#94a3b8" }}>{a.mae || a.responsavel || "—"}</div>
                             </td>
                             <td style={{ padding: "12px 14px" }}>
                               <Badge color="blue">{a.turma}</Badge>
-                              <span style={{ fontSize: 11, color: "#6b7280", marginLeft: 4 }}>{a.ano}</span>
+                              <span style={{ fontSize: 11, color: "#94a3b8", marginLeft: 4 }}>{a.ano}</span>
                             </td>
-                            <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569" }}>{a.turno || "—"}</td>
+                            <td style={{ padding: "12px 14px", fontSize: 13, color: "#cbd5e1" }}>{a.turno || "—"}</td>
                             <td style={{ padding: "12px 14px" }}>
                               {temHistorico ? (
                                 <Badge color="purple">{a.historicoRemanejamento.length} remanejamento(s)</Badge>
@@ -766,17 +770,17 @@ export default function Matriculas() {
           {subAbaRemanejamento === "lote" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <Card style={{ padding: 20 }}>
-                <h3 style={{ margin: "0 0 6px 0", fontSize: 16, fontWeight: 700, color: "#0f172a", display: "flex", alignItems: "center", gap: 8 }}>
-                  <i className="ti ti-arrows-exchange" style={{ color: "#1a56db" }} />
+                <h3 style={{ margin: "0 0 6px 0", fontSize: 16, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
+                  <i className="ti ti-arrows-exchange" style={{ color: "#60a5fa" }} />
                   Remanejamento Coletivo de Estudantes entre Turmas
                 </h3>
-                <p style={{ margin: "0 0 16px 0", fontSize: 13, color: "#64748b" }}>
+                <p style={{ margin: "0 0 16px 0", fontSize: 13, color: "#94a3b8" }}>
                   Mova um grupo de estudantes de uma turma para outra em lote mantendo o histórico de transferências internas e auditoria.
                 </p>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, background: "#f8fafc", padding: 16, borderRadius: 8, border: "1px solid #e2e8f0" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, background: "#161f2e", padding: 16, borderRadius: 8, border: "1px solid #2c3b52" }}>
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                       1. Turma de Origem (Atual) *
                     </label>
                     <Select
@@ -794,7 +798,7 @@ export default function Matriculas() {
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                       2. Turma de Destino (Nova Turma) *
                     </label>
                     <Select
@@ -814,7 +818,7 @@ export default function Matriculas() {
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                       3. Motivo Principal do Remanejamento *
                     </label>
                     <Select
@@ -832,7 +836,7 @@ export default function Matriculas() {
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                       4. Data do Remanejamento *
                     </label>
                     <Input
@@ -843,7 +847,7 @@ export default function Matriculas() {
                   </div>
 
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                       Observações / Justificativa Adicional (Opcional)
                     </label>
                     <Input
@@ -855,8 +859,8 @@ export default function Matriculas() {
                 </div>
 
                 {dadosTurmaDestinoRemLote && (
-                  <div style={{ marginTop: 12, padding: "10px 14px", borderRadius: 6, background: dadosTurmaDestinoRemLote.disponiveis > 0 ? "#eff6ff" : "#fef2f2", border: `1px solid ${dadosTurmaDestinoRemLote.disponiveis > 0 ? "#bfdbfe" : "#fecaca"}` }}>
-                    <span style={{ fontSize: 13, color: dadosTurmaDestinoRemLote.disponiveis > 0 ? "#1e40af" : "#991b1b", fontWeight: 600 }}>
+                  <div style={{ marginTop: 12, padding: "10px 14px", borderRadius: 8, background: dadosTurmaDestinoRemLote.disponiveis > 0 ? "rgba(59, 130, 246, 0.1)" : "rgba(239, 68, 68, 0.1)", border: `1px solid ${dadosTurmaDestinoRemLote.disponiveis > 0 ? "rgba(59, 130, 246, 0.3)" : "rgba(239, 68, 68, 0.3)"}` }}>
+                    <span style={{ fontSize: 13, color: dadosTurmaDestinoRemLote.disponiveis > 0 ? "#93c5fd" : "#fca5a5", fontWeight: 600 }}>
                       Capacidade da Turma de Destino: {dadosTurmaDestinoRemLote.ocupadas} alunos ocupando {dadosTurmaDestinoRemLote.totalVagas} vagas ({dadosTurmaDestinoRemLote.disponiveis} livres).
                     </span>
                   </div>
@@ -865,15 +869,15 @@ export default function Matriculas() {
 
               {turmaOrigemRemLote && (
                 <Card style={{ padding: 0, overflow: "hidden" }}>
-                  <div style={{ padding: "14px 18px", background: "#f8fafc", borderBottom: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ padding: "14px 18px", background: "#243144", borderBottom: "1px solid #2c3b52", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <input
                         type="checkbox"
                         checked={alunosTurmaOrigemRemLote.length > 0 && alunosSelecionadosRemLote.length === alunosTurmaOrigemRemLote.length}
                         onChange={toggleSelecionarTodosRemLote}
-                        style={{ width: 16, height: 16, cursor: "pointer" }}
+                        style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#3b82f6" }}
                       />
-                      <span style={{ fontSize: 13, fontWeight: 600, color: "#1e293b" }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "#ffffff" }}>
                         Selecionar Todos ({alunosSelecionadosRemLote.length} de {alunosTurmaOrigemRemLote.length} selecionados)
                       </span>
                     </div>
@@ -889,16 +893,16 @@ export default function Matriculas() {
                   </div>
 
                   {!alunosTurmaOrigemRemLote.length ? (
-                    <div style={{ padding: 30, textAlign: "center", color: "#64748b" }}>
+                    <div style={{ padding: 30, textAlign: "center", color: "#94a3b8" }}>
                       Nenhum aluno ativo encontrado nesta turma de origem.
                     </div>
                   ) : (
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                       <thead>
-                        <tr style={{ background: "#f1f5f9", borderBottom: "1px solid #e2e8f0" }}>
+                        <tr style={{ background: "rgba(36, 49, 68, 0.6)", borderBottom: "1px solid #2c3b52" }}>
                           <th style={{ width: 40, padding: "10px 14px" }}></th>
                           {["Matrícula", "Nome do Estudante", "Data Nasc.", "Mãe / Responsável", "Turno Atual"].map(h => (
-                            <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>{h}</th>
+                            <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
                           ))}
                         </tr>
                       </thead>
@@ -910,27 +914,29 @@ export default function Matriculas() {
                               key={a.id}
                               onClick={() => toggleAlunoRemLote(a.id)}
                               style={{
-                                borderBottom: "1px solid #f1f5f9",
-                                background: selecionado ? "#eff6ff" : "transparent",
+                                borderBottom: "1px solid #2c3b52",
+                                background: selecionado ? "rgba(59, 130, 246, 0.15)" : "transparent",
                                 cursor: "pointer",
-                                transition: "background 0.15s"
+                                transition: "background 0.15s ease"
                               }}
+                              onMouseOver={e => !selecionado && (e.currentTarget.style.background = "rgba(99, 102, 241, 0.08)")}
+                              onMouseOut={e => !selecionado && (e.currentTarget.style.background = "transparent")}
                             >
                               <td style={{ padding: "12px 14px", textAlign: "center" }}>
                                 <input
                                   type="checkbox"
                                   checked={selecionado}
                                   onChange={() => {}}
-                                  style={{ width: 16, height: 16, cursor: "pointer" }}
+                                  style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#3b82f6" }}
                                 />
                               </td>
-                              <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#64748b" }}>{a.matricula || "—"}</td>
-                              <td style={{ padding: "12px 14px", fontWeight: 600, color: "#0f172a" }}>{a.nome}</td>
-                              <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569" }}>
+                              <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#94a3b8" }}>{a.matricula || "—"}</td>
+                              <td style={{ padding: "12px 14px", fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{a.nome}</td>
+                              <td style={{ padding: "12px 14px", fontSize: 12, color: "#cbd5e1" }}>
                                 {a.nascimento ? new Date(a.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
                               </td>
-                              <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569" }}>{a.mae || a.responsavel || "—"}</td>
-                              <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569" }}>{a.turno || "—"}</td>
+                              <td style={{ padding: "12px 14px", fontSize: 12, color: "#cbd5e1" }}>{a.mae || a.responsavel || "—"}</td>
+                              <td style={{ padding: "12px 14px", fontSize: 12, color: "#cbd5e1" }}>{a.turno || "—"}</td>
                             </tr>
                           );
                         })}
@@ -951,21 +957,24 @@ export default function Matriculas() {
                 <Card style={{ padding: 0, overflow: "hidden" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead>
-                      <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e5e5e4" }}>
+                      <tr style={{ background: "rgba(36, 49, 68, 0.5)", borderBottom: "1px solid #2c3b52" }}>
                         {["Data", "Estudante", "Origem → Destino", "Motivo", "Registrado Por", "Ações"].map(h => (
-                          <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase" }}>{h}</th>
+                          <th key={h} style={{ textAlign: "left", padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {historicoGeralRemanejamentos.map((item, idx) => (
-                        <tr key={item.id || idx} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569", whiteSpace: "nowrap" }}>
+                        <tr key={item.id || idx} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
+                          onMouseOver={e => e.currentTarget.style.background = "rgba(99, 102, 241, 0.08)"}
+                          onMouseOut={e => e.currentTarget.style.background = "transparent"}
+                        >
+                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#cbd5e1", whiteSpace: "nowrap" }}>
                             {item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
                           </td>
                           <td style={{ padding: "12px 14px" }}>
-                            <div style={{ fontWeight: 600, color: "#111827" }}>{item.alunoNome}</div>
-                            <div style={{ fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>{item.alunoMatricula || "—"}</div>
+                            <div style={{ fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{item.alunoNome}</div>
+                            <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>{item.alunoMatricula || "—"}</div>
                           </td>
                           <td style={{ padding: "12px 14px" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -975,12 +984,12 @@ export default function Matriculas() {
                             </div>
                           </td>
                           <td style={{ padding: "12px 14px" }}>
-                            <div style={{ fontSize: 12, fontWeight: 500, color: "#1e293b" }}>{item.motivo}</div>
+                            <div style={{ fontSize: 12, fontWeight: 500, color: "#ffffff" }}>{item.motivo}</div>
                             {item.observacoes && (
-                              <div style={{ fontSize: 11, color: "#64748b", fontStyle: "italic", marginTop: 2 }}>{item.observacoes}</div>
+                              <div style={{ fontSize: 11, color: "#94a3b8", fontStyle: "italic", marginTop: 2 }}>{item.observacoes}</div>
                             )}
                           </td>
-                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#64748b" }}>{item.usuarioNome || "Secretaria"}</td>
+                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#94a3b8" }}>{item.usuarioNome || "Secretaria"}</td>
                           <td style={{ padding: "12px 14px" }}>
                             <Btn
                               variant="secondary"
@@ -1024,16 +1033,16 @@ export default function Matriculas() {
       {abaAtiva === "rematricula_lote" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Card style={{ padding: 20 }}>
-            <h3 style={{ margin: "0 0 6px 0", fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+            <h3 style={{ margin: "0 0 6px 0", fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
               Rematrícula Coletiva / Promoção de Turma
             </h3>
-            <p style={{ margin: "0 0 16px 0", fontSize: 13, color: "#64748b" }}>
+            <p style={{ margin: "0 0 16px 0", fontSize: 13, color: "#94a3b8" }}>
               Transfira ou promova alunos em bloco da turma do ano anterior para a nova turma do ano letivo de 2026.
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, background: "#f8fafc", padding: 16, borderRadius: 8, border: "1px solid #e2e8f0" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, background: "#161f2e", padding: 16, borderRadius: 8, border: "1px solid #2c3b52" }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                   1. Turma de Origem (Ano Anterior) *
                 </label>
                 <Select
@@ -1051,7 +1060,7 @@ export default function Matriculas() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                   2. Turma de Destino (2026) *
                 </label>
                 <Select
@@ -1072,8 +1081,8 @@ export default function Matriculas() {
             </div>
 
             {dadosTurmaDestino && (
-              <div style={{ marginTop: 12, padding: "10px 14px", borderRadius: 6, background: dadosTurmaDestino.disponiveis > 0 ? "#eff6ff" : "#fef2f2", border: `1px solid ${dadosTurmaDestino.disponiveis > 0 ? "#bfdbfe" : "#fecaca"}` }}>
-                <span style={{ fontSize: 13, color: dadosTurmaDestino.disponiveis > 0 ? "#1e40af" : "#991b1b", fontWeight: 600 }}>
+              <div style={{ marginTop: 12, padding: "10px 14px", borderRadius: 8, background: dadosTurmaDestino.disponiveis > 0 ? "rgba(59, 130, 246, 0.1)" : "rgba(239, 68, 68, 0.1)", border: `1px solid ${dadosTurmaDestino.disponiveis > 0 ? "rgba(59, 130, 246, 0.3)" : "rgba(239, 68, 68, 0.3)"}` }}>
+                <span style={{ fontSize: 13, color: dadosTurmaDestino.disponiveis > 0 ? "#93c5fd" : "#fca5a5", fontWeight: 600 }}>
                   Capacidade da Turma de Destino: {dadosTurmaDestino.ocupadas} alunos ocupando {dadosTurmaDestino.totalVagas} vagas ({dadosTurmaDestino.disponiveis} livres).
                 </span>
               </div>
@@ -1082,15 +1091,15 @@ export default function Matriculas() {
 
           {turmaOrigemLote && (
             <Card style={{ padding: 0, overflow: "hidden" }}>
-              <div style={{ padding: "14px 18px", background: "#f8fafc", borderBottom: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ padding: "14px 18px", background: "#243144", borderBottom: "1px solid #2c3b52", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <input
                     type="checkbox"
                     checked={alunosTurmaOrigem.length > 0 && alunosSelecionadosLote.length === alunosTurmaOrigem.length}
                     onChange={toggleSelecionarTodosLote}
-                    style={{ width: 16, height: 16, cursor: "pointer" }}
+                    style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#3b82f6" }}
                   />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1e293b" }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#ffffff" }}>
                     Selecionar Todos ({alunosSelecionadosLote.length} de {alunosTurmaOrigem.length} selecionados)
                   </span>
                 </div>
@@ -1106,16 +1115,16 @@ export default function Matriculas() {
               </div>
 
               {!alunosTurmaOrigem.length ? (
-                <div style={{ padding: 30, textAlign: "center", color: "#64748b" }}>
+                <div style={{ padding: 30, textAlign: "center", color: "#94a3b8" }}>
                   Nenhum aluno ativo encontrado nesta turma de origem.
                 </div>
               ) : (
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <thead>
-                    <tr style={{ background: "#f1f5f9", borderBottom: "1px solid #e2e8f0" }}>
+                    <tr style={{ background: "rgba(36, 49, 68, 0.6)", borderBottom: "1px solid #2c3b52" }}>
                       <th style={{ width: 40, padding: "10px 14px" }}></th>
                       {["Matrícula", "Nome do Estudante", "Data Nasc.", "Mãe / Responsável", "Situação Atual"].map(h => (
-                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#64748b", textTransform: "uppercase" }}>{h}</th>
+                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -1127,26 +1136,28 @@ export default function Matriculas() {
                           key={a.id}
                           onClick={() => toggleAlunoLote(a.id)}
                           style={{
-                            borderBottom: "1px solid #f1f5f9",
-                            background: selecionado ? "#eff6ff" : "transparent",
+                            borderBottom: "1px solid #2c3b52",
+                            background: selecionado ? "rgba(59, 130, 246, 0.15)" : "transparent",
                             cursor: "pointer",
-                            transition: "background 0.15s"
+                            transition: "background 0.15s ease"
                           }}
+                          onMouseOver={e => !selecionado && (e.currentTarget.style.background = "rgba(99, 102, 241, 0.08)")}
+                          onMouseOut={e => !selecionado && (e.currentTarget.style.background = "transparent")}
                         >
                           <td style={{ padding: "12px 14px", textAlign: "center" }}>
                             <input
                               type="checkbox"
                               checked={selecionado}
                               onChange={() => {}}
-                              style={{ width: 16, height: 16, cursor: "pointer" }}
+                              style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#3b82f6" }}
                             />
                           </td>
-                          <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#64748b" }}>{a.matricula || "—"}</td>
-                          <td style={{ padding: "12px 14px", fontWeight: 600, color: "#0f172a" }}>{a.nome}</td>
-                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569" }}>
+                          <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#94a3b8" }}>{a.matricula || "—"}</td>
+                          <td style={{ padding: "12px 14px", fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{a.nome}</td>
+                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#cbd5e1" }}>
                             {a.nascimento ? new Date(a.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
                           </td>
-                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#475569" }}>{a.mae || a.responsavel || "—"}</td>
+                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#cbd5e1" }}>{a.mae || a.responsavel || "—"}</td>
                           <td style={{ padding: "12px 14px" }}>
                             <Badge color={a.situacaoMatricula === "Renovação" ? "green" : "blue"}>
                               {a.situacaoMatricula || "Regular"}
@@ -1169,23 +1180,23 @@ export default function Matriculas() {
       {abaAtiva === "rematricula_individual" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "white", border: "1px solid #d1d5db", borderRadius: 6, padding: "6px 10px", flex: 1, maxWidth: 320 }}>
-              <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 10, padding: "8px 12px", flex: 1, maxWidth: 340 }}>
+              <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
               <input
                 value={buscaRematricula}
                 onChange={e => setBuscaRematricula(e.target.value)}
                 placeholder="Buscar por nome ou matrícula..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }}
+                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }}
               />
             </div>
             <select
               value={filtroTurmaRematricula}
               onChange={e => setFiltroTurmaRematricula(e.target.value)}
-              style={{ padding: "6.5px 10px", border: "1px solid #d1d5db", borderRadius: 6, fontSize: 13, outline: "none", background: "white", color: "#374151" }}
+              style={{ padding: "8.5px 12px", border: "1px solid #33435c", borderRadius: 10, fontSize: 13, outline: "none", background: "#243144", color: "#ffffff", cursor: "pointer" }}
             >
-              <option value="">Todas as Turmas</option>
+              <option value="" style={{ background: "#1e293b", color: "#ffffff" }}>Todas as Turmas</option>
               {turmas.map(t => (
-                <option key={t.id} value={t.nome}>{t.nome}</option>
+                <option key={t.id} value={t.nome} style={{ background: "#1e293b", color: "#ffffff" }}>{t.nome}</option>
               ))}
             </select>
           </div>
@@ -1193,9 +1204,9 @@ export default function Matriculas() {
           <Card style={{ padding: 0, overflow: "hidden" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e5e5e4" }}>
+                <tr style={{ background: "rgba(36, 49, 68, 0.5)", borderBottom: "1px solid #2c3b52" }}>
                   {["Matrícula", "Estudante", "Turma Atual", "Situação Matrícula", "Ação"].map(h => (
-                    <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase" }}>{h}</th>
+                    <th key={h} style={{ textAlign: "left", padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -1209,10 +1220,13 @@ export default function Matriculas() {
                   .map(a => {
                     const jaRenovado = a.situacaoMatricula === "Renovação";
                     return (
-                      <tr key={a.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                        <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#6b7280" }}>{a.matricula || "—"}</td>
-                        <td style={{ padding: "12px 14px", fontWeight: 600, color: "#111827" }}>{a.nome}</td>
-                        <td style={{ padding: "12px 14px" }}><Badge>{a.turma}</Badge> <span style={{ fontSize: 11, color: "#6b7280", marginLeft: 4 }}>{a.ano}</span></td>
+                      <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
+                        onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
+                        onMouseOut={e => e.currentTarget.style.background="transparent"}
+                      >
+                        <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#94a3b8" }}>{a.matricula || "—"}</td>
+                        <td style={{ padding: "12px 14px", fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{a.nome}</td>
+                        <td style={{ padding: "12px 14px" }}><Badge>{a.turma}</Badge> <span style={{ fontSize: 11, color: "#94a3b8", marginLeft: 4 }}>{a.ano}</span></td>
                         <td style={{ padding: "12px 14px" }}>
                           <Badge color={jaRenovado ? "green" : "amber"}>
                             {jaRenovado ? "Renovada" : "Pendente de Renovação"}
@@ -1252,16 +1266,16 @@ export default function Matriculas() {
           width={600}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ background: "#f8fafc", padding: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}>
-              <div style={{ fontSize: 13, color: "#64748b" }}>Matrícula Atual: <strong>{alunoRematricula.matricula || "—"}</strong></div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", marginTop: 2 }}>{alunoRematricula.nome}</div>
-              <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
-                Turma Atual: <strong>{alunoRematricula.turma} ({alunoRematricula.ano})</strong>
+            <div style={{ background: "#161f2e", padding: 14, borderRadius: 8, border: "1px solid #2c3b52" }}>
+              <div style={{ fontSize: 13, color: "#94a3b8" }}>Matrícula Atual: <strong style={{ color: "#ffffff" }}>{alunoRematricula.matricula || "—"}</strong></div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>{alunoRematricula.nome}</div>
+              <div style={{ fontSize: 12, color: "#cbd5e1", marginTop: 4 }}>
+                Turma Atual: <strong style={{ color: "#60a5fa" }}>{alunoRematricula.turma} ({alunoRematricula.ano})</strong>
               </div>
             </div>
 
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                 Selecione a Nova Turma de Destino *
               </label>
               <Select
@@ -1296,24 +1310,24 @@ export default function Matriculas() {
           width={620}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ background: "#eff6ff", padding: 14, borderRadius: 8, border: "1px solid #bfdbfe" }}>
+            <div style={{ background: "rgba(59, 130, 246, 0.1)", padding: 14, borderRadius: 8, border: "1px solid rgba(59, 130, 246, 0.3)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#1e40af", textTransform: "uppercase" }}>Estudante</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#1e3a8a", marginTop: 2 }}>{alunoRemanejamento.nome}</div>
-                  <div style={{ fontSize: 12, color: "#3b82f6" }}>Matrícula: {alunoRemanejamento.matricula || "—"}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#93c5fd", textTransform: "uppercase" }}>Estudante</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#ffffff", marginTop: 2 }}>{alunoRemanejamento.nome}</div>
+                  <div style={{ fontSize: 12, color: "#60a5fa" }}>Matrícula: {alunoRemanejamento.matricula || "—"}</div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>Turma de Origem:</div>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Turma de Origem:</div>
                   <Badge color="blue">{alunoRemanejamento.turma}</Badge>
-                  <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>Turno: {alunoRemanejamento.turno || "—"}</div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>Turno: {alunoRemanejamento.turno || "—"}</div>
                 </div>
               </div>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                   Nova Turma de Destino *
                 </label>
                 <Select
@@ -1334,7 +1348,7 @@ export default function Matriculas() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                   Motivo do Remanejamento *
                 </label>
                 <Select
@@ -1353,7 +1367,7 @@ export default function Matriculas() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                   Data do Remanejamento *
                 </label>
                 <Input
@@ -1364,7 +1378,7 @@ export default function Matriculas() {
               </div>
 
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
                   Observações / Parecer da Secretaria (Opcional)
                 </label>
                 <Input

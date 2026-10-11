@@ -6,7 +6,7 @@ import { getAllAlunos } from "../services/alunosService";
 import { getAllProfessores } from "../services/professoresService";
 import { getAllTurmas } from "../services/turmasService";
 import { getAllTransacoes } from "../services/financeiroService";
-import { Card, Badge, Btn, Modal, Input, Select, Spinner, EmptyState } from "../components/ui";
+import { Badge, Btn, Modal, Input, Select, Spinner, EmptyState } from "../components/ui";
 import { formatCNPJ } from "../utils/masks";
 import { comprimirEUploadFoto } from "../utils/upload";
 import CropModal from "../components/CropModal";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import AlertasSecretaria from "./gestaoSecretaria/components/AlertasSecretaria";
 import KpisCentroComando from "./gestaoSecretaria/components/KpisCentroComando";
 import GraficosComparativosRede from "./gestaoSecretaria/components/GraficosComparativosRede";
+import VisaoGeralModelo from "../components/dashboard/VisaoGeralModelo";
 
 const VAZIO_ESCOLA = {
   nome: "",
@@ -47,8 +48,9 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
   const [filtroZona, setFiltroZona] = useState("Todas");
   const [filtroStatus, setFiltroStatus] = useState("Todas");
   const [filtroMunicipio, setFiltroMunicipio] = useState("Todos");
-  const [modoVisualizacao, setModoVisualizacao] = useState("cards"); // 'cards' ou 'tabela'
   const [ordenacao, setOrdenacao] = useState("nome"); // 'nome', 'alunos', 'turmas', 'professores'
+  const [modoVisualizacao, setModoVisualizacao] = useState("cards"); // 'cards' | 'tabela'
+  const [abaAtiva, setAbaAtiva] = useState("visaoGeral"); // 'visaoGeral' | 'escolas' | 'alertas' | 'comparativos'
 
   // Estados do Modal de Criação / Edição de Escola
   const [modalAberto, setModalAberto] = useState(false);
@@ -156,23 +158,44 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
     });
 
     (todosAlunos || []).forEach((a) => {
-      if (mapa[a.escolaId]) {
-        mapa[a.escolaId].totalAlunos += 1;
-        if (a.status === "Ativo" || !a.status) mapa[a.escolaId].alunosAtivos += 1;
-        if (a.status === "Transferido") mapa[a.escolaId].alunosTransferidos += 1;
+      let targetEscolaId = a.escolaId;
+      if (!mapa[targetEscolaId]) {
+        if (a.escolaNome) {
+          const escMatch = (escolas || []).find((e) => e.nome?.trim().toLowerCase() === a.escolaNome?.trim().toLowerCase());
+          if (escMatch) targetEscolaId = escMatch.id;
+        }
+        if (!mapa[targetEscolaId] && escolas && escolas.length === 1) {
+          targetEscolaId = escolas[0].id;
+        }
+      }
+
+      if (mapa[targetEscolaId]) {
+        mapa[targetEscolaId].totalAlunos += 1;
+        if (a.status === "Ativo" || !a.status) mapa[targetEscolaId].alunosAtivos += 1;
+        if (a.status === "Transferido") mapa[targetEscolaId].alunosTransferidos += 1;
       }
     });
 
     (todosProfessores || []).forEach((p) => {
-      if (mapa[p.escolaId]) {
-        mapa[p.escolaId].totalProfessores += 1;
-        if (p.status === "Ativo" || !p.status) mapa[p.escolaId].professoresAtivos += 1;
+      let targetEscolaId = p.escolaId;
+      if (!mapa[targetEscolaId] && p.escolaNome) {
+        const escMatch = (escolas || []).find((e) => e.nome?.trim().toLowerCase() === p.escolaNome?.trim().toLowerCase());
+        if (escMatch) targetEscolaId = escMatch.id;
+      }
+      if (mapa[targetEscolaId]) {
+        mapa[targetEscolaId].totalProfessores += 1;
+        if (p.status === "Ativo" || !p.status) mapa[targetEscolaId].professoresAtivos += 1;
       }
     });
 
     (todasTurmas || []).forEach((t) => {
-      if (mapa[t.escolaId]) {
-        mapa[t.escolaId].totalTurmas += 1;
+      let targetEscolaId = t.escolaId;
+      if (!mapa[targetEscolaId] && t.escolaNome) {
+        const escMatch = (escolas || []).find((e) => e.nome?.trim().toLowerCase() === t.escolaNome?.trim().toLowerCase());
+        if (escMatch) targetEscolaId = escMatch.id;
+      }
+      if (mapa[targetEscolaId]) {
+        mapa[targetEscolaId].totalTurmas += 1;
       }
     });
 
@@ -298,86 +321,97 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      {/* 1. HERO BANNER DO CENTRO DE COMANDO */}
+      {/* 1. VISÃO GERAL DO MODELO (DASHBOARD FIEL À IMAGEM) */}
+      <VisaoGeralModelo
+        alunos={todosAlunos}
+        professores={todosProfessores}
+        turmas={todasTurmas}
+        pendencias={0}
+      />
+
+      {/* 2. BARRA DE FERRAMENTAS E ABAS DO SIGEM (DARK PREMIUM) */}
       <div
         style={{
-          background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%)",
+          background: "#131924",
           borderRadius: "16px",
-          padding: "26px 30px",
-          color: "white",
-          boxShadow: "0 10px 30px -5px rgba(15, 23, 42, 0.4)",
+          border: "1px solid #1c2433",
+          padding: "14px 20px",
           display: "flex",
-          flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "wrap",
-          gap: "18px"
+          gap: "14px",
+          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.25)"
         }}
       >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-            <span
-              style={{
-                background: "rgba(255, 255, 255, 0.2)",
-                padding: "4px 12px",
-                borderRadius: "20px",
-                fontSize: "12px",
-                fontWeight: "700",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px"
-              }}
-            >
-              <i className="ti ti-dashboard" style={{ marginRight: "6px" }} /> Gestão da Secretaria
-            </span>
-            <span style={{ fontSize: "12px", opacity: "0.85" }}>
-              Ano Letivo {new Date().getFullYear()} · Rede Municipal
-            </span>
-          </div>
-
-          <h1 style={{ fontSize: "26px", fontWeight: "800", margin: "4px 0 8px 0", letterSpacing: "-0.5px" }}>
-            Centro de Comando da Secretaria & Dashboard Municipal
-          </h1>
-
-          <p style={{ fontSize: "14px", opacity: "0.9", margin: 0, maxWidth: "700px", lineHeight: "1.5" }}>
-            Painel executivo de monitoramento integrado da educação municipal. Acompanhe indicadores de
-            matrículas, frequência, corpo docente, rendimento escolar e alertas em tempo real.
-          </p>
+        {/* Abas Pills */}
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          {[
+            { id: "visaoGeral", label: "Visão Geral", icon: "ti ti-layout-dashboard" },
+            { id: "escolas", label: `Unidades Escolares (${escolas.length})`, icon: "ti ti-building" },
+            { id: "alertas", label: "Alertas & Pendências", icon: "ti ti-alert-triangle" },
+            { id: "comparativos", label: "Comparativos da Rede", icon: "ti ti-chart-arrows" }
+          ].map((tab) => {
+            const ativa = abaAtiva === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setAbaAtiva(tab.id)}
+                style={{
+                  background: ativa ? "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)" : "#243144",
+                  color: ativa ? "#ffffff" : "#cbd5e1",
+                  border: ativa ? "none" : "1px solid #33435c",
+                  borderRadius: "10px",
+                  padding: "8px 16px",
+                  fontSize: "12.5px",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "7px",
+                  transition: "all 0.15s ease",
+                  boxShadow: ativa ? "0 4px 12px rgba(99, 102, 241, 0.35)" : "none"
+                }}
+              >
+                <i className={tab.icon} style={{ fontSize: "15px" }} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Ações Rápidas do Topo */}
+        {/* Ações Rápidas */}
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <button
             onClick={abrirNovaEscola}
             style={{
-              background: "#fff",
-              color: "#1e3a8a",
+              background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+              color: "#ffffff",
               border: "none",
-              padding: "10px 18px",
-              borderRadius: "8px",
-              fontSize: "13px",
+              padding: "8px 16px",
+              borderRadius: "10px",
+              fontSize: "12px",
               fontWeight: "700",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-              transition: "transform 0.15s ease"
+              boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)"
             }}
-            onMouseOver={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
-            onMouseOut={(e) => (e.currentTarget.style.transform = "translateY(0)")}
           >
-            <i className="ti ti-plus" style={{ fontSize: "16px" }} /> Cadastrar Nova Escola
+            <i className="ti ti-plus" /> Cadastrar Escola
           </button>
 
           <button
             onClick={imprimirRelatorioExecutivo}
             style={{
-              background: "rgba(255, 255, 255, 0.15)",
-              color: "white",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              padding: "10px 16px",
-              borderRadius: "8px",
-              fontSize: "13px",
+              background: "#243144",
+              color: "#cbd5e1",
+              border: "1px solid #33435c",
+              padding: "8px 14px",
+              borderRadius: "10px",
+              fontSize: "12px",
               fontWeight: "600",
               cursor: "pointer",
               display: "flex",
@@ -390,15 +424,14 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
 
           <button
             onClick={recarregarTodosDados}
-            title="Recarregar dados da rede"
+            title="Recarregar dados"
             style={{
-              background: "rgba(255, 255, 255, 0.15)",
-              color: "white",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              padding: "10px 14px",
-              borderRadius: "8px",
-              fontSize: "13px",
-              fontWeight: "500",
+              background: "#243144",
+              color: "#cbd5e1",
+              border: "1px solid #33435c",
+              padding: "8px 12px",
+              borderRadius: "10px",
+              fontSize: "12px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center"
@@ -409,38 +442,52 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
         </div>
       </div>
 
-      {/* 2. ÁREA DE ALERTAS INTELIGENTES DA REDE */}
-      <AlertasSecretaria
-        alunos={todosAlunos}
-        turmas={todasTurmas}
-        professores={todosProfessores}
-        escolas={escolas}
-      />
+      {/* 3. CONTEÚDO BASEADO NA ABA SELECIONADA */}
+      {abaAtiva === "alertas" && (
+        <AlertasSecretaria
+          alunos={todosAlunos}
+          turmas={todasTurmas}
+          professores={todosProfessores}
+          escolas={escolas}
+        />
+      )}
 
-      {/* 3. CARDS DE KPIS DO CENTRO DE COMANDO */}
-      <KpisCentroComando
-        escolas={escolas}
-        alunos={todosAlunos}
-        professores={todosProfessores}
-        turmas={todasTurmas}
-      />
+      {abaAtiva === "comparativos" && (
+        <>
+          <KpisCentroComando
+            escolas={escolas}
+            alunos={todosAlunos}
+            professores={todosProfessores}
+            turmas={todasTurmas}
+          />
+          <GraficosComparativosRede
+            escolas={escolas}
+            alunos={todosAlunos}
+            turmas={todasTurmas}
+            estatisticasPorEscola={estatisticasPorEscola}
+          />
+        </>
+      )}
 
-      {/* 4. DISTRIBUIÇÃO POR ETAPAS E GRÁFICOS COMPARATIVOS ENTRE ESCOLAS */}
-      <GraficosComparativosRede
-        escolas={escolas}
-        alunos={todosAlunos}
-        turmas={todasTurmas}
-        estatisticasPorEscola={estatisticasPorEscola}
-      />
+      {(abaAtiva === "visaoGeral" || abaAtiva === "escolas") && (
+        <>
+          {abaAtiva === "visaoGeral" && (
+            <AlertasSecretaria
+              alunos={todosAlunos}
+              turmas={todasTurmas}
+              professores={todosProfessores}
+              escolas={escolas}
+            />
+          )}
 
-      {/* 5. BARRA DE FILTROS E BUSCA DE UNIDADES ESCOLARES */}
+      {/* 5. BARRA DE FILTROS E BUSCA DE UNIDADES ESCOLARES (SLATE NAVY) */}
       <div
         style={{
-          background: "white",
-          borderRadius: "14px",
+          background: "#1e293b",
+          borderRadius: "16px",
           padding: "16px 20px",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)",
-          border: "1px solid #e5e7eb",
+          boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)",
+          border: "1px solid #2c3b52",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -454,10 +501,10 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
             className="ti ti-search"
             style={{
               position: "absolute",
-              left: "12px",
+              left: "14px",
               top: "50%",
               transform: "translateY(-50%)",
-              color: "#9ca3af",
+              color: "#94a3b8",
               fontSize: "15px"
             }}
           />
@@ -468,12 +515,13 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
             onChange={(e) => setBusca(e.target.value)}
             style={{
               width: "100%",
-              padding: "9px 12px 9px 36px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
+              padding: "10px 14px 10px 38px",
+              borderRadius: "10px",
+              border: "1px solid #33435c",
+              background: "#243144",
               fontSize: "13px",
               outline: "none",
-              color: "#1f2937",
+              color: "#ffffff",
               boxSizing: "border-box"
             }}
           />
@@ -482,13 +530,13 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
               onClick={() => setBusca("")}
               style={{
                 position: "absolute",
-                right: "10px",
+                right: "12px",
                 top: "50%",
                 transform: "translateY(-50%)",
                 border: "none",
                 background: "none",
                 cursor: "pointer",
-                color: "#9ca3af"
+                color: "#94a3b8"
               }}
             >
               <i className="ti ti-x" />
@@ -501,18 +549,19 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
             value={filtroZona}
             onChange={(e) => setFiltroZona(e.target.value)}
             style={{
-              padding: "8px 12px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
+              padding: "9px 12px",
+              borderRadius: "10px",
+              border: "1px solid #33435c",
               fontSize: "13px",
-              background: "white",
-              color: "#374151",
-              cursor: "pointer"
+              background: "#243144",
+              color: "#cbd5e1",
+              cursor: "pointer",
+              outline: "none"
             }}
           >
-            <option value="Todas">Todas as Zonas</option>
-            <option value="Urbana">Zona Urbana</option>
-            <option value="Rural">Zona Rural</option>
+            <option value="Todas" style={{ background: "#1e293b" }}>Todas as Zonas</option>
+            <option value="Urbana" style={{ background: "#1e293b" }}>Zona Urbana</option>
+            <option value="Rural" style={{ background: "#1e293b" }}>Zona Rural</option>
           </select>
 
           {municipiosUnicos.length > 1 && (
@@ -520,18 +569,19 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
               value={filtroMunicipio}
               onChange={(e) => setFiltroMunicipio(e.target.value)}
               style={{
-                padding: "8px 12px",
-                borderRadius: "8px",
-                border: "1px solid #d1d5db",
+                padding: "9px 12px",
+                borderRadius: "10px",
+                border: "1px solid #33435c",
                 fontSize: "13px",
-                background: "white",
-                color: "#374151",
-                cursor: "pointer"
+                background: "#243144",
+                color: "#cbd5e1",
+                cursor: "pointer",
+                outline: "none"
               }}
             >
-              <option value="Todos">Todos os Municípios</option>
+              <option value="Todos" style={{ background: "#1e293b" }}>Todos os Municípios</option>
               {municipiosUnicos.map((m) => (
-                <option key={m} value={m}>
+                <option key={m} value={m} style={{ background: "#1e293b" }}>
                   {m}
                 </option>
               ))}
@@ -542,47 +592,49 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
             value={filtroStatus}
             onChange={(e) => setFiltroStatus(e.target.value)}
             style={{
-              padding: "8px 12px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
+              padding: "9px 12px",
+              borderRadius: "10px",
+              border: "1px solid #33435c",
               fontSize: "13px",
-              background: "white",
-              color: "#374151",
-              cursor: "pointer"
+              background: "#243144",
+              color: "#cbd5e1",
+              cursor: "pointer",
+              outline: "none"
             }}
           >
-            <option value="Todas">Todos os Status</option>
-            <option value="Ativa">Ativas</option>
-            <option value="Inativa">Inativas</option>
+            <option value="Todas" style={{ background: "#1e293b" }}>Todos os Status</option>
+            <option value="Ativa" style={{ background: "#1e293b" }}>Ativas</option>
+            <option value="Inativa" style={{ background: "#1e293b" }}>Inativas</option>
           </select>
 
           <select
             value={ordenacao}
             onChange={(e) => setOrdenacao(e.target.value)}
             style={{
-              padding: "8px 12px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
+              padding: "9px 12px",
+              borderRadius: "10px",
+              border: "1px solid #33435c",
               fontSize: "13px",
-              background: "white",
-              color: "#374151",
-              cursor: "pointer"
+              background: "#243144",
+              color: "#cbd5e1",
+              cursor: "pointer",
+              outline: "none"
             }}
           >
-            <option value="nome">Ordenar por Nome</option>
-            <option value="alunos">Maior nº de Alunos</option>
-            <option value="turmas">Maior nº de Turmas</option>
-            <option value="professores">Maior nº de Professores</option>
+            <option value="nome" style={{ background: "#1e293b" }}>Ordenar por Nome</option>
+            <option value="alunos" style={{ background: "#1e293b" }}>Maior nº de Alunos</option>
+            <option value="turmas" style={{ background: "#1e293b" }}>Maior nº de Turmas</option>
+            <option value="professores" style={{ background: "#1e293b" }}>Maior nº de Professores</option>
           </select>
 
-          <div style={{ display: "flex", border: "1px solid #d1d5db", borderRadius: "8px", overflow: "hidden" }}>
+          <div style={{ display: "flex", border: "1px solid #33435c", borderRadius: "10px", overflow: "hidden" }}>
             <button
               onClick={() => setModoVisualizacao("cards")}
               style={{
-                padding: "7px 12px",
+                padding: "8px 12px",
                 border: "none",
-                background: modoVisualizacao === "cards" ? "#1e3a8a" : "white",
-                color: modoVisualizacao === "cards" ? "white" : "#6b7280",
+                background: modoVisualizacao === "cards" ? "linear-gradient(135deg, #6366f1, #8b5cf6)" : "#243144",
+                color: modoVisualizacao === "cards" ? "white" : "#94a3b8",
                 cursor: "pointer",
                 fontSize: "13px"
               }}
@@ -593,10 +645,10 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
             <button
               onClick={() => setModoVisualizacao("tabela")}
               style={{
-                padding: "7px 12px",
+                padding: "8px 12px",
                 border: "none",
-                background: modoVisualizacao === "tabela" ? "#1e3a8a" : "white",
-                color: modoVisualizacao === "tabela" ? "white" : "#6b7280",
+                background: modoVisualizacao === "tabela" ? "linear-gradient(135deg, #6366f1, #8b5cf6)" : "#243144",
+                color: modoVisualizacao === "tabela" ? "white" : "#94a3b8",
                 cursor: "pointer",
                 fontSize: "13px"
               }}
@@ -608,13 +660,13 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
         </div>
       </div>
 
-      {/* 6. LISTA / GRADE DE ESCOLAS DA REDE */}
+      {/* 6. LISTA / GRADE DE ESCOLAS DA REDE (DARK PREMIUM) */}
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-          <h2 style={{ fontSize: "17px", fontWeight: "700", color: "#111827", margin: 0 }}>
+          <h2 style={{ fontSize: "17px", fontWeight: "700", color: "#ffffff", margin: 0 }}>
             Unidades Escolares da Rede ({escolasExibicao.length})
           </h2>
-          <span style={{ fontSize: "13px", color: "#6b7280" }}>
+          <span style={{ fontSize: "13px", color: "#718096" }}>
             Clique em <b>Acessar Escola</b> para gerenciar turmas, alunos e cadernetas da unidade.
           </span>
         </div>
@@ -641,12 +693,12 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                 <div
                   key={escola.id}
                   style={{
-                    background: "white",
-                    borderRadius: "14px",
-                    border: isAtivaSelecionada ? "2px solid #2563eb" : "1px solid #e5e7eb",
+                    background: "#1e293b",
+                    borderRadius: "18px",
+                    border: isAtivaSelecionada ? "2px solid #6366f1" : "1px solid #2c3b52",
                     boxShadow: isAtivaSelecionada
-                      ? "0 10px 25px -5px rgba(37, 99, 235, 0.2)"
-                      : "0 4px 16px rgba(0, 0, 0, 0.04)",
+                      ? "0 10px 25px -5px rgba(99, 102, 241, 0.3)"
+                      : "0 6px 20px rgba(0, 0, 0, 0.18)",
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
@@ -659,7 +711,7 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                         position: "absolute",
                         top: "12px",
                         right: "12px",
-                        background: "#2563eb",
+                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
                         color: "white",
                         fontSize: "10px",
                         fontWeight: "700",
@@ -680,8 +732,8 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                       style={{
                         width: "56px",
                         height: "56px",
-                        borderRadius: "12px",
-                        background: escola.fotoUrl ? "transparent" : "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+                        borderRadius: "14px",
+                        background: escola.fotoUrl ? "transparent" : "linear-gradient(135deg, #6366f1 0%, #3b82f6 100%)",
                         color: "white",
                         display: "flex",
                         alignItems: "center",
@@ -690,7 +742,7 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                         fontWeight: "700",
                         flexShrink: 0,
                         overflow: "hidden",
-                        border: "1px solid #e2e8f0"
+                        border: "1px solid #33435c"
                       }}
                     >
                       {escola.fotoUrl ? (
@@ -705,7 +757,7 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                         style={{
                           fontSize: "15px",
                           fontWeight: "700",
-                          color: "#111827",
+                          color: "#ffffff",
                           margin: "0 0 2px 0",
                           whiteSpace: "nowrap",
                           overflow: "hidden",
@@ -715,20 +767,20 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                         {escola.nome}
                       </h3>
 
-                      <div style={{ fontSize: "12px", color: "#64748b", display: "flex", alignItems: "center", gap: "6px" }}>
-                        <i className="ti ti-map-pin" style={{ fontSize: "13px", color: "#9ca3af" }} />
+                      <div style={{ fontSize: "12px", color: "#8896ab", display: "flex", alignItems: "center", gap: "6px" }}>
+                        <i className="ti ti-map-pin" style={{ fontSize: "13px", color: "#64748b" }} />
                         <span>
                           {escola.municipio || "Maceió"} - {escola.uf || "AL"}
                         </span>
-                        <span style={{ color: "#d1d5db" }}>•</span>
+                        <span style={{ color: "#334155" }}>•</span>
                         <Badge variant={escola.zona === "Rural" ? "warning" : "blue"}>
                           {escola.zona || "Urbana"}
                         </Badge>
                       </div>
 
                       {escola.inep && (
-                        <div style={{ fontSize: "11px", color: "#9ca3af", marginTop: "2px" }}>
-                          INEP: <span style={{ fontFamily: "monospace", color: "#4b5563" }}>{escola.inep}</span>
+                        <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                          INEP: <span style={{ fontFamily: "monospace", color: "#94a3b8" }}>{escola.inep}</span>
                         </div>
                       )}
                     </div>
@@ -737,9 +789,9 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                   <div
                     style={{
                       padding: "12px 20px",
-                      background: "#f9fafb",
-                      borderTop: "1px solid #f3f4f6",
-                      borderBottom: "1px solid #f3f4f6",
+                      background: "#243144",
+                      borderTop: "1px solid #2c3b52",
+                      borderBottom: "1px solid #2c3b52",
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr 1fr",
                       gap: "8px",
@@ -747,33 +799,33 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: "10px", color: "#6b7280", textTransform: "uppercase", fontWeight: "600" }}>Alunos</div>
-                      <div style={{ fontSize: "16px", fontWeight: "700", color: "#1e3a8a" }}>{stats.totalAlunos || 0}</div>
+                      <div style={{ fontSize: "10px", color: "#94a3b8", textTransform: "uppercase", fontWeight: "600" }}>Alunos</div>
+                      <div style={{ fontSize: "16px", fontWeight: "700", color: "#38bdf8" }}>{stats.totalAlunos || 0}</div>
                       <div style={{ fontSize: "10px", color: "#10b981" }}>{stats.alunosAtivos || 0} ativos</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: "10px", color: "#6b7280", textTransform: "uppercase", fontWeight: "600" }}>Professores</div>
-                      <div style={{ fontSize: "16px", fontWeight: "700", color: "#d97706" }}>{stats.totalProfessores || 0}</div>
-                      <div style={{ fontSize: "10px", color: "#6b7280" }}>docentes</div>
+                      <div style={{ fontSize: "10px", color: "#94a3b8", textTransform: "uppercase", fontWeight: "600" }}>Professores</div>
+                      <div style={{ fontSize: "16px", fontWeight: "700", color: "#fbbf24" }}>{stats.totalProfessores || 0}</div>
+                      <div style={{ fontSize: "10px", color: "#94a3b8" }}>docentes</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: "10px", color: "#6b7280", textTransform: "uppercase", fontWeight: "600" }}>Turmas</div>
-                      <div style={{ fontSize: "16px", fontWeight: "700", color: "#7c3aed" }}>{stats.totalTurmas || 0}</div>
-                      <div style={{ fontSize: "10px", color: "#6b7280" }}>em curso</div>
+                      <div style={{ fontSize: "10px", color: "#94a3b8", textTransform: "uppercase", fontWeight: "600" }}>Turmas</div>
+                      <div style={{ fontSize: "16px", fontWeight: "700", color: "#c084fc" }}>{stats.totalTurmas || 0}</div>
+                      <div style={{ fontSize: "10px", color: "#94a3b8" }}>em curso</div>
                     </div>
                   </div>
 
                   {(escola.diretor || escola.telefone) && (
-                    <div style={{ padding: "10px 20px", fontSize: "12px", color: "#4b5563", display: "flex", flexDirection: "column", gap: "3px" }}>
+                    <div style={{ padding: "10px 20px", fontSize: "12px", color: "#8896ab", display: "flex", flexDirection: "column", gap: "3px" }}>
                       {escola.diretor && (
                         <div>
-                          <i className="ti ti-user" style={{ marginRight: "6px", color: "#9ca3af" }} />
+                          <i className="ti ti-user" style={{ marginRight: "6px", color: "#64748b" }} />
                           <b>Diretor(a):</b> {escola.diretor}
                         </div>
                       )}
                       {escola.telefone && (
                         <div>
-                          <i className="ti ti-phone" style={{ marginRight: "6px", color: "#9ca3af" }} />
+                          <i className="ti ti-phone" style={{ marginRight: "6px", color: "#64748b" }} />
                           {escola.telefone}
                         </div>
                       )}
@@ -794,11 +846,11 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                       onClick={() => handleSelecionarEscolaAtiva(escola.id)}
                       style={{
                         flex: 1,
-                        background: isAtivaSelecionada ? "#1e3a8a" : "#eff6ff",
-                        color: isAtivaSelecionada ? "white" : "#1d4ed8",
-                        border: isAtivaSelecionada ? "1px solid #1e3a8a" : "1px solid #bfdbfe",
+                        background: isAtivaSelecionada ? "linear-gradient(135deg, #6366f1, #8b5cf6)" : "#243144",
+                        color: isAtivaSelecionada ? "white" : "#cbd5e1",
+                        border: isAtivaSelecionada ? "none" : "1px solid #33435c",
                         padding: "8px 14px",
-                        borderRadius: "8px",
+                        borderRadius: "10px",
                         fontSize: "12px",
                         fontWeight: "600",
                         cursor: "pointer",
@@ -817,10 +869,10 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                       title="Editar dados da escola"
                       style={{
                         padding: "8px 10px",
-                        background: "white",
-                        border: "1px solid #d1d5db",
-                        borderRadius: "8px",
-                        color: "#4b5563",
+                        background: "#243144",
+                        border: "1px solid #33435c",
+                        borderRadius: "10px",
+                        color: "#cbd5e1",
                         cursor: "pointer",
                         fontSize: "14px"
                       }}
@@ -833,10 +885,10 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                       title="Excluir escola"
                       style={{
                         padding: "8px 10px",
-                        background: "white",
-                        border: "1px solid #fecaca",
+                        background: "#243144",
+                        border: "1px solid rgba(239, 68, 68, 0.35)",
                         borderRadius: "8px",
-                        color: "#dc2626",
+                        color: "#f87171",
                         cursor: "pointer",
                         fontSize: "14px"
                       }}
@@ -849,19 +901,19 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
             })}
           </div>
         ) : (
-          <Card style={{ padding: 0, overflow: "hidden" }}>
+          <div style={{ background: "#1e293b", border: "1px solid #2c3b52", borderRadius: "16px", padding: 0, overflow: "hidden" }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569" }}>Escola</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569" }}>INEP</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569" }}>Município</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569" }}>Zona</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569", textAlign: "center" }}>Alunos</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569", textAlign: "center" }}>Professores</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569", textAlign: "center" }}>Turmas</th>
-                    <th style={{ padding: "12px 16px", fontWeight: "600", color: "#475569", textAlign: "right" }}>Ações</th>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8" }}>Escola</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8" }}>INEP</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8" }}>Município</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8" }}>Zona</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8", textAlign: "center" }}>Alunos</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8", textAlign: "center" }}>Professores</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8", textAlign: "center" }}>Turmas</th>
+                    <th style={{ padding: "14px 16px", fontWeight: "600", color: "#94a3b8", textAlign: "right" }}>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -870,21 +922,22 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                     const isAtiva = selectedEscolaId === escola.id;
 
                     return (
-                      <tr key={escola.id} style={{ borderBottom: "1px solid #f1f5f9", background: isAtiva ? "#f0fdf4" : "white" }}>
-                        <td style={{ padding: "12px 16px", fontWeight: "600", color: "#1e293b" }}>
+                      <tr key={escola.id} style={{ borderBottom: "1px solid #1c2433", background: isAtiva ? "rgba(16, 185, 129, 0.08)" : "transparent" }}>
+                        <td style={{ padding: "14px 16px", fontWeight: "600", color: "#f8fafc" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <div
                               style={{
                                 width: "32px",
                                 height: "32px",
-                                borderRadius: "6px",
-                                background: "#e2e8f0",
+                                borderRadius: "8px",
+                                background: "#1e293b",
                                 display: "flex",
                                 alignItems: "center",
+                                justifyItems: "center",
                                 justifyContent: "center",
                                 fontSize: "12px",
                                 fontWeight: "700",
-                                color: "#1e3a8a",
+                                color: "#6366f1",
                                 overflow: "hidden"
                               }}
                             >
@@ -895,35 +948,70 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                               )}
                             </div>
                             <div>
-                              <div>{escola.nome}</div>
-                              {isAtiva && <span style={{ fontSize: "10px", color: "#16a34a", fontWeight: "700" }}>● Ativa</span>}
+                              <div style={{ color: "#f8fafc" }}>{escola.nome}</div>
+                              {isAtiva && <span style={{ fontSize: "10px", color: "#10b981", fontWeight: "700" }}>● Ativa</span>}
                             </div>
                           </div>
                         </td>
-                        <td style={{ padding: "12px 16px", fontFamily: "monospace", color: "#64748b" }}>{escola.inep || "-"}</td>
-                        <td style={{ padding: "12px 16px", color: "#475569" }}>
+                        <td style={{ padding: "14px 16px", fontFamily: "monospace", color: "#94a3b8" }}>{escola.inep || "-"}</td>
+                        <td style={{ padding: "14px 16px", color: "#cbd5e1" }}>
                           {escola.municipio} - {escola.uf}
                         </td>
-                        <td style={{ padding: "12px 16px" }}>
-                          <Badge variant={escola.zona === "Rural" ? "warning" : "blue"}>{escola.zona || "Urbana"}</Badge>
+                        <td style={{ padding: "14px 16px" }}>
+                          <span style={{ 
+                            padding: "4px 8px", 
+                            borderRadius: "6px", 
+                            fontSize: "11px", 
+                            fontWeight: "600",
+                            background: escola.zona === "Rural" ? "rgba(245, 158, 11, 0.15)" : "rgba(99, 102, 241, 0.15)",
+                            color: escola.zona === "Rural" ? "#f59e0b" : "#818cf8"
+                          }}>
+                            {escola.zona || "Urbana"}
+                          </span>
                         </td>
-                        <td style={{ padding: "12px 16px", textAlign: "center", fontWeight: "600", color: "#1e3a8a" }}>
+                        <td style={{ padding: "14px 16px", textAlign: "center", fontWeight: "700", color: "#38bdf8" }}>
                           {stats.totalAlunos || 0}
                         </td>
-                        <td style={{ padding: "12px 16px", textAlign: "center", fontWeight: "600", color: "#d97706" }}>
+                        <td style={{ padding: "14px 16px", textAlign: "center", fontWeight: "700", color: "#a855f7" }}>
                           {stats.totalProfessores || 0}
                         </td>
-                        <td style={{ padding: "12px 16px", textAlign: "center", fontWeight: "600", color: "#7c3aed" }}>
+                        <td style={{ padding: "14px 16px", textAlign: "center", fontWeight: "700", color: "#f59e0b" }}>
                           {stats.totalTurmas || 0}
                         </td>
-                        <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <td style={{ padding: "14px 16px", textAlign: "right" }}>
                           <div style={{ display: "flex", gap: "6px", justifyContent: "flex-end" }}>
-                            <Btn variant="primary" onClick={() => handleSelecionarEscolaAtiva(escola.id)} style={{ padding: "4px 10px", fontSize: "12px" }}>
+                            <button 
+                              onClick={() => handleSelecionarEscolaAtiva(escola.id)} 
+                              style={{ 
+                                padding: "6px 12px", 
+                                fontSize: "12px",
+                                fontWeight: "600",
+                                background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                                color: "#fff",
+                                border: "none",
+                                borderRadius: "8px",
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "4px"
+                              }}
+                            >
                               <i className="ti ti-arrow-right" /> Acessar
-                            </Btn>
-                            <Btn onClick={(e) => abrirEditarEscola(escola, e)} style={{ padding: "4px 8px", fontSize: "12px" }}>
+                            </button>
+                            <button 
+                              onClick={(e) => abrirEditarEscola(escola, e)} 
+                              style={{ 
+                                padding: "6px 10px", 
+                                fontSize: "12px",
+                                background: "#18202d",
+                                border: "1px solid #232d3f",
+                                color: "#94a3b8",
+                                borderRadius: "8px",
+                                cursor: "pointer"
+                              }}
+                            >
                               <i className="ti ti-pencil" />
-                            </Btn>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -932,9 +1020,11 @@ export default function AdminDashboard({ onSelecionarVisaoEscola }) {
                 </tbody>
               </table>
             </div>
-          </Card>
+          </div>
         )}
       </div>
+        </>
+      )}
 
       {/* MODAL DE CADASTRO / EDIÇÃO DE ESCOLA */}
       <Modal

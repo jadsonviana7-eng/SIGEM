@@ -239,25 +239,25 @@ export default function FechamentoPeriodo() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span style={{ fontSize: "1.6rem" }}>🔒</span>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "var(--text-primary, #1e293b)" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>
               Fechamento de Período Letivo
             </h1>
           </div>
-          <p style={{ margin: "0.25rem 0 0", color: "var(--text-secondary, #64748b)", fontSize: "0.9rem" }}>
+          <p style={{ margin: "0.25rem 0 0", color: "#94a3b8", fontSize: "0.9rem" }}>
             Validação pedagógica, trancamento oficial de caderneta digital e registro de auditoria.
           </p>
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#f8fafc", padding: "0.35rem 0.75rem", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-            <i className="ti ti-calendar" style={{ color: "#64748b" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#243144", padding: "0.35rem 0.75rem", borderRadius: "8px", border: "1px solid #33435c" }}>
+            <i className="ti ti-calendar" style={{ color: "#818cf8" }} />
             <select
               value={bimestre}
               onChange={(e) => setBimestre(e.target.value)}
-              style={{ background: "transparent", border: "none", fontWeight: 600, color: "#1e293b", cursor: "pointer", outline: "none" }}
+              style={{ background: "transparent", border: "none", fontWeight: 600, color: "#ffffff", cursor: "pointer", outline: "none" }}
             >
               {BIMESTRES.map(b => (
-                <option key={b} value={b}>{b}</option>
+                <option key={b} value={b} style={{ background: "#243144", color: "#ffffff" }}>{b}</option>
               ))}
             </select>
           </div>
@@ -280,40 +280,39 @@ export default function FechamentoPeriodo() {
         </div>
       </div>
 
-      {/* CARDS DE RESUMO DO PERÍODO EXATAMENTE COMO REQUISITADO */}
+      {/* CARDS DE RESUMO DO PERÍODO */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem" }}>
         {/* CARD 1: PENDENTES */}
         <div
           onClick={() => { setAbaAtiva("turmas"); setFiltroStatus("PENDENTE"); }}
           style={{
-            background: "#ffffff",
+            background: "#1e293b",
             borderRadius: "12px",
             padding: "1.25rem 1.5rem",
-            border: "1px solid #fee2e2",
-            boxShadow: "0 2px 8px rgba(239, 68, 68, 0.08)",
+            border: "1px solid #2c3b52",
+            borderLeft: "5px solid #ef4444",
             cursor: "pointer",
             transition: "transform 0.2s, box-shadow 0.2s",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            borderLeft: "5px solid #ef4444"
+            justifyContent: "space-between"
           }}
         >
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.35rem" }}>
               <span style={{ fontSize: "1.2rem" }}>🔴</span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#991b1b", textTransform: "uppercase", letterSpacing: "0.03em" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#f87171", textTransform: "uppercase", letterSpacing: "0.03em" }}>
                 Diários Pendentes
               </span>
             </div>
-            <div style={{ fontSize: "1.85rem", fontWeight: 800, color: "#ef4444" }}>
+            <div style={{ fontSize: "1.85rem", fontWeight: 800, color: "#f87171" }}>
               {totalPendentes} {totalPendentes === 1 ? "diário pendente" : "diários pendentes"}
             </div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", marginTop: "0.2rem" }}>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", marginTop: "0.2rem" }}>
               Aguardando envio pelo professor
             </div>
           </div>
-          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", color: "#ef4444", fontSize: "1.4rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(239, 68, 68, 0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#f87171", fontSize: "1.4rem" }}>
             <i className="ti ti-alert-triangle" />
           </div>
         </div>
@@ -322,34 +321,33 @@ export default function FechamentoPeriodo() {
         <div
           onClick={() => { setAbaAtiva("turmas"); setFiltroStatus("AGUARDANDO"); }}
           style={{
-            background: "#ffffff",
+            background: "#1e293b",
             borderRadius: "12px",
             padding: "1.25rem 1.5rem",
-            border: "1px solid #fef3c7",
-            boxShadow: "0 2px 8px rgba(245, 158, 11, 0.08)",
+            border: "1px solid #2c3b52",
+            borderLeft: "5px solid #f59e0b",
             cursor: "pointer",
             transition: "transform 0.2s, box-shadow 0.2s",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            borderLeft: "5px solid #f59e0b"
+            justifyContent: "space-between"
           }}
         >
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.35rem" }}>
               <span style={{ fontSize: "1.2rem" }}>🟡</span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#92400e", textTransform: "uppercase", letterSpacing: "0.03em" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#fbbf24", textTransform: "uppercase", letterSpacing: "0.03em" }}>
                 Aguardando Validação
               </span>
             </div>
-            <div style={{ fontSize: "1.85rem", fontWeight: 800, color: "#d97706" }}>
+            <div style={{ fontSize: "1.85rem", fontWeight: 800, color: "#fbbf24" }}>
               {totalAguardando} {totalAguardando === 1 ? "turma aguardando" : "turmas aguardando"}
             </div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", marginTop: "0.2rem" }}>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", marginTop: "0.2rem" }}>
               Solicitado pelo professor para a coordenação
             </div>
           </div>
-          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "center", color: "#f59e0b", fontSize: "1.4rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(245, 158, 11, 0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fbbf24", fontSize: "1.4rem" }}>
             <i className="ti ti-clock" />
           </div>
         </div>
@@ -358,56 +356,55 @@ export default function FechamentoPeriodo() {
         <div
           onClick={() => { setAbaAtiva("turmas"); setFiltroStatus("FECHADO"); }}
           style={{
-            background: "#ffffff",
+            background: "#1e293b",
             borderRadius: "12px",
             padding: "1.25rem 1.5rem",
-            border: "1px solid #dcfce7",
-            boxShadow: "0 2px 8px rgba(34, 197, 94, 0.08)",
+            border: "1px solid #2c3b52",
+            borderLeft: "5px solid #22c55e",
             cursor: "pointer",
             transition: "transform 0.2s, box-shadow 0.2s",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            borderLeft: "5px solid #22c55e"
+            justifyContent: "space-between"
           }}
         >
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.35rem" }}>
               <span style={{ fontSize: "1.2rem" }}>🟢</span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#166534", textTransform: "uppercase", letterSpacing: "0.03em" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#4ade80", textTransform: "uppercase", letterSpacing: "0.03em" }}>
                 Período Fechado 🔒
               </span>
             </div>
-            <div style={{ fontSize: "1.85rem", fontWeight: 800, color: "#16a34a" }}>
+            <div style={{ fontSize: "1.85rem", fontWeight: 800, color: "#4ade80" }}>
               {totalFechadas} {totalFechadas === 1 ? "turma fechada" : "turmas fechadas"}
             </div>
-            <div style={{ fontSize: "0.8rem", color: "#64748b", marginTop: "0.2rem" }}>
+            <div style={{ fontSize: "0.8rem", color: "#94a3b8", marginTop: "0.2rem" }}>
               Diários trancados e homologados
             </div>
           </div>
-          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", color: "#16a34a", fontSize: "1.4rem" }}>
+          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(34, 197, 94, 0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#4ade80", fontSize: "1.4rem" }}>
             <i className="ti ti-lock-square" />
           </div>
         </div>
       </div>
 
       {/* BARRA DE PROGRESSO DO BIMESTRE */}
-      <div style={{ background: "#ffffff", borderRadius: "12px", padding: "1rem 1.5rem", border: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
+      <div style={{ background: "#1e293b", borderRadius: "12px", padding: "1rem 1.5rem", border: "1px solid #2c3b52", display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
         <div style={{ flex: "1 1 300px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.4rem", fontSize: "0.85rem" }}>
-            <span style={{ fontWeight: 600, color: "#334155" }}>Progresso de Fechamento do {bimestre}</span>
-            <span style={{ fontWeight: 700, color: percentualFechado === 100 ? "#16a34a" : "#2563eb" }}>
+            <span style={{ fontWeight: 600, color: "#cbd5e1" }}>Progresso de Fechamento do {bimestre}</span>
+            <span style={{ fontWeight: 700, color: percentualFechado === 100 ? "#4ade80" : "#818cf8" }}>
               {percentualFechado}% Concluído ({totalFechadas} de {totalGeral} turmas)
             </span>
           </div>
-          <div style={{ width: "100%", height: "10px", background: "#f1f5f9", borderRadius: "999px", overflow: "hidden", display: "flex" }}>
+          <div style={{ width: "100%", height: "10px", background: "#243144", borderRadius: "999px", overflow: "hidden", display: "flex" }}>
             <div style={{ width: `${(totalFechadas / totalGeral) * 100}%`, background: "#22c55e", transition: "width 0.4s" }} />
             <div style={{ width: `${(totalAguardando / totalGeral) * 100}%`, background: "#f59e0b", transition: "width 0.4s" }} />
             <div style={{ width: `${(totalPendentes / totalGeral) * 100}%`, background: "#ef4444", transition: "width 0.4s" }} />
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "1rem", fontSize: "0.8rem", color: "#64748b" }}>
+        <div style={{ display: "flex", gap: "1rem", fontSize: "0.8rem", color: "#94a3b8" }}>
           <span style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e" }} /> Fechadas
           </span>
@@ -424,16 +421,16 @@ export default function FechamentoPeriodo() {
       {abaAtiva === "turmas" && (
         <Card>
           {/* BARRA DE FILTROS */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #f1f5f9" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #2c3b52" }}>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
               <button
                 onClick={() => setFiltroStatus("TODOS")}
                 style={{
                   padding: "0.4rem 0.85rem",
                   borderRadius: "20px",
-                  border: filtroStatus === "TODOS" ? "1px solid #3b82f6" : "1px solid #e2e8f0",
-                  background: filtroStatus === "TODOS" ? "#eff6ff" : "#ffffff",
-                  color: filtroStatus === "TODOS" ? "#1d4ed8" : "#64748b",
+                  border: filtroStatus === "TODOS" ? "1px solid #6366f1" : "1px solid #33435c",
+                  background: filtroStatus === "TODOS" ? "rgba(99, 102, 241, 0.2)" : "#243144",
+                  color: filtroStatus === "TODOS" ? "#818cf8" : "#94a3b8",
                   fontWeight: 600,
                   fontSize: "0.85rem",
                   cursor: "pointer"
@@ -446,9 +443,9 @@ export default function FechamentoPeriodo() {
                 style={{
                   padding: "0.4rem 0.85rem",
                   borderRadius: "20px",
-                  border: filtroStatus === "PENDENTE" ? "1px solid #ef4444" : "1px solid #e2e8f0",
-                  background: filtroStatus === "PENDENTE" ? "#fef2f2" : "#ffffff",
-                  color: filtroStatus === "PENDENTE" ? "#dc2626" : "#64748b",
+                  border: filtroStatus === "PENDENTE" ? "1px solid #ef4444" : "1px solid #33435c",
+                  background: filtroStatus === "PENDENTE" ? "rgba(239, 68, 68, 0.2)" : "#243144",
+                  color: filtroStatus === "PENDENTE" ? "#f87171" : "#94a3b8",
                   fontWeight: 600,
                   fontSize: "0.85rem",
                   cursor: "pointer"
@@ -461,9 +458,9 @@ export default function FechamentoPeriodo() {
                 style={{
                   padding: "0.4rem 0.85rem",
                   borderRadius: "20px",
-                  border: filtroStatus === "AGUARDANDO" ? "1px solid #f59e0b" : "1px solid #e2e8f0",
-                  background: filtroStatus === "AGUARDANDO" ? "#fffbeb" : "#ffffff",
-                  color: filtroStatus === "AGUARDANDO" ? "#d97706" : "#64748b",
+                  border: filtroStatus === "AGUARDANDO" ? "1px solid #f59e0b" : "1px solid #33435c",
+                  background: filtroStatus === "AGUARDANDO" ? "rgba(245, 158, 11, 0.2)" : "#243144",
+                  color: filtroStatus === "AGUARDANDO" ? "#fbbf24" : "#94a3b8",
                   fontWeight: 600,
                   fontSize: "0.85rem",
                   cursor: "pointer"
@@ -476,9 +473,9 @@ export default function FechamentoPeriodo() {
                 style={{
                   padding: "0.4rem 0.85rem",
                   borderRadius: "20px",
-                  border: filtroStatus === "FECHADO" ? "1px solid #22c55e" : "1px solid #e2e8f0",
-                  background: filtroStatus === "FECHADO" ? "#f0fdf4" : "#ffffff",
-                  color: filtroStatus === "FECHADO" ? "#15803d" : "#64748b",
+                  border: filtroStatus === "FECHADO" ? "1px solid #22c55e" : "1px solid #33435c",
+                  background: filtroStatus === "FECHADO" ? "rgba(34, 197, 94, 0.2)" : "#243144",
+                  color: filtroStatus === "FECHADO" ? "#4ade80" : "#94a3b8",
                   fontWeight: 600,
                   fontSize: "0.85rem",
                   cursor: "pointer"
@@ -489,7 +486,7 @@ export default function FechamentoPeriodo() {
             </div>
 
             <div style={{ position: "relative", minWidth: 260 }}>
-              <i className="ti ti-search" style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
+              <i className="ti ti-search" style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#818cf8" }} />
               <input
                 type="text"
                 placeholder="Buscar turma ou professor..."
@@ -499,7 +496,9 @@ export default function FechamentoPeriodo() {
                   width: "100%",
                   padding: "0.45rem 0.75rem 0.45rem 2.2rem",
                   borderRadius: "8px",
-                  border: "1px solid #cbd5e1",
+                  border: "1px solid #33435c",
+                  background: "#243144",
+                  color: "#ffffff",
                   fontSize: "0.85rem",
                   outline: "none"
                 }}
@@ -523,7 +522,7 @@ export default function FechamentoPeriodo() {
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0", color: "#475569" }}>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#cbd5e1" }}>
                     <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma & Turno</th>
                     <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Professor Responsável</th>
                     <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Aulas Ministradas</th>
@@ -543,28 +542,28 @@ export default function FechamentoPeriodo() {
                       <tr
                         key={item.id}
                         style={{
-                          borderBottom: "1px solid #f1f5f9",
+                          borderBottom: "1px solid #2c3b52",
                           transition: "background 0.15s",
-                          background: isFechado ? "#fafdfb" : isAguardando ? "#fffdfa" : "#ffffff"
+                          background: isFechado ? "rgba(34, 197, 94, 0.04)" : isAguardando ? "rgba(245, 158, 11, 0.04)" : "transparent"
                         }}
                       >
                         {/* TURMA */}
                         <td style={{ padding: "1rem" }}>
-                          <div style={{ fontWeight: 700, color: "#1e293b", fontSize: "0.95rem" }}>
+                          <div style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.95rem" }}>
                             {item.turma}
                           </div>
-                          <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+                          <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
                             {item.turno} · {bimestre}
                           </span>
                         </td>
 
                         {/* PROFESSOR */}
                         <td style={{ padding: "1rem" }}>
-                          <div style={{ fontWeight: 500, color: "#334155" }}>
+                          <div style={{ fontWeight: 500, color: "#cbd5e1" }}>
                             {item.professor || "Não atribuído"}
                           </div>
                           {item.solicitadoPor && (
-                            <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
+                            <span style={{ fontSize: "0.75rem", color: "#818cf8" }}>
                               Solicitou: {item.solicitadoPor}
                             </span>
                           )}
@@ -573,11 +572,11 @@ export default function FechamentoPeriodo() {
                         {/* AULAS / CARGA */}
                         <td style={{ padding: "1rem" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <span style={{ fontWeight: 600, color: item.totalAulasDadas >= (item.totalAulasPrevistas || 50) ? "#16a34a" : "#d97706" }}>
+                            <span style={{ fontWeight: 600, color: item.totalAulasDadas >= (item.totalAulasPrevistas || 50) ? "#4ade80" : "#fbbf24" }}>
                               {item.totalAulasDadas || 0}/{item.totalAulasPrevistas || 50} h/a
                             </span>
                           </div>
-                          <div style={{ width: 100, height: 4, background: "#e2e8f0", borderRadius: 2, marginTop: 4 }}>
+                          <div style={{ width: 100, height: 4, background: "#243144", borderRadius: 2, marginTop: 4 }}>
                             <div
                               style={{
                                 width: `${Math.min(100, ((item.totalAulasDadas || 0) / (item.totalAulasPrevistas || 50)) * 100)}%`,
@@ -592,35 +591,35 @@ export default function FechamentoPeriodo() {
                         {/* STATUS */}
                         <td style={{ padding: "1rem" }}>
                           {isFechado && (
-                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#f0fdf4", color: "#166534", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #bbf7d0" }}>
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(34, 197, 94, 0.15)", color: "#4ade80", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(34, 197, 94, 0.3)" }}>
                               <span style={{ fontSize: "0.9rem" }}>🔒</span>
                               Período Fechado
                             </div>
                           )}
 
                           {isAguardando && (
-                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#fffbeb", color: "#b45309", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #fde68a" }}>
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(245, 158, 11, 0.3)" }}>
                               <span style={{ fontSize: "0.9rem" }}>🟡</span>
                               Aguardando Validação
                             </div>
                           )}
 
                           {isPendente && (
-                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#fef2f2", color: "#b91c1c", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #fecaca" }}>
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(239, 68, 68, 0.15)", color: "#f87171", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(239, 68, 68, 0.3)" }}>
                               <span style={{ fontSize: "0.9rem" }}>🔴</span>
                               Pendente
                             </div>
                           )}
 
                           {isReaberto && (
-                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#fff7ed", color: "#c2410c", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid #fed7aa" }}>
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(249, 115, 22, 0.15)", color: "#fb923c", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(249, 115, 22, 0.3)" }}>
                               <span style={{ fontSize: "0.9rem" }}>⚠️</span>
                               Reaberto para Ajuste
                             </div>
                           )}
 
                           {item.pendenciasDescricao && (
-                            <div style={{ fontSize: "0.75rem", color: "#ef4444", marginTop: "0.25rem", maxWidth: 220 }}>
+                            <div style={{ fontSize: "0.75rem", color: "#f87171", marginTop: "0.25rem", maxWidth: 220 }}>
                               {item.pendenciasDescricao}
                             </div>
                           )}
@@ -630,20 +629,20 @@ export default function FechamentoPeriodo() {
                         <td style={{ padding: "1rem" }}>
                           {isFechado ? (
                             <div>
-                              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#166534" }}>
+                              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#4ade80" }}>
                                 <i className="ti ti-check" style={{ marginRight: 4 }} />
                                 Validado por {item.validadoPor || "Coordenação"}
                               </div>
-                              <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+                              <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
                                 {item.validadoEm ? new Date(item.validadoEm).toLocaleDateString("pt-BR") : "Homologado"}
                               </span>
                             </div>
                           ) : isAguardando ? (
                             <div>
-                              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#d97706" }}>
+                              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#fbbf24" }}>
                                 Solicitação enviada
                               </div>
-                              <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+                              <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
                                 {item.solicitadoEm ? new Date(item.solicitadoEm).toLocaleDateString("pt-BR") : "Aguardando parecer"}
                               </span>
                             </div>
@@ -735,10 +734,10 @@ export default function FechamentoPeriodo() {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
             <div>
-              <h2 style={{ fontSize: "1.15rem", fontWeight: 700, margin: 0, color: "#1e293b" }}>
+              <h2 style={{ fontSize: "1.15rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>
                 🛡️ Trilha de Auditoria & Segurança de Fechamentos
               </h2>
-              <p style={{ margin: "0.2rem 0 0", fontSize: "0.85rem", color: "#64748b" }}>
+              <p style={{ margin: "0.2rem 0 0", fontSize: "0.85rem", color: "#94a3b8" }}>
                 Qualquer alteração ou reabertura pós-fechamento fica irrevogavelmente registrada aqui.
               </p>
             </div>
@@ -752,10 +751,10 @@ export default function FechamentoPeriodo() {
               <Spinner />
             </div>
           ) : auditorias.length === 0 ? (
-            <div style={{ padding: "2.5rem", textAlign: "center", background: "#f8fafc", borderRadius: "8px", border: "1px dashed #cbd5e1" }}>
-              <i className="ti ti-shield-check" style={{ fontSize: "2.5rem", color: "#16a34a" }} />
-              <h3 style={{ margin: "0.75rem 0 0.25rem", color: "#334155", fontSize: "1rem" }}>Nenhuma alteração pós-fechamento registrada</h3>
-              <p style={{ color: "#64748b", fontSize: "0.85rem", maxWidth: "450px", margin: "0 auto" }}>
+            <div style={{ padding: "2.5rem", textAlign: "center", background: "#243144", borderRadius: "8px", border: "1px dashed #33435c" }}>
+              <i className="ti ti-shield-check" style={{ fontSize: "2.5rem", color: "#34d399" }} />
+              <h3 style={{ margin: "0.75rem 0 0.25rem", color: "#ffffff", fontSize: "1rem" }}>Nenhuma alteração pós-fechamento registrada</h3>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", maxWidth: "450px", margin: "0 auto" }}>
                 O sistema de auditoria monitora automaticamente todas as solicitações, validações, fechamentos e reaberturas de diários.
               </p>
             </div>
@@ -772,8 +771,8 @@ export default function FechamentoPeriodo() {
                     style={{
                       padding: "1rem 1.25rem",
                       borderRadius: "10px",
-                      background: isReabertura ? "#fff7ed" : isValidado ? "#f0fdf4" : isDevolucao ? "#fef2f2" : "#f8fafc",
-                      border: `1px solid ${isReabertura ? '#fed7aa' : isValidado ? '#bbf7d0' : isDevolucao ? '#fecaca' : '#e2e8f0'}`,
+                      background: "#243144",
+                      border: `1px solid ${isReabertura ? 'rgba(249, 115, 22, 0.4)' : isValidado ? 'rgba(34, 197, 94, 0.4)' : isDevolucao ? 'rgba(239, 68, 68, 0.4)' : '#33435c'}`,
                       display: "flex",
                       flexDirection: "column",
                       gap: "0.5rem"
@@ -784,7 +783,7 @@ export default function FechamentoPeriodo() {
                         <span style={{ fontSize: "1.1rem" }}>
                           {isReabertura ? "⚠️" : isValidado ? "🔒" : isDevolucao ? "↩️" : "📝"}
                         </span>
-                        <strong style={{ color: "#1e293b", fontSize: "0.95rem" }}>
+                        <strong style={{ color: "#ffffff", fontSize: "0.95rem" }}>
                           {log.acao}
                         </strong>
                         <Badge tipo={isReabertura ? "aviso" : isValidado ? "sucesso" : isDevolucao ? "perigo" : "info"}>
@@ -792,22 +791,22 @@ export default function FechamentoPeriodo() {
                         </Badge>
                       </div>
 
-                      <div style={{ fontSize: "0.8rem", color: "#64748b" }}>
+                      <div style={{ fontSize: "0.8rem", color: "#94a3b8" }}>
                         <i className="ti ti-clock" style={{ marginRight: 4 }} />
                         {new Date(log.dataHora || log.criadoEm).toLocaleString("pt-BR")}
                       </div>
                     </div>
 
-                    <div style={{ fontSize: "0.875rem", color: "#334155", background: "rgba(255,255,255,0.7)", padding: "0.6rem 0.85rem", borderRadius: "6px" }}>
+                    <div style={{ fontSize: "0.875rem", color: "#e2e8f0", background: "rgba(0,0,0,0.25)", padding: "0.6rem 0.85rem", borderRadius: "6px" }}>
                       {log.detalhes}
                     </div>
 
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.75rem", color: "#64748b" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.75rem", color: "#94a3b8" }}>
                       <span>
-                        <strong>Responsável:</strong> {log.usuarioNome} ({log.usuarioCargo || "Docente/Coordenação"})
+                        <strong style={{ color: "#cbd5e1" }}>Responsável:</strong> {log.usuarioNome} ({log.usuarioCargo || "Docente/Coordenação"})
                       </span>
                       <span>
-                        <strong>Registro:</strong> {log.usuarioEmail || "Sistema SIGEM"}
+                        <strong style={{ color: "#cbd5e1" }}>Registro:</strong> {log.usuarioEmail || "Sistema SIGEM"}
                       </span>
                     </div>
                   </div>
@@ -828,25 +827,25 @@ export default function FechamentoPeriodo() {
           onClose={() => setModalSolicitar(false)}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "0.85rem", borderRadius: "8px", fontSize: "0.85rem", color: "#1e40af" }}>
+            <div style={{ background: "rgba(99, 102, 241, 0.15)", border: "1px solid rgba(99, 102, 241, 0.3)", padding: "0.85rem", borderRadius: "8px", fontSize: "0.85rem", color: "#818cf8" }}>
               <i className="ti ti-info-circle" style={{ marginRight: 6 }} />
               Ao solicitar o fechamento, o diário da turma <strong>{itemSelecionado.turma}</strong> será submetido à coordenação pedagógica para conferência e trancamento oficial do <strong>{bimestre}</strong>.
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#334155", marginBottom: "0.35rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#cbd5e1", marginBottom: "0.35rem" }}>
                 Total de Horas-Aula Ministradas no Período
               </label>
               <input
                 type="number"
                 value={formSolicitacao.totalAulasDadas}
                 onChange={(e) => setFormSolicitacao({ ...formSolicitacao, totalAulasDadas: Number(e.target.value) })}
-                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #cbd5e1" }}
+                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #33435c", background: "#243144", color: "#ffffff", outline: "none" }}
               />
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#334155", marginBottom: "0.35rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#cbd5e1", marginBottom: "0.35rem" }}>
                 Observações / Declaração Docente
               </label>
               <textarea
@@ -854,7 +853,7 @@ export default function FechamentoPeriodo() {
                 placeholder="Ex: Todas as notas, recuperações e conteúdos foram devidamente lançados no sistema."
                 value={formSolicitacao.observacao}
                 onChange={(e) => setFormSolicitacao({ ...formSolicitacao, observacao: e.target.value })}
-                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #cbd5e1", resize: "vertical" }}
+                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #33435c", background: "#243144", color: "#ffffff", outline: "none", resize: "vertical" }}
               />
             </div>
 
@@ -878,7 +877,7 @@ export default function FechamentoPeriodo() {
           onClose={() => setModalValidar(false)}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", padding: "1rem", borderRadius: "8px", fontSize: "0.875rem", color: "#166534" }}>
+            <div style={{ background: "rgba(34, 197, 94, 0.15)", border: "1px solid rgba(34, 197, 94, 0.3)", padding: "1rem", borderRadius: "8px", fontSize: "0.875rem", color: "#4ade80" }}>
               <div style={{ fontWeight: 700, marginBottom: "0.35rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <span style={{ fontSize: "1.2rem" }}>🔒</span>
                 Período Fechado
@@ -887,14 +886,14 @@ export default function FechamentoPeriodo() {
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#334155", marginBottom: "0.35rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#cbd5e1", marginBottom: "0.35rem" }}>
                 Parecer da Coordenação / Direção
               </label>
               <textarea
                 rows={3}
                 value={formParecer}
                 onChange={(e) => setFormParecer(e.target.value)}
-                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #cbd5e1", resize: "vertical" }}
+                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #33435c", background: "#243144", color: "#ffffff", outline: "none", resize: "vertical" }}
               />
             </div>
 
@@ -918,13 +917,13 @@ export default function FechamentoPeriodo() {
           onClose={() => setModalDevolver(false)}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ background: "#fef2f2", border: "1px solid #fecaca", padding: "0.85rem", borderRadius: "8px", fontSize: "0.85rem", color: "#991b1b" }}>
+            <div style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "0.85rem", borderRadius: "8px", fontSize: "0.85rem", color: "#f87171" }}>
               <i className="ti ti-alert-triangle" style={{ marginRight: 6 }} />
               Informe ao professor os motivos da devolução para que ele realize as devidas correções antes do novo envio.
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#334155", marginBottom: "0.35rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#cbd5e1", marginBottom: "0.35rem" }}>
                 Pendências a serem sanadas *
               </label>
               <textarea
@@ -932,7 +931,7 @@ export default function FechamentoPeriodo() {
                 placeholder="Ex: Faltam notas de 2 alunos no teste de recuperação e 3 registros de conteúdos no diário de classe."
                 value={formDevolucao}
                 onChange={(e) => setFormDevolucao(e.target.value)}
-                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #cbd5e1", resize: "vertical" }}
+                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #33435c", background: "#243144", color: "#ffffff", outline: "none", resize: "vertical" }}
               />
             </div>
 
@@ -956,7 +955,7 @@ export default function FechamentoPeriodo() {
           onClose={() => setModalReabrir(false)}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", padding: "1rem", borderRadius: "8px", fontSize: "0.85rem", color: "#9a3412" }}>
+            <div style={{ background: "rgba(249, 115, 22, 0.15)", border: "1px solid rgba(249, 115, 22, 0.3)", padding: "1rem", borderRadius: "8px", fontSize: "0.85rem", color: "#fb923c" }}>
               <div style={{ fontWeight: 700, marginBottom: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <span style={{ fontSize: "1.2rem" }}>🛡️</span>
                 Controle de Auditoria Ativo
@@ -965,7 +964,7 @@ export default function FechamentoPeriodo() {
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#334155", marginBottom: "0.35rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#cbd5e1", marginBottom: "0.35rem" }}>
                 Justificativa Formal para a Reabertura *
               </label>
               <textarea
@@ -973,7 +972,7 @@ export default function FechamentoPeriodo() {
                 placeholder="Descreva o motivo legal/pedagógico da retificação (ex: Correção de nota após deferimento de recurso do aluno)."
                 value={formJustificativaReabertura}
                 onChange={(e) => setFormJustificativaReabertura(e.target.value)}
-                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #cbd5e1", resize: "vertical" }}
+                style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #33435c", background: "#243144", color: "#ffffff", outline: "none", resize: "vertical" }}
               />
             </div>
 

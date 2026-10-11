@@ -183,28 +183,28 @@ export default function CustosTransporte({
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* Cards de Resumo Financeiro */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-        <Card style={{ padding: "16px 20px", borderLeft: "4px solid #10b981" }}>
-          <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Gasto Total Filtrado</span>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#065f46", marginTop: 4 }}>
+        <Card style={{ padding: "18px 20px", background: "#1e293b", border: "1px solid #2c3b52", borderLeft: "4px solid #10b981" }}>
+          <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>Gasto Total Filtrado</span>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#34d399", marginTop: 6 }}>
             {totais.totalGeral.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#6b7280", marginTop: 4 }}>{custosFiltrados.length} lançamentos</div>
+          <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 4 }}>{custosFiltrados.length} lançamentos</div>
         </Card>
 
-        <Card style={{ padding: "16px 20px", borderLeft: "4px solid #3b82f6" }}>
-          <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Combustível (Diesel/Gasolina)</span>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#1e40af", marginTop: 4 }}>
+        <Card style={{ padding: "18px 20px", background: "#1e293b", border: "1px solid #2c3b52", borderLeft: "4px solid #3b82f6" }}>
+          <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>Combustível (Diesel/Gasolina)</span>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#60a5fa", marginTop: 6 }}>
             {totais.totalCombustivel.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#6b7280", marginTop: 4 }}>{totais.totalLitros.toLocaleString("pt-BR", { maximumFractionDigits: 1 })} Litros abastecidos</div>
+          <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 4 }}>{totais.totalLitros.toLocaleString("pt-BR", { maximumFractionDigits: 1 })} Litros abastecidos</div>
         </Card>
 
-        <Card style={{ padding: "16px 20px", borderLeft: "4px solid #f59e0b" }}>
-          <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Outras Despesas Operacionais</span>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#92400e", marginTop: 4 }}>
+        <Card style={{ padding: "18px 20px", background: "#1e293b", border: "1px solid #2c3b52", borderLeft: "4px solid #f59e0b" }}>
+          <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>Outras Despesas Operacionais</span>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#fbbf24", marginTop: 6 }}>
             {totais.outrosCustos.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#6b7280", marginTop: 4 }}>Seguros, taxas, higienização e peças</div>
+          <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 4 }}>Seguros, taxas, higienização e peças</div>
         </Card>
       </div>
 
@@ -219,20 +219,22 @@ export default function CustosTransporte({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
 
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "10px 14px", borderRadius: 10, border: "1px solid #2c3b52", fontSize: 13, background: "#1e293b", color: "#f8fafc", outline: "none" }}
           >
             <option value="">Todos os Tipos</option>
             <option value="Abastecimento">Abastecimento</option>
@@ -242,7 +244,7 @@ export default function CustosTransporte({
           <select
             value={filtroVeiculo}
             onChange={(e) => setFiltroVeiculo(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "10px 14px", borderRadius: 10, border: "1px solid #2c3b52", fontSize: 13, background: "#1e293b", color: "#f8fafc", outline: "none" }}
           >
             <option value="">Todos os Veículos</option>
             {veiculos.map(v => (
@@ -262,14 +264,14 @@ export default function CustosTransporte({
       </div>
 
       {/* Tabela de Custos */}
-      <Card style={{ padding: 0, overflow: "hidden" }}>
+      <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", border: "1px solid #2c3b52" }}>
         {custosFiltrados.length === 0 ? (
           <EmptyState icon="receipt-2" texto="Nenhum lançamento de custo de transporte encontrado." />
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
                   <th style={{ padding: "12px 16px" }}>Data / Tipo</th>
                   <th style={{ padding: "12px 16px" }}>Veículo / Motorista</th>
                   <th style={{ padding: "12px 16px" }}>Categoria / Detalhes</th>
@@ -281,10 +283,10 @@ export default function CustosTransporte({
                 </tr>
               </thead>
               <tbody>
-                {custosFiltrados.map((c) => (
-                  <tr key={c.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                {custosFiltrados.map((c, idx) => (
+                  <tr key={c.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>
                         {new Date(c.data + "T00:00:00").toLocaleDateString("pt-BR")}
                       </div>
                       <Badge color={c.tipo === "Abastecimento" ? "blue" : "amber"}>
@@ -292,32 +294,32 @@ export default function CustosTransporte({
                       </Badge>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e40af" }}>{c.veiculoPlaca}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>{c.motoristaNome || "-"}</div>
+                      <div style={{ fontWeight: 600, color: "#60a5fa" }}>{c.veiculoPlaca}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.motoristaNome || "-"}</div>
                     </td>
                     <td style={{ padding: "12px 16px", maxWidth: 260 }}>
-                      <div style={{ fontWeight: 500, color: "#1e293b" }}>{c.categoria}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>{c.posto || c.descricao || "-"}</div>
+                      <div style={{ fontWeight: 500, color: "#f8fafc" }}>{c.categoria}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.posto || c.descricao || "-"}</div>
                     </td>
-                    <td style={{ padding: "12px 16px" }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
                       {c.tipo === "Abastecimento" ? (
                         <div>
-                          <strong>{c.litros} L</strong> ({c.combustivel})
-                          <div style={{ fontSize: 11, color: "#64748b" }}>
+                          <strong style={{ color: "#ffffff" }}>{c.litros} L</strong> ({c.combustivel})
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>
                             {(Number(c.valorUnitario) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / L
                           </div>
                         </div>
                       ) : "-"}
                     </td>
-                    <td style={{ padding: "12px 16px" }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
                       {c.kmAbastecimento ? `${Number(c.kmAbastecimento).toLocaleString("pt-BR")} km` : "-"}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#991b1b", fontSize: 14 }}>
+                      <div style={{ fontWeight: 700, color: "#f87171", fontSize: 14 }}>
                         {(Number(c.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </div>
                     </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#475569" }}>
+                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                       {c.formaPagamento || "Prefeitura"}
                     </td>
                     <td style={{ padding: "12px 16px", textAlign: "right" }}>

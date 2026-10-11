@@ -126,44 +126,44 @@ export default function Auditoria() {
   const getModuloColor = (mod) => {
     switch (mod) {
       case "Notas":
-        return "#7c3aed";
+        return "#a78bfa";
       case "Alunos":
       case "Matrículas":
-        return "#2563eb";
+        return "#60a5fa";
       case "Frequência":
-        return "#059669";
+        return "#34d399";
       case "Fechamento":
-        return "#d97706";
+        return "#fbbf24";
       case "Transferências":
-        return "#ea580c";
+        return "#fb923c";
       case "Servidores":
-        return "#0891b2";
+        return "#38bdf8";
       case "Turmas":
-        return "#4b5563";
+        return "#94a3b8";
       default:
-        return "#1f2937";
+        return "#cbd5e1";
     }
   };
 
   const getModuloBg = (mod) => {
     switch (mod) {
       case "Notas":
-        return "#f5f3ff";
+        return "rgba(139, 92, 246, 0.15)";
       case "Alunos":
       case "Matrículas":
-        return "#eff6ff";
+        return "rgba(59, 130, 246, 0.15)";
       case "Frequência":
-        return "#ecfdf5";
+        return "rgba(16, 185, 129, 0.15)";
       case "Fechamento":
-        return "#fffbeb";
+        return "rgba(245, 158, 11, 0.15)";
       case "Transferências":
-        return "#fff7ed";
+        return "rgba(249, 115, 22, 0.15)";
       case "Servidores":
-        return "#ecfeff";
+        return "rgba(14, 165, 233, 0.15)";
       case "Turmas":
-        return "#f3f4f6";
+        return "rgba(148, 163, 184, 0.15)";
       default:
-        return "#f9fafb";
+        return "rgba(255, 255, 255, 0.05)";
     }
   };
 
@@ -181,16 +181,17 @@ export default function Auditoria() {
       >
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#111827" }}>
-              <i className="ti ti-shield-check" style={{ color: "#2563eb", marginRight: 6 }} />
+            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff" }}>
+              <i className="ti ti-shield-check" style={{ color: "#38bdf8", marginRight: 6 }} />
               LOGs e Auditoria do Sistema
             </h2>
             <span
               style={{
                 fontSize: 11,
                 fontWeight: 600,
-                color: "#1e40af",
-                background: "#dbeafe",
+                color: "#93c5fd",
+                background: "rgba(59, 130, 246, 0.15)",
+                border: "1px solid rgba(59, 130, 246, 0.3)",
                 padding: "2px 8px",
                 borderRadius: 12
               }}
@@ -198,7 +199,7 @@ export default function Auditoria() {
               Módulo Transversal · Rastreabilidade
             </span>
           </div>
-          <p style={{ margin: 0, fontSize: 13, color: "#6b7280" }}>
+          <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
             Registro imutável de quem alterou, o que alterou, data, hora, registro anterior e novo valor.
           </p>
         </div>
@@ -221,8 +222,9 @@ export default function Auditoria() {
               width: 44,
               height: 44,
               borderRadius: 10,
-              background: "#eff6ff",
-              color: "#2563eb",
+              background: "rgba(59, 130, 246, 0.15)",
+              color: "#60a5fa",
+              border: "1px solid rgba(59, 130, 246, 0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -232,8 +234,8 @@ export default function Auditoria() {
             <i className="ti ti-history" />
           </div>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>{totalLogs}</div>
-            <div style={{ fontSize: 12, color: "#6b7280", fontWeight: 500 }}>Total de Operações</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff" }}>{totalLogs}</div>
+            <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>Total de Operações</div>
           </div>
         </Card>
 
@@ -243,8 +245,9 @@ export default function Auditoria() {
               width: 44,
               height: 44,
               borderRadius: 10,
-              background: "#f5f3ff",
-              color: "#7c3aed",
+              background: "rgba(139, 92, 246, 0.15)",
+              color: "#a78bfa",
+              border: "1px solid rgba(139, 92, 246, 0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -254,8 +257,8 @@ export default function Auditoria() {
             <i className="ti ti-clipboard-check" />
           </div>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>{logsNotas}</div>
-            <div style={{ fontSize: 12, color: "#6b7280", fontWeight: 500 }}>Alterações em Notas</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff" }}>{logsNotas}</div>
+            <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>Alterações em Notas</div>
           </div>
         </Card>
 
@@ -265,8 +268,9 @@ export default function Auditoria() {
               width: 44,
               height: 44,
               borderRadius: 10,
-              background: "#ecfdf5",
-              color: "#059669",
+              background: "rgba(16, 185, 129, 0.15)",
+              color: "#34d399",
+              border: "1px solid rgba(16, 185, 129, 0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -276,8 +280,8 @@ export default function Auditoria() {
             <i className="ti ti-user-check" />
           </div>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>{logsAlunos}</div>
-            <div style={{ fontSize: 12, color: "#6b7280", fontWeight: 500 }}>Alunos / Matrículas</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff" }}>{logsAlunos}</div>
+            <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>Alunos / Matrículas</div>
           </div>
         </Card>
 
@@ -287,8 +291,9 @@ export default function Auditoria() {
               width: 44,
               height: 44,
               borderRadius: 10,
-              background: "#fffbeb",
-              color: "#d97706",
+              background: "rgba(245, 158, 11, 0.15)",
+              color: "#fbbf24",
+              border: "1px solid rgba(245, 158, 11, 0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -298,8 +303,8 @@ export default function Auditoria() {
             <i className="ti ti-clock-hour-4" />
           </div>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>{logsHoje}</div>
-            <div style={{ fontSize: 12, color: "#6b7280", fontWeight: 500 }}>Registros Hoje</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff" }}>{logsHoje}</div>
+            <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>Registros Hoje</div>
           </div>
         </Card>
       </div>
@@ -309,7 +314,7 @@ export default function Auditoria() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "flex-end" }}>
           {/* Busca Textual */}
           <div style={{ flex: 2, minWidth: 240 }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
               Buscar no Log (Aluno, Usuário, Disciplina ou Ação)
             </label>
             <div
@@ -317,24 +322,24 @@ export default function Auditoria() {
                 display: "flex",
                 alignItems: "center",
                 gap: 8,
-                background: "white",
-                border: "1px solid #d1d5db",
+                background: "#243144",
+                border: "1px solid #33435c",
                 borderRadius: 6,
                 padding: "6px 10px"
               }}
             >
-              <i className="ti ti-search" style={{ color: "#9ca3af", fontSize: 16 }} />
+              <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
               <input
                 value={termoBusca}
                 onChange={(e) => setTermoBusca(e.target.value)}
                 placeholder="Ex: Maria Santos, João Silva, 7,0, Matemática..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%" }}
+                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }}
               />
               {termoBusca && (
                 <button
                   type="button"
                   onClick={() => setTermoBusca("")}
-                  style={{ background: "none", border: "none", color: "#9ca3af", cursor: "pointer", fontSize: 14 }}
+                  style={{ background: "none", border: "none", color: "#94a3b8", cursor: "pointer", fontSize: 14 }}
                 >
                   ✕
                 </button>
@@ -344,7 +349,7 @@ export default function Auditoria() {
 
           {/* Filtro Módulo */}
           <div style={{ flex: 1, minWidth: 150 }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
               Módulo
             </label>
             <Select value={moduloFiltro} onChange={(e) => setModuloFiltro(e.target.value)}>
@@ -359,7 +364,7 @@ export default function Auditoria() {
 
           {/* Filtro Usuário */}
           <div style={{ flex: 1, minWidth: 150 }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
               Quem alterou (Usuário)
             </label>
             <Select value={usuarioFiltro} onChange={(e) => setUsuarioFiltro(e.target.value)}>
@@ -374,7 +379,7 @@ export default function Auditoria() {
 
           {/* Filtro Período */}
           <div style={{ flex: 1, minWidth: 140 }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#374151", display: "block", marginBottom: 4 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
               Período
             </label>
             <Select value={periodoFiltro} onChange={(e) => setPeriodoFiltro(e.target.value)}>
@@ -386,7 +391,7 @@ export default function Auditoria() {
           </div>
 
           {/* Alternador de Visualização */}
-          <div style={{ display: "flex", gap: 4, background: "#f3f4f6", padding: 3, borderRadius: 6 }}>
+          <div style={{ display: "flex", gap: 4, background: "#243144", padding: 3, borderRadius: 6, border: "1px solid #33435c" }}>
             <button
               type="button"
               onClick={() => setVisao("tabela")}
@@ -397,9 +402,9 @@ export default function Auditoria() {
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: "pointer",
-                background: visao === "tabela" ? "white" : "transparent",
-                color: visao === "tabela" ? "#1f2937" : "#6b7280",
-                boxShadow: visao === "tabela" ? "0 1px 2px rgba(0,0,0,0.05)" : "none"
+                background: visao === "tabela" ? "#33435c" : "transparent",
+                color: visao === "tabela" ? "#ffffff" : "#94a3b8",
+                boxShadow: visao === "tabela" ? "0 1px 2px rgba(0,0,0,0.2)" : "none"
               }}
             >
               <i className="ti ti-table" style={{ marginRight: 4 }} /> Tabela
@@ -414,9 +419,9 @@ export default function Auditoria() {
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: "pointer",
-                background: visao === "feed" ? "white" : "transparent",
-                color: visao === "feed" ? "#1f2937" : "#6b7280",
-                boxShadow: visao === "feed" ? "0 1px 2px rgba(0,0,0,0.05)" : "none"
+                background: visao === "feed" ? "#33435c" : "transparent",
+                color: visao === "feed" ? "#ffffff" : "#94a3b8",
+                boxShadow: visao === "feed" ? "0 1px 2px rgba(0,0,0,0.2)" : "none"
               }}
             >
               <i className="ti ti-list-details" style={{ marginRight: 4 }} /> Linha do Tempo
@@ -440,26 +445,26 @@ export default function Auditoria() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase" }}>
                     Data & Hora
                   </th>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase" }}>
                     Quem alterou
                   </th>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase" }}>
                     Módulo / O que alterou
                   </th>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase" }}>
                     Registro Anterior
                   </th>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase", textAlign: "center" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase", textAlign: "center" }}>
                     →
                   </th>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase" }}>
                     Registro Novo
                   </th>
-                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase", textAlign: "right" }}>
+                  <th style={{ padding: "12px 14px", fontSize: 11, fontWeight: 700, color: "#cbd5e1", textTransform: "uppercase", textAlign: "right" }}>
                     Ações
                   </th>
                 </tr>
@@ -472,14 +477,14 @@ export default function Auditoria() {
                   return (
                     <tr
                       key={log.id}
-                      style={{ borderBottom: "1px solid #f1f5f9", transition: "background 0.15s" }}
-                      onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#f8fafc")}
+                      style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s" }}
+                      onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)")}
                       onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                     >
                       {/* Data e Hora */}
                       <td style={{ padding: "12px 14px", whiteSpace: "nowrap" }}>
-                        <div style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}>{log.data}</div>
-                        <div style={{ fontSize: 11, color: "#64748b", display: "flex", alignItems: "center", gap: 3 }}>
+                        <div style={{ fontWeight: 600, fontSize: 13, color: "#f8fafc" }}>{log.data}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8", display: "flex", alignItems: "center", gap: 3 }}>
                           <i className="ti ti-clock" style={{ fontSize: 12 }} />
                           {log.hora}
                         </div>
@@ -493,8 +498,9 @@ export default function Auditoria() {
                               width: 34,
                               height: 34,
                               borderRadius: "50%",
-                              background: "#e2e8f0",
-                              color: "#1e293b",
+                              background: "#243144",
+                              border: "1px solid #33435c",
+                              color: "#cbd5e1",
                               fontWeight: 700,
                               fontSize: 13,
                               display: "flex",
@@ -506,8 +512,8 @@ export default function Auditoria() {
                             {log.usuarioNome ? log.usuarioNome[0].toUpperCase() : "U"}
                           </div>
                           <div>
-                            <div style={{ fontWeight: 600, fontSize: 13, color: "#0f172a" }}>{log.usuarioNome}</div>
-                            <div style={{ fontSize: 11, color: "#64748b" }}>{log.usuarioRole || log.usuarioEmail}</div>
+                            <div style={{ fontWeight: 600, fontSize: 13, color: "#f8fafc" }}>{log.usuarioNome}</div>
+                            <div style={{ fontSize: 11, color: "#94a3b8" }}>{log.usuarioRole || log.usuarioEmail}</div>
                           </div>
                         </div>
                       </td>
@@ -530,11 +536,11 @@ export default function Auditoria() {
                             {log.modulo}
                           </span>
                         </div>
-                        <div style={{ fontWeight: 600, fontSize: 13, color: "#1e293b", lineHeight: 1.3 }}>
+                        <div style={{ fontWeight: 600, fontSize: 13, color: "#cbd5e1", lineHeight: 1.3 }}>
                           {log.entidadeNome || log.descricao}
                         </div>
                         {log.entidadeNome && log.descricao && log.descricao !== log.entidadeNome && (
-                          <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>{log.descricao}</div>
+                          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{log.descricao}</div>
                         )}
                       </td>
 
@@ -545,9 +551,9 @@ export default function Auditoria() {
                             display: "inline-block",
                             padding: "4px 8px",
                             borderRadius: 6,
-                            background: "#fef2f2",
-                            border: "1px solid #fecaca",
-                            color: "#991b1b",
+                            background: "rgba(239, 68, 68, 0.12)",
+                            border: "1px solid rgba(239, 68, 68, 0.3)",
+                            color: "#f87171",
                             fontWeight: 600,
                             fontSize: 13,
                             fontFamily: log.modulo === "Notas" ? "monospace" : "inherit"
@@ -558,7 +564,7 @@ export default function Auditoria() {
                       </td>
 
                       {/* Seta */}
-                      <td style={{ padding: "12px 8px", textAlign: "center", color: "#94a3b8" }}>
+                      <td style={{ padding: "12px 8px", textAlign: "center", color: "#64748b" }}>
                         <i className="ti ti-arrow-right" style={{ fontSize: 16 }} />
                       </td>
 
@@ -569,9 +575,9 @@ export default function Auditoria() {
                             display: "inline-block",
                             padding: "4px 8px",
                             borderRadius: 6,
-                            background: "#f0fdf4",
-                            border: "1px solid #bbf7d0",
-                            color: "#166534",
+                            background: "rgba(16, 185, 129, 0.12)",
+                            border: "1px solid rgba(16, 185, 129, 0.3)",
+                            color: "#34d399",
                             fontWeight: 700,
                             fontSize: 13,
                             fontFamily: log.modulo === "Notas" ? "monospace" : "inherit"
@@ -587,13 +593,13 @@ export default function Auditoria() {
                           type="button"
                           onClick={() => setLogSelecionado(log)}
                           style={{
-                            background: "#f1f5f9",
-                            border: "1px solid #cbd5e1",
+                            background: "#243144",
+                            border: "1px solid #33435c",
                             padding: "4px 8px",
                             borderRadius: 6,
                             fontSize: 12,
                             fontWeight: 600,
-                            color: "#334155",
+                            color: "#cbd5e1",
                             cursor: "pointer"
                           }}
                           title="Ver detalhes completos do log"
@@ -639,7 +645,7 @@ export default function Auditoria() {
 
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 2 }}>
-                        <span style={{ fontWeight: 700, fontSize: 14, color: "#0f172a" }}>{log.usuarioNome}</span>
+                        <span style={{ fontWeight: 700, fontSize: 14, color: "#f8fafc" }}>{log.usuarioNome}</span>
                         <Badge color="blue" style={{ fontSize: 10 }}>
                           {log.usuarioRole || "Operador"}
                         </Badge>
@@ -657,7 +663,7 @@ export default function Auditoria() {
                         </span>
                       </div>
 
-                      <div style={{ fontSize: 13, color: "#334155", marginTop: 4 }}>
+                      <div style={{ fontSize: 13, color: "#cbd5e1", marginTop: 4 }}>
                         {log.descricao || `${log.usuarioNome} realizou alteração`}
                       </div>
 
@@ -670,15 +676,15 @@ export default function Auditoria() {
                           marginTop: 10,
                           padding: "6px 12px",
                           borderRadius: 8,
-                          background: "#f8fafc",
-                          border: "1px solid #e2e8f0"
+                          background: "#243144",
+                          border: "1px solid #33435c"
                         }}
                       >
-                        <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>Anterior:</span>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Anterior:</span>
                         <span
                           style={{
-                            background: "#fee2e2",
-                            color: "#991b1b",
+                            background: "rgba(239, 68, 68, 0.15)",
+                            color: "#f87171",
                             padding: "2px 8px",
                             borderRadius: 4,
                             fontWeight: 700,
@@ -687,12 +693,12 @@ export default function Auditoria() {
                         >
                           {log.registroAnterior}
                         </span>
-                        <i className="ti ti-arrow-right" style={{ color: "#94a3b8", fontSize: 14 }} />
-                        <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>Novo:</span>
+                        <i className="ti ti-arrow-right" style={{ color: "#64748b", fontSize: 14 }} />
+                        <span style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Novo:</span>
                         <span
                           style={{
-                            background: "#dcfce7",
-                            color: "#166534",
+                            background: "rgba(16, 185, 129, 0.15)",
+                            color: "#34d399",
                             padding: "2px 8px",
                             borderRadius: 4,
                             fontWeight: 700,
@@ -706,11 +712,11 @@ export default function Auditoria() {
                   </div>
 
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#1e293b" }}>
-                      <i className="ti ti-calendar" style={{ marginRight: 4, color: "#64748b" }} />
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>
+                      <i className="ti ti-calendar" style={{ marginRight: 4, color: "#94a3b8" }} />
                       {log.data}
                     </div>
-                    <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>
+                    <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
                       <i className="ti ti-clock" style={{ marginRight: 4 }} />
                       {log.hora}
                     </div>
@@ -721,7 +727,7 @@ export default function Auditoria() {
                         marginTop: 8,
                         background: "none",
                         border: "none",
-                        color: "#2563eb",
+                        color: "#60a5fa",
                         fontSize: 12,
                         fontWeight: 600,
                         cursor: "pointer",
@@ -749,8 +755,8 @@ export default function Auditoria() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div
               style={{
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
+                background: "#243144",
+                border: "1px solid #33435c",
                 borderRadius: 8,
                 padding: 14,
                 display: "grid",
@@ -759,21 +765,21 @@ export default function Auditoria() {
               }}
             >
               <div>
-                <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600 }}>QUEM ALTEROU</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#0f172a" }}>{logSelecionado.usuarioNome}</div>
-                <div style={{ fontSize: 12, color: "#475569" }}>{logSelecionado.usuarioEmail || "Sem e-mail informado"}</div>
-                <div style={{ fontSize: 11, color: "#2563eb", fontWeight: 600, marginTop: 2 }}>
+                <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600 }}>QUEM ALTEROU</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff" }}>{logSelecionado.usuarioNome}</div>
+                <div style={{ fontSize: 12, color: "#cbd5e1" }}>{logSelecionado.usuarioEmail || "Sem e-mail informado"}</div>
+                <div style={{ fontSize: 11, color: "#60a5fa", fontWeight: 600, marginTop: 2 }}>
                   Cargo: {logSelecionado.usuarioRole || "Operador"}
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600 }}>DATA & HORA</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#0f172a" }}>{logSelecionado.dataHoraFormatada}</div>
-                <div style={{ fontSize: 11, color: "#64748b", marginTop: 4 }}>
+                <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600 }}>DATA & HORA</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff" }}>{logSelecionado.dataHoraFormatada}</div>
+                <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
                   Origem: {logSelecionado.origem || "Portal Web"}
                 </div>
-                <div style={{ fontSize: 11, color: "#64748b" }}>
+                <div style={{ fontSize: 11, color: "#94a3b8" }}>
                   Escola: {logSelecionado.escolaNome || escolaAtual.nome}
                 </div>
               </div>
@@ -781,33 +787,33 @@ export default function Auditoria() {
 
             {/* Quadro Comparativo */}
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#334155", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#cbd5e1", marginBottom: 6 }}>
                 MODIFICAÇÃO REGISTRADA ({logSelecionado.modulo.toUpperCase()})
               </div>
               <div
                 style={{
-                  border: "1px solid #e2e8f0",
+                  border: "1px solid #33435c",
                   borderRadius: 8,
                   overflow: "hidden"
                 }}
               >
-                <div style={{ padding: 12, background: "#f1f5f9", fontWeight: 600, fontSize: 13, color: "#1e293b" }}>
+                <div style={{ padding: 12, background: "#161f2e", fontWeight: 600, fontSize: 13, color: "#f8fafc" }}>
                   {logSelecionado.entidadeNome || logSelecionado.descricao}
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "white" }}>
-                  <div style={{ padding: 14, borderRight: "1px solid #e2e8f0", background: "#fef2f2" }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: "#991b1b", marginBottom: 4 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "#1e293b" }}>
+                  <div style={{ padding: 14, borderRight: "1px solid #33435c", background: "rgba(239, 68, 68, 0.1)" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#f87171", marginBottom: 4 }}>
                       VALOR ANTERIOR
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: "#b91c1c" }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: "#fca5a5" }}>
                       {logSelecionado.registroAnterior}
                     </div>
                   </div>
-                  <div style={{ padding: 14, background: "#f0fdf4" }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: "#166534", marginBottom: 4 }}>
+                  <div style={{ padding: 14, background: "rgba(16, 185, 129, 0.1)" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#34d399", marginBottom: 4 }}>
                       NOVO VALOR (ATUAL)
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: "#15803d" }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: "#86efac" }}>
                       {logSelecionado.registroNovo}
                     </div>
                   </div>
@@ -816,9 +822,9 @@ export default function Auditoria() {
             </div>
 
             {/* Metadados Técnicos / Hash de Integridade */}
-            <div style={{ fontSize: 11, color: "#94a3b8", borderTop: "1px solid #f1f5f9", paddingTop: 8 }}>
-              <div>ID do Registro: <code>{logSelecionado.id}</code></div>
-              <div>Data de Criação ISO: <code>{logSelecionado.criadoEm}</code></div>
+            <div style={{ fontSize: 11, color: "#94a3b8", borderTop: "1px solid #33435c", paddingTop: 8 }}>
+              <div>ID do Registro: <code style={{ color: "#cbd5e1", background: "#161f2e", padding: "1px 4px", borderRadius: 4 }}>{logSelecionado.id}</code></div>
+              <div style={{ marginTop: 2 }}>Data de Criação ISO: <code style={{ color: "#cbd5e1", background: "#161f2e", padding: "1px 4px", borderRadius: 4 }}>{logSelecionado.criadoEm}</code></div>
             </div>
           </div>
         </Modal>
@@ -833,7 +839,7 @@ export default function Auditoria() {
           saveText="Imprimir / Salvar PDF"
           width={800}
         >
-          <div id="relatorio-auditoria-impressao" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div id="relatorio-auditoria-impressao" style={{ display: "flex", flexDirection: "column", gap: 16, background: "#ffffff", color: "#1e293b", padding: 24, borderRadius: 8 }}>
             {/* Cabeçalho Oficial */}
             <div style={{ textAlign: "center", borderBottom: "2px solid #1e293b", paddingBottom: 12 }}>
               <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, textTransform: "uppercase", color: "#0f172a" }}>

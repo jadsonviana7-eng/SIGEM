@@ -70,14 +70,14 @@ export default function TransacoesFinanceiras({ transacoes, caixas, categorias, 
   return (
     <Card>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600 }}>Registro de Transações</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>Registro de Transações</h3>
         <div style={{ display: "flex", gap: 8 }}>
           <Btn variant="primary" onClick={() => handleOpenNew("Receita")} style={{ background: "#10b981", borderColor: "#10b981" }}><i className="ti ti-arrow-down" /> Nova Receita</Btn>
           <Btn variant="danger" onClick={() => handleOpenNew("Despesa")}><i className="ti ti-arrow-up" /> Nova Despesa</Btn>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", background: "#f8fafc", padding: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}>
+      <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c" }}>
         <div style={{ width: 150 }}>
           <Input type="month" value={filtroMes} onChange={e => setFiltroMes(e.target.value)} />
         </div>
@@ -102,13 +102,13 @@ export default function TransacoesFinanceiras({ transacoes, caixas, categorias, 
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
             <thead>
-              <tr style={{ borderBottom: "1px solid #e5e7eb", color: "#6b7280" }}>
-                <th style={{ padding: "12px 16px", fontWeight: 500 }}>Data</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500 }}>Descrição</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500 }}>Categoria</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500 }}>Conta/Caixa</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500, textAlign: "right" }}>Valor</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500, width: 80 }}>Ações</th>
+              <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+                <th style={{ padding: "12px 16px", fontWeight: 600 }}>Data</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600 }}>Descrição</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600 }}>Categoria</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600 }}>Conta/Caixa</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600, textAlign: "right" }}>Valor</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600, width: 80 }}>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -117,17 +117,17 @@ export default function TransacoesFinanceiras({ transacoes, caixas, categorias, 
                 const cat = categorias.find(c => c.id === t.categoriaId);
                 const cx = caixas.find(c => c.id === t.caixaId);
                 return (
-                  <tr key={t.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                    <td style={{ padding: "12px 16px", color: "#6b7280" }}>{t.data.split('-').reverse().join('/')}</td>
-                    <td style={{ padding: "12px 16px", fontWeight: 500, color: "#1f2937" }}>
+                  <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                    <td style={{ padding: "12px 16px", color: "#94a3b8" }}>{t.data.split('-').reverse().join('/')}</td>
+                    <td style={{ padding: "12px 16px", fontWeight: 500, color: "#f8fafc" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{ width: 8, height: 8, borderRadius: "50%", background: isReceita ? "#10b981" : "#ef4444" }} />
+                        <div style={{ width: 8, height: 8, borderRadius: "50%", background: isReceita ? "#34d399" : "#f87171" }} />
                         {t.descricao}
                       </div>
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#6b7280" }}>{cat?.nome || "---"}</td>
-                    <td style={{ padding: "12px 16px", color: "#6b7280" }}>{cx?.nome || "---"}</td>
-                    <td style={{ padding: "12px 16px", textAlign: "right", fontWeight: 600, color: isReceita ? "#10b981" : "#ef4444" }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>{cat?.nome || "---"}</td>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>{cx?.nome || "---"}</td>
+                    <td style={{ padding: "12px 16px", textAlign: "right", fontWeight: 700, color: isReceita ? "#34d399" : "#f87171" }}>
                       {isReceita ? "+" : "-"} {formatarMoeda(t.valor)}
                     </td>
                     <td style={{ padding: "12px 16px" }}>

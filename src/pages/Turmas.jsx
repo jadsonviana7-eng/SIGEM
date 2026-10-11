@@ -124,37 +124,37 @@ export default function Turmas() {
             const vagas = t.vagas || 30;
             const pct = Math.round((count / vagas) * 100);
             return (
-              <div key={t.id} style={{ background:"white",border:"1px solid #e5e5e4",borderRadius:12,padding:20 }}>
+              <div key={t.id} style={{ background:"#1e293b",border:"1px solid #2c3b52",borderRadius:14,padding:20,boxShadow:"0 4px 16px rgba(0,0,0,0.2)" }}>
                 <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12 }}>
                   <div>
-                    <div style={{ fontSize:24,fontWeight:700,color:"#1a1a18" }}>{t.nome}</div>
-                    <div style={{ fontSize:12,color:"#888",marginTop:2 }}>{t.ano} · {t.turno}</div>
+                    <div style={{ fontSize:22,fontWeight:700,color:"#ffffff" }}>{t.nome}</div>
+                    <div style={{ fontSize:12,color:"#94a3b8",marginTop:2 }}>{t.ano} · {t.turno}</div>
                   </div>
                   <div style={{ display:"flex",gap:4 }}>
                     <Badge color="blue">Sala {t.sala}</Badge>
-                    <Btn onClick={()=>abrirEditar(t)} style={{ padding:"3px 7px",fontSize:11 }} title="Editar"><i className="ti ti-edit" /></Btn>
-                    <Btn variant="danger" onClick={()=>remover(t)} style={{ padding:"3px 7px",fontSize:11 }} title="Excluir"><i className="ti ti-trash" /></Btn>
+                    <Btn onClick={()=>abrirEditar(t)} style={{ padding:"4px 8px",fontSize:11 }} title="Editar"><i className="ti ti-edit" /></Btn>
+                    <Btn variant="danger" onClick={()=>remover(t)} style={{ padding:"4px 8px",fontSize:11 }} title="Excluir"><i className="ti ti-trash" /></Btn>
                   </div>
                 </div>
                 {isAnoFinal(t.ano) ? (
-                  <div style={{ fontSize:12,color:"#555",marginBottom:8 }}>
-                    <i className="ti ti-users" style={{ marginRight:4 }} /> Professores por disciplina
+                  <div style={{ fontSize:12,color:"#cbd5e1",marginBottom:8 }}>
+                    <i className="ti ti-users" style={{ marginRight:4, color:"#818cf8" }} /> Professores por disciplina
                   </div>
                 ) : (
                   <>
                     {t.professor && (
-                      <div style={{ fontSize:12,color:"#555",marginBottom:4 }}>
-                        <i className="ti ti-user-star" style={{ marginRight:4 }} />{t.professor}
+                      <div style={{ fontSize:12,color:"#cbd5e1",marginBottom:4 }}>
+                        <i className="ti ti-user-star" style={{ marginRight:4, color:"#38bdf8" }} />{t.professor}
                       </div>
                     )}
                     {isAnoInfantil(t.ano) && t.auxiliar && (
-                      <div style={{ fontSize:12,color:"#777",marginBottom:8 }}>
-                        <i className="ti ti-user-plus" style={{ marginRight:4 }} />Auxiliar: {t.auxiliar}
+                      <div style={{ fontSize:12,color:"#94a3b8",marginBottom:8 }}>
+                        <i className="ti ti-user-plus" style={{ marginRight:4, color:"#c084fc" }} />Auxiliar: {t.auxiliar}
                       </div>
                     )}
                   </>
                 )}
-                <div style={{ fontSize:12,color:"#888", marginTop: isAnoFinal(t.ano) || (!t.professor && !t.auxiliar) ? 0 : 4 }}>Alunos: <strong>{count}</strong> / {vagas}</div>
+                <div style={{ fontSize:12,color:"#94a3b8", marginTop: isAnoFinal(t.ano) || (!t.professor && !t.auxiliar) ? 0 : 4 }}>Alunos: <strong style={{ color:"#ffffff" }}>{count}</strong> / {vagas}</div>
                 <ProgressBar valor={count} max={vagas} />
               </div>
             );
@@ -180,7 +180,7 @@ export default function Turmas() {
             
             {isAnoFinal(form.ano) ? (
               <div style={{ display:"flex", flexDirection:"column", gap:8, marginTop: 4, marginBottom: 4 }}>
-                <div style={{ fontSize:13, fontWeight:600, color:"#444", marginBottom:4 }}>Professores por Disciplina</div>
+                <div style={{ fontSize:13, fontWeight:600, color:"#ffffff", marginBottom:4 }}>Professores por Disciplina</div>
                 {DISCIPLINAS.map(d => (
                   <Select key={d} label={d} value={form.professoresPorDisciplina?.[d] || ""} onChange={e => set("professoresPorDisciplina", { ...form.professoresPorDisciplina, [d]: e.target.value })}>
                     <option value="">Selecione um professor</option>

@@ -134,10 +134,11 @@ export default function ReunioesPais({
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* BARRA SUPERIOR */}
       <div style={{
-        background: "white",
+        background: "#1e293b",
         borderRadius: 14,
         padding: "16px 20px",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+        boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+        border: "1px solid #2c3b52",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -191,11 +192,11 @@ export default function ReunioesPais({
               <div
                 key={r.id}
                 style={{
-                  background: "white",
+                  background: "#1e293b",
                   borderRadius: 14,
                   padding: 18,
-                  boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-                  border: "1px solid #e2e8f0",
+                  boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                  border: "1px solid #2c3b52",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
@@ -204,7 +205,7 @@ export default function ReunioesPais({
               >
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#7c3aed", textTransform: "uppercase" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#a78bfa", textTransform: "uppercase" }}>
                       👥 Reunião de Pais & Mestres
                     </span>
                     <span style={{
@@ -212,35 +213,36 @@ export default function ReunioesPais({
                       fontWeight: 700,
                       padding: "2px 8px",
                       borderRadius: 10,
-                      background: r.status === "Realizada" ? "#dcfce7" : "#f5f3ff",
-                      color: r.status === "Realizada" ? "#166534" : "#6b21a8"
+                      background: r.status === "Realizada" ? "rgba(16, 185, 129, 0.2)" : "rgba(139, 92, 246, 0.2)",
+                      color: r.status === "Realizada" ? "#34d399" : "#c084fc"
                     }}>
                       {r.status}
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", margin: "0 0 8px 0" }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#f8fafc", margin: "0 0 8px 0" }}>
                     {r.titulo}
                   </h3>
 
                   <div style={{
-                    background: "#f8fafc",
+                    background: "#243144",
+                    border: "1px solid #2c3b52",
                     padding: 12,
                     borderRadius: 10,
                     fontSize: 12,
                     display: "flex",
                     flexDirection: "column",
                     gap: 4,
-                    color: "#334155",
+                    color: "#cbd5e1",
                     marginBottom: 12
                   }}>
-                    <div>📅 <strong>Data:</strong> {r.dataReuniao ? new Date(r.dataReuniao).toLocaleDateString("pt-BR") : ""} ({r.horarioInicio} às {r.horarioFim})</div>
-                    <div>📍 <strong>Local:</strong> {r.local} ({r.modalidade})</div>
-                    <div>🎯 <strong>Público:</strong> {r.turmaAlvo}</div>
+                    <div>📅 <strong style={{ color: "#ffffff" }}>Data:</strong> {r.dataReuniao ? new Date(r.dataReuniao).toLocaleDateString("pt-BR") : ""} ({r.horarioInicio} às {r.horarioFim})</div>
+                    <div>📍 <strong style={{ color: "#ffffff" }}>Local:</strong> {r.local} ({r.modalidade})</div>
+                    <div>🎯 <strong style={{ color: "#ffffff" }}>Público:</strong> {r.turmaAlvo}</div>
                   </div>
 
-                  <div style={{ fontSize: 12, color: "#475569", marginBottom: 14 }}>
-                    <strong>Pauta:</strong> {r.pauta}
+                  <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 14 }}>
+                    <strong style={{ color: "#cbd5e1" }}>Pauta:</strong> {r.pauta}
                   </div>
                 </div>
 
@@ -250,18 +252,19 @@ export default function ReunioesPais({
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    background: "#fdf4ff",
+                    background: "rgba(139, 92, 246, 0.12)",
+                    border: "1px solid rgba(139, 92, 246, 0.25)",
                     padding: "8px 12px",
                     borderRadius: 8,
                     marginBottom: 12,
                     fontSize: 12
                   }}>
-                    <span style={{ color: "#701a75", fontWeight: 600 }}>Presença Confirmada:</span>
-                    <strong style={{ color: "#16a34a" }}>{confirmadosCount} confirmados</strong>
-                    {justificadosCount > 0 && <span style={{ color: "#b45309" }}>({justificadosCount} justificaram)</span>}
+                    <span style={{ color: "#d8b4fe", fontWeight: 600 }}>Presença Confirmada:</span>
+                    <strong style={{ color: "#34d399" }}>{confirmadosCount} confirmados</strong>
+                    {justificadosCount > 0 && <span style={{ color: "#fbbf24" }}>({justificadosCount} justificaram)</span>}
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #f1f5f9", paddingTop: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #2c3b52", paddingTop: 10 }}>
                     <Btn
                       size="sm"
                       variant="outline"
@@ -279,9 +282,9 @@ export default function ReunioesPais({
                         style={{
                           padding: "5px 8px",
                           borderRadius: 6,
-                          background: copiadoId === r.id ? "#dcfce7" : "#f8fafc",
-                          color: copiadoId === r.id ? "#166534" : "#475569",
-                          border: "1px solid #e2e8f0",
+                          background: copiadoId === r.id ? "rgba(16, 185, 129, 0.2)" : "#243144",
+                          color: copiadoId === r.id ? "#34d399" : "#cbd5e1",
+                          border: "1px solid #33435c",
                           cursor: "pointer",
                           fontSize: 12
                         }}
@@ -296,9 +299,9 @@ export default function ReunioesPais({
                         style={{
                           padding: "5px 8px",
                           borderRadius: 6,
-                          background: "#f8fafc",
-                          color: "#475569",
-                          border: "1px solid #e2e8f0",
+                          background: "#243144",
+                          color: "#cbd5e1",
+                          border: "1px solid #33435c",
                           cursor: "pointer",
                           fontSize: 12
                         }}
@@ -313,9 +316,9 @@ export default function ReunioesPais({
                         style={{
                           padding: "5px 8px",
                           borderRadius: 6,
-                          background: "#fee2e2",
-                          color: "#dc2626",
-                          border: "1px solid #fecaca",
+                          background: "rgba(239, 68, 68, 0.15)",
+                          color: "#f87171",
+                          border: "1px solid rgba(239, 68, 68, 0.3)",
                           cursor: "pointer",
                           fontSize: 12
                         }}

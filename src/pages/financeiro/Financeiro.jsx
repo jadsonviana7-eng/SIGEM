@@ -69,8 +69,8 @@ export default function Financeiro() {
   return (
     <div style={{ padding: "0" }}>
       {/* Menu de Abas */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #e5e7eb" }}>
-        <div style={{ display: "flex", gap: 16 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #33435c", flexWrap: "wrap", gap: 12 }}>
+        <div style={{ display: "flex", gap: 12, overflowX: "auto" }}>
           {tabs.map(tab => (
             <button
               key={tab.id}
@@ -79,14 +79,16 @@ export default function Financeiro() {
                 padding: "10px 16px",
                 background: "transparent",
                 border: "none",
-                borderBottom: activeTab === tab.id ? "2px solid #1a56db" : "2px solid transparent",
-                color: activeTab === tab.id ? "#1a56db" : "#6b7280",
+                borderBottom: activeTab === tab.id ? "2px solid #38bdf8" : "2px solid transparent",
+                color: activeTab === tab.id ? "#38bdf8" : "#94a3b8",
                 fontWeight: activeTab === tab.id ? 600 : 500,
                 fontSize: 14,
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
-                gap: 8
+                gap: 8,
+                transition: "all 0.15s ease",
+                whiteSpace: "nowrap"
               }}
             >
               <i className={`ti ti-${tab.icon}`} /> {tab.label}

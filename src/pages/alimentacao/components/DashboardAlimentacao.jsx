@@ -143,16 +143,16 @@ export default function DashboardAlimentacao({
         <Card style={{ padding: "18px 20px", borderLeft: "4px solid #10b981" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Refeições Servidas</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Refeições Servidas</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
                 {stats.totalRefeicoes.toLocaleString("pt-BR")}
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#ecfdf5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-soup" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             Em {merendaServida.length} registros diários de refeição
           </div>
         </Card>
@@ -160,33 +160,33 @@ export default function DashboardAlimentacao({
         <Card style={{ padding: "18px 20px", borderLeft: "4px solid #3b82f6" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Itens na Despensa</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
-                {stats.totalItens} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>produtos</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Itens na Despensa</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+                {stats.totalItens} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>produtos</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-packages" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
-            Valor estocado: <strong>{stats.valorTotalEstocado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
+            Valor estocado: <strong style={{ color: "#60a5fa" }}>{stats.valorTotalEstocado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
           </div>
         </Card>
 
         <Card style={{ padding: "18px 20px", borderLeft: "4px solid #f59e0b" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Estoque Baixo / Repor</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: stats.itensEstoqueBaixo.length > 0 ? "#b45309" : "#1f2937", marginTop: 4 }}>
-                {stats.itensEstoqueBaixo.length} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>itens</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Estoque Baixo / Repor</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: stats.itensEstoqueBaixo.length > 0 ? "#fbbf24" : "#ffffff", marginTop: 4 }}>
+                {stats.itensEstoqueBaixo.length} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>itens</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#fffbeb", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-alert-triangle" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             Necessitam de pedido ou reposição de compra
           </div>
         </Card>
@@ -194,16 +194,16 @@ export default function DashboardAlimentacao({
         <Card style={{ padding: "18px 20px", borderLeft: "4px solid #8b5cf6" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase" }}>Agricultura Familiar PNAE</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937", marginTop: 4 }}>
-                {stats.fornsPnae} <span style={{ fontSize: 13, color: "#9ca3af", fontWeight: 400 }}>produtores</span>
+              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Agricultura Familiar PNAE</span>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+                {stats.fornsPnae} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>produtores</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "#f5f3ff", color: "#7c3aed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
               <i className="ti ti-plant" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#4b5563" }}>
+          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
             Meta legal PNAE: mínimo de 30% da compra direta
           </div>
         </Card>
@@ -214,19 +214,19 @@ export default function DashboardAlimentacao({
         {/* Painel de Alertas de Validade & Despensa */}
         <Card style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1f2937", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
-              <i className="ti ti-bell-ringing" style={{ color: "#ef4444" }} /> Alertas de Validade & Despensa
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: "#ffffff", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+              <i className="ti ti-bell-ringing" style={{ color: "#f87171" }} /> Alertas de Validade & Despensa
             </h3>
-            <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 500 }}>
+            <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>
               {stats.alertasValidade.length} notificações
             </span>
           </div>
 
           {stats.alertasValidade.length === 0 ? (
-            <div style={{ padding: "32px 16px", textAlign: "center", color: "#10b981", background: "#f0fdf4", borderRadius: 8, margin: "auto 0" }}>
+            <div style={{ padding: "32px 16px", textAlign: "center", color: "#34d399", background: "rgba(16, 185, 129, 0.12)", borderRadius: 8, margin: "auto 0", border: "1px solid rgba(16, 185, 129, 0.25)" }}>
               <i className="ti ti-circle-check" style={{ fontSize: 32, display: "block", marginBottom: 8 }} />
               <div style={{ fontWeight: 600, fontSize: 14 }}>Despensa Saudável e Segura!</div>
-              <div style={{ fontSize: 12, color: "#047857" }}>Nenhum produto vencido ou com validade crítica identificado.</div>
+              <div style={{ fontSize: 12, color: "#a7f3d0", marginTop: 4 }}>Nenhum produto vencido ou com validade crítica identificado.</div>
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 300, overflowY: "auto" }}>
@@ -237,7 +237,7 @@ export default function DashboardAlimentacao({
                   style={{
                     padding: "12px 14px",
                     borderRadius: 8,
-                    background: al.tipo === "danger" ? "#fef2f2" : "#fffbeb",
+                    background: al.tipo === "danger" ? "rgba(239, 68, 68, 0.15)" : "rgba(245, 158, 11, 0.15)",
                     borderLeft: `4px solid ${al.tipo === "danger" ? "#ef4444" : "#f59e0b"}`,
                     cursor: "pointer",
                     transition: "transform 0.1s ease"
@@ -246,12 +246,12 @@ export default function DashboardAlimentacao({
                   onMouseOut={(e) => e.currentTarget.style.transform = "translateX(0)"}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                    <span style={{ fontWeight: 600, fontSize: 13, color: al.tipo === "danger" ? "#991b1b" : "#92400e" }}>
+                    <span style={{ fontWeight: 600, fontSize: 13, color: al.tipo === "danger" ? "#fca5a5" : "#fcd34d" }}>
                       {al.titulo}
                     </span>
                     <Badge color={al.tipo === "danger" ? "red" : "amber"}>Atenção</Badge>
                   </div>
-                  <div style={{ fontSize: 12, color: "#4b5563" }}>
+                  <div style={{ fontSize: 12, color: "#cbd5e1" }}>
                     {al.descricao}
                   </div>
                 </div>
@@ -263,40 +263,40 @@ export default function DashboardAlimentacao({
         {/* Cardápio Ativo em Destaque */}
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1f2937", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
-              <i className="ti ti-clipboard-list" style={{ color: "#059669" }} /> Cardápio Escolar Vigente
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: "#ffffff", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+              <i className="ti ti-clipboard-list" style={{ color: "#34d399" }} /> Cardápio Escolar Vigente
             </h3>
             <button
               onClick={() => onNavigateTab("cardapios")}
-              style={{ background: "none", border: "none", color: "#059669", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              style={{ background: "none", border: "none", color: "#34d399", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
             >
               Ver Todos <i className="ti ti-chevron-right" />
             </button>
           </div>
 
           {cardapios.length === 0 ? (
-            <div style={{ padding: "32px 16px", textAlign: "center", color: "#9ca3af" }}>
+            <div style={{ padding: "32px 16px", textAlign: "center", color: "#94a3b8" }}>
               Nenhum cardápio cadastrado no momento.
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ background: "#f8fafc", padding: "14px 16px", borderRadius: 8, borderLeft: "4px solid #10b981" }}>
-                <div style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}>
+              <div style={{ background: "#243144", padding: "14px 16px", borderRadius: 8, border: "1px solid #33435c", borderLeft: "4px solid #10b981" }}>
+                <div style={{ fontWeight: 700, fontSize: 14, color: "#ffffff" }}>
                   {cardapios[0].titulo}
                 </div>
-                <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                   {cardapios[0].faixaEtaria} · {cardapios[0].nutricionistaResponsavel}
                 </div>
 
                 {cardapios[0].diasSemana?.segunda && (
-                  <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #e2e8f0", fontSize: 12 }}>
-                    <div style={{ fontWeight: 600, color: "#059669", marginBottom: 4 }}>
+                  <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #33435c", fontSize: 12 }}>
+                    <div style={{ fontWeight: 600, color: "#34d399", marginBottom: 4 }}>
                       🍽️ Sugestão do Dia (Almoço):
                     </div>
-                    <div style={{ color: "#334155", fontStyle: "italic" }}>
+                    <div style={{ color: "#cbd5e1", fontStyle: "italic" }}>
                       "{cardapios[0].diasSemana.segunda.almoco}"
                     </div>
-                    <div style={{ color: "#64748b", marginTop: 4 }}>
+                    <div style={{ color: "#94a3b8", marginTop: 4 }}>
                       Sobremesa: {cardapios[0].diasSemana.segunda.sobremesa}
                     </div>
                   </div>
@@ -304,8 +304,8 @@ export default function DashboardAlimentacao({
               </div>
 
               {cardapios[0].restricoesAlimentares && (
-                <div style={{ fontSize: 12, background: "#fef9c3", color: "#854d0e", padding: "10px 12px", borderRadius: 8, display: "flex", alignItems: "flex-start", gap: 8 }}>
-                  <i className="ti ti-info-circle" style={{ fontSize: 16, marginTop: 1, flexShrink: 0 }} />
+                <div style={{ fontSize: 12, background: "rgba(234, 179, 8, 0.15)", border: "1px solid rgba(234, 179, 8, 0.3)", color: "#fef08a", padding: "10px 12px", borderRadius: 8, display: "flex", alignItems: "flex-start", gap: 8 }}>
+                  <i className="ti ti-info-circle" style={{ fontSize: 16, marginTop: 1, flexShrink: 0, color: "#fde047" }} />
                   <span><strong>Restrições Especiais Atendidas:</strong> {cardapios[0].restricoesAlimentares}</span>
                 </div>
               )}
@@ -319,26 +319,26 @@ export default function DashboardAlimentacao({
         {/* Últimas Entradas */}
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#1f2937", display: "flex", alignItems: "center", gap: 6 }}>
-              <i className="ti ti-arrow-down-left" style={{ color: "#059669" }} /> Últimas Entradas na Despensa
+            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 6 }}>
+              <i className="ti ti-arrow-down-left" style={{ color: "#34d399" }} /> Últimas Entradas na Despensa
             </h4>
             <button
               onClick={() => onNavigateTab("entradas")}
-              style={{ background: "none", border: "none", color: "#059669", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              style={{ background: "none", border: "none", color: "#34d399", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
             >
               Ver Todas
             </button>
           </div>
 
           {entradas.length === 0 ? (
-            <div style={{ padding: 16, textAlign: "center", color: "#9ca3af", fontSize: 12 }}>Nenhuma entrada registrada.</div>
+            <div style={{ padding: 16, textAlign: "center", color: "#94a3b8", fontSize: 12 }}>Nenhuma entrada registrada.</div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {entradas.slice(0, 4).map(e => (
-                <div key={e.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "#f8fafc", borderRadius: 6, fontSize: 12 }}>
+                <div key={e.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "#243144", border: "1px solid #33435c", borderRadius: 6, fontSize: 12 }}>
                   <div>
-                    <strong style={{ color: "#1e293b" }}>{e.itemNome}</strong>
-                    <div style={{ color: "#64748b", fontSize: 11 }}>{new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")} · {e.fornecedorNome}</div>
+                    <strong style={{ color: "#ffffff" }}>{e.itemNome}</strong>
+                    <div style={{ color: "#94a3b8", fontSize: 11 }}>{new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")} · {e.fornecedorNome}</div>
                   </div>
                   <Badge color="green">+{e.quantidade} {e.unidade}</Badge>
                 </div>
@@ -350,26 +350,26 @@ export default function DashboardAlimentacao({
         {/* Últimas Saídas para a Cozinha */}
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#1f2937", display: "flex", alignItems: "center", gap: 6 }}>
-              <i className="ti ti-arrow-up-right" style={{ color: "#d97706" }} /> Últimas Baixas para Cozinha
+            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 6 }}>
+              <i className="ti ti-arrow-up-right" style={{ color: "#fbbf24" }} /> Últimas Baixas para Cozinha
             </h4>
             <button
               onClick={() => onNavigateTab("saidas")}
-              style={{ background: "none", border: "none", color: "#d97706", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              style={{ background: "none", border: "none", color: "#fbbf24", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
             >
               Ver Todas
             </button>
           </div>
 
           {saidas.length === 0 ? (
-            <div style={{ padding: 16, textAlign: "center", color: "#9ca3af", fontSize: 12 }}>Nenhuma saída registrada.</div>
+            <div style={{ padding: 16, textAlign: "center", color: "#94a3b8", fontSize: 12 }}>Nenhuma saída registrada.</div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {saidas.slice(0, 4).map(s => (
-                <div key={s.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "#f8fafc", borderRadius: 6, fontSize: 12 }}>
+                <div key={s.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "#243144", border: "1px solid #33435c", borderRadius: 6, fontSize: 12 }}>
                   <div>
-                    <strong style={{ color: "#1e293b" }}>{s.itemNome}</strong>
-                    <div style={{ color: "#64748b", fontSize: 11 }}>{new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")} · {s.destino}</div>
+                    <strong style={{ color: "#ffffff" }}>{s.itemNome}</strong>
+                    <div style={{ color: "#94a3b8", fontSize: 11 }}>{new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")} · {s.destino}</div>
                   </div>
                   <Badge color="amber">-{s.quantidade} {s.unidade}</Badge>
                 </div>

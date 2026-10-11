@@ -303,11 +303,11 @@ export default function Comunicacao() {
         {/* Painel do Menu */}
         <div
           style={{
-            background: "white",
-            border: "1px solid #e2e8f0",
+            background: "#1e293b",
+            border: "1px solid #2c3b52",
             borderRadius: 14,
             padding: 16,
-            boxShadow: "0 4px 16px -2px rgba(0, 0, 0, 0.05)"
+            boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
           }}
         >
           {/* Header do Menu */}
@@ -318,7 +318,7 @@ export default function Comunicacao() {
               justifyContent: "space-between",
               paddingBottom: 12,
               marginBottom: 12,
-              borderBottom: "1px solid #f1f5f9"
+              borderBottom: "1px solid #2c3b52"
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -333,14 +333,14 @@ export default function Comunicacao() {
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 18,
-                  boxShadow: "0 2px 6px rgba(2, 132, 199, 0.3)"
+                  boxShadow: "0 2px 8px rgba(2, 132, 199, 0.3)"
                 }}
               >
                 <i className="ti ti-speakerphone" />
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>Comunicação</div>
-                <div style={{ fontSize: 11, color: "#6b7280" }}>Escola → Família</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>Comunicação</div>
+                <div style={{ fontSize: 11, color: "#94a3b8" }}>Escola → Família</div>
               </div>
             </div>
 
@@ -350,10 +350,10 @@ export default function Comunicacao() {
               title="Recarregar Dados"
               style={{
                 padding: "6px 8px",
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
+                background: "#243144",
+                border: "1px solid #33435c",
                 borderRadius: 6,
-                color: "#475569",
+                color: "#cbd5e1",
                 cursor: "pointer",
                 fontSize: 12,
                 display: "flex",
@@ -397,8 +397,8 @@ export default function Comunicacao() {
                           padding: "8px 10px",
                           borderRadius: 8,
                           border: "none",
-                          background: isActive ? "#f0f9ff" : "transparent",
-                          color: isActive ? "#0284c7" : "#334155",
+                          background: isActive ? "rgba(2, 132, 199, 0.15)" : "transparent",
+                          color: isActive ? "#38bdf8" : "#cbd5e1",
                           fontWeight: isActive ? 700 : 500,
                           fontSize: 13,
                           cursor: "pointer",
@@ -408,14 +408,14 @@ export default function Comunicacao() {
                         }}
                         onMouseOver={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = "#f8fafc";
-                            e.currentTarget.style.color = "#1e293b";
+                            e.currentTarget.style.background = "#243144";
+                            e.currentTarget.style.color = "#ffffff";
                           }
                         }}
                         onMouseOut={(e) => {
                           if (!isActive) {
                             e.currentTarget.style.background = "transparent";
-                            e.currentTarget.style.color = "#334155";
+                            e.currentTarget.style.color = "#cbd5e1";
                           }
                         }}
                       >
@@ -424,7 +424,7 @@ export default function Comunicacao() {
                             className={`ti ti-${item.icon}`}
                             style={{
                               fontSize: 16,
-                              color: isActive ? "#0284c7" : "#64748b",
+                              color: isActive ? "#38bdf8" : "#94a3b8",
                               flexShrink: 0
                             }}
                           />
@@ -446,8 +446,8 @@ export default function Comunicacao() {
                               fontWeight: 700,
                               padding: "1px 6px",
                               borderRadius: 10,
-                              background: isActive ? "#0284c7" : item.badge === "Online" ? "#dcfce7" : "#f1f5f9",
-                              color: isActive ? "white" : item.badge === "Online" ? "#15803d" : "#64748b",
+                              background: isActive ? "#0284c7" : item.badge === "Online" ? "rgba(16, 185, 129, 0.2)" : "#243144",
+                              color: isActive ? "white" : item.badge === "Online" ? "#34d399" : "#94a3b8",
                               flexShrink: 0
                             }}
                           >
@@ -467,14 +467,14 @@ export default function Comunicacao() {
             style={{
               marginTop: 14,
               paddingTop: 12,
-              borderTop: "1px solid #f1f5f9",
-              background: "#f8fafc",
+              borderTop: "1px solid #2c3b52",
+              background: "#243144",
               borderRadius: 8,
               padding: "10px 12px"
             }}
           >
-            <div style={{ fontSize: 11, color: "#64748b" }}>Seção Atual</div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#1e293b" }}>
+            <div style={{ fontSize: 11, color: "#94a3b8" }}>Seção Atual</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>
               {itemAtivoObj.label}
             </div>
             <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
@@ -486,20 +486,20 @@ export default function Comunicacao() {
         {/* Card de Demonstração & Mock Data */}
         <div
           style={{
-            background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
-            border: "1px solid #bbf7d0",
+            background: "#1e293b",
+            border: "1px solid #2c3b52",
             borderRadius: 14,
             padding: 16,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.03)"
+            boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <span style={{ fontSize: 18 }}>📢</span>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#15803d" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#34d399" }}>
               Dados de Demonstração
             </div>
           </div>
-          <p style={{ fontSize: 11, color: "#166534", margin: "0 0 12px 0", lineHeight: 1.4 }}>
+          <p style={{ fontSize: 11, color: "#94a3b8", margin: "0 0 12px 0", lineHeight: 1.4 }}>
             Gere dados realistas de comunicados, reuniões de pais com atas, feiras escolares e notificações de boletim.
           </p>
           <Btn
@@ -509,9 +509,9 @@ export default function Comunicacao() {
             disabled={gerando}
             style={{
               width: "100%",
-              background: "white",
-              color: "#15803d",
-              borderColor: "#86efac",
+              background: "#243144",
+              color: "#34d399",
+              borderColor: "#33435c",
               fontWeight: 600,
               fontSize: 12,
               justifyContent: "center"

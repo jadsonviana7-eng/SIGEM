@@ -173,14 +173,16 @@ export default function RotasTransporte({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
         </div>
 
@@ -203,14 +205,14 @@ export default function RotasTransporte({
             const isSuperlotado = lotacao > capacidade;
 
             return (
-              <Card key={rota.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20 }}>
+              <Card key={rota.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20, background: "#1e293b", border: "1px solid #2c3b52" }}>
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                     <div>
-                      <h4 style={{ margin: "0 0 4px 0", fontSize: 16, fontWeight: 700, color: "#1f2937" }}>
+                      <h4 style={{ margin: "0 0 4px 0", fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
                         {rota.nome}
                       </h4>
-                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
+                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6 }}>
                         <Badge color={rota.status === "Ativa" ? "green" : "gray"}>{rota.status || "Ativa"}</Badge>
                         <Badge color="blue">{rota.tipo || "Ida e Volta"}</Badge>
                         {(rota.turnos || []).map((t, idx) => (
@@ -221,22 +223,22 @@ export default function RotasTransporte({
                   </div>
 
                   {/* Informações Operacionais */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13, color: "#4b5563", marginTop: 12, padding: "12px 0", borderTop: "1px solid #f1f5f9", borderBottom: "1px solid #f1f5f9" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 9, fontSize: 13, color: "#cbd5e1", marginTop: 12, padding: "12px", background: "#161f2e", borderRadius: 10, border: "1px solid #243144" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <i className="ti ti-steering-wheel" style={{ color: "#2563eb", fontSize: 16 }} />
-                      <span><strong>Motorista:</strong> {rota.motoristaNome || "Não atribuído"}</span>
+                      <i className="ti ti-steering-wheel" style={{ color: "#60a5fa", fontSize: 16 }} />
+                      <span><strong style={{ color: "#f8fafc" }}>Motorista:</strong> {rota.motoristaNome || "Não atribuído"}</span>
                     </div>
                     {rota.monitorNome && (
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <i className="ti ti-user-heart" style={{ color: "#ec4899", fontSize: 16 }} />
-                        <span><strong>Monitor(a):</strong> {rota.monitorNome}</span>
+                        <i className="ti ti-user-heart" style={{ color: "#f472b6", fontSize: 16 }} />
+                        <span><strong style={{ color: "#f8fafc" }}>Monitor(a):</strong> {rota.monitorNome}</span>
                       </div>
                     )}
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <i className="ti ti-bus" style={{ color: "#059669", fontSize: 16 }} />
-                      <span><strong>Veículo:</strong> {rota.veiculoPlaca || (veiculo ? `${veiculo.placa} (${veiculo.tipo})` : "Não definido")}</span>
+                      <i className="ti ti-bus" style={{ color: "#34d399", fontSize: 16 }} />
+                      <span><strong style={{ color: "#f8fafc" }}>Veículo:</strong> {rota.veiculoPlaca || (veiculo ? `${veiculo.placa} (${veiculo.tipo})` : "Não definido")}</span>
                     </div>
-                    <div style={{ display: "flex", gap: 16 }}>
+                    <div style={{ display: "flex", gap: 16, color: "#94a3b8", fontSize: 12, paddingTop: 4, borderTop: "1px solid #243144" }}>
                       <span><i className="ti ti-ruler-2" /> {rota.extensaoKm ? `${rota.extensaoKm} km` : "-"}</span>
                       <span><i className="ti ti-clock" /> {rota.tempoEstimadoMin ? `~${rota.tempoEstimadoMin} min` : "-"}</span>
                       <span><i className="ti ti-map-pin" /> {(rota.pontosIds || []).length} paradas</span>
@@ -244,14 +246,14 @@ export default function RotasTransporte({
                   </div>
 
                   {/* Lotação do Veículo */}
-                  <div style={{ marginTop: 12 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                      <span style={{ fontWeight: 600, color: "#374151" }}>Lotação de Estudantes</span>
-                      <span style={{ fontWeight: 700, color: isSuperlotado ? "#dc2626" : pct > 80 ? "#d97706" : "#059669" }}>
+                  <div style={{ marginTop: 14 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6 }}>
+                      <span style={{ fontWeight: 600, color: "#cbd5e1" }}>Lotação de Estudantes</span>
+                      <span style={{ fontWeight: 700, color: isSuperlotado ? "#f87171" : pct > 80 ? "#fbbf24" : "#34d399" }}>
                         {lotacao} / {capacidade} passageiros ({pct}%)
                       </span>
                     </div>
-                    <div style={{ width: "100%", height: 7, background: "#e2e8f0", borderRadius: 4, overflow: "hidden" }}>
+                    <div style={{ width: "100%", height: 7, background: "#161f2e", borderRadius: 4, overflow: "hidden", border: "1px solid #2c3b52" }}>
                       <div
                         style={{
                           width: `${pct}%`,
@@ -262,7 +264,7 @@ export default function RotasTransporte({
                       />
                     </div>
                     {isSuperlotado && (
-                      <div style={{ fontSize: 11, color: "#dc2626", fontWeight: 600, marginTop: 4 }}>
+                      <div style={{ fontSize: 11, color: "#f87171", fontWeight: 600, marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
                         <i className="ti ti-alert-triangle" /> Alerta: A rota excede a capacidade do veículo!
                       </div>
                     )}
@@ -270,15 +272,15 @@ export default function RotasTransporte({
                 </div>
 
                 {/* Ações da Rota */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, paddingTop: 12, borderTop: "1px solid #f1f5f9" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, paddingTop: 14, borderTop: "1px solid #2c3b52" }}>
                   <button
                     onClick={() => imprimirFichaRota(rota)}
                     style={{
-                      background: "#eff6ff",
-                      color: "#1e40af",
-                      border: "none",
-                      padding: "6px 12px",
-                      borderRadius: 6,
+                      background: "rgba(59, 130, 246, 0.15)",
+                      color: "#93c5fd",
+                      border: "1px solid rgba(59, 130, 246, 0.3)",
+                      padding: "7px 12px",
+                      borderRadius: 8,
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: "pointer",
@@ -291,7 +293,7 @@ export default function RotasTransporte({
                   </button>
 
                   <div style={{ display: "flex", gap: 6 }}>
-                    <Btn onClick={() => abrirEditar(rota)} style={{ padding: "6px 10px", fontSize: 12 }}>
+                    <Btn onClick={() => abrirEditar(rota)} style={{ padding: "6px 12px", fontSize: 12 }}>
                       <i className="ti ti-edit" /> Editar
                     </Btn>
                     <Btn variant="danger" onClick={() => handleExcluir(rota.id, rota.nome)} style={{ padding: "6px 10px", fontSize: 12 }}>
@@ -349,7 +351,7 @@ export default function RotasTransporte({
 
             {/* Turnos */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 500, color: "#374151", marginBottom: 6, display: "block" }}>
+              <label style={{ fontSize: 12, fontWeight: 500, color: "#cbd5e1", marginBottom: 6, display: "block" }}>
                 Turnos de Atendimento:
               </label>
               <div style={{ display: "flex", gap: 10 }}>
@@ -359,14 +361,14 @@ export default function RotasTransporte({
                     type="button"
                     onClick={() => toggleTurno(t)}
                     style={{
-                      padding: "6px 12px",
-                      borderRadius: 6,
+                      padding: "6px 14px",
+                      borderRadius: 8,
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: "pointer",
-                      border: form.turnos.includes(t) ? "1px solid #2563eb" : "1px solid #d1d5db",
-                      background: form.turnos.includes(t) ? "#eff6ff" : "white",
-                      color: form.turnos.includes(t) ? "#1e40af" : "#4b5563"
+                      border: form.turnos.includes(t) ? "1px solid #3b82f6" : "1px solid #2c3b52",
+                      background: form.turnos.includes(t) ? "rgba(59, 130, 246, 0.2)" : "#1e293b",
+                      color: form.turnos.includes(t) ? "#93c5fd" : "#94a3b8"
                     }}
                   >
                     {form.turnos.includes(t) && <i className="ti ti-check" style={{ marginRight: 4 }} />}
@@ -436,15 +438,15 @@ export default function RotasTransporte({
 
             {/* Pontos de Parada */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 500, color: "#374151", marginBottom: 6, display: "block" }}>
+              <label style={{ fontSize: 12, fontWeight: 500, color: "#cbd5e1", marginBottom: 6, display: "block" }}>
                 Pontos de Embarque Atendidos por esta Rota:
               </label>
               {pontos.length === 0 ? (
-                <div style={{ fontSize: 12, color: "#9ca3af", fontStyle: "italic" }}>
+                <div style={{ fontSize: 12, color: "#64748b", fontStyle: "italic" }}>
                   Nenhum ponto cadastrado na aba "Pontos de Embarque".
                 </div>
               ) : (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxHeight: 150, overflowY: "auto", border: "1px solid #e5e7eb", padding: 8, borderRadius: 6 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxHeight: 150, overflowY: "auto", border: "1px solid #2c3b52", background: "#161f2e", padding: 8, borderRadius: 8 }}>
                   {pontos.map(p => (
                     <label
                       key={p.id}
@@ -453,9 +455,11 @@ export default function RotasTransporte({
                         alignItems: "center",
                         gap: 8,
                         fontSize: 12,
-                        padding: "4px 6px",
-                        borderRadius: 4,
-                        background: form.pontosIds.includes(p.id) ? "#f0fdf4" : "transparent",
+                        padding: "5px 8px",
+                        borderRadius: 6,
+                        background: form.pontosIds.includes(p.id) ? "rgba(16, 185, 129, 0.15)" : "transparent",
+                        border: form.pontosIds.includes(p.id) ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid transparent",
+                        color: form.pontosIds.includes(p.id) ? "#6ee7b7" : "#cbd5e1",
                         cursor: "pointer"
                       }}
                     >
@@ -486,29 +490,45 @@ export default function RotasTransporte({
         <Modal
           titulo={`Ficha Operacional: ${rotaSelecionada.nome}`}
           onClose={() => setModalDetalhes(false)}
-          larguraMax={760}
+          larguraMax={780}
           semRodape
         >
+          <style>{`
+            @media print {
+              body * { visibility: hidden; }
+              #ficha-impressao-transporte, #ficha-impressao-transporte * { visibility: visible; color: #000 !important; }
+              #ficha-impressao-transporte {
+                position: absolute; left: 0; top: 0; width: 100%;
+                background: #fff !important;
+                padding: 20px !important;
+              }
+              #ficha-impressao-transporte .no-print { display: none !important; }
+              #ficha-impressao-transporte .print-box { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; }
+              #ficha-impressao-transporte table th { background: #f1f5f9 !important; color: #1e293b !important; }
+            }
+          `}</style>
           <div id="ficha-impressao-transporte" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "2px solid #1e40af", paddingBottom: 10 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "2px solid #3b82f6", paddingBottom: 12 }}>
               <div>
-                <h3 style={{ margin: 0, color: "#1e40af", fontSize: 18 }}>SIGEM — Transporte Escolar Municipal</h3>
-                <div style={{ fontSize: 13, color: "#4b5563" }}>Ficha Oficial da Linha e Relação de Passageiros</div>
+                <h3 style={{ margin: 0, color: "#60a5fa", fontSize: 18, fontWeight: 700 }}>SIGEM — Transporte Escolar Municipal</h3>
+                <div style={{ fontSize: 13, color: "#94a3b8" }}>Ficha Oficial da Linha e Relação de Passageiros</div>
               </div>
               <button
+                className="no-print"
                 onClick={() => window.print()}
                 style={{
-                  background: "#1e40af",
+                  background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                   color: "white",
                   border: "none",
-                  padding: "8px 14px",
-                  borderRadius: 6,
+                  padding: "8px 16px",
+                  borderRadius: 8,
                   fontWeight: 600,
-                  fontSize: 12,
+                  fontSize: 13,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
-                  gap: 6
+                  gap: 6,
+                  boxShadow: "0 2px 8px rgba(37, 99, 235, 0.3)"
                 }}
               >
                 <i className="ti ti-printer" /> Imprimir Documento
@@ -516,41 +536,41 @@ export default function RotasTransporte({
             </div>
 
             {/* Dados do Veículo e Equipe */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, background: "#f8fafc", padding: 12, borderRadius: 8, fontSize: 12 }}>
+            <div className="print-box" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, background: "#161f2e", padding: 14, borderRadius: 10, fontSize: 12, border: "1px solid #2c3b52" }}>
               <div>
-                <strong>Rota / Linha:</strong>
-                <div>{rotaSelecionada.nome}</div>
+                <strong style={{ color: "#94a3b8" }}>Rota / Linha:</strong>
+                <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 2 }}>{rotaSelecionada.nome}</div>
               </div>
               <div>
-                <strong>Veículo / Placa:</strong>
-                <div>{rotaSelecionada.veiculoPlaca || "Não definido"}</div>
+                <strong style={{ color: "#94a3b8" }}>Veículo / Placa:</strong>
+                <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 2 }}>{rotaSelecionada.veiculoPlaca || "Não definido"}</div>
               </div>
               <div>
-                <strong>Motorista:</strong>
-                <div>{rotaSelecionada.motoristaNome || "Não definido"}</div>
+                <strong style={{ color: "#94a3b8" }}>Motorista:</strong>
+                <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 2 }}>{rotaSelecionada.motoristaNome || "Não definido"}</div>
               </div>
               <div>
-                <strong>Turnos:</strong>
-                <div>{(rotaSelecionada.turnos || []).join(", ") || "Manhã"}</div>
+                <strong style={{ color: "#94a3b8" }}>Turnos:</strong>
+                <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 2 }}>{(rotaSelecionada.turnos || []).join(", ") || "Manhã"}</div>
               </div>
               <div>
-                <strong>Extensão / Tempo:</strong>
-                <div>{rotaSelecionada.extensaoKm ? `${rotaSelecionada.extensaoKm} km` : "-"} / {rotaSelecionada.tempoEstimadoMin ? `~${rotaSelecionada.tempoEstimadoMin} min` : "-"}</div>
+                <strong style={{ color: "#94a3b8" }}>Extensão / Tempo:</strong>
+                <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 2 }}>{rotaSelecionada.extensaoKm ? `${rotaSelecionada.extensaoKm} km` : "-"} / {rotaSelecionada.tempoEstimadoMin ? `~${rotaSelecionada.tempoEstimadoMin} min` : "-"}</div>
               </div>
               <div>
-                <strong>Monitor(a):</strong>
-                <div>{rotaSelecionada.monitorNome || "Sem monitor(a)"}</div>
+                <strong style={{ color: "#94a3b8" }}>Monitor(a):</strong>
+                <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 2 }}>{rotaSelecionada.monitorNome || "Sem monitor(a)"}</div>
               </div>
             </div>
 
             {/* Pontos de Parada */}
             <div>
-              <h5 style={{ margin: "0 0 8px 0", fontSize: 13, fontWeight: 700, color: "#1e293b" }}>
+              <h5 style={{ margin: "0 0 8px 0", fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>
                 Itinerário & Pontos de Embarque:
               </h5>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 {(rotaSelecionada.pontosNomes || []).map((pt, idx) => (
-                  <span key={idx} style={{ padding: "4px 10px", background: "#eff6ff", color: "#1e40af", borderRadius: 16, fontSize: 12, fontWeight: 500, display: "flex", alignItems: "center", gap: 4 }}>
+                  <span key={idx} style={{ padding: "5px 12px", background: "rgba(59, 130, 246, 0.15)", color: "#93c5fd", border: "1px solid rgba(59, 130, 246, 0.3)", borderRadius: 16, fontSize: 12, fontWeight: 500, display: "flex", alignItems: "center", gap: 5 }}>
                     <i className="ti ti-map-pin" /> {idx + 1}. {pt}
                   </span>
                 ))}
@@ -559,60 +579,62 @@ export default function RotasTransporte({
 
             {/* Lista de Alunos Transportados */}
             <div>
-              <h5 style={{ margin: "12px 0 8px 0", fontSize: 13, fontWeight: 700, color: "#1e293b" }}>
+              <h5 style={{ margin: "14px 0 8px 0", fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>
                 Alunos Transportados Nesta Rota ({alunos.filter(a => a.rotaId === rotaSelecionada.id && (a.status === "Ativo" || !a.status)).length} estudantes):
               </h5>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
-                <thead>
-                  <tr style={{ background: "#e2e8f0", color: "#334155" }}>
-                    <th style={{ padding: "6px 8px", width: 30 }}>#</th>
-                    <th style={{ padding: "6px 8px" }}>Nome do Aluno</th>
-                    <th style={{ padding: "6px 8px" }}>Turma / Ano</th>
-                    <th style={{ padding: "6px 8px" }}>Ponto de Embarque</th>
-                    <th style={{ padding: "6px 8px" }}>Responsável / Telefone</th>
-                    <th style={{ padding: "6px 8px" }}>Necessidades</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {alunos.filter(a => a.rotaId === rotaSelecionada.id && (a.status === "Ativo" || !a.status)).length === 0 ? (
-                    <tr>
-                      <td colSpan={6} style={{ padding: 16, textAlign: "center", color: "#9ca3af" }}>
-                        Nenhum aluno vinculado a esta rota até o momento.
-                      </td>
+              <div style={{ borderRadius: 8, overflow: "hidden", border: "1px solid #2c3b52" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
+                  <thead>
+                    <tr style={{ background: "#243144", color: "#f8fafc" }}>
+                      <th style={{ padding: "8px 10px", width: 30 }}>#</th>
+                      <th style={{ padding: "8px 10px" }}>Nome do Aluno</th>
+                      <th style={{ padding: "8px 10px" }}>Turma / Ano</th>
+                      <th style={{ padding: "8px 10px" }}>Ponto de Embarque</th>
+                      <th style={{ padding: "8px 10px" }}>Responsável / Telefone</th>
+                      <th style={{ padding: "8px 10px" }}>Necessidades</th>
                     </tr>
-                  ) : (
-                    alunos
-                      .filter(a => a.rotaId === rotaSelecionada.id && (a.status === "Ativo" || !a.status))
-                      .map((al, idx) => (
-                        <tr key={al.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                          <td style={{ padding: "6px 8px", fontWeight: 600 }}>{idx + 1}</td>
-                          <td style={{ padding: "6px 8px", fontWeight: 600, color: "#1e293b" }}>{al.nomeAluno}</td>
-                          <td style={{ padding: "6px 8px" }}>{al.turma}</td>
-                          <td style={{ padding: "6px 8px" }}>{al.pontoNome || "-"}</td>
-                          <td style={{ padding: "6px 8px" }}>{al.responsavel || "-"} ({al.telefoneContato || "-"})</td>
-                          <td style={{ padding: "6px 8px" }}>
-                            {al.necessidadeEspecial && al.necessidadeEspecial !== "Nenhuma" ? (
-                              <Badge color="red">{al.necessidadeEspecial}</Badge>
-                            ) : "-"}
-                          </td>
-                        </tr>
-                      ))
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {alunos.filter(a => a.rotaId === rotaSelecionada.id && (a.status === "Ativo" || !a.status)).length === 0 ? (
+                      <tr>
+                        <td colSpan={6} style={{ padding: 18, textAlign: "center", color: "#64748b" }}>
+                          Nenhum aluno vinculado a esta rota até o momento.
+                        </td>
+                      </tr>
+                    ) : (
+                      alunos
+                        .filter(a => a.rotaId === rotaSelecionada.id && (a.status === "Ativo" || !a.status))
+                        .map((al, idx) => (
+                          <tr key={al.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                            <td style={{ padding: "8px 10px", fontWeight: 600, color: "#94a3b8" }}>{idx + 1}</td>
+                            <td style={{ padding: "8px 10px", fontWeight: 600, color: "#ffffff" }}>{al.nomeAluno}</td>
+                            <td style={{ padding: "8px 10px", color: "#cbd5e1" }}>{al.turma}</td>
+                            <td style={{ padding: "8px 10px", color: "#cbd5e1" }}>{al.pontoNome || "-"}</td>
+                            <td style={{ padding: "8px 10px", color: "#cbd5e1" }}>{al.responsavel || "-"} ({al.telefoneContato || "-"})</td>
+                            <td style={{ padding: "8px 10px" }}>
+                              {al.necessidadeEspecial && al.necessidadeEspecial !== "Nenhuma" ? (
+                                <Badge color="red">{al.necessidadeEspecial}</Badge>
+                              ) : "-"}
+                            </td>
+                          </tr>
+                        ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Assinatura do Motorista */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginTop: 24, paddingTop: 20, borderTop: "1px dashed #cbd5e1", textAlign: "center", fontSize: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginTop: 24, paddingTop: 20, borderTop: "1px dashed #33435c", textAlign: "center", fontSize: 12 }}>
               <div>
-                <div style={{ borderBottom: "1px solid #475569", width: "80%", margin: "0 auto 6px" }} />
-                <div>Assinatura do Motorista Titular</div>
-                <div style={{ color: "#64748b", fontSize: 11 }}>{rotaSelecionada.motoristaNome}</div>
+                <div style={{ borderBottom: "1px solid #64748b", width: "80%", margin: "0 auto 6px" }} />
+                <div style={{ color: "#cbd5e1" }}>Assinatura do Motorista Titular</div>
+                <div style={{ color: "#94a3b8", fontSize: 11 }}>{rotaSelecionada.motoristaNome}</div>
               </div>
               <div>
-                <div style={{ borderBottom: "1px solid #475569", width: "80%", margin: "0 auto 6px" }} />
-                <div>Coordenação de Transporte Escolar</div>
-                <div style={{ color: "#64748b", fontSize: 11 }}>Secretaria Municipal de Educação</div>
+                <div style={{ borderBottom: "1px solid #64748b", width: "80%", margin: "0 auto 6px" }} />
+                <div style={{ color: "#cbd5e1" }}>Coordenação de Transporte Escolar</div>
+                <div style={{ color: "#94a3b8", fontSize: 11 }}>Secretaria Municipal de Educação</div>
               </div>
             </div>
           </div>

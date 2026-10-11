@@ -309,11 +309,12 @@ export default function FolhaPagamento() {
 
       {/* 1. HERO BANNER DA FOLHA DA EDUCAÇÃO */}
       <div style={{
-        background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%)",
+        background: "linear-gradient(135deg, #1e293b 0%, #1e1b4b 60%, #0f172a 100%)",
         borderRadius: 16,
         padding: "24px 28px",
         color: "white",
-        boxShadow: "0 10px 25px -5px rgba(15, 23, 42, 0.3)",
+        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)",
+        border: "1px solid #33435c",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -324,7 +325,9 @@ export default function FolhaPagamento() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
             <span style={{
-              background: "rgba(255, 255, 255, 0.2)",
+              background: "rgba(99, 102, 241, 0.2)",
+              color: "#a5b4fc",
+              border: "1px solid rgba(99, 102, 241, 0.35)",
               padding: "4px 10px",
               borderRadius: 20,
               fontSize: 11,
@@ -338,12 +341,12 @@ export default function FolhaPagamento() {
               <i className={isAdmin ? "ti ti-building-community" : "ti ti-school"} />
               {isAdmin ? "Secretaria Municipal de Educação" : escolaAtualNome}
             </span>
-            <span style={{ fontSize: 12, opacity: 0.85 }}>Competência {nomeMesAtual}/{anoSelecionado}</span>
+            <span style={{ fontSize: 12, color: "#cbd5e1" }}>Competência {nomeMesAtual}/{anoSelecionado}</span>
           </div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, margin: "4px 0 6px 0", letterSpacing: "-0.5px" }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, margin: "4px 0 6px 0", letterSpacing: "-0.5px", color: "#ffffff" }}>
             {isAdmin ? "Folha de Pagamento & Ponto da Educação" : `Folha de Pagamento & Ponto • ${escolaAtualNome}`}
           </h1>
-          <p style={{ fontSize: 13, opacity: 0.9, margin: 0, maxWidth: 640, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#cbd5e1", margin: 0, maxWidth: 640, lineHeight: 1.5 }}>
             {isAdmin
               ? "Gestão consolidada de remuneração, apuração de ponto escolar, gratificações do magistério e enquadramento FUNDEB (70% docentes / 30% apoio)."
               : `Gestão de remuneração, frequência e apuração de ponto dos servidores e docentes vinculados a ${escolaAtualNome}.`}
@@ -353,7 +356,7 @@ export default function FolhaPagamento() {
         {/* Seletores e Ações Rápidas do Topo */}
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           {/* Seletor de Competência (Mês / Ano) */}
-          <div style={{ display: "flex", gap: 6, background: "rgba(255, 255, 255, 0.15)", padding: "4px 8px", borderRadius: 8 }}>
+          <div style={{ display: "flex", gap: 6, background: "#243144", border: "1px solid #33435c", padding: "4px 8px", borderRadius: 8 }}>
             <select
               value={mesSelecionado}
               onChange={e => setMesSelecionado(Number(e.target.value))}
@@ -368,7 +371,7 @@ export default function FolhaPagamento() {
               }}
             >
               {MESES.map(m => (
-                <option key={m.valor} value={m.valor} style={{ color: "#111827", background: "white" }}>
+                <option key={m.valor} value={m.valor} style={{ color: "#ffffff", background: "#1e293b" }}>
                   {m.nome}
                 </option>
               ))}
@@ -387,7 +390,7 @@ export default function FolhaPagamento() {
               }}
             >
               {ANOS.map(a => (
-                <option key={a} value={a} style={{ color: "#111827", background: "white" }}>
+                <option key={a} value={a} style={{ color: "#ffffff", background: "#1e293b" }}>
                   {a}
                 </option>
               ))}
@@ -400,9 +403,9 @@ export default function FolhaPagamento() {
               value={escolaFiltro}
               onChange={e => setEscolaFiltro(e.target.value)}
               style={{
-                background: "white",
-                border: "none",
-                color: "#1e3a8a",
+                background: "#243144",
+                border: "1px solid #33435c",
+                color: "#ffffff",
                 padding: "8px 12px",
                 borderRadius: 8,
                 fontSize: 13,
@@ -411,17 +414,17 @@ export default function FolhaPagamento() {
                 cursor: "pointer"
               }}
             >
-              <option value="">🌐 Toda a Rede Municipal</option>
+              <option value="" style={{ background: "#1e293b" }}>🌐 Toda a Rede Municipal</option>
               {(escolas || []).map(esc => (
-                <option key={esc.id} value={esc.id}>
+                <option key={esc.id} value={esc.id} style={{ background: "#1e293b" }}>
                   🏫 {esc.nome}
                 </option>
               ))}
             </select>
           ) : (
             <div style={{
-              background: "rgba(255, 255, 255, 0.18)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
+              background: "#243144",
+              border: "1px solid #33435c",
               color: "white",
               padding: "7px 14px",
               borderRadius: 8,
@@ -431,7 +434,7 @@ export default function FolhaPagamento() {
               alignItems: "center",
               gap: 6
             }}>
-              <i className="ti ti-school" />
+              <i className="ti ti-school" style={{ color: "#60a5fa" }} />
               <span>{escolaAtualNome}</span>
             </div>
           )}
@@ -441,7 +444,7 @@ export default function FolhaPagamento() {
             onClick={handleRecalcularFolha}
             disabled={processando}
             style={{
-              background: "#10b981",
+              background: "linear-gradient(135deg, #059669 0%, #10b981 100%)",
               color: "white",
               border: "none",
               padding: "9px 16px",
@@ -467,9 +470,9 @@ export default function FolhaPagamento() {
           padding: "12px 16px",
           borderRadius: 8,
           fontSize: 13,
-          background: alerta.tipo === "error" ? "#fee2e2" : "#dcfce7",
-          color: alerta.tipo === "error" ? "#991b1b" : "#166534",
-          border: `1px solid ${alerta.tipo === "error" ? "#fca5a5" : "#86efac"}`,
+          background: alerta.tipo === "error" ? "rgba(248, 113, 113, 0.15)" : "rgba(52, 211, 153, 0.15)",
+          color: alerta.tipo === "error" ? "#f87171" : "#34d399",
+          border: `1px solid ${alerta.tipo === "error" ? "rgba(248, 113, 113, 0.3)" : "rgba(52, 211, 153, 0.3)"}`,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center"
@@ -482,130 +485,100 @@ export default function FolhaPagamento() {
       {/* 2. CARDS DE KPI DA FOLHA DE PAGAMENTO */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
         {/* Folha Bruta */}
-        <div style={{ background: "white", borderRadius: 12, padding: 18, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 18, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Folha Bruta Total</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Folha Bruta Total</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-cash" />
             </div>
           </div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#1e3a8a" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#ffffff" }}>
             {totaisFolha.bruto.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#4b5563", marginTop: 4 }}>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             {totaisFolha.totalServidores} servidores processados
           </div>
         </div>
 
         {/* Descontos Previdenciários / Legais */}
-        <div style={{ background: "white", borderRadius: 12, padding: 18, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 18, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Total Descontos</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fee2e2", color: "#dc2626", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Total Descontos</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(248, 113, 113, 0.15)", color: "#f87171", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-receipt-refund" />
             </div>
           </div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#991b1b" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#f87171" }}>
             {totaisFolha.descontos.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#6b7280", marginTop: 4 }}>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             Previdência, IRRF e Faltas
           </div>
         </div>
 
         {/* Folha Líquida */}
-        <div style={{ background: "white", borderRadius: 12, padding: 18, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 18, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>Folha Líquida</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#ecfdf5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Folha Líquida</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-wallet" />
             </div>
           </div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#059669" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#34d399" }}>
             {totaisFolha.liquido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </div>
-          <div style={{ fontSize: 11, color: "#059669", marginTop: 4, fontWeight: 600 }}>
+          <div style={{ fontSize: 11, color: "#34d399", marginTop: 4, fontWeight: 600 }}>
             Valor líquido a depositar
           </div>
         </div>
 
         {/* FUNDEB 70% (Docentes) */}
-        <div style={{ background: "white", borderRadius: 12, padding: 18, border: "1px solid #e5e7eb", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)" }}>
+        <div style={{ background: "#1e293b", borderRadius: 12, padding: 18, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>FUNDEB 70% (Docentes)</span>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fef3c7", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>FUNDEB 70% (Docentes)</span>
+            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
               <i className="ti ti-school" />
             </div>
           </div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#b45309" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "#fbbf24" }}>
             {totaisFolha.percentualFundeb70}%
           </div>
-          <div style={{ fontSize: 11, color: "#4b5563", marginTop: 4 }}>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
             {totaisFolha.totalFundeb70.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} (Magistério)
           </div>
         </div>
       </div>
 
       {/* 3. NAVEGAÇÃO ENTRE ABAS */}
-      <div style={{ display: "flex", borderBottom: "1px solid #e5e7eb", gap: 12 }}>
-        <button
-          onClick={() => setAbaAtiva("folha")}
-          style={{
-            padding: "10px 18px",
-            border: "none",
-            borderBottom: abaAtiva === "folha" ? "2px solid #1e3a8a" : "2px solid transparent",
-            background: "none",
-            color: abaAtiva === "folha" ? "#1e3a8a" : "#6b7280",
-            fontWeight: abaAtiva === "folha" ? 700 : 500,
-            fontSize: 13,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: 6
-          }}
-        >
-          <i className="ti ti-file-text" /> 1. Folha Mensal Processada ({folhaLancamentos.length})
-        </button>
-
-        <button
-          onClick={() => setAbaAtiva("ponto")}
-          style={{
-            padding: "10px 18px",
-            border: "none",
-            borderBottom: abaAtiva === "ponto" ? "2px solid #1e3a8a" : "2px solid transparent",
-            background: "none",
-            color: abaAtiva === "ponto" ? "#1e3a8a" : "#6b7280",
-            fontWeight: abaAtiva === "ponto" ? 700 : 500,
-            fontSize: 13,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: 6
-          }}
-        >
-          <i className="ti ti-clock-check" /> 2. Apuração de Ponto & Carga Horária
-        </button>
-
-        {isAdmin && (
+      <div style={{ display: "flex", gap: 8, borderBottom: "1px solid #2c3b52", paddingBottom: 10, overflowX: "auto" }}>
+        {[
+          { id: "folha", label: `1. Folha Mensal Processada (${folhaLancamentos.length})`, icon: "ti ti-file-text" },
+          { id: "ponto", label: "2. Apuração de Ponto & Carga Horária", icon: "ti ti-clock-check" },
+          ...(isAdmin ? [{ id: "parametros", label: "3. Parâmetros Salariais & PCCR", icon: "ti ti-settings" }] : [])
+        ].map(tab => (
           <button
-            onClick={() => setAbaAtiva("parametros")}
+            key={tab.id}
+            onClick={() => setAbaAtiva(tab.id)}
             style={{
-              padding: "10px 18px",
-              border: "none",
-              borderBottom: abaAtiva === "parametros" ? "2px solid #1e3a8a" : "2px solid transparent",
-              background: "none",
-              color: abaAtiva === "parametros" ? "#1e3a8a" : "#6b7280",
-              fontWeight: abaAtiva === "parametros" ? 700 : 500,
+              padding: "8px 16px",
+              borderRadius: 8,
+              border: abaAtiva === tab.id ? "none" : "1px solid #33435c",
+              background: abaAtiva === tab.id ? "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)" : "#243144",
+              color: abaAtiva === tab.id ? "white" : "#cbd5e1",
+              fontWeight: abaAtiva === tab.id ? 700 : 500,
               fontSize: 13,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: 6
+              gap: 6,
+              transition: "all 0.2s",
+              boxShadow: abaAtiva === tab.id ? "0 4px 12px rgba(99, 102, 241, 0.35)" : "none"
             }}
           >
-            <i className="ti ti-settings" /> 3. Parâmetros Salariais & PCCR
+            <i className={tab.icon} />
+            {tab.label}
           </button>
-        )}
+        ))}
       </div>
 
       {carregando ? (
@@ -619,10 +592,10 @@ export default function FolhaPagamento() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {/* Barra de Filtros */}
               <div style={{
-                background: "white",
+                background: "#1e293b",
                 borderRadius: 12,
                 padding: "14px 18px",
-                border: "1px solid #e5e7eb",
+                border: "1px solid #2c3b52",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -630,7 +603,7 @@ export default function FolhaPagamento() {
                 gap: 12
               }}>
                 <div style={{ position: "relative", flex: "1 1 240px", minWidth: 200 }}>
-                  <i className="ti ti-search" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} />
+                  <i className="ti ti-search" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
                   <input
                     type="text"
                     placeholder="Buscar servidor, CPF ou matrícula..."
@@ -640,7 +613,9 @@ export default function FolhaPagamento() {
                       width: "100%",
                       padding: "8px 12px 8px 34px",
                       borderRadius: 8,
-                      border: "1px solid #d1d5db",
+                      border: "1px solid #33435c",
+                      background: "#243144",
+                      color: "#ffffff",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box"
@@ -652,7 +627,7 @@ export default function FolhaPagamento() {
                   <select
                     value={filtroCargo}
                     onChange={e => setFiltroCargo(e.target.value)}
-                    style={{ padding: "7px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+                    style={{ padding: "7px 12px", borderRadius: 8, border: "1px solid #33435c", fontSize: 13, background: "#243144", color: "#ffffff", outline: "none" }}
                   >
                     <option value="Todos">Todos os Cargos</option>
                     <option value="Professor">Professores</option>
@@ -667,7 +642,7 @@ export default function FolhaPagamento() {
                   <select
                     value={filtroVinculo}
                     onChange={e => setFiltroVinculo(e.target.value)}
-                    style={{ padding: "7px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+                    style={{ padding: "7px 12px", borderRadius: 8, border: "1px solid #33435c", fontSize: 13, background: "#243144", color: "#ffffff", outline: "none" }}
                   >
                     <option value="Todos">Todos os Vínculos</option>
                     <option value="Efetivo">Efetivos (RPPS)</option>
@@ -689,7 +664,7 @@ export default function FolhaPagamento() {
                   <div style={{ overflowX: "auto" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
                       <thead>
-                        <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569", textTransform: "uppercase", fontSize: 11 }}>
+                        <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#94a3b8", textTransform: "uppercase", fontSize: 11 }}>
                           <th style={{ padding: "12px 14px", textAlign: "left" }}>Matrícula / Servidor</th>
                           <th style={{ padding: "12px 14px", textAlign: "left" }}>Cargo / Vínculo</th>
                           <th style={{ padding: "12px 14px", textAlign: "left" }}>Lotação</th>
@@ -702,29 +677,29 @@ export default function FolhaPagamento() {
                       </thead>
                       <tbody>
                         {folhaExibicao.map(l => (
-                          <tr key={l.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                          <tr key={l.id} style={{ borderBottom: "1px solid #2c3b52" }}>
                             <td style={{ padding: "10px 14px" }}>
-                              <div style={{ fontWeight: 600, color: "#1e293b", fontSize: 13 }}>{l.servidorNome}</div>
-                              <div style={{ fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>{l.matricula} · CPF: {l.cpf || "-"}</div>
+                              <div style={{ fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{l.servidorNome}</div>
+                              <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>{l.matricula} · CPF: {l.cpf || "-"}</div>
                             </td>
                             <td style={{ padding: "10px 14px" }}>
-                              <div style={{ fontWeight: 500, color: "#334155" }}>{l.cargo} ({l.cargaHoraria || "20h"})</div>
+                              <div style={{ fontWeight: 500, color: "#cbd5e1" }}>{l.cargo} ({l.cargaHoraria || "20h"})</div>
                               <Badge color={l.vinculo === "Efetivo" ? "blue" : "amber"}>{l.vinculo || "Efetivo"}</Badge>
                             </td>
-                            <td style={{ padding: "10px 14px", color: "#475569" }}>
+                            <td style={{ padding: "10px 14px", color: "#cbd5e1" }}>
                               <div>{l.escolaNome}</div>
-                              <span style={{ fontSize: 10, color: "#059669", fontWeight: 600 }}>{l.enquadramentoFundeb}</span>
+                              <span style={{ fontSize: 10, color: "#34d399", fontWeight: 600 }}>{l.enquadramentoFundeb}</span>
                             </td>
-                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#475569" }}>
+                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#cbd5e1" }}>
                               {(l.proventos?.[0]?.valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </td>
-                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#166534", fontWeight: 600 }}>
+                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#34d399", fontWeight: 600 }}>
                               {(l.totalProventos || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </td>
-                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#991b1b", fontWeight: 600 }}>
+                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#f87171", fontWeight: 600 }}>
                               {(l.totalDescontos || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </td>
-                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#059669", fontWeight: 700, fontSize: 13 }}>
+                            <td style={{ padding: "10px 14px", textAlign: "right", color: "#38bdf8", fontWeight: 700, fontSize: 13 }}>
                               {(l.valorLiquido || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </td>
                             <td style={{ padding: "10px 14px", textAlign: "center" }}>
@@ -753,8 +728,8 @@ export default function FolhaPagamento() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {/* Barra de Ações do Ponto */}
               <div style={{
-                background: "#f0fdf4",
-                border: "1px solid #bbf7d0",
+                background: "#1e293b",
+                border: "1px solid #2c3b52",
                 borderRadius: 12,
                 padding: "16px 20px",
                 display: "flex",
@@ -764,11 +739,11 @@ export default function FolhaPagamento() {
                 gap: 12
               }}>
                 <div>
-                  <div style={{ fontWeight: 700, color: "#166534", fontSize: 14 }}>
+                  <div style={{ fontWeight: 700, color: "#34d399", fontSize: 14 }}>
                     <i className="ti ti-calendar-check" style={{ marginRight: 6 }} />
                     Apuração de Frequência dos Servidores ({nomeMesAtual}/{anoSelecionado})
                   </div>
-                  <div style={{ fontSize: 12, color: "#15803d", marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                     Lançamento de dias trabalhados, faltas justificadas (atestados) e faltas injustificadas com desconto salarial.
                   </div>
                 </div>
@@ -785,7 +760,7 @@ export default function FolhaPagamento() {
                       onClick={handleEnviarPontoSecretaria}
                       disabled={salvandoPonto}
                       style={{
-                        background: "#1e3a8a",
+                        background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
                         color: "white",
                         border: "none",
                         padding: "6px 14px",
@@ -795,7 +770,8 @@ export default function FolhaPagamento() {
                         cursor: "pointer",
                         display: "flex",
                         alignItems: "center",
-                        gap: 6
+                        gap: 6,
+                        boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)"
                       }}
                     >
                       <i className="ti ti-send" /> Transmitir para a SEMED
@@ -809,7 +785,7 @@ export default function FolhaPagamento() {
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
                     <thead>
-                      <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569", textTransform: "uppercase", fontSize: 11 }}>
+                      <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#94a3b8", textTransform: "uppercase", fontSize: 11 }}>
                         <th style={{ padding: "12px 14px", textAlign: "left" }}>Servidor / Cargo</th>
                         <th style={{ padding: "12px 14px", textAlign: "left" }}>Lotação</th>
                         <th style={{ padding: "12px 14px", textAlign: "center", width: 120 }}>Dias Trabalhados (máx 22)</th>
@@ -828,12 +804,12 @@ export default function FolhaPagamento() {
                         const escola = (escolas || []).find(e => e.id === serv.escolaId);
 
                         return (
-                          <tr key={serv.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                          <tr key={serv.id} style={{ borderBottom: "1px solid #2c3b52" }}>
                             <td style={{ padding: "10px 14px" }}>
-                              <div style={{ fontWeight: 600, color: "#1e293b", fontSize: 13 }}>{serv.nome}</div>
-                              <div style={{ fontSize: 11, color: "#64748b" }}>{serv.cargo} · {serv.vinculo || "Efetivo"}</div>
+                              <div style={{ fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{serv.nome}</div>
+                              <div style={{ fontSize: 11, color: "#94a3b8" }}>{serv.cargo} · {serv.vinculo || "Efetivo"}</div>
                             </td>
-                            <td style={{ padding: "10px 14px", color: "#475569" }}>
+                            <td style={{ padding: "10px 14px", color: "#cbd5e1" }}>
                               {escola?.nome || "Escola Municipal"}
                             </td>
                             <td style={{ padding: "10px 14px", textAlign: "center" }}>
@@ -847,7 +823,9 @@ export default function FolhaPagamento() {
                                   width: 60,
                                   padding: "5px 8px",
                                   borderRadius: 6,
-                                  border: "1px solid #d1d5db",
+                                  border: "1px solid #33435c",
+                                  background: "#161f2e",
+                                  color: "#ffffff",
                                   textAlign: "center",
                                   fontWeight: 600
                                 }}
@@ -864,9 +842,10 @@ export default function FolhaPagamento() {
                                   width: 60,
                                   padding: "5px 8px",
                                   borderRadius: 6,
-                                  border: "1px solid #d1d5db",
-                                  textAlign: "center",
-                                  color: "#d97706"
+                                  border: "1px solid #33435c",
+                                  background: "#161f2e",
+                                  color: "#fbbf24",
+                                  textAlign: "center"
                                 }}
                               />
                             </td>
@@ -881,10 +860,11 @@ export default function FolhaPagamento() {
                                   width: 60,
                                   padding: "5px 8px",
                                   borderRadius: 6,
-                                  border: faltasInjust > 0 ? "2px solid #ef4444" : "1px solid #d1d5db",
+                                  border: faltasInjust > 0 ? "2px solid #f87171" : "1px solid #33435c",
+                                  background: "#161f2e",
                                   textAlign: "center",
                                   fontWeight: 700,
-                                  color: faltasInjust > 0 ? "#dc2626" : "#374151"
+                                  color: faltasInjust > 0 ? "#f87171" : "#cbd5e1"
                                 }}
                               />
                             </td>
@@ -899,9 +879,10 @@ export default function FolhaPagamento() {
                                   width: 60,
                                   padding: "5px 8px",
                                   borderRadius: 6,
-                                  border: "1px solid #d1d5db",
+                                  border: "1px solid #33435c",
+                                  background: "#161f2e",
                                   textAlign: "center",
-                                  color: "#2563eb",
+                                  color: "#38bdf8",
                                   fontWeight: 600
                                 }}
                               />
@@ -922,12 +903,12 @@ export default function FolhaPagamento() {
           {abaAtiva === "parametros" && isAdmin && (
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <Card>
-                <div style={{ borderBottom: "1px solid #e5e7eb", paddingBottom: 14, marginBottom: 16 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: "#1e3a8a" }}>
-                    <i className="ti ti-scale" style={{ marginRight: 6 }} />
+                <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 14, marginBottom: 16 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                    <i className="ti ti-scale" style={{ marginRight: 6, color: "#60a5fa" }} />
                     Piso Salarial Nacional do Magistério & Bases Salariais
                   </h3>
-                  <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                     Configuração dos valores de vencimento básico por carga horária conforme legislação federal e municipal.
                   </div>
                 </div>
@@ -979,12 +960,12 @@ export default function FolhaPagamento() {
               </Card>
 
               <Card>
-                <div style={{ borderBottom: "1px solid #e5e7eb", paddingBottom: 14, marginBottom: 16 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: "#1e3a8a" }}>
-                    <i className="ti ti-award" style={{ marginRight: 6 }} />
+                <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 14, marginBottom: 16 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                    <i className="ti ti-award" style={{ marginRight: 6, color: "#fbbf24" }} />
                     Gratificações, Titulação & Alíquotas Previdenciárias
                   </h3>
-                  <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
                     Adicionais de carreira do magistério e encargos legais.
                   </div>
                 </div>
@@ -1052,3 +1033,4 @@ export default function FolhaPagamento() {
     </div>
   );
 }
+

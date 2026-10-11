@@ -118,7 +118,7 @@ export default function Professores() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        borderBottom: "1px solid #e5e5e4",
+        borderBottom: "1px solid #2c3b52",
         marginBottom: 16,
         gap: 8
       }}>
@@ -126,13 +126,13 @@ export default function Professores() {
           <button
             onClick={() => setAbaAtiva("professores")}
             style={{
-              padding: "10px 16px",
+              padding: "10px 18px",
               border: "none",
-              borderBottom: abaAtiva === "professores" ? "3px solid #1a56db" : "3px solid transparent",
+              borderBottom: abaAtiva === "professores" ? "3px solid #6366f1" : "3px solid transparent",
               background: "none",
               fontSize: 14,
               fontWeight: 600,
-              color: abaAtiva === "professores" ? "#1a56db" : "#4b5563",
+              color: abaAtiva === "professores" ? "#818cf8" : "#94a3b8",
               cursor: "pointer"
             }}
           >
@@ -142,13 +142,13 @@ export default function Professores() {
           <button
             onClick={() => setAbaAtiva("demais-servidores")}
             style={{
-              padding: "10px 16px",
+              padding: "10px 18px",
               border: "none",
-              borderBottom: abaAtiva === "demais-servidores" ? "3px solid #1a56db" : "3px solid transparent",
+              borderBottom: abaAtiva === "demais-servidores" ? "3px solid #6366f1" : "3px solid transparent",
               background: "none",
               fontSize: 14,
               fontWeight: 600,
-              color: abaAtiva === "demais-servidores" ? "#1a56db" : "#4b5563",
+              color: abaAtiva === "demais-servidores" ? "#818cf8" : "#94a3b8",
               cursor: "pointer"
             }}
           >
@@ -170,47 +170,50 @@ export default function Professores() {
         ) : (
           <table style={{ width:"100%",borderCollapse:"collapse" }}>
             <thead>
-              <tr>
+              <tr style={{ background: "rgba(36, 49, 68, 0.5)" }}>
                 {colunas.map(h => (
-                  <th key={h} style={{ textAlign:"left",padding:"10px 12px",fontSize:11,fontWeight:600,color:"#888",textTransform:"uppercase",borderBottom:"1px solid #e5e5e4" }}>{h}</th>
+                  <th key={h} style={{ textAlign:"left",padding:"12px 14px",fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.5px",borderBottom:"1px solid #2c3b52" }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {listaFiltrada.map(p => (
-                <tr key={p.id} style={{ borderBottom:"1px solid #f3f4f6" }}>
-                  <td style={{ padding:"10px 12px" }}>
+                <tr key={p.id} style={{ borderBottom:"1px solid #2c3b52", transition: "background 0.15s ease" }}
+                  onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
+                  onMouseOut={e => e.currentTarget.style.background="transparent"}
+                >
+                  <td style={{ padding:"12px 14px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #e5e5e4", flexShrink: 0 }}>
+                      <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "#243144", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
                         {p.fotoUrl ? (
                           <img src={p.fotoUrl} alt={p.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         ) : (
-                          <i className="ti ti-user" style={{ fontSize: 20, color: "#9ca3af" }} />
+                          <i className="ti ti-user" style={{ fontSize: 20, color: "#94a3b8" }} />
                         )}
                       </div>
-                      <span style={{ fontWeight:500 }}>{p.nome}</span>
+                      <span style={{ fontWeight:600, color:"#ffffff", fontSize: 13 }}>{p.nome}</span>
                     </div>
                   </td>
-                  <td style={{ padding:"10px 12px",fontSize:13 }}>
+                  <td style={{ padding:"12px 14px",fontSize:13 }}>
                     <Badge color="gray">{p.cargo || "Professor"}</Badge>
                     {p.vinculo && <Badge color={p.vinculo === "Efetivo" ? "blue" : "purple"} style={{ marginLeft: 4 }}>{p.vinculo}</Badge>}
                   </td>
                   {abaAtiva === "professores" && (
-                    <td style={{ padding:"10px 12px" }}>
+                    <td style={{ padding:"12px 14px" }}>
                       {(p.disciplinas||[]).map(d => (
                         <Badge key={d} color="blue" style={{ marginRight:3 }}>{d}</Badge>
                       ))}
                     </td>
                   )}
-                  <td style={{ padding:"10px 12px",fontSize:13 }}>{p.turno}</td>
-                  <td style={{ padding:"10px 12px",fontSize:12,color:"#555" }}>{p.telefone}<br />{p.email}</td>
-                  <td style={{ padding:"10px 12px" }}><Badge color={p.status==="Ativo"?"green":"amber"}>{p.status}</Badge></td>
-                  <td style={{ padding:"10px 12px" }}>
+                  <td style={{ padding:"12px 14px",fontSize:13,color:"#cbd5e1" }}>{p.turno}</td>
+                  <td style={{ padding:"12px 14px",fontSize:12,color:"#94a3b8" }}>{p.telefone}<br />{p.email}</td>
+                  <td style={{ padding:"12px 14px" }}><Badge color={p.status==="Ativo"?"green":"amber"}>{p.status}</Badge></td>
+                  <td style={{ padding:"12px 14px" }}>
                     <div style={{ display: "flex", gap: 4 }}>
-                      <Btn onClick={() => setProfessorFicha(p)} style={{ padding:"4px 8px",fontSize:12, background: "white" }} title="Visualizar Ficha">
-                        <i className="ti ti-eye" style={{ fontSize: 13, color: "#555" }} aria-hidden="true" />
+                      <Btn onClick={() => setProfessorFicha(p)} style={{ padding:"5px 9px",fontSize:12, background: "rgba(56, 189, 248, 0.12)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" }} title="Visualizar Ficha">
+                        <i className="ti ti-eye" style={{ fontSize: 13 }} aria-hidden="true" />
                       </Btn>
-                      <Btn onClick={()=>abrirEditar(p)} style={{ padding:"4px 8px",fontSize:12 }} title="Editar">
+                      <Btn onClick={()=>abrirEditar(p)} style={{ padding:"5px 9px",fontSize:12 }} title="Editar">
                         <i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" />
                       </Btn>
                     </div>
@@ -226,30 +229,30 @@ export default function Professores() {
         <Modal titulo={editId?"Editar Servidor":"Novo Servidor"} onClose={()=>setModalAberto(false)} onSave={salvar} salvando={salvando}>
           <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
             {/* Upload de Foto */}
-            <div style={{ display:"flex", alignItems: "center", gap: 16, background: "#f9fafb", padding: 12, borderRadius: 8, border: "1px solid #e5e5e4", marginBottom: 4 }}>
-              <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #1a56db", flexShrink: 0 }}>
+            <div style={{ display:"flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 10, border: "1px solid #33435c", marginBottom: 4 }}>
+              <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#1e293b", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #6366f1", flexShrink: 0 }}>
                 {form.fotoUrl ? (
                   <img src={form.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <i className="ti ti-camera" style={{ fontSize: 20, color: "#9ca3af" }} />
+                  <i className="ti ti-camera" style={{ fontSize: 22, color: "#94a3b8" }} />
                 )}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Foto do Servidor</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Foto do Servidor</span>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <label style={{
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 6,
                     padding: "5px 12px",
-                    background: "#1a56db",
-                    color: "white",
+                    background: "rgba(99, 102, 241, 0.2)",
+                    color: "#818cf8",
                     borderRadius: 6,
                     fontSize: 12,
                     fontWeight: 500,
                     cursor: carregandoFoto ? "not-allowed" : "pointer",
                     opacity: carregandoFoto ? 0.7 : 1,
-                    border: "1px solid #1a56db"
+                    border: "1px solid rgba(99, 102, 241, 0.4)"
                   }}>
                     <i className="ti ti-upload" />
                     {carregandoFoto ? "Carregando..." : "Enviar Foto"}
@@ -258,7 +261,7 @@ export default function Professores() {
                   {form.fotoUrl && (
                     <Btn variant="danger" onClick={() => set("fotoUrl", "")} style={{ padding: "4px 10px", fontSize: 12 }}>
                       <i className="ti ti-trash" /> Remover
-                  </Btn>
+                    </Btn>
                   )}
                 </div>
               </div>
@@ -294,14 +297,14 @@ export default function Professores() {
 
             {(form.cargo === "Professor" || !form.cargo) && (
               <div>
-                <label style={{ fontSize:12,fontWeight:500,color:"#374151",display:"block",marginBottom:8 }}>Disciplinas que leciona</label>
+                <label style={{ fontSize:12,fontWeight:500,color:"#cbd5e1",display:"block",marginBottom:8 }}>Disciplinas que leciona</label>
                 <div style={{ display:"flex",flexWrap:"wrap",gap:6 }}>
                   {DISCIPLINAS.map(d => {
                     const sel = (form.disciplinas||[]).includes(d);
                     return (
                       <button key={d} onClick={()=>toggleDisciplina(d)} type="button"
                         style={{ padding:"4px 12px",borderRadius:20,fontSize:12,fontWeight:500,cursor:"pointer",border:"1px solid",
-                          background:sel?"#1a56db":"white",color:sel?"white":"#374151",borderColor:sel?"#1a56db":"#d1d5db" }}>
+                          background:sel?"linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)":"#1e293b",color:sel?"#ffffff":"#cbd5e1",borderColor:sel?"#6366f1":"#33435c" }}>
                         {d}
                       </button>
                     );
@@ -334,16 +337,16 @@ export default function Professores() {
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Header / Foto */}
-            <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#f3f4f6", padding: 12, borderRadius: 8 }}>
-              <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", background: "white", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #d1d5db", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c" }}>
+              <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", background: "#1e293b", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
                 {professorFicha.fotoUrl ? (
                   <img src={professorFicha.fotoUrl} alt={professorFicha.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <i className="ti ti-user" style={{ fontSize: 28, color: "#9ca3af" }} />
+                  <i className="ti ti-user" style={{ fontSize: 28, color: "#94a3b8" }} />
                 )}
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 600, color: "#1f2937", marginBottom: 4 }}>{professorFicha.nome}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: "#ffffff", marginBottom: 4 }}>{professorFicha.nome}</div>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <Badge color="blue">{professorFicha.cargo || "Professor"}</Badge>
                   <Badge color={professorFicha.status === "Ativo" ? "green" : "amber"}>{professorFicha.status}</Badge>
@@ -352,23 +355,23 @@ export default function Professores() {
             </div>
 
             {/* Dados Pessoais e Contato */}
-            <div style={{ border: "1px solid #e5e5e4", borderRadius: 8, padding: 16 }}>
-              <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "#4b5563", textTransform: "uppercase", borderBottom: "1px solid #f3f4f6", paddingBottom: 6 }}>
-                <i className="ti ti-address-book" style={{ marginRight: 6 }} /> Contato e Lotação
+            <div style={{ border: "1px solid #33435c", background: "#243144", borderRadius: 8, padding: 16 }}>
+              <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "#ffffff", textTransform: "uppercase", borderBottom: "1px solid #33435c", paddingBottom: 6 }}>
+                <i className="ti ti-address-book" style={{ marginRight: 6, color: "#6366f1" }} /> Contato e Lotação
               </h4>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 16px" }}>
-                <div><span style={{ color: "#9ca3af", fontSize: 11, display: "block" }}>Telefone</span>{professorFicha.telefone || "Não informado"}</div>
-                <div><span style={{ color: "#9ca3af", fontSize: 11, display: "block" }}>E-mail</span>{professorFicha.email || "Não informado"}</div>
-                <div><span style={{ color: "#9ca3af", fontSize: 11, display: "block" }}>Turno</span>{professorFicha.turno || "Não informado"}</div>
-                <div><span style={{ color: "#9ca3af", fontSize: 11, display: "block" }}>Vínculo</span>{professorFicha.vinculo || "Não informado"}</div>
+                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>Telefone</span><span style={{ color: "#cbd5e1" }}>{professorFicha.telefone || "Não informado"}</span></div>
+                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>E-mail</span><span style={{ color: "#cbd5e1" }}>{professorFicha.email || "Não informado"}</span></div>
+                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>Turno</span><span style={{ color: "#cbd5e1" }}>{professorFicha.turno || "Não informado"}</span></div>
+                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>Vínculo</span><span style={{ color: "#cbd5e1" }}>{professorFicha.vinculo || "Não informado"}</span></div>
               </div>
             </div>
 
             {/* Disciplinas (se professor) */}
             {professorFicha.cargo === "Professor" && professorFicha.disciplinas && professorFicha.disciplinas.length > 0 && (
-              <div style={{ border: "1px solid #e5e5e4", borderRadius: 8, padding: 16 }}>
-                <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "#4b5563", textTransform: "uppercase", borderBottom: "1px solid #f3f4f6", paddingBottom: 6 }}>
-                  <i className="ti ti-books" style={{ marginRight: 6 }} /> Disciplinas Lecionadas
+              <div style={{ border: "1px solid #33435c", background: "#243144", borderRadius: 8, padding: 16 }}>
+                <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "#ffffff", textTransform: "uppercase", borderBottom: "1px solid #33435c", paddingBottom: 6 }}>
+                  <i className="ti ti-books" style={{ marginRight: 6, color: "#6366f1" }} /> Disciplinas Lecionadas
                 </h4>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {professorFicha.disciplinas.map(d => (

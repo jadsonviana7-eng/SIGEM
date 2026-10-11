@@ -314,12 +314,12 @@ export default function EducacaoEspecial() {
   if (!temAcesso) {
     return (
       <div style={{ padding: 32, textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
-        <div style={{ background: "white", borderRadius: 14, padding: 32, border: "1px solid #fee2e2", boxShadow: "0 8px 24px rgba(239, 68, 68, 0.1)" }}>
-          <i className="ti ti-shield-x" style={{ fontSize: 48, color: "#ef4444", marginBottom: 12, display: "block" }} />
-          <h2 style={{ fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 8 }}>
+        <div style={{ background: "#1e293b", borderRadius: 14, padding: 32, border: "1px solid #7f1d1d", boxShadow: "0 8px 30px rgba(0, 0, 0, 0.4)" }}>
+          <i className="ti ti-shield-x" style={{ fontSize: 48, color: "#f87171", marginBottom: 12, display: "block" }} />
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: "#f8fafc", marginBottom: 8 }}>
             Acesso Restrito - Dados Médicos e Sigilosos (LGPD)
           </h2>
-          <p style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.6 }}>
             O módulo de Educação Especial contém informações neuropediátricas e laudos confidenciais. Seu perfil atual (<strong>{userPerfil}</strong>) não possui autorização para visualização destes dados.
           </p>
         </div>
@@ -329,7 +329,7 @@ export default function EducacaoEspecial() {
 
   if (!activeEscolaId) {
     return (
-      <div style={{ padding: 32, textAlign: "center", color: "#6b7280" }}>
+      <div style={{ padding: 32, textAlign: "center", color: "#94a3b8" }}>
         Por favor, selecione uma escola vinculada no menu superior para gerenciar a Educação Especial & AEE.
       </div>
     );
@@ -464,11 +464,11 @@ export default function EducacaoEspecial() {
       }}>
         {/* Cartão de Navegação Vertical */}
         <div style={{
-          background: "white",
+          background: "#1e293b",
           borderRadius: 14,
           padding: "16px",
-          border: "1px solid #e5e7eb",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)"
+          border: "1px solid #2c3b52",
+          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
         }}>
           <div style={{
             display: "flex",
@@ -476,26 +476,26 @@ export default function EducacaoEspecial() {
             justifyContent: "space-between",
             paddingBottom: 12,
             marginBottom: 12,
-            borderBottom: "1px solid #f1f5f9"
+            borderBottom: "1px solid #2c3b52"
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{
                 width: 34,
                 height: 34,
                 borderRadius: 8,
-                background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
+                background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
                 color: "white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 18,
-                boxShadow: "0 2px 6px rgba(30, 64, 175, 0.3)"
+                boxShadow: "0 2px 8px rgba(99, 102, 241, 0.3)"
               }}>
                 <i className="ti ti-heart-handshake" />
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>Educação Especial</div>
-                <div style={{ fontSize: 11, color: "#6b7280" }}>AEE & Inclusão</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>Educação Especial</div>
+                <div style={{ fontSize: 11, color: "#94a3b8" }}>AEE & Inclusão</div>
               </div>
             </div>
 
@@ -505,10 +505,10 @@ export default function EducacaoEspecial() {
               title="Recarregar Dados"
               style={{
                 padding: "6px 8px",
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
+                background: "#243144",
+                border: "1px solid #33435c",
                 borderRadius: 6,
-                color: "#475569",
+                color: "#cbd5e1",
                 cursor: "pointer",
                 fontSize: 12,
                 display: "flex",
@@ -550,25 +550,25 @@ export default function EducacaoEspecial() {
                           padding: "8px 10px",
                           borderRadius: 8,
                           border: "none",
-                          background: isActive ? "#eff6ff" : "transparent",
-                          color: isActive ? "#1e40af" : "#334155",
+                          background: isActive ? "rgba(99, 102, 241, 0.15)" : "transparent",
+                          color: isActive ? "#a5b4fc" : "#cbd5e1",
                           fontWeight: isActive ? 700 : 500,
                           fontSize: 13,
                           cursor: "pointer",
                           textAlign: "left",
                           transition: "all 0.15s ease",
-                          borderLeft: isActive ? "3px solid #1e40af" : "3px solid transparent"
+                          borderLeft: isActive ? "3px solid #6366f1" : "3px solid transparent"
                         }}
                         onMouseOver={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = "#f8fafc";
-                            e.currentTarget.style.color = "#1e293b";
+                            e.currentTarget.style.background = "#243144";
+                            e.currentTarget.style.color = "#ffffff";
                           }
                         }}
                         onMouseOut={(e) => {
                           if (!isActive) {
                             e.currentTarget.style.background = "transparent";
-                            e.currentTarget.style.color = "#334155";
+                            e.currentTarget.style.color = "#cbd5e1";
                           }
                         }}
                       >
@@ -577,7 +577,7 @@ export default function EducacaoEspecial() {
                             className={`ti ti-${item.icon}`}
                             style={{
                               fontSize: 16,
-                              color: isActive ? "#1e40af" : "#64748b",
+                              color: isActive ? "#818cf8" : "#94a3b8",
                               flexShrink: 0
                             }}
                           />
@@ -596,8 +596,8 @@ export default function EducacaoEspecial() {
                             fontWeight: 700,
                             padding: "1px 6px",
                             borderRadius: 10,
-                            background: isActive ? "#1e40af" : "#f1f5f9",
-                            color: isActive ? "white" : "#64748b",
+                            background: isActive ? "#6366f1" : "#243144",
+                            color: isActive ? "#ffffff" : "#94a3b8",
                             flexShrink: 0
                           }}>
                             {item.badge}
@@ -614,34 +614,34 @@ export default function EducacaoEspecial() {
 
         {/* Cartão de Resumo Rápido & Sigilo */}
         <div style={{
-          background: "#f8fafc",
+          background: "#1e293b",
           borderRadius: 14,
           padding: "14px 16px",
-          border: "1px solid #e2e8f0",
+          border: "1px solid #2c3b52",
           fontSize: 12
         }}>
-          <div style={{ fontWeight: 700, color: "#1e293b", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
-            <i className="ti ti-shield-check" style={{ color: "#10b981", fontSize: 16 }} />
+          <div style={{ fontWeight: 700, color: "#f8fafc", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+            <i className="ti ti-shield-check" style={{ color: "#34d399", fontSize: 16 }} />
             <span>Conformidade & Sigilo LGPD</span>
           </div>
           
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, color: "#475569" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, color: "#94a3b8" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Alunos no AEE:</span>
-              <strong>{alunos.length}</strong>
+              <strong style={{ color: "#f8fafc" }}>{alunos.length}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Planos PEI Vigentes:</span>
-              <strong>{planos.length}</strong>
+              <strong style={{ color: "#f8fafc" }}>{planos.length}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Salas SRM Ativas:</span>
-              <strong>{salas.length}</strong>
+              <strong style={{ color: "#f8fafc" }}>{salas.length}</strong>
             </div>
           </div>
 
           {alunos.length === 0 && (
-            <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px dashed #cbd5e1" }}>
+            <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px dashed #33435c" }}>
               <Btn
                 onClick={handleGerarMock}
                 disabled={gerando}

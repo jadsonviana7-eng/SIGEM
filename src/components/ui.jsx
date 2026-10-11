@@ -2,15 +2,23 @@ import React from "react";
 
 // Componentes reutilizáveis de UI
 
-export function Card({ children, className = "", style }) {
+export function Card({ children, className = "", style = {} }) {
+  const customBg = style?.background || style?.backgroundColor;
+  const bg = customBg || "var(--bg-card, #1e293b)";
+
+  const customBorder = style?.border;
+  const border = customBorder || "1px solid var(--border-color, #2c3b52)";
+
   return (
     <div
       className={className}
       style={{
-        background: "white",
-        borderRadius: 14,
-        padding: 20,
-        boxShadow: "0 8px 24px rgba(149, 157, 165, 0.08)",
+        borderRadius: 16,
+        padding: "clamp(12px, 2.5vw, 20px)",
+        boxShadow: "var(--card-shadow, 0 6px 20px rgba(0, 0, 0, 0.18))",
+        background: bg,
+        border: border,
+        color: style?.color || "var(--text-primary, #ffffff)",
         ...style
       }}
     >
@@ -29,7 +37,7 @@ export function CardHeader({ children, className = "", style }) {
 
 export function CardTitle({ children, className = "", style }) {
   return (
-    <h3 className={`text-base font-bold text-gray-800 ${className}`} style={{ margin: 0, ...style }}>
+    <h3 className={`text-base font-bold ${className}`} style={{ margin: 0, color: "var(--text-primary, #ffffff)", ...style }}>
       {children}
     </h3>
   );
@@ -50,16 +58,18 @@ export function Badge({ children, color = "blue", variant, className = "" }) {
     danger: "red",
     warning: "amber",
     secondary: "gray",
-    info: "blue"
+    info: "blue",
+    purple: "purple"
   };
   const activeColor = variant ? (variantMap[variant] || "blue") : color;
 
   const colors = {
-    blue:  { bg: "#e8f0fe", color: "#1a56db" },
-    green: { bg: "#dcfce7", color: "#166534" },
-    red:   { bg: "#fee2e2", color: "#991b1b" },
-    amber: { bg: "#fef9c3", color: "#854d0e" },
-    gray:  { bg: "#f3f4f6", color: "#374151" },
+    blue:   { bg: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" },
+    green:  { bg: "rgba(16, 185, 129, 0.15)", color: "#34d399", border: "1px solid rgba(16, 185, 129, 0.3)" },
+    red:    { bg: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.3)" },
+    amber:  { bg: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", border: "1px solid rgba(245, 158, 11, 0.3)" },
+    purple: { bg: "rgba(168, 85, 247, 0.15)", color: "#c084fc", border: "1px solid rgba(168, 85, 247, 0.3)" },
+    gray:   { bg: "rgba(148, 163, 184, 0.12)", color: "#94a3b8", border: "1px solid rgba(148, 163, 184, 0.25)" },
   };
   const c = colors[activeColor] || colors.blue;
   return (
@@ -69,11 +79,12 @@ export function Badge({ children, color = "blue", variant, className = "" }) {
         display: "inline-flex",
         alignItems: "center",
         padding: "3px 9px",
-        borderRadius: 12,
+        borderRadius: 10,
         fontSize: 11,
         fontWeight: 600,
         background: c.bg,
         color: c.color,
+        border: c.border,
       }}
     >
       {children}
@@ -83,14 +94,14 @@ export function Badge({ children, color = "blue", variant, className = "" }) {
 
 export function Btn({ children, onClick, variant = "default", type = "button", disabled, style, className = "", size = "md", title }) {
   const variants = {
-    default: { background: "white", color: "#374151", border: "1px solid #d1d5db" },
-    primary: { background: "#1a56db", color: "white", border: "1px solid #1a56db" },
-    danger:  { background: "#fee2e2", color: "#991b1b", border: "1px solid #fca5a5" },
-    outline: { background: "transparent", color: "#4b5563", border: "1px solid #d1d5db" },
-    ghost:   { background: "transparent", color: "#4b5563", border: "none" }
+    default: { background: "var(--bg-surface, #243144)", color: "var(--text-secondary, #cbd5e1)", border: "1px solid var(--border-subtle, #33435c)" },
+    primary: { background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)", color: "#ffffff", border: "none", boxShadow: "0 4px 14px rgba(99, 102, 241, 0.35)" },
+    danger:  { background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.35)" },
+    outline: { background: "transparent", color: "var(--text-secondary, #cbd5e1)", border: "1px solid var(--border-subtle, #33435c)" },
+    ghost:   { background: "transparent", color: "var(--text-muted, #94a3b8)", border: "none" }
   };
   const v = variants[variant] || variants.default;
-  const padding = size === "sm" ? "4px 8px" : "7px 14px";
+  const padding = size === "sm" ? "5px 10px" : "8px 16px";
   const fontSize = size === "sm" ? 12 : 13;
 
   return (
@@ -103,14 +114,18 @@ export function Btn({ children, onClick, variant = "default", type = "button", d
       style={{
         display: "inline-flex",
         alignItems: "center",
+        justifyContent: "center",
         gap: 6,
         padding,
-        borderRadius: 6,
+        borderRadius: 10,
         fontSize,
+        fontWeight: 600,
         cursor: disabled ? "not-allowed" : "pointer",
         fontFamily: "inherit",
-        transition: "all .15s",
+        transition: "all .15s ease",
         opacity: disabled ? 0.5 : 1,
+        touchAction: "manipulation",
+        WebkitTapHighlightColor: "transparent",
         ...v,
         ...style,
       }}
@@ -124,45 +139,54 @@ export const Button = Btn;
 
 export function Table({ children, className = "", style }) {
   return (
-    <table className={`w-full text-left border-collapse ${className}`} style={{ width: "100%", ...style }}>
-      {children}
-    </table>
+    <div style={{ width: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch", borderRadius: 14, background: "var(--bg-card, #1e293b)", border: "1px solid var(--border-color, #2c3b52)" }}>
+      <table className={`w-full text-left border-collapse ${className}`} style={{ width: "100%", minWidth: "560px", ...style }}>
+        {children}
+      </table>
+    </div>
   );
 }
 
 export function Input({ label, icon, className = "", ...props }) {
+  const { style = {}, ...restProps } = props;
+  const customBg = style?.background || style?.backgroundColor;
+  const bg = customBg || "var(--bg-surface, #243144)";
+
+  const customBorder = style?.border;
+  const border = customBorder || "1px solid var(--border-subtle, #33435c)";
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      {label && <label style={{ fontSize: 12, fontWeight: 600, color: "#374151" }}>{label}</label>}
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      {label && <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)" }}>{label}</label>}
       <div style={{ position: "relative", width: "100%" }}>
         {icon && (
           <i
             className={icon}
             style={{
               position: "absolute",
-              left: 10,
+              left: 12,
               top: "50%",
               transform: "translateY(-50%)",
-              color: "#9ca3af",
-              fontSize: 14,
+              color: "var(--text-muted, #94a3b8)",
+              fontSize: 15,
             }}
           />
         )}
         <input
-          {...props}
+          {...restProps}
           className={className}
           style={{
-            border: "1px solid #d1d5db",
-            borderRadius: 8,
-            padding: icon ? "8px 12px 8px 32px" : "8px 12px",
+            borderRadius: 10,
+            padding: icon ? "9px 12px 9px 36px" : "9px 12px",
             fontSize: 13,
             fontFamily: "inherit",
-            background: "white",
-            color: "#111",
             outline: "none",
             width: "100%",
             boxSizing: "border-box",
-            ...props.style,
+            background: bg,
+            border: border,
+            color: style?.color || "var(--text-primary, #ffffff)",
+            ...style,
           }}
         />
       </div>
@@ -171,24 +195,32 @@ export function Input({ label, icon, className = "", ...props }) {
 }
 
 export function Select({ label, children, className = "", ...props }) {
+  const { style = {}, ...restProps } = props;
+  const customBg = style?.background || style?.backgroundColor;
+  const bg = customBg || "var(--bg-surface, #243144)";
+
+  const customBorder = style?.border;
+  const border = customBorder || "1px solid var(--border-subtle, #33435c)";
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      {label && <label style={{ fontSize: 12, fontWeight: 600, color: "#374151" }}>{label}</label>}
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      {label && <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)" }}>{label}</label>}
       <select
-        {...props}
+        {...restProps}
         className={className}
         style={{
-          border: "1px solid #d1d5db",
-          borderRadius: 8,
-          padding: "8px 12px",
+          borderRadius: 10,
+          padding: "9px 12px",
           fontSize: 13,
           fontFamily: "inherit",
-          background: "white",
-          color: "#111",
           outline: "none",
           width: "100%",
           boxSizing: "border-box",
-          ...props.style,
+          cursor: "pointer",
+          background: bg,
+          border: border,
+          color: style?.color || "var(--text-primary, #ffffff)",
+          ...style,
         }}
       >
         {children}
@@ -235,12 +267,13 @@ export function Modal({
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0,0,0,.5)",
+        background: "rgba(10, 15, 25, 0.75)",
+        backdropFilter: "blur(6px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         zIndex: 999,
-        padding: 16,
+        padding: "clamp(8px, 2vw, 16px)",
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget && typeof handleClose === "function") {
@@ -250,20 +283,22 @@ export function Modal({
     >
       <div
         style={{
-          background: "white",
-          borderRadius: 14,
-          padding: "20px 24px",
+          background: "var(--bg-card, #1e293b)",
+          border: "1px solid var(--border-color, #2c3b52)",
+          color: "var(--text-primary, #f8fafc)",
+          borderRadius: 16,
+          padding: "clamp(16px, 3vw, 24px)",
           width: modalWidth,
           maxWidth: "96vw",
           maxHeight: "92vh",
           display: "flex",
           flexDirection: "column",
-          boxShadow: "0 12px 36px rgba(0,0,0,.2)",
+          boxShadow: "var(--card-shadow, 0 25px 50px -12px rgba(0, 0, 0, 0.5))",
           overflow: "hidden",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexShrink: 0 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#1f2937" }}>{modalTitle}</h3>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexShrink: 0 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "var(--text-primary, #ffffff)" }}>{modalTitle}</h3>
           <Btn onClick={handleClose} variant="ghost" style={{ padding: "4px 8px" }}>
             <i className="ti ti-x text-lg" aria-hidden="true" />
           </Btn>
@@ -275,6 +310,7 @@ export function Modal({
             overflowY: "auto",
             minHeight: 0,
             paddingRight: 4,
+            WebkitOverflowScrolling: "touch",
             scrollbarWidth: "none",
             msOverflowStyle: "none"
           }}
@@ -282,7 +318,7 @@ export function Modal({
           {children}
         </div>
         {!semRodape && !esconderRodape && (
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 16, paddingTop: 14, borderTop: "1px solid #f3f4f6", flexShrink: 0, background: "white" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 16, paddingTop: 14, borderTop: "1px solid #2c3b52", flexShrink: 0, background: "#1e293b" }}>
             <Btn onClick={handleClose} variant="outline">Fechar</Btn>
             {handleSave && (
               <Btn variant="primary" onClick={handleSave} disabled={salvando}>
@@ -298,15 +334,16 @@ export function Modal({
 
 export function Alert({ children, tipo = "success" }) {
   const cores = {
-    success: { bg: "#dcfce7", color: "#166534", border: "#86efac" },
-    error:   { bg: "#fee2e2", color: "#991b1b", border: "#fca5a5" },
-    info:    { bg: "#e8f0fe", color: "#1a56db", border: "#93c5fd" },
+    success: { bg: "rgba(16, 185, 129, 0.15)", color: "#34d399", border: "rgba(16, 185, 129, 0.35)" },
+    error:   { bg: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "rgba(239, 68, 68, 0.35)" },
+    info:    { bg: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "rgba(56, 189, 248, 0.35)" },
   };
   const c = cores[tipo] || cores.info;
   return (
     <div style={{
-      padding: "10px 14px", borderRadius: 8, fontSize: 13, marginBottom: 16,
+      padding: "11px 16px", borderRadius: 10, fontSize: 13, marginBottom: 16,
       background: c.bg, color: c.color, border: `1px solid ${c.border}`,
+      display: "flex", alignItems: "center", gap: 8
     }}>
       {children}
     </div>
@@ -317,7 +354,7 @@ export function Spinner({ size = "md" }) {
   const fontSize = size === "lg" ? 36 : size === "sm" ? 18 : 28;
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: 24 }}>
-      <i className="ti ti-loader-2" style={{ fontSize, color: "#1a56db", animation: "spin 1s linear infinite" }} />
+      <i className="ti ti-loader-2" style={{ fontSize, color: "#818cf8", animation: "spin 1s linear infinite" }} />
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
@@ -327,7 +364,7 @@ export const LoadingSpinner = Spinner;
 
 export function EmptyState({ icon = "inbox", texto = "Nenhum item encontrado." }) {
   return (
-    <div style={{ textAlign: "center", padding: "48px 24px", color: "#9ca3af" }}>
+    <div style={{ textAlign: "center", padding: "48px 24px", color: "#94a3b8" }}>
       <i className={`ti ti-${icon}`} style={{ fontSize: 40, display: "block", marginBottom: 12 }} />
       <p style={{ fontSize: 13 }}>{texto}</p>
     </div>
@@ -338,7 +375,7 @@ export function ProgressBar({ valor, max = 100 }) {
   const pct = Math.min(Math.round((valor / max) * 100), 100);
   const cor = pct > 90 ? "#ef4444" : pct > 70 ? "#f59e0b" : "#22c55e";
   return (
-    <div style={{ height: 5, background: "#f3f4f6", borderRadius: 4, marginTop: 4 }}>
+    <div style={{ height: 6, background: "#243144", borderRadius: 4, marginTop: 4, overflow: "hidden" }}>
       <div style={{ width: `${pct}%`, height: "100%", background: cor, borderRadius: 4, transition: "width .3s" }} />
     </div>
   );
@@ -356,7 +393,7 @@ export function Pagination({ currentPage = 1, totalPages = 1, onPageChange }) {
       >
         <i className="ti ti-chevron-left" /> Anterior
       </Btn>
-      <span style={{ padding: "0 8px", color: "#6b7280", fontWeight: 600 }}>
+      <span style={{ padding: "0 8px", color: "#94a3b8", fontWeight: 600 }}>
         Página {currentPage} de {totalPages}
       </span>
       <Btn
@@ -376,28 +413,29 @@ export function NotificationModal({ isOpen, onClose, tipo = "sucesso", titulo = 
   const isSucesso = tipo === "sucesso" || tipo === "success";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} width={420} esconderRodape>
+    <Modal isOpen={isOpen} onClose={onClose} width={420} menuLateral={false} esconderRodape>
       <div style={{ textAlign: "center", padding: "12px 8px" }}>
         <div
           style={{
-            width: 48,
-            height: 48,
+            width: 52,
+            height: 52,
             borderRadius: "50%",
-            background: isSucesso ? "#dcfce7" : "#fee2e2",
-            color: isSucesso ? "#166534" : "#991b1b",
+            background: isSucesso ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
+            border: isSucesso ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(239, 68, 68, 0.3)",
+            color: isSucesso ? "#34d399" : "#f87171",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            margin: "0 auto 12px",
-            fontSize: 24,
+            margin: "0 auto 14px",
+            fontSize: 26,
           }}
         >
           <i className={isSucesso ? "ti ti-check" : "ti ti-alert-triangle"} />
         </div>
-        <h4 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", color: "#1f2937" }}>
+        <h4 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", color: "#ffffff" }}>
           {titulo}
         </h4>
-        <p style={{ fontSize: 13, color: "#4b5563", margin: "0 0 18px", lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#94a3b8", margin: "0 0 18px", lineHeight: 1.5 }}>
           {mensagem}
         </p>
         <Btn

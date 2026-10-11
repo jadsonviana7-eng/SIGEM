@@ -147,19 +147,19 @@ export default function HistoricoEscolar() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span style={{ fontSize: "1.6rem" }}>📜</span>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "var(--text-primary, #1e293b)" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>
               Histórico Escolar Oficial & Trajetória
             </h1>
           </div>
-          <p style={{ margin: "0.25rem 0 0", color: "var(--text-secondary, #64748b)", fontSize: "0.9rem" }}>
+          <p style={{ margin: "0.25rem 0 0", color: "#94a3b8", fontSize: "0.9rem" }}>
             Emissão eletrônica com validação criptográfica 🔐, QR Code oficial e consolidação automática de trajetória.
           </p>
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
           <a href="/validar-documento" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-            <Btn variant="default" style={{ color: "#2563eb", borderColor: "#93c5fd", background: "#eff6ff", fontWeight: 600 }}>
-              <i className="ti ti-shield-check" style={{ color: "#2563eb" }} />
+            <Btn variant="default" style={{ color: "#818cf8", borderColor: "#33435c", background: "rgba(99, 102, 241, 0.15)", fontWeight: 600 }}>
+              <i className="ti ti-shield-check" style={{ color: "#818cf8" }} />
               Portal de Validação 🔐
             </Btn>
           </a>
@@ -169,22 +169,22 @@ export default function HistoricoEscolar() {
       {/* PAINEL PRINCIPAL DE ESTUDANTES */}
       <Card className="no-print">
         {/* FILTROS & BUSCA */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #f1f5f9" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #33435c" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#f8fafc", padding: "0.4rem 0.85rem", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
-              <i className="ti ti-books" style={{ color: "#64748b" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#1e293b", padding: "0.4rem 0.85rem", borderRadius: "8px", border: "1px solid #33435c" }}>
+              <i className="ti ti-books" style={{ color: "#94a3b8" }} />
               <select
                 value={turmaFiltro}
                 onChange={(e) => setTurmaFiltro(e.target.value)}
-                style={{ background: "transparent", border: "none", fontWeight: 600, color: "#1e293b", cursor: "pointer", outline: "none", fontSize: "0.85rem" }}
+                style={{ background: "#1e293b", border: "none", fontWeight: 600, color: "#ffffff", cursor: "pointer", outline: "none", fontSize: "0.85rem" }}
               >
-                <option value="">Todas as Turmas</option>
+                <option value="" style={{ background: "#1e293b", color: "#94a3b8" }}>Todas as Turmas</option>
                 {(turmas || []).map(t => (
-                  <option key={t.id || t.nome} value={t.nome}>{t.nome}</option>
+                  <option key={t.id || t.nome} value={t.nome} style={{ background: "#1e293b", color: "#ffffff" }}>{t.nome}</option>
                 ))}
               </select>
             </div>
-            <span style={{ fontSize: "0.85rem", color: "#64748b", fontWeight: 500 }}>
+            <span style={{ fontSize: "0.85rem", color: "#94a3b8", fontWeight: 500 }}>
               {alunosFiltrados.length} {alunosFiltrados.length === 1 ? "aluno encontrado" : "alunos encontrados"}
             </span>
           </div>
@@ -200,7 +200,9 @@ export default function HistoricoEscolar() {
                 width: "100%",
                 padding: "0.45rem 0.75rem 0.45rem 2.2rem",
                 borderRadius: "8px",
-                border: "1px solid #cbd5e1",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: "0.85rem",
                 outline: "none"
               }}
@@ -212,7 +214,7 @@ export default function HistoricoEscolar() {
         {cAlunos ? (
           <div style={{ padding: "3rem", textAlign: "center" }}>
             <Spinner />
-            <p style={{ marginTop: "1rem", color: "#64748b" }}>Carregando dados dos estudantes...</p>
+            <p style={{ marginTop: "1rem", color: "#94a3b8" }}>Carregando dados dos estudantes...</p>
           </div>
         ) : alunosFiltrados.length === 0 ? (
           <EmptyState
@@ -224,7 +226,7 @@ export default function HistoricoEscolar() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#161f2e", borderBottom: "2px solid #33435c", color: "#cbd5e1" }}>
                   <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Estudante</th>
                   <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Matrícula / CPF</th>
                   <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma Atual</th>
@@ -237,25 +239,25 @@ export default function HistoricoEscolar() {
                 {alunosFiltrados.map((a) => {
                   const trajetoriaCount = (a.trajetoriaEscolar || []).length || 5;
                   return (
-                    <tr key={a.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                    <tr key={a.id} style={{ borderBottom: "1px solid #243144" }}>
                       <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 700, color: "#1e293b", fontSize: "0.95rem" }}>{a.nome}</div>
-                        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>Mãe: {a.mae || a.responsavel || "Não informada"}</span>
+                        <div style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.95rem" }}>{a.nome}</div>
+                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Mãe: {a.mae || a.responsavel || "Não informada"}</span>
                       </td>
 
                       <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 600, color: "#334155" }}>{a.matricula || "—"}</div>
+                        <div style={{ fontWeight: 600, color: "#cbd5e1" }}>{a.matricula || "—"}</div>
                         <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>CPF: {a.cpf || "Não informado"}</span>
                       </td>
 
                       <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 600, color: "#1e293b" }}>{a.turma || "Sem turma"}</div>
-                        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>{a.turno || "Matutino"}</span>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{a.turma || "Sem turma"}</div>
+                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>{a.turno || "Matutino"}</span>
                       </td>
 
                       <td style={{ padding: "1rem" }}>
-                        <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "#f1f5f9", padding: "0.25rem 0.6rem", borderRadius: "12px", fontSize: "0.8rem", color: "#475569", fontWeight: 600 }}>
-                          <i className="ti ti-timeline" style={{ color: "#2563eb" }} />
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(99, 102, 241, 0.15)", border: "1px solid rgba(99, 102, 241, 0.3)", padding: "0.25rem 0.6rem", borderRadius: "12px", fontSize: "0.8rem", color: "#818cf8", fontWeight: 600 }}>
+                          <i className="ti ti-timeline" style={{ color: "#818cf8" }} />
                           {trajetoriaCount} anos registrados
                         </div>
                       </td>
@@ -297,8 +299,8 @@ export default function HistoricoEscolar() {
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             {/* BARRA DE AÇÕES NO TOPO DO MODAL */}
-            <div className="no-print" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0", paddingBottom: "0.5rem", flexWrap: "wrap", gap: "0.5rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", color: "#166534", background: "#f0fdf4", padding: "0.3rem 0.75rem", borderRadius: "20px", border: "1px solid #bbf7d0", fontWeight: 700 }}>
+            <div className="no-print" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #33435c", paddingBottom: "0.5rem", flexWrap: "wrap", gap: "0.5rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", color: "#34d399", background: "rgba(16, 185, 129, 0.15)", padding: "0.3rem 0.75rem", borderRadius: "20px", border: "1px solid rgba(16, 185, 129, 0.3)", fontWeight: 700 }}>
                 <span style={{ fontSize: "1rem" }}>🔐</span>
                 Autenticado Digitalmente: {historicoCarregado.autenticacao.codigoValidacao}
               </div>

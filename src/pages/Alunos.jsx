@@ -343,19 +343,19 @@ export default function Alunos() {
       {alerta && <Alert tipo={alerta.tipo}>{alerta.msg}</Alert>}
 
       <div style={{ display:"flex",gap:12,marginBottom:16,alignItems:"center",flexWrap:"wrap" }}>
-        <div style={{ display:"flex",alignItems:"center",gap:8,background:"white",border:"1px solid #d1d5db",borderRadius:6,padding:"6px 10px",flex:1,maxWidth:320 }}>
-          <i className="ti ti-search" style={{ color:"#9ca3af",fontSize:16 }} />
+        <div style={{ display:"flex",alignItems:"center",gap:8,background:"#243144",border:"1px solid #33435c",borderRadius:10,padding:"8px 12px",flex:1,maxWidth:340 }}>
+          <i className="ti ti-search" style={{ color:"#94a3b8",fontSize:16 }} />
           <input value={busca} onChange={e=>setBusca(e.target.value)} placeholder="Buscar por nome, matrícula ou turma..."
-            style={{ border:"none",background:"none",fontSize:13,outline:"none",width:"100%" }} />
+            style={{ border:"none",background:"none",fontSize:13,outline:"none",width:"100%",color:"#ffffff" }} />
         </div>
         <select
           value={filtroTurma}
           onChange={e => setFiltroTurma(e.target.value)}
-          style={{ padding: "6.5px 10px", border: "1px solid #d1d5db", borderRadius: 6, fontSize: 13, outline: "none", background: "white", color: "#374151" }}
+          style={{ padding: "8.5px 12px", border: "1px solid #33435c", borderRadius: 10, fontSize: 13, outline: "none", background: "#243144", color: "#ffffff", cursor: "pointer" }}
         >
-          <option value="">Todas as Turmas</option>
+          <option value="" style={{ background: "#1e293b", color: "#ffffff" }}>Todas as Turmas</option>
           {(turmas || []).map(t => (
-            <option key={t.id} value={t.nome}>{t.nome}</option>
+            <option key={t.id} value={t.nome} style={{ background: "#1e293b", color: "#ffffff" }}>{t.nome}</option>
           ))}
         </select>
         <Btn variant="primary" onClick={abrirNovo}>
@@ -367,9 +367,9 @@ export default function Alunos() {
         {!filtrados.length ? <EmptyState icon="users-off" texto="Nenhum aluno encontrado." /> : (
           <table style={{ width:"100%",borderCollapse:"collapse" }}>
             <thead>
-              <tr>
+              <tr style={{ background: "rgba(36, 49, 68, 0.5)" }}>
                 {["Matrícula", "Nome do Aluno", "Ano / Turma", "Turno", "Mãe / Resp.", "Docs Anexos", "Status", "Ações"].map(h => (
-                  <th key={h} style={{ textAlign:"left",padding:"10px 12px",fontSize:11,fontWeight:600,color:"#888",textTransform:"uppercase",borderBottom:"1px solid #e5e5e4" }}>{h}</th>
+                  <th key={h} style={{ textAlign:"left",padding:"12px 14px",fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.5px",borderBottom:"1px solid #2c3b52" }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -382,62 +382,63 @@ export default function Alunos() {
                   <Fragment key={a.id}>
                     <tr
                       onClick={() => navigate(`/alunos/${a.id}`)}
-                      style={{ cursor: "pointer", borderBottom: "1px solid #f3f4f6", transition: "background 0.2s" }}
-                      onMouseOver={e => e.currentTarget.style.background="#f9fafb"}
+                      style={{ cursor: "pointer", borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
+                      onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
                       onMouseOut={e => e.currentTarget.style.background="transparent"}
                     >
-                      <td style={{ padding:"10px 12px",fontFamily:"monospace",fontSize:12,color:"#9ca3af" }}>{a.matricula || "—"}</td>
-                      <td style={{ padding:"10px 12px" }}>
+                      <td style={{ padding:"12px 14px",fontFamily:"monospace",fontSize:12,color:"#94a3b8" }}>{a.matricula || "—"}</td>
+                      <td style={{ padding:"12px 14px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                           {/* Miniatura do Aluno */}
-                          <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #e5e5e4", flexShrink: 0 }}>
+                          <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "#243144", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
                             {a.fotoUrl ? (
                               <img src={a.fotoUrl} alt={a.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                             ) : (
-                              <i className="ti ti-user" style={{ fontSize: 20, color: "#9ca3af" }} />
+                              <i className="ti ti-user" style={{ fontSize: 20, color: "#94a3b8" }} />
                             )}
                           </div>
                           <div style={{ display: "flex", flexDirection: "column" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                              <span style={{ fontWeight:600, color: "#111827" }}>{a.nome}</span>
+                              <span style={{ fontWeight:600, color: "#ffffff", fontSize: 13 }}>{a.nome}</span>
                               {!censoCompleto && <span style={{ color: "#ef4444", fontSize: 10, cursor: "help" }} title="Dados obrigatórios do Censo Escolar pendentes (CPF/Mãe/Nascimento)">⚠️</span>}
                             </div>
-                            <span style={{ fontSize: 11, color: "#6b7280" }}>CPF: {a.cpf || "Não informado"}</span>
+                            <span style={{ fontSize: 11, color: "#94a3b8" }}>CPF: {a.cpf || "Não informado"}</span>
                           </div>
                         </div>
                       </td>
-                      <td style={{ padding:"10px 12px" }}><Badge>{a.turma}</Badge> <span style={{ fontSize:11,color:"#9ca3af",marginLeft:4 }}>{a.ano}</span></td>
-                      <td style={{ padding:"10px 12px",fontSize:13 }}>{a.turno}</td>
-                      <td style={{ padding:"10px 12px",fontSize:12 }}>
-                        <div>{a.mae || <span style={{ color: "#ef4444" }}>Sem Mãe</span>}</div>
-                        {a.responsavel && a.responsavel !== a.mae && <div style={{ fontSize: 10, color: "#888" }}>Resp: {a.responsavel}</div>}
+                      <td style={{ padding:"12px 14px" }}><Badge>{a.turma}</Badge> <span style={{ fontSize:11,color:"#94a3b8",marginLeft:4 }}>{a.ano}</span></td>
+                      <td style={{ padding:"12px 14px",fontSize:13,color:"#cbd5e1" }}>{a.turno}</td>
+                      <td style={{ padding:"12px 14px",fontSize:12,color:"#cbd5e1" }}>
+                        <div>{a.mae || <span style={{ color: "#f87171" }}>Sem Mãe</span>}</div>
+                        {a.responsavel && a.responsavel !== a.mae && <div style={{ fontSize: 11, color: "#94a3b8" }}>Resp: {a.responsavel}</div>}
                       </td>
-                      <td style={{ padding:"10px 12px" }}>
+                      <td style={{ padding:"12px 14px" }}>
                         <span style={{
                           display: "inline-flex",
                           alignItems: "center",
                           gap: 4,
                           fontSize: 11,
                           fontWeight: 600,
-                          padding: "2px 8px",
+                          padding: "3px 9px",
                           borderRadius: 10,
-                          background: qtdDocs >= 4 ? "#dcfce7" : "#fef3c7",
-                          color: qtdDocs >= 4 ? "#166534" : "#854d0e"
+                          background: qtdDocs >= 4 ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
+                          color: qtdDocs >= 4 ? "#34d399" : "#fbbf24",
+                          border: qtdDocs >= 4 ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(245, 158, 11, 0.3)"
                         }}>
                           <i className="ti ti-folder" /> {qtdDocs} / {TIPOS_DOCUMENTOS_ALUNO.length}
                         </span>
                       </td>
-                      <td style={{ padding:"10px 12px" }}><Badge color={a.status==="Ativo"?"green":a.status==="Transferido"?"amber":"gray"}>{a.status || "Ativo"}</Badge></td>
-                      <td style={{ padding:"10px 12px" }}>
+                      <td style={{ padding:"12px 14px" }}><Badge color={a.status==="Ativo"?"green":a.status==="Transferido"?"amber":"gray"}>{a.status || "Ativo"}</Badge></td>
+                      <td style={{ padding:"12px 14px" }}>
                         <div style={{ display:"flex",gap:4 }}>
                           <Btn
                             onClick={(e) => { e.stopPropagation(); navigate(`/alunos/${a.id}`); }}
-                            style={{ padding:"5px 9px",fontSize:12, background: "#eff6ff", color: "#1a56db", border: "1px solid #bfdbfe", fontWeight: 600 }}
+                            style={{ padding:"5px 10px",fontSize:12, background: "rgba(56, 189, 248, 0.12)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)", fontWeight: 600 }}
                             title="Abrir Ficha Expandida do Aluno"
                           >
                             <i className="ti ti-id" style={{ fontSize: 13 }} aria-hidden="true" /> Ficha
                           </Btn>
-                          <Btn onClick={(e) => { e.stopPropagation(); abrirOcorrencias(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Ocorrências"><i className="ti ti-clipboard-text" style={{ fontSize: 13, color: "#9333ea" }} aria-hidden="true" /></Btn>
+                          <Btn onClick={(e) => { e.stopPropagation(); abrirOcorrencias(a); }} style={{ padding:"5px 8px",fontSize:12, background: "rgba(192, 132, 252, 0.12)", color: "#c084fc", border: "1px solid rgba(192, 132, 252, 0.3)" }} title="Ocorrências"><i className="ti ti-clipboard-text" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
                           <Btn onClick={(e) => { e.stopPropagation(); abrirEditar(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Editar Aluno"><i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
                           <Btn variant="danger" onClick={(e) => { e.stopPropagation(); remover(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Excluir Aluno"><i className="ti ti-trash" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
                         </div>
@@ -467,7 +468,7 @@ export default function Alunos() {
               display: "flex",
               flexDirection: "column",
               gap: 6,
-              borderRight: "1px solid #e5e5e4",
+              borderRight: "1px solid #2c3b52",
               paddingRight: 12,
               flexShrink: 0
             }}>
@@ -490,10 +491,10 @@ export default function Alunos() {
                     padding: "10px 14px",
                     border: "none",
                     borderRadius: 8,
-                    background: abaAtiva === t.id ? "#eff6ff" : "transparent",
+                    background: abaAtiva === t.id ? "rgba(99, 102, 241, 0.15)" : "transparent",
                     fontSize: 13,
                     fontWeight: abaAtiva === t.id ? 600 : 500,
-                    color: abaAtiva === t.id ? "#1a56db" : "#4b5563",
+                    color: abaAtiva === t.id ? "#818cf8" : "#94a3b8",
                     cursor: "pointer",
                     transition: "all 0.15s ease",
                     textAlign: "left"
@@ -579,37 +580,38 @@ export default function Alunos() {
               {abaAtiva === "pessoais" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   {/* Upload de Foto */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#f9fafb", padding: 12, borderRadius: 8, border: "1px solid #e5e5e4" }}>
-                    <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #1a56db", flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 14, borderRadius: 10, border: "1px solid #33435c" }}>
+                    <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#1e293b", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #6366f1", flexShrink: 0 }}>
                       {form.fotoUrl ? (
                         <img src={form.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       ) : (
-                        <i className="ti ti-camera" style={{ fontSize: 20, color: "#9ca3af" }} />
+                        <i className="ti ti-camera" style={{ fontSize: 22, color: "#94a3b8" }} />
                       )}
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Foto do Aluno</span>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "#ffffff" }}>Foto do Aluno</span>
                       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                         <label style={{
                           display: "inline-flex",
                           alignItems: "center",
                           gap: 6,
-                          padding: "5px 12px",
-                          background: "#1a56db",
-                          color: "white",
-                          borderRadius: 6,
+                          padding: "6px 14px",
+                          background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                          color: "#ffffff",
+                          borderRadius: 8,
                           fontSize: 12,
-                          fontWeight: 500,
+                          fontWeight: 600,
                           cursor: carregandoFoto ? "not-allowed" : "pointer",
                           opacity: carregandoFoto ? 0.7 : 1,
-                          border: "1px solid #1a56db"
+                          border: "none",
+                          boxShadow: "0 2px 8px rgba(99, 102, 241, 0.35)"
                         }}>
                           <i className="ti ti-upload" />
                           {carregandoFoto ? "Carregando..." : "Enviar Foto"}
                           <input type="file" accept="image/*" onChange={handleFotoSelect} disabled={carregandoFoto} style={{ display: "none" }} />
                         </label>
                         {form.fotoUrl && (
-                          <Btn variant="danger" onClick={() => set("fotoUrl", "")} style={{ padding: "4px 10px", fontSize: 12 }}>
+                          <Btn variant="danger" onClick={() => set("fotoUrl", "")} style={{ padding: "5px 10px", fontSize: 12 }}>
                             <i className="ti ti-trash" /> Remover
                           </Btn>
                         )}
@@ -740,13 +742,13 @@ export default function Alunos() {
                   </div>
 
                   {form.possuiDeficiencia === "Sim" && (
-                    <div style={{ background: "#f9fafb", border: "1px solid #e5e5e4", borderRadius: 8, padding: 12, display: "flex", flexDirection: "column", gap: 8 }}>
-                      <label style={{ fontSize: 12, fontWeight: 600, color: "#374151" }}>Selecione as deficiências (exige laudo):</label>
+                    <div style={{ background: "#243144", border: "1px solid #33435c", borderRadius: 10, padding: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+                      <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Selecione as deficiências (exige laudo):</label>
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                         {DEFICIENCIAS_INEP_2026.map(def => {
                           const checked = (form.deficienciasSelecionadas || []).includes(def);
                           return (
-                            <label key={def} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer" }}>
+                            <label key={def} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#ffffff", cursor: "pointer" }}>
                               <input
                                 type="checkbox"
                                 checked={checked}
@@ -771,7 +773,7 @@ export default function Alunos() {
 
               {abaAtiva === "documentos" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  <div style={{ fontSize: 13, color: "#6b7280", background: "#eff6ff", padding: "8px 12px", borderRadius: 6, border: "1px solid #bfdbfe" }}>
+                  <div style={{ fontSize: 13, color: "#38bdf8", background: "rgba(56, 189, 248, 0.1)", padding: "10px 14px", borderRadius: 8, border: "1px solid rgba(56, 189, 248, 0.25)" }}>
                     ℹ️ Você pode anexar os documentos do aluno agora ou posteriormente através da <strong>Ficha Expandida</strong> do aluno.
                   </div>
 
@@ -781,29 +783,29 @@ export default function Alunos() {
                       const isUploading = uploadingDocId === tipoDoc.id;
 
                       return (
-                        <div key={tipoDoc.id} style={{ border: "1px solid #e5e7eb", borderRadius: 8, padding: 10, background: docAnexado ? "#f0fdf4" : "white" }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                            <span style={{ fontSize: 12, fontWeight: 600, color: "#1f2937" }}>{tipoDoc.label}</span>
-                            {tipoDoc.obrigatorio && <span style={{ fontSize: 9, color: "#ef4444", fontWeight: 700 }}>OBRIGATÓRIO</span>}
+                        <div key={tipoDoc.id} style={{ border: docAnexado ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid #33435c", borderRadius: 10, padding: 12, background: docAnexado ? "rgba(16, 185, 129, 0.08)" : "#243144" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                            <span style={{ fontSize: 12, fontWeight: 600, color: "#ffffff" }}>{tipoDoc.label}</span>
+                            {tipoDoc.obrigatorio && <span style={{ fontSize: 9, color: "#f87171", fontWeight: 700, background: "rgba(239, 68, 68, 0.15)", padding: "2px 6px", borderRadius: 4 }}>OBRIGATÓRIO</span>}
                           </div>
 
                           {docAnexado ? (
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                              <span style={{ fontSize: 11, color: "#16a34a", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 180 }}>
+                              <span style={{ fontSize: 11, color: "#34d399", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 180 }}>
                                 ✓ {docAnexado.nome || "Anexado"}
                               </span>
-                              <div style={{ display: "flex", gap: 4 }}>
+                              <div style={{ display: "flex", gap: 6 }}>
                                 <button
                                   type="button"
                                   onClick={() => setDocVisualizando(docAnexado)}
-                                  style={{ background: "#e0e7ff", border: "none", color: "#3730a3", padding: "3px 6px", borderRadius: 4, fontSize: 11, cursor: "pointer" }}
+                                  style={{ background: "rgba(99, 102, 241, 0.2)", border: "1px solid rgba(99, 102, 241, 0.4)", color: "#a5b4fc", padding: "4px 8px", borderRadius: 6, fontSize: 11, cursor: "pointer", fontWeight: 600 }}
                                 >
                                   Ver
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => handleRemoverDocModal(tipoDoc.id)}
-                                  style={{ background: "#fee2e2", border: "none", color: "#991b1b", padding: "3px 6px", borderRadius: 4, fontSize: 11, cursor: "pointer" }}
+                                  style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#f87171", padding: "4px 8px", borderRadius: 6, fontSize: 11, cursor: "pointer", fontWeight: 600 }}
                                 >
                                   ✕
                                 </button>
@@ -814,13 +816,14 @@ export default function Alunos() {
                               display: "inline-flex",
                               alignItems: "center",
                               gap: 6,
-                              padding: "4px 8px",
-                              fontSize: 11,
-                              borderRadius: 4,
-                              background: "#f3f4f6",
-                              color: "#374151",
+                              padding: "6px 12px",
+                              fontSize: 12,
+                              borderRadius: 6,
+                              background: "#1e293b",
+                              color: "#cbd5e1",
                               cursor: isUploading ? "not-allowed" : "pointer",
-                              border: "1px solid #d1d5db"
+                              border: "1px solid #33435c",
+                              fontWeight: 500
                             }}>
                               <i className={`ti ${isUploading ? "ti-loader" : "ti-upload"}`} />
                               {isUploading ? "Enviando..." : "Anexar PDF / Foto"}

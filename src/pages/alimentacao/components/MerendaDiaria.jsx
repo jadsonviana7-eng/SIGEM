@@ -143,24 +143,26 @@ export default function MerendaDiaria({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#94a3b8" }} />
           </div>
 
           <select
             value={filtroTurno}
             onChange={(e) => setFiltroTurno(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #33435c", fontSize: 13, background: "#1e293b", color: "#ffffff" }}
           >
-            <option value="">Todos os Turnos</option>
-            <option value="Manhã">Manhã</option>
-            <option value="Tarde">Tarde</option>
-            <option value="Noite">Noite</option>
-            <option value="Integral">Integral</option>
+            <option value="" style={{ background: "#1e293b", color: "#94a3b8" }}>Todos os Turnos</option>
+            <option value="Manhã" style={{ background: "#1e293b", color: "#ffffff" }}>Manhã</option>
+            <option value="Tarde" style={{ background: "#1e293b", color: "#ffffff" }}>Tarde</option>
+            <option value="Noite" style={{ background: "#1e293b", color: "#ffffff" }}>Noite</option>
+            <option value="Integral" style={{ background: "#1e293b", color: "#ffffff" }}>Integral</option>
           </select>
         </div>
 
@@ -177,7 +179,7 @@ export default function MerendaDiaria({
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                   <th style={{ padding: "12px 16px" }}>Data / Turno</th>
                   <th style={{ padding: "12px 16px" }}>Refeição / Prato do Dia</th>
                   <th style={{ padding: "12px 16px" }}>Alunos Atendidos</th>
@@ -189,22 +191,22 @@ export default function MerendaDiaria({
               </thead>
               <tbody>
                 {merendasFiltradas.map((m) => (
-                  <tr key={m.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  <tr key={m.id} style={{ borderBottom: "1px solid #243144" }}>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>
                         {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
                       </div>
                       <Badge color="blue">{m.turno}</Badge>
                     </td>
                     <td style={{ padding: "12px 16px", maxWidth: 280 }}>
-                      <div style={{ fontWeight: 600, color: "#047857" }}>{m.cardapioRef}</div>
+                      <div style={{ fontWeight: 600, color: "#34d399" }}>{m.cardapioRef}</div>
                       {m.observacoes && (
-                        <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>{m.observacoes}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{m.observacoes}</div>
                       )}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <strong style={{ fontSize: 14, color: "#111827" }}>{m.refeicoesServidas}</strong>
-                      <span style={{ fontSize: 11, color: "#64748b" }}> / previstos {m.refeicoesPrevistas || m.refeicoesServidas}</span>
+                      <strong style={{ fontSize: 14, color: "#ffffff" }}>{m.refeicoesServidas}</strong>
+                      <span style={{ fontSize: 11, color: "#94a3b8" }}> / previstos {m.refeicoesPrevistas || m.refeicoesServidas}</span>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       <Badge color={m.aceitabilidade?.includes("Excelente") ? "green" : m.aceitabilidade?.includes("Ótima") ? "blue" : "amber"}>
@@ -212,10 +214,10 @@ export default function MerendaDiaria({
                       </Badge>
                     </td>
                     <td style={{ padding: "12px 16px", fontSize: 12 }}>
-                      <div>Sobras limpas: <strong>{m.sobrasLimpasKg || 0} kg</strong></div>
-                      <div style={{ color: "#991b1b" }}>Resto-ingesta: <strong>{m.restoIngestaKg || 0} kg</strong></div>
+                      <div style={{ color: "#cbd5e1" }}>Sobras limpas: <strong style={{ color: "#ffffff" }}>{m.sobrasLimpasKg || 0} kg</strong></div>
+                      <div style={{ color: "#f87171" }}>Resto-ingesta: <strong>{m.restoIngestaKg || 0} kg</strong></div>
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#475569", fontSize: 12 }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1", fontSize: 12 }}>
                       {m.merendeiras || "Equipe da Cozinha"}
                     </td>
                     <td style={{ padding: "12px 16px", textAlign: "right" }}>

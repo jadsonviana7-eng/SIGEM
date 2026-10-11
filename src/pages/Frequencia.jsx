@@ -165,13 +165,13 @@ export default function Frequencia() {
     <div>
       {alerta && <Alert tipo={alerta.tipo}>{alerta.msg}</Alert>}
 
-      <div style={{ display: "flex", borderBottom: "1px solid #e5e5e4", marginBottom: 16, gap: 8 }}>
+      <div style={{ display: "flex", borderBottom: "1px solid #2c3b52", marginBottom: 16, gap: 8 }}>
         <button
           onClick={() => setAbaAtiva("diario")}
           style={{
-            padding: "10px 16px", background: "none", border: "none", fontSize: 14, fontWeight: 600,
-            borderBottom: abaAtiva === "diario" ? "2px solid #1a56db" : "2px solid transparent",
-            color: abaAtiva === "diario" ? "#1a56db" : "#6b7280", cursor: "pointer"
+            padding: "10px 18px", background: "none", border: "none", fontSize: 14, fontWeight: 600,
+            borderBottom: abaAtiva === "diario" ? "2px solid #6366f1" : "2px solid transparent",
+            color: abaAtiva === "diario" ? "#818cf8" : "#94a3b8", cursor: "pointer", transition: "all 0.15s"
           }}
         >
           <i className="ti ti-book" style={{ marginRight: 6 }} />
@@ -180,9 +180,9 @@ export default function Frequencia() {
         <button
           onClick={() => setAbaAtiva("mapa")}
           style={{
-            padding: "10px 16px", background: "none", border: "none", fontSize: 14, fontWeight: 600,
-            borderBottom: abaAtiva === "mapa" ? "2px solid #1a56db" : "2px solid transparent",
-            color: abaAtiva === "mapa" ? "#1a56db" : "#6b7280", cursor: "pointer"
+            padding: "10px 18px", background: "none", border: "none", fontSize: 14, fontWeight: 600,
+            borderBottom: abaAtiva === "mapa" ? "2px solid #6366f1" : "2px solid transparent",
+            color: abaAtiva === "mapa" ? "#818cf8" : "#94a3b8", cursor: "pointer", transition: "all 0.15s"
           }}
         >
           <i className="ti ti-calendar-check" style={{ marginRight: 6 }} />
@@ -193,10 +193,14 @@ export default function Frequencia() {
       {abaAtiva === "diario" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <Card>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12, marginBottom: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 14, marginBottom: 16 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 500, color: "#374151" }}>Turma *</label>
-                <select value={diarioTurma} onChange={e => setDiarioTurma(e.target.value)} style={{ width: "100%", border: "1px solid #d1d5db", borderRadius: 6, padding: "8px 10px", fontSize: 13, background: "white" }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Turma *</label>
+                <select
+                  value={diarioTurma}
+                  onChange={e => setDiarioTurma(e.target.value)}
+                  style={{ width: "100%", border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", outline: "none", cursor: "pointer", marginTop: 6 }}
+                >
                   <option value="">Selecione...</option>
                   {turmas.map(t => <option key={t.id} value={t.nome}>{t.nome}</option>)}
                 </select>
@@ -204,8 +208,12 @@ export default function Frequencia() {
               <Input label="Data da Aula *" type="date" value={diarioData} onChange={e => setDiarioData(e.target.value)} />
               {isAnosFinais && (
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 500, color: "#374151" }}>Disciplina *</label>
-                  <select value={diarioDisciplina} onChange={e => setDiarioDisciplina(e.target.value)} style={{ width: "100%", border: "1px solid #d1d5db", borderRadius: 6, padding: "8px 10px", fontSize: 13, background: "white" }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Disciplina *</label>
+                  <select
+                    value={diarioDisciplina}
+                    onChange={e => setDiarioDisciplina(e.target.value)}
+                    style={{ width: "100%", border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", outline: "none", cursor: "pointer", marginTop: 6 }}
+                  >
                     <option value="">Selecione...</option>
                     {DISCIPLINAS.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>
@@ -215,52 +223,52 @@ export default function Frequencia() {
             </div>
             
             <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 12, fontWeight: 500, color: "#374151", display: "block", marginBottom: 4 }}>Conteúdo Ministrado *</label>
+              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>Conteúdo Ministrado *</label>
               <textarea
                 value={diarioConteudo}
                 onChange={e => setDiarioConteudo(e.target.value)}
                 placeholder="Descreva o conteúdo ministrado nesta aula..."
-                style={{ width: "100%", border: "1px solid #d1d5db", borderRadius: 6, padding: "10px", fontSize: 13, background: "white", minHeight: 80, resize: "vertical", fontFamily: "inherit" }}
+                style={{ width: "100%", border: "1px solid #33435c", borderRadius: 8, padding: "10px 12px", fontSize: 13, background: "#243144", color: "#ffffff", minHeight: 80, resize: "vertical", fontFamily: "inherit", outline: "none" }}
               />
             </div>
           </Card>
 
           {!diarioTurma ? (
-            <div style={{ textAlign: "center", padding: 48, color: "#9ca3af" }}>
-              <i className="ti ti-users" style={{ fontSize: 40, display: "block", marginBottom: 12 }} />
-              <p>Selecione uma turma para realizar a chamada.</p>
+            <div style={{ textAlign: "center", padding: 48, color: "#94a3b8" }}>
+              <i className="ti ti-users" style={{ fontSize: 40, display: "block", marginBottom: 12, color: "#818cf8" }} />
+              <p style={{ fontSize: 13 }}>Selecione uma turma para realizar a chamada.</p>
             </div>
           ) : !alunosDiario.length ? (
-            <div style={{ textAlign: "center", padding: 48, color: "#9ca3af" }}><p>Nenhum aluno nesta turma.</p></div>
+            <div style={{ textAlign: "center", padding: 48, color: "#94a3b8" }}><p style={{ fontSize: 13 }}>Nenhum aluno nesta turma.</p></div>
           ) : (
             <Card style={{ padding: 0, overflow: "auto" }}>
-              <div style={{ padding: "12px 16px", background: "#f9fafb", borderBottom: "1px solid #e5e5e4", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#4b5563" }}>Lista de Alunos ({alunosDiario.length})</span>
+              <div style={{ padding: "14px 18px", background: "#243144", borderBottom: "1px solid #2c3b52", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>Lista de Alunos ({alunosDiario.length})</span>
                 <Btn variant="primary" onClick={salvarDiario} disabled={salvando}>
                   <i className="ti ti-device-floppy" /> {salvando ? "Salvando..." : "Salvar Diário de Classe"}
                 </Btn>
               </div>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr>
-                    <th style={{ width: 60, textAlign: "center", padding: "12px", fontSize: 11, fontWeight: 600, color: "#888", borderBottom: "1px solid #e5e5e4" }}>Presença</th>
-                    <th style={{ textAlign: "left", padding: "12px", fontSize: 11, fontWeight: 600, color: "#888", borderBottom: "1px solid #e5e5e4" }}>Aluno</th>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                    <th style={{ width: 70, textAlign: "center", padding: "12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Presença</th>
+                    <th style={{ textAlign: "left", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Aluno</th>
                   </tr>
                 </thead>
                 <tbody>
                   {alunosDiario.map(a => {
                     const presente = frequenciaDiaria[a.id] === "P";
                     return (
-                      <tr key={a.id} style={{ borderBottom: "1px solid #f3f4f6", background: presente ? "white" : "#fff1f2" }}>
+                      <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", background: presente ? "transparent" : "rgba(239, 68, 68, 0.08)", transition: "background 0.15s" }}>
                         <td style={{ textAlign: "center", padding: "12px" }}>
                           <input
                             type="checkbox"
                             checked={presente}
                             onChange={(e) => setFrequenciaDiaria({ ...frequenciaDiaria, [a.id]: e.target.checked ? "P" : "F" })}
-                            style={{ width: 18, height: 18, cursor: "pointer", accentColor: "#16a34a" }}
+                            style={{ width: 18, height: 18, cursor: "pointer", accentColor: "#34d399" }}
                           />
                         </td>
-                        <td style={{ padding: "12px", fontSize: 13, fontWeight: 500, color: presente ? "#1f2937" : "#991b1b" }}>
+                        <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 600, color: presente ? "#ffffff" : "#f87171" }}>
                           {a.nome}
                         </td>
                       </tr>
@@ -276,19 +284,25 @@ export default function Frequencia() {
       {abaAtiva === "mapa" && (
         <>
           <Card style={{ marginBottom: 16 }}>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: 12, fontWeight: 500, color: "#374151" }}>Turma</label>
-                <select value={turmaSel} onChange={e => setTurmaSel(e.target.value)}
-                  style={{ border: "1px solid #d1d5db", borderRadius: 6, padding: "7px 10px", fontSize: 13, background: "white", minWidth: 120 }}>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "flex-end" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Turma</label>
+                <select
+                  value={turmaSel}
+                  onChange={e => setTurmaSel(e.target.value)}
+                  style={{ border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", minWidth: 140, outline: "none", cursor: "pointer" }}
+                >
                   <option value="">Selecione...</option>
                   {turmas.map(t => <option key={t.id} value={t.nome}>{t.nome}</option>)}
                 </select>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: 12, fontWeight: 500, color: "#374151" }}>Mês</label>
-                <select value={mesSel} onChange={e => setMesSel(+e.target.value)}
-                  style={{ border: "1px solid #d1d5db", borderRadius: 6, padding: "7px 10px", fontSize: 13, background: "white", minWidth: 130 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Mês</label>
+                <select
+                  value={mesSel}
+                  onChange={e => setMesSel(+e.target.value)}
+                  style={{ border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", minWidth: 140, outline: "none", cursor: "pointer" }}
+                >
                   {MESES.map((m, i) => <option key={i} value={i}>{m}</option>)}
                 </select>
               </div>
@@ -299,20 +313,20 @@ export default function Frequencia() {
           </Card>
 
           {!turmaSel ? (
-            <div style={{ textAlign: "center", padding: 48, color: "#9ca3af" }}>
-              <i className="ti ti-calendar-check" style={{ fontSize: 40, display: "block", marginBottom: 12 }} />
-              <p>Selecione uma turma para consultar o mapa.</p>
+            <div style={{ textAlign: "center", padding: 48, color: "#94a3b8" }}>
+              <i className="ti ti-calendar-check" style={{ fontSize: 40, display: "block", marginBottom: 12, color: "#818cf8" }} />
+              <p style={{ fontSize: 13 }}>Selecione uma turma para consultar o mapa.</p>
             </div>
           ) : !alunosMapa.length ? (
-            <div style={{ textAlign: "center", padding: 48, color: "#9ca3af" }}><p>Nenhum aluno nesta turma.</p></div>
+            <div style={{ textAlign: "center", padding: 48, color: "#94a3b8" }}><p style={{ fontSize: 13 }}>Nenhum aluno nesta turma.</p></div>
           ) : (
             <Card style={{ padding: 0, overflow: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 600 }}>
                 <thead>
-                  <tr>
-                    <th style={{ position: "sticky", left: 0, background: "white", textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#888", borderBottom: "1px solid #e5e5e4", whiteSpace: "nowrap" }}>Aluno</th>
-                    {dias.map(d => <th key={d} style={{ padding: "6px 2px", fontSize: 10, fontWeight: 600, color: "#888", textAlign: "center", borderBottom: "1px solid #e5e5e4", minWidth: 28 }}>{d}</th>)}
-                    <th style={{ padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#888", borderBottom: "1px solid #e5e5e4", textAlign: "center" }}>%</th>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                    <th style={{ position: "sticky", left: 0, background: "#1e293b", textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", borderBottom: "1px solid #2c3b52", whiteSpace: "nowrap" }}>Aluno</th>
+                    {dias.map(d => <th key={d} style={{ padding: "6px 2px", fontSize: 10, fontWeight: 600, color: "#cbd5e1", textAlign: "center", borderBottom: "1px solid #2c3b52", minWidth: 28 }}>{d}</th>)}
+                    <th style={{ padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textAlign: "center", borderBottom: "1px solid #2c3b52" }}>%</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -322,16 +336,34 @@ export default function Frequencia() {
                     const [primeiro, ...resto] = a.nome.split(" ");
                     const nomeExib = `${primeiro} ${resto[resto.length - 1] || ""}`.trim();
                     return (
-                      <tr key={a.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                        <td style={{ position: "sticky", left: 0, background: "white", padding: "8px 12px", fontSize: 12, fontWeight: 500, whiteSpace: "nowrap" }}>{nomeExib}</td>
+                      <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                        <td style={{ position: "sticky", left: 0, background: "#1e293b", padding: "8px 14px", fontSize: 12, fontWeight: 600, color: "#ffffff", whiteSpace: "nowrap" }}>{nomeExib}</td>
                         {dias.map(d => {
                           const v = dias_aluno[d];
-                          const bg = v === "P" ? "#dcfce7" : v === "F" ? "#fee2e2" : "#f9fafb";
-                          const cor = v === "P" ? "#166534" : v === "F" ? "#991b1b" : "#9ca3af";
+                          const bg = v === "P" ? "rgba(16, 185, 129, 0.2)" : v === "F" ? "rgba(239, 68, 68, 0.2)" : "#243144";
+                          const cor = v === "P" ? "#34d399" : v === "F" ? "#f87171" : "#64748b";
+                          const bdr = v === "P" ? "rgba(16, 185, 129, 0.4)" : v === "F" ? "rgba(239, 68, 68, 0.4)" : "#33435c";
                           return (
                             <td key={d} style={{ padding: "2px", textAlign: "center" }}>
-                              <div onClick={() => toggleMapa(a.id, d)} title="Clique para alternar"
-                                style={{ width: 24, height: 24, borderRadius: 4, background: bg, color: cor, display: "flex", alignItems: "center", justifyContent: "center", margin: "auto", cursor: "pointer", fontSize: 10, fontWeight: 600, border: `1px solid ${v === "P" ? "#86efac" : v === "F" ? "#fca5a5" : "#e5e5e4"}` }}>
+                              <div
+                                onClick={() => toggleMapa(a.id, d)}
+                                title="Clique para alternar"
+                                style={{
+                                  width: 24,
+                                  height: 24,
+                                  borderRadius: 6,
+                                  background: bg,
+                                  color: cor,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  margin: "auto",
+                                  cursor: "pointer",
+                                  fontSize: 10,
+                                  fontWeight: 700,
+                                  border: `1px solid ${bdr}`
+                                }}
+                              >
                                 {v || "·"}
                               </div>
                             </td>
@@ -352,3 +384,5 @@ export default function Frequencia() {
     </div>
   );
 }
+
+

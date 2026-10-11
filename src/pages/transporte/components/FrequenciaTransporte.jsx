@@ -270,22 +270,23 @@ export default function FrequenciaTransporte({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* Sub-navegação entre Chamada de Presença e Diário de Bordo */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e5e7eb", paddingBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #2c3b52", paddingBottom: 12 }}>
         <div style={{ display: "flex", gap: 10 }}>
           <button
             onClick={() => setSubAba("chamada")}
             style={{
-              padding: "8px 16px",
-              borderRadius: 8,
-              border: "none",
-              background: subAba === "chamada" ? "#1e40af" : "#f1f5f9",
-              color: subAba === "chamada" ? "white" : "#475569",
+              padding: "9px 18px",
+              borderRadius: 10,
+              border: subAba === "chamada" ? "1px solid #3b82f6" : "1px solid #2c3b52",
+              background: subAba === "chamada" ? "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)" : "#1e293b",
+              color: subAba === "chamada" ? "white" : "#94a3b8",
               fontWeight: 600,
               fontSize: 13,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: 6
+              gap: 8,
+              boxShadow: subAba === "chamada" ? "0 2px 8px rgba(37, 99, 235, 0.3)" : "none"
             }}
           >
             <i className="ti ti-checklist" /> Chamada de Embarque dos Alunos
@@ -293,17 +294,18 @@ export default function FrequenciaTransporte({
           <button
             onClick={() => setSubAba("diario")}
             style={{
-              padding: "8px 16px",
-              borderRadius: 8,
-              border: "none",
-              background: subAba === "diario" ? "#1e40af" : "#f1f5f9",
-              color: subAba === "diario" ? "white" : "#475569",
+              padding: "9px 18px",
+              borderRadius: 10,
+              border: subAba === "diario" ? "1px solid #3b82f6" : "1px solid #2c3b52",
+              background: subAba === "diario" ? "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)" : "#1e293b",
+              color: subAba === "diario" ? "white" : "#94a3b8",
               fontWeight: 600,
               fontSize: 13,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: 6
+              gap: 8,
+              boxShadow: subAba === "diario" ? "0 2px 8px rgba(37, 99, 235, 0.3)" : "none"
             }}
           >
             <i className="ti ti-book" /> Diário de Bordo & Ocorrências de Viagem
@@ -325,7 +327,7 @@ export default function FrequenciaTransporte({
           {msgSucessoChamada && <Alert tipo="success">{msgSucessoChamada}</Alert>}
 
           {/* Filtros da Chamada */}
-          <Card style={{ padding: "16px 20px" }}>
+          <Card style={{ padding: "18px 20px", background: "#1e293b", border: "1px solid #2c3b52" }}>
             <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr auto", gap: 14, alignItems: "flex-end" }}>
               <Select
                 label="Selecione a Rota / Linha Escolar"
@@ -355,11 +357,21 @@ export default function FrequenciaTransporte({
                 <option value="Integral">Integral</option>
               </Select>
 
-              <div style={{ display: "flex", gap: 6 }}>
+              <div style={{ display: "flex", gap: 8 }}>
                 <button
                   type="button"
                   onClick={() => marcarTodos("P")}
-                  style={{ padding: "8px 12px", background: "#dcfce7", color: "#166534", border: "1px solid #86efac", borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+                  style={{
+                    padding: "9px 14px",
+                    background: "rgba(16, 185, 129, 0.15)",
+                    color: "#34d399",
+                    border: "1px solid rgba(16, 185, 129, 0.3)",
+                    borderRadius: 8,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap"
+                  }}
                 >
                   Todos Presentes
                 </button>
@@ -370,23 +382,23 @@ export default function FrequenciaTransporte({
             </div>
 
             {/* Resumo de Presença da Rota */}
-            <div style={{ display: "flex", gap: 20, marginTop: 16, paddingTop: 14, borderTop: "1px solid #f1f5f9", fontSize: 13 }}>
-              <span>Total na Rota: <strong>{contadores.total}</strong></span>
-              <span style={{ color: "#166534" }}>Embarcados (Presentes): <strong>{contadores.p}</strong></span>
-              <span style={{ color: "#991b1b" }}>Ausentes: <strong>{contadores.f}</strong></span>
-              <span style={{ color: "#854d0e" }}>Justificados: <strong>{contadores.j}</strong></span>
-              <span style={{ marginLeft: "auto", fontWeight: 700, color: "#1e40af" }}>Taxa de Ocupação/Embarque: {contadores.taxa}%</span>
+            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginTop: 16, paddingTop: 14, borderTop: "1px solid #2c3b52", fontSize: 13, color: "#cbd5e1" }}>
+              <span>Total na Rota: <strong style={{ color: "#ffffff" }}>{contadores.total}</strong></span>
+              <span style={{ color: "#34d399" }}>Embarcados (Presentes): <strong>{contadores.p}</strong></span>
+              <span style={{ color: "#f87171" }}>Ausentes: <strong>{contadores.f}</strong></span>
+              <span style={{ color: "#fbbf24" }}>Justificados: <strong>{contadores.j}</strong></span>
+              <span style={{ marginLeft: "auto", fontWeight: 700, color: "#60a5fa" }}>Taxa de Ocupação/Embarque: {contadores.taxa}%</span>
             </div>
           </Card>
 
           {/* Lista de Alunos para Chamada */}
-          <Card style={{ padding: 0, overflow: "hidden" }}>
+          <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", border: "1px solid #2c3b52" }}>
             {alunosDaRota.length === 0 ? (
               <EmptyState icon="users" texto="Nenhum aluno ativo vinculado a esta rota escolar." />
             ) : (
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
                     <th style={{ padding: "12px 16px", width: 40 }}>#</th>
                     <th style={{ padding: "12px 16px" }}>Estudante</th>
                     <th style={{ padding: "12px 16px" }}>Turma</th>
@@ -399,23 +411,23 @@ export default function FrequenciaTransporte({
                   {alunosDaRota.map((al, idx) => {
                     const status = presencas[al.id] || "P";
                     return (
-                      <tr key={al.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "12px 16px", color: "#64748b" }}>{idx + 1}</td>
+                      <tr key={al.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                        <td style={{ padding: "12px 16px", color: "#94a3b8" }}>{idx + 1}</td>
                         <td style={{ padding: "12px 16px" }}>
-                          <div style={{ fontWeight: 600, color: "#1e293b" }}>{al.nomeAluno}</div>
+                          <div style={{ fontWeight: 600, color: "#ffffff" }}>{al.nomeAluno}</div>
                           {al.necessidadeEspecial && al.necessidadeEspecial !== "Nenhuma" && (
-                            <span style={{ fontSize: 11, color: "#dc2626" }}>♿ {al.necessidadeEspecial}</span>
+                            <span style={{ fontSize: 11, color: "#f87171" }}>♿ {al.necessidadeEspecial}</span>
                           )}
                         </td>
-                        <td style={{ padding: "12px 16px" }}>{al.turma || "-"}</td>
+                        <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>{al.turma || "-"}</td>
                         <td style={{ padding: "12px 16px" }}>
-                          <span style={{ fontSize: 12, color: "#475569" }}>
-                            <i className="ti ti-map-pin" style={{ color: "#2563eb", marginRight: 4 }} />
+                          <span style={{ fontSize: 12, color: "#cbd5e1", display: "flex", alignItems: "center", gap: 5 }}>
+                            <i className="ti ti-map-pin" style={{ color: "#60a5fa" }} />
                             {al.pontoNome || "Ponto Padrão"}
                           </span>
                         </td>
                         <td style={{ padding: "12px 16px", textAlign: "center" }}>
-                          <div style={{ display: "inline-flex", borderRadius: 8, overflow: "hidden", border: "1px solid #d1d5db" }}>
+                          <div style={{ display: "inline-flex", borderRadius: 8, overflow: "hidden", border: "1px solid #2c3b52", background: "#161f2e" }}>
                             <button
                               type="button"
                               onClick={() => togglePresenca(al.id, "P")}
@@ -425,8 +437,8 @@ export default function FrequenciaTransporte({
                                 cursor: "pointer",
                                 fontSize: 12,
                                 fontWeight: 600,
-                                background: status === "P" ? "#16a34a" : "white",
-                                color: status === "P" ? "white" : "#4b5563"
+                                background: status === "P" ? "#10b981" : "transparent",
+                                color: status === "P" ? "white" : "#94a3b8"
                               }}
                             >
                               Presente
@@ -437,13 +449,13 @@ export default function FrequenciaTransporte({
                               style={{
                                 padding: "6px 14px",
                                 border: "none",
-                                borderLeft: "1px solid #d1d5db",
-                                borderRight: "1px solid #d1d5db",
+                                borderLeft: "1px solid #2c3b52",
+                                borderRight: "1px solid #2c3b52",
                                 cursor: "pointer",
                                 fontSize: 12,
                                 fontWeight: 600,
-                                background: status === "F" ? "#dc2626" : "white",
-                                color: status === "F" ? "white" : "#4b5563"
+                                background: status === "F" ? "#ef4444" : "transparent",
+                                color: status === "F" ? "white" : "#94a3b8"
                               }}
                             >
                               Ausente
@@ -457,8 +469,8 @@ export default function FrequenciaTransporte({
                                 cursor: "pointer",
                                 fontSize: 12,
                                 fontWeight: 600,
-                                background: status === "J" ? "#d97706" : "white",
-                                color: status === "J" ? "white" : "#4b5563"
+                                background: status === "J" ? "#f59e0b" : "transparent",
+                                color: status === "J" ? "white" : "#94a3b8"
                               }}
                             >
                               Justificado
@@ -473,10 +485,12 @@ export default function FrequenciaTransporte({
                             onChange={(e) => setJustificativas({ ...justificativas, [al.id]: e.target.value })}
                             style={{
                               width: "100%",
-                              padding: "6px 10px",
+                              padding: "7px 12px",
                               fontSize: 12,
-                              borderRadius: 6,
-                              border: "1px solid #e2e8f0",
+                              borderRadius: 8,
+                              border: "1px solid #2c3b52",
+                              background: "#161f2e",
+                              color: "#f8fafc",
                               outline: "none"
                             }}
                           />
@@ -495,14 +509,14 @@ export default function FrequenciaTransporte({
       {/* SUB-ABA 2: DIÁRIO DE BORDO DAS VIAGENS */}
       {/* ======================================= */}
       {subAba === "diario" && (
-        <Card style={{ padding: 0, overflow: "hidden" }}>
+        <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", border: "1px solid #2c3b52" }}>
           {viagens.length === 0 ? (
             <EmptyState icon="book" texto="Nenhum registro no diário de bordo. Clique no botão acima para registrar uma viagem." />
           ) : (
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
                     <th style={{ padding: "12px 16px" }}>Data / Turno</th>
                     <th style={{ padding: "12px 16px" }}>Linha / Rota</th>
                     <th style={{ padding: "12px 16px" }}>Veículo / Motorista</th>
@@ -514,34 +528,34 @@ export default function FrequenciaTransporte({
                   </tr>
                 </thead>
                 <tbody>
-                  {viagens.map((vg) => (
-                    <tr key={vg.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  {viagens.map((vg, idx) => (
+                    <tr key={vg.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
                       <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#1e293b" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>
                           {new Date(vg.data + "T00:00:00").toLocaleDateString("pt-BR")}
                         </div>
-                        <div style={{ fontSize: 11, color: "#64748b" }}>{vg.turno}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{vg.turno}</div>
                       </td>
                       <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#1e40af" }}>{vg.rotaNome}</div>
+                        <div style={{ fontWeight: 600, color: "#60a5fa" }}>{vg.rotaNome}</div>
                       </td>
                       <td style={{ padding: "12px 16px" }}>
                         <div><Badge color="blue">{vg.veiculoPlaca}</Badge></div>
-                        <div style={{ fontSize: 12, color: "#374151", marginTop: 2 }}>{vg.motoristaNome}</div>
+                        <div style={{ fontSize: 12, color: "#cbd5e1", marginTop: 4 }}>{vg.motoristaNome}</div>
                       </td>
-                      <td style={{ padding: "12px 16px", fontSize: 12 }}>
-                        <div>Saída: <strong>{vg.horarioSaida || "-"}</strong></div>
-                        <div>Chegada: <strong>{vg.horarioChegada || "-"}</strong></div>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600 }}>{vg.kmPercorrido ? `${vg.kmPercorrido} km rodados` : "-"}</div>
-                        <div style={{ fontSize: 11, color: "#64748b" }}>{vg.kmInicial} → {vg.kmFinal} km</div>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                        <div>Saída: <strong style={{ color: "#ffffff" }}>{vg.horarioSaida || "-"}</strong></div>
+                        <div>Chegada: <strong style={{ color: "#ffffff" }}>{vg.horarioChegada || "-"}</strong></div>
                       </td>
                       <td style={{ padding: "12px 16px" }}>
-                        <span style={{ fontWeight: 600, color: "#059669" }}>{vg.alunosEmbarcados || 0} alunos</span>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{vg.kmPercorrido ? `${vg.kmPercorrido} km rodados` : "-"}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{vg.kmInicial} → {vg.kmFinal} km</div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <span style={{ fontWeight: 600, color: "#34d399" }}>{vg.alunosEmbarcados || 0} alunos</span>
                       </td>
                       <td style={{ padding: "12px 16px", maxWidth: 220 }}>
-                        <div style={{ fontSize: 12, color: vg.ocorrencias ? "#334155" : "#9ca3af" }}>
+                        <div style={{ fontSize: 12, color: vg.ocorrencias ? "#cbd5e1" : "#64748b" }}>
                           {vg.ocorrencias || "Sem incidentes registrados"}
                         </div>
                       </td>

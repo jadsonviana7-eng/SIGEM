@@ -53,8 +53,8 @@ export default function CategoriasFinanceiras({ categorias, onReload, escolaId }
 
   return (
     <Card>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600 }}>Categorias Financeiras</h3>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>Categorias Financeiras</h3>
         <Btn variant="primary" onClick={handleOpenNew}><i className="ti ti-plus" /> Nova Categoria</Btn>
       </div>
 
@@ -64,16 +64,16 @@ export default function CategoriasFinanceiras({ categorias, onReload, escolaId }
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
             <thead>
-              <tr style={{ borderBottom: "1px solid #e5e7eb", color: "#6b7280" }}>
-                <th style={{ padding: "12px 16px", fontWeight: 500 }}>Nome da Categoria</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500 }}>Tipo</th>
-                <th style={{ padding: "12px 16px", fontWeight: 500, width: 100 }}>Ações</th>
+              <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+                <th style={{ padding: "12px 16px", fontWeight: 600 }}>Nome da Categoria</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600 }}>Tipo</th>
+                <th style={{ padding: "12px 16px", fontWeight: 600, width: 100 }}>Ações</th>
               </tr>
             </thead>
             <tbody>
               {categorias.map(c => (
-                <tr key={c.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: 500, color: "#1f2937" }}>{c.nome}</td>
+                <tr key={c.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                  <td style={{ padding: "12px 16px", fontWeight: 500, color: "#f8fafc" }}>{c.nome}</td>
                   <td style={{ padding: "12px 16px" }}>
                     <Badge color={c.tipo === "Receita" ? "green" : "red"}>{c.tipo}</Badge>
                   </td>

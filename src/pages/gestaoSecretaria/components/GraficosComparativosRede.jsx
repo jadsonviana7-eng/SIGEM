@@ -10,72 +10,120 @@ export default function GraficosComparativosRede({
   const [metricaComparativa, setMetricaComparativa] = useState("frequencia"); // 'frequencia' | 'desempenho' | 'alunos'
 
   // Total de alunos da rede
-  const totalAlunosRede = alunos.length || 1;
+  const totalAlunosRede = alunos.length;
 
-  // 1. Matrículas por Etapa de Ensino
-  const etapasEnsino = [
-    {
-      nome: "Educação Infantil (Creche & Pré-Escola)",
-      filtroKey: "Infantil",
-      icone: "ti ti-mood-kid",
-      cor: "#f59e0b",
-      bg: "#fef3c7"
-    },
-    {
-      nome: "Ensino Fundamental I (1º ao 5º Ano)",
-      filtroKey: "Fundamental I",
-      icone: "ti ti-books",
-      cor: "#3b82f6",
-      bg: "#eff6ff"
-    },
-    {
-      nome: "Ensino Fundamental II (6º ao 9º Ano)",
-      filtroKey: "Fundamental II",
-      icone: "ti ti-school",
-      cor: "#8b5cf6",
-      bg: "#f5f3ff"
-    },
-    {
-      nome: "Educação de Jovens e Adultos (EJA)",
-      filtroKey: "EJA",
-      icone: "ti ti-users",
-      cor: "#10b981",
-      bg: "#ecfdf5"
-    },
-    {
-      nome: "Atendimento Educacional Especializado (AEE)",
-      filtroKey: "AEE",
-      icone: "ti ti-heart-handshake",
-      cor: "#ec4899",
-      bg: "#fdf2f8"
-    }
-  ];
+  // 1. Matrículas por Etapa de Ensino (Classificação estrita e disjunta baseada no cadastro real)
+  const contagemEtapas = React.useMemo(() => {
+    let infantil = 0;
+    let fund1 = 0;
+    let fund2 = 0;
+    let eja = 0;
+    let aee = 0;
 
-  const contagemEtapas = etapasEnsino.map((etapa, idx) => {
-    let qtd = 0;
-    if (alunos.length > 0) {
-      qtd = alunos.filter((a) => {
-        const anoOuEtapa = (a.etapa || a.ano || a.turma || "").toLowerCase();
-        if (etapa.filtroKey === "Infantil") return anoOuEtapa.includes("infantil") || anoOuEtapa.includes("creche") || anoOuEtapa.includes("pré");
-        if (etapa.filtroKey === "Fundamental I") return anoOuEtapa.includes("1º") || anoOuEtapa.includes("2º") || anoOuEtapa.includes("3º") || anoOuEtapa.includes("4º") || anoOuEtapa.includes("5º");
-        if (etapa.filtroKey === "Fundamental II") return anoOuEtapa.includes("6º") || anoOuEtapa.includes("7º") || anoOuEtapa.includes("8º") || anoOuEtapa.includes("9º");
-        if (etapa.filtroKey === "EJA") return anoOuEtapa.includes("eja") || anoOuEtapa.includes("jovens");
-        if (etapa.filtroKey === "AEE") return a.pcd || a.necessidadeEspecial || anoOuEtapa.includes("aee");
-        return false;
-      }).length;
-    }
-    // Fallback equilibrado para visualização rica
-    if (qtd === 0) {
-      const proportions = [0.18, 0.44, 0.28, 0.06, 0.04];
-      qtd = Math.max(1, Math.round(totalAlunosRede * proportions[idx]));
-    }
-    const percentual = Math.round((qtd / totalAlunosRede) * 100);
-    return {
-      ...etapa,
-      quantidade: qtd,
-      percentual
-    };
-  });
+    alunos.forEach((a) => {
+      const etapaEnsino = (a.etapaEnsino || a.etapa || "").toLowerCase();
+      const ano = (a.ano || "").toLowerCase();
+      const turma = (a.turma || "").toLowerCase();
+      const texto = `${etapaEnsino} ${ano} ${turma}`;
+
+      // 1. Etapas Regulares (mutuamente exclusivas)
+      if (
+        texto.includes("infantil") ||
+        texto.includes("creche") ||
+        texto.includes("pré-escola") ||
+        texto.includes("pre-escola") ||
+        texto.includes("maternal") ||
+        texto.includes("jardim")
+      ) {
+        infantil++;
+      } else if (
+        texto.includes("anos finais") ||
+        texto.includes("fundamental ii") ||
+        texto.includes("fundamental 2") ||
+        texto.includes("6º") ||
+        texto.includes("7º") ||
+        texto.includes("8º") ||
+        texto.includes("9º")
+      ) {
+        fund2++;
+      } else if (
+        texto.includes("eja") ||
+        texto.includes("jovens e adultos")
+      ) {
+        eja++;
+      } else {
+        // Fundamental I (1º ao 5º Ano / Anos Iniciais)
+        fund1++;
+      }
+
+      // 2. AEE / PCD (Atendimento Especializado Transversal)
+      if (
+        a.recebeAee === "Sim" ||
+        a.possuiDeficiencia === "Sim" ||
+        a.pcd ||
+        a.necessidadeEspecial ||
+        texto.includes("aee")
+      ) {
+        aee++;
+      }
+    });
+
+    const total = totalAlunosRede || 1;
+
+    return [
+      {
+        nome: "Educação Infantil (Creche & Pré-Escola)",
+        filtroKey: "Infantil",
+        icone: "ti ti-mood-kid",
+        cor: "#f59e0b",
+        bg: "#fef3c7",
+        quantidade: infantil,
+        percentual: totalAlunosRede > 0 ? Math.round((infantil / total) * 100) : 0,
+        tipo: "regular"
+      },
+      {
+        nome: "Ensino Fundamental I (1º ao 5º Ano)",
+        filtroKey: "Fundamental I",
+        icone: "ti ti-books",
+        cor: "#3b82f6",
+        bg: "#eff6ff",
+        quantidade: fund1,
+        percentual: totalAlunosRede > 0 ? Math.round((fund1 / total) * 100) : 0,
+        tipo: "regular"
+      },
+      {
+        nome: "Ensino Fundamental II (6º ao 9º Ano)",
+        filtroKey: "Fundamental II",
+        icone: "ti ti-school",
+        cor: "#8b5cf6",
+        bg: "#f5f3ff",
+        quantidade: fund2,
+        percentual: totalAlunosRede > 0 ? Math.round((fund2 / total) * 100) : 0,
+        tipo: "regular"
+      },
+      {
+        nome: "Educação de Jovens e Adultos (EJA)",
+        filtroKey: "EJA",
+        icone: "ti ti-users",
+        cor: "#10b981",
+        bg: "#ecfdf5",
+        quantidade: eja,
+        percentual: totalAlunosRede > 0 ? Math.round((eja / total) * 100) : 0,
+        tipo: "regular"
+      },
+      {
+        nome: "Atendimento Educacional Especializado (AEE)",
+        filtroKey: "AEE",
+        icone: "ti ti-heart-handshake",
+        cor: "#ec4899",
+        bg: "#fdf2f8",
+        quantidade: aee,
+        percentual: totalAlunosRede > 0 ? Math.round((aee / total) * 100) : 0,
+        tipo: "transversal",
+        dica: "Apoio pedagógico transversal"
+      }
+    ];
+  }, [alunos, totalAlunosRede]);
 
   // 2. Dados comparativos das escolas
   const dadosComparativos = (escolas || []).map((esc, idx) => {
@@ -83,10 +131,9 @@ export default function GraficosComparativosRede({
     const totalAlunos = stats.totalAlunos || 0;
     const totalTurmas = stats.totalTurmas || 0;
 
-    // Frequência e Desempenho calculados com base real ou estimativa consistente
-    const freqMedia = Number(esc.frequenciaMedia || (91 - (idx * 2.3) % 8)).toFixed(1);
-    const mediaNotas = Number(esc.mediaNotas || (7.8 - (idx * 0.4) % 1.5)).toFixed(1);
-    const vagasOcupadas = Math.min(100, Math.round(75 + (idx * 5) % 23));
+    const freqMedia = Number(esc.frequenciaMedia || 91.2).toFixed(1);
+    const mediaNotas = Number(esc.mediaNotas || 7.6).toFixed(1);
+    const vagasOcupadas = totalAlunosRede > 0 ? Math.round((totalAlunos / totalAlunosRede) * 100) : 0;
 
     return {
       id: esc.id,
@@ -108,10 +155,10 @@ export default function GraficosComparativosRede({
         <Card style={{ padding: "20px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <div>
-              <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#1e293b", margin: 0 }}>
+              <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#ffffff", margin: 0 }}>
                 🎓 Matrículas por Etapa de Ensino
               </h3>
-              <p style={{ fontSize: "12px", color: "#64748b", margin: "2px 0 0 0" }}>
+              <p style={{ fontSize: "12px", color: "#94a3b8", margin: "2px 0 0 0" }}>
                 Distribuição percentual dos estudantes na rede
               </p>
             </div>
@@ -124,10 +171,15 @@ export default function GraficosComparativosRede({
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "13px", marginBottom: "4px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     <i className={et.icone} style={{ color: et.cor, fontSize: "16px" }} />
-                    <span style={{ fontWeight: "600", color: "#334155" }}>{et.nome}</span>
+                    <span style={{ fontWeight: "600", color: "#f8fafc" }}>{et.nome}</span>
+                    {et.tipo === "transversal" && (
+                      <span style={{ fontSize: "10px", background: "rgba(236, 72, 153, 0.15)", color: "#f472b6", border: "1px solid rgba(236, 72, 153, 0.3)", padding: "1px 6px", borderRadius: "4px", fontWeight: "600" }}>
+                        Transversal
+                      </span>
+                    )}
                   </div>
-                  <span style={{ fontSize: "12px", color: "#64748b" }}>
-                    <strong>{et.quantidade}</strong> alunos ({et.percentual}%)
+                  <span style={{ fontSize: "12px", color: "#94a3b8" }}>
+                    <strong>{et.quantidade}</strong> alunos {et.tipo === "transversal" ? `atendidos (${et.percentual}%)` : `(${et.percentual}%)`}
                   </span>
                 </div>
                 <ProgressBar valor={et.percentual} />
@@ -140,14 +192,14 @@ export default function GraficosComparativosRede({
         <Card style={{ padding: "20px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <div>
-              <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#1e293b", margin: 0 }}>
+              <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#ffffff", margin: 0 }}>
                 🏫 Distribuição por Unidade Escolar
               </h3>
-              <p style={{ fontSize: "12px", color: "#64748b", margin: "2px 0 0 0" }}>
+              <p style={{ fontSize: "12px", color: "#94a3b8", margin: "2px 0 0 0" }}>
                 Proporção do alunado atendido por cada escola
               </p>
             </div>
-            <span style={{ fontSize: "12px", color: "#64748b" }}>{escolas.length} Unidades</span>
+            <span style={{ fontSize: "12px", color: "#94a3b8" }}>{escolas.length} Unidades</span>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxHeight: "280px", overflowY: "auto" }}>
@@ -157,12 +209,12 @@ export default function GraficosComparativosRede({
                 <div key={d.id}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "13px", marginBottom: "4px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                      <span style={{ fontWeight: "600", color: "#1e293b" }}>{d.nome}</span>
+                      <span style={{ fontWeight: "600", color: "#f8fafc" }}>{d.nome}</span>
                       <Badge variant={d.zona === "Rural" ? "warning" : "neutral"} style={{ fontSize: "10px", padding: "1px 6px" }}>
                         {d.zona}
                       </Badge>
                     </div>
-                    <span style={{ fontSize: "12px", color: "#64748b" }}>
+                    <span style={{ fontSize: "12px", color: "#94a3b8" }}>
                       <strong>{d.totalAlunos}</strong> alunos ({pct}%)
                     </span>
                   </div>
@@ -184,29 +236,29 @@ export default function GraficosComparativosRede({
             flexWrap: "wrap",
             gap: "14px",
             marginBottom: "18px",
-            borderBottom: "1px solid #f1f5f9",
+            borderBottom: "1px solid #33435c",
             paddingBottom: "14px"
           }}
         >
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <i className="ti ti-chart-bar" style={{ color: "#2563eb", fontSize: "20px" }} />
-              <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#1e293b", margin: 0 }}>
+              <i className="ti ti-chart-bar" style={{ color: "#38bdf8", fontSize: "20px" }} />
+              <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#ffffff", margin: 0 }}>
                 📊 Gráficos Comparativos Entre as Escolas da Rede
               </h3>
             </div>
-            <p style={{ fontSize: "13px", color: "#64748b", margin: "3px 0 0 0" }}>
+            <p style={{ fontSize: "13px", color: "#94a3b8", margin: "3px 0 0 0" }}>
               Avalie e compare os indicadores chave de desempenho, assiduidade e capacidade entre todas as unidades.
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: "8px", background: "#f1f5f9", padding: "4px", borderRadius: "10px" }}>
+          <div style={{ display: "flex", gap: "6px", background: "#243144", padding: "4px", borderRadius: "10px", border: "1px solid #33435c", flexWrap: "wrap" }}>
             <button
               type="button"
               onClick={() => setMetricaComparativa("frequencia")}
               style={{
-                background: metricaComparativa === "frequencia" ? "#2563eb" : "transparent",
-                color: metricaComparativa === "frequencia" ? "#fff" : "#475569",
+                background: metricaComparativa === "frequencia" ? "#33435c" : "transparent",
+                color: metricaComparativa === "frequencia" ? "#ffffff" : "#94a3b8",
                 border: "none",
                 borderRadius: "6px",
                 padding: "6px 14px",
@@ -223,8 +275,8 @@ export default function GraficosComparativosRede({
               type="button"
               onClick={() => setMetricaComparativa("desempenho")}
               style={{
-                background: metricaComparativa === "desempenho" ? "#2563eb" : "transparent",
-                color: metricaComparativa === "desempenho" ? "#fff" : "#475569",
+                background: metricaComparativa === "desempenho" ? "#33435c" : "transparent",
+                color: metricaComparativa === "desempenho" ? "#ffffff" : "#94a3b8",
                 border: "none",
                 borderRadius: "6px",
                 padding: "6px 14px",
@@ -241,8 +293,8 @@ export default function GraficosComparativosRede({
               type="button"
               onClick={() => setMetricaComparativa("alunos")}
               style={{
-                background: metricaComparativa === "alunos" ? "#2563eb" : "transparent",
-                color: metricaComparativa === "alunos" ? "#fff" : "#475569",
+                background: metricaComparativa === "alunos" ? "#33435c" : "transparent",
+                color: metricaComparativa === "alunos" ? "#ffffff" : "#94a3b8",
                 border: "none",
                 borderRadius: "6px",
                 padding: "6px 14px",
@@ -262,23 +314,23 @@ export default function GraficosComparativosRede({
           {dadosComparativos.map((d) => {
             let valor = 0;
             let displayValor = "";
-            let corBarra = "#2563eb";
+            let corBarra = "#38bdf8";
             let metaTexto = "";
 
             if (metricaComparativa === "frequencia") {
               valor = d.frequenciaMedia;
               displayValor = `${valor}%`;
-              corBarra = valor >= 85 ? "#16a34a" : valor >= 75 ? "#f59e0b" : "#dc2626";
+              corBarra = valor >= 85 ? "#34d399" : valor >= 75 ? "#fbbf24" : "#f87171";
               metaTexto = valor >= 85 ? "✓ Acima da Meta Municipal (85%)" : "⚠️ Abaixo da meta da rede";
             } else if (metricaComparativa === "desempenho") {
               valor = (d.mediaNotas / 10) * 100;
               displayValor = `${d.mediaNotas} / 10`;
-              corBarra = d.mediaNotas >= 7.0 ? "#4f46e5" : d.mediaNotas >= 6.0 ? "#0284c7" : "#ea580c";
+              corBarra = d.mediaNotas >= 7.0 ? "#a78bfa" : d.mediaNotas >= 6.0 ? "#38bdf8" : "#fb923c";
               metaTexto = d.mediaNotas >= 7.0 ? "Desempenho Muito Bom" : "Atenção Pedagógica";
             } else {
               valor = d.vagasOcupadas;
               displayValor = `${valor}%`;
-              corBarra = valor >= 90 ? "#7c3aed" : "#0891b2";
+              corBarra = valor >= 90 ? "#c084fc" : "#38bdf8";
               metaTexto = `${d.totalTurmas} turmas em atividade`;
             }
 
@@ -286,24 +338,24 @@ export default function GraficosComparativosRede({
               <div
                 key={d.id}
                 style={{
-                  background: "#f8fafc",
+                  background: "#243144",
                   padding: "12px 16px",
                   borderRadius: "10px",
-                  border: "1px solid #e2e8f0"
+                  border: "1px solid #33435c"
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span style={{ fontWeight: "700", color: "#1e293b", fontSize: "14px" }}>
+                    <span style={{ fontWeight: "700", color: "#f8fafc", fontSize: "14px" }}>
                       {d.nome}
                     </span>
-                    <span style={{ fontSize: "11px", color: "#64748b" }}>
+                    <span style={{ fontSize: "11px", color: "#94a3b8" }}>
                       ({d.zona})
                     </span>
                   </div>
 
                   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <span style={{ fontSize: "11px", color: "#64748b" }}>{metaTexto}</span>
+                    <span style={{ fontSize: "11px", color: "#94a3b8" }}>{metaTexto}</span>
                     <span style={{ fontSize: "15px", fontWeight: "800", color: corBarra }}>
                       {displayValor}
                     </span>
@@ -313,7 +365,7 @@ export default function GraficosComparativosRede({
                 <div
                   style={{
                     height: "10px",
-                    background: "#e2e8f0",
+                    background: "#161f2e",
                     borderRadius: "6px",
                     overflow: "hidden",
                     position: "relative"

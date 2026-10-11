@@ -125,12 +125,14 @@ export default function FornecedoresAlimentacao({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#94a3b8" }} />
           </div>
         </div>
 
@@ -156,8 +158,8 @@ export default function FornecedoresAlimentacao({
                         width: 44,
                         height: 44,
                         borderRadius: 10,
-                        background: isFamiliar ? "#ecfdf5" : "#eff6ff",
-                        color: isFamiliar ? "#059669" : "#2563eb",
+                        background: isFamiliar ? "rgba(16, 185, 129, 0.15)" : "rgba(59, 130, 246, 0.15)",
+                        color: isFamiliar ? "#34d399" : "#60a5fa",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -166,10 +168,10 @@ export default function FornecedoresAlimentacao({
                         <i className={`ti ti-${isFamiliar ? "plant" : "truck"}`} />
                       </div>
                       <div>
-                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#1f2937" }}>
+                        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
                           {forn.nome}
                         </h4>
-                        <div style={{ fontSize: 11, color: "#6b7280", marginTop: 2 }}>
+                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
                           CNPJ/CPF: {forn.cnpj || "Não informado"}
                         </div>
                       </div>
@@ -180,35 +182,35 @@ export default function FornecedoresAlimentacao({
                     </Badge>
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#4b5563", background: "#f8fafc", padding: 12, borderRadius: 8, marginTop: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#cbd5e1", background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c", marginTop: 10 }}>
                     <div>
-                      <strong>Modalidade:</strong> <span style={{ color: isFamiliar ? "#059669" : "#1e40af", fontWeight: 600 }}>{forn.tipo}</span>
+                      <strong style={{ color: "#ffffff" }}>Modalidade:</strong> <span style={{ color: isFamiliar ? "#34d399" : "#60a5fa", fontWeight: 600 }}>{forn.tipo}</span>
                     </div>
                     {forn.responsavel && (
                       <div>
-                        <strong>Contato / Responsável:</strong> {forn.responsavel}
+                        <strong style={{ color: "#ffffff" }}>Contato / Responsável:</strong> {forn.responsavel}
                       </div>
                     )}
                     <div style={{ display: "flex", gap: 14 }}>
-                      <span><i className="ti ti-phone" style={{ marginRight: 4 }} /> {forn.telefone || "-"}</span>
-                      <span><i className="ti ti-mail" style={{ marginRight: 4 }} /> {forn.email || "-"}</span>
+                      <span><i className="ti ti-phone" style={{ marginRight: 4, color: "#94a3b8" }} /> {forn.telefone || "-"}</span>
+                      <span><i className="ti ti-mail" style={{ marginRight: 4, color: "#94a3b8" }} /> {forn.email || "-"}</span>
                     </div>
                     {forn.produtosFornecidos && (
-                      <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 6, fontSize: 11, color: "#64748b" }}>
-                        <strong>Gêneros:</strong> {forn.produtosFornecidos}
+                      <div style={{ borderTop: "1px solid #33435c", paddingTop: 6, fontSize: 11, color: "#94a3b8" }}>
+                        <strong style={{ color: "#ffffff" }}>Gêneros:</strong> {forn.produtosFornecidos}
                       </div>
                     )}
                   </div>
 
                   {forn.contratoNumero && (
-                    <div style={{ marginTop: 10, fontSize: 11, color: "#475569" }}>
-                      <strong>Contrato / Edital:</strong> {forn.contratoNumero}
+                    <div style={{ marginTop: 10, fontSize: 11, color: "#cbd5e1" }}>
+                      <strong style={{ color: "#ffffff" }}>Contrato / Edital:</strong> {forn.contratoNumero}
                     </div>
                   )}
                 </div>
 
                 {/* Ações */}
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 14, paddingTop: 10, borderTop: "1px solid #f1f5f9" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 14, paddingTop: 10, borderTop: "1px solid #33435c" }}>
                   <Btn onClick={() => abrirEditar(forn)} style={{ padding: "6px 10px", fontSize: 12 }}>
                     <i className="ti ti-edit" /> Editar
                   </Btn>

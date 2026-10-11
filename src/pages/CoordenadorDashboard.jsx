@@ -301,11 +301,11 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
 
       {/* 0. CARD DE BOAS-VINDAS AO COORDENADOR PEDAGÓGICO */}
       <div style={{
-        background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+        background: "#1e293b",
         borderRadius: 16,
         padding: "20px 24px",
-        border: "1px solid #e2e8f0",
-        boxShadow: "0 4px 15px -2px rgba(0, 0, 0, 0.05)",
+        border: "1px solid #2c3b52",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.25)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -325,7 +325,7 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
             justifyContent: "center",
             fontSize: 20,
             fontWeight: 700,
-            boxShadow: "0 4px 12px rgba(124, 58, 237, 0.3)",
+            boxShadow: "0 4px 12px rgba(124, 58, 237, 0.35)",
             overflow: "hidden",
             flexShrink: 0
           }}>
@@ -338,16 +338,16 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
 
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
+              <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 500 }}>
                 {saudacao},
               </span>
-              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.3px" }}>
+              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#ffffff", margin: 0, letterSpacing: "-0.3px" }}>
                 {user?.displayName || "Coordenador(a)"}
               </h2>
               <span style={{
-                background: "#f5f3ff",
-                color: "#6d28d9",
-                border: "1px solid #ddd6fe",
+                background: "rgba(124, 58, 237, 0.15)",
+                color: "#c084fc",
+                border: "1px solid rgba(124, 58, 237, 0.3)",
                 padding: "2px 10px",
                 borderRadius: 12,
                 fontSize: 11,
@@ -360,14 +360,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                 Coordenação Pedagógica
               </span>
             </div>
-            <div style={{ fontSize: 13, color: "#64748b", marginTop: 4, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#334155", fontWeight: 600 }}>
-                <i className="ti ti-school" style={{ color: "#7c3aed" }} />
+            <div style={{ fontSize: 13, color: "#94a3b8", marginTop: 4, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#cbd5e1", fontWeight: 600 }}>
+                <i className="ti ti-school" style={{ color: "#c084fc" }} />
                 {escolaAtual.nome || "Escola Municipal"}
               </span>
               <span>•</span>
-              <span style={{ textTransform: "capitalize" }}>
-                <i className="ti ti-calendar" style={{ marginRight: 4, color: "#64748b" }} />
+              <span style={{ textTransform: "capitalize", color: "#94a3b8" }}>
+                <i className="ti ti-calendar" style={{ marginRight: 4, color: "#94a3b8" }} />
                 {dataFormatada}
               </span>
             </div>
@@ -376,28 +376,29 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
 
         {/* Resumo de Indicadores Pedagógicos */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
-            <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Rendimento</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#0f172a" }}>{metricasPedagogicas.taxaAprovacaoEstimada}%</div>
+          <div style={{ background: "#243144", border: "1px solid #33435c", borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Rendimento</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "#38bdf8" }}>{metricasPedagogicas.taxaAprovacaoEstimada}%</div>
           </div>
-          <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
-            <div style={{ fontSize: 11, color: "#991b1b", fontWeight: 600, textTransform: "uppercase" }}>Alunos em Alerta</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#dc2626" }}>{metricasPedagogicas.totalEmAlerta}</div>
+          <div style={{ background: "rgba(248, 113, 113, 0.15)", border: "1px solid rgba(248, 113, 113, 0.3)", borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: "#f87171", fontWeight: 600, textTransform: "uppercase" }}>Alunos em Alerta</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "#f87171" }}>{metricasPedagogicas.totalEmAlerta}</div>
           </div>
-          <div style={{ background: "#f5f3ff", border: "1px solid #ddd6fe", borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
-            <div style={{ fontSize: 11, color: "#5b21b6", fontWeight: 600, textTransform: "uppercase" }}>Diários Entregues</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#7c3aed" }}>{metricasPedagogicas.taxaEntregaPlanos}%</div>
+          <div style={{ background: "rgba(168, 85, 247, 0.15)", border: "1px solid rgba(168, 85, 247, 0.3)", borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: "#c084fc", fontWeight: 600, textTransform: "uppercase" }}>Diários Entregues</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "#c084fc" }}>{metricasPedagogicas.taxaEntregaPlanos}%</div>
           </div>
         </div>
       </div>
 
       {/* 1. HERO INSTITUCIONAL DA COORDENAÇÃO */}
       <div style={{
-        background: "linear-gradient(135deg, #4c1d95 0%, #6d28d9 50%, #7c3aed 100%)",
+        background: "linear-gradient(135deg, #1e293b 0%, #2e1065 60%, #0f172a 100%)",
         borderRadius: 16,
         padding: "24px 28px",
         color: "white",
-        boxShadow: "0 10px 25px -5px rgba(109, 40, 217, 0.3)",
+        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)",
+        border: "1px solid #33435c",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -410,19 +411,22 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
             width: 60,
             height: 60,
             borderRadius: 14,
-            background: "rgba(255, 255, 255, 0.2)",
+            background: "#243144",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: 28,
-            border: "2px solid rgba(255, 255, 255, 0.4)"
+            color: "#c084fc",
+            border: "2px solid #33435c"
           }}>
             <i className="ti ti-compass" />
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <span style={{
-                background: "rgba(255, 255, 255, 0.2)",
+                background: "rgba(168, 85, 247, 0.2)",
+                color: "#d8b4fe",
+                border: "1px solid rgba(168, 85, 247, 0.35)",
                 padding: "3px 10px",
                 borderRadius: 20,
                 fontSize: 11,
@@ -432,12 +436,12 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               }}>
                 <i className="ti ti-school" style={{ marginRight: 4 }} /> Painel de Supervisão e Gestão Pedagógica
               </span>
-              <span style={{ fontSize: 12, opacity: 0.9 }}>Ano Letivo 2026 • 2º Bimestre</span>
+              <span style={{ fontSize: 12, color: "#cbd5e1" }}>Ano Letivo 2026 • 2º Bimestre</span>
             </div>
-            <h1 style={{ fontSize: 22, fontWeight: 800, margin: "2px 0 4px 0", letterSpacing: "-0.5px" }}>
+            <h1 style={{ fontSize: 22, fontWeight: 800, margin: "2px 0 4px 0", letterSpacing: "-0.5px", color: "#ffffff" }}>
               {escolaAtual.nome || "Escola Municipal"}
             </h1>
-            <p style={{ fontSize: 12, opacity: 0.9, margin: 0, maxWidth: 600 }}>
+            <p style={{ fontSize: 12, color: "#cbd5e1", margin: 0, maxWidth: 600 }}>
               Acompanhamento contínuo da aprendizagem, nivelamento de turmas, validação de diários docentes e articulação de reforço escolar.
             </p>
           </div>
@@ -449,9 +453,9 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
             <button
               onClick={onVoltarParaRede}
               style={{
-                background: "rgba(255, 255, 255, 0.15)",
-                color: "white",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: "#243144",
+                color: "#cbd5e1",
+                border: "1px solid #33435c",
                 padding: "9px 14px",
                 borderRadius: 8,
                 fontSize: 12,
@@ -469,8 +473,8 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
           <button
             onClick={() => setModalAtendimentoAberto(true)}
             style={{
-              background: "white",
-              color: "#5b21b6",
+              background: "linear-gradient(135deg, #7c3aed 0%, #6366f1 100%)",
+              color: "#ffffff",
               border: "none",
               padding: "9px 16px",
               borderRadius: 8,
@@ -480,7 +484,7 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               display: "flex",
               alignItems: "center",
               gap: 6,
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)"
+              boxShadow: "0 4px 12px rgba(124, 58, 237, 0.35)"
             }}
           >
             <i className="ti ti-user-plus" /> + Atendimento Pedagógico
@@ -489,9 +493,9 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
           <button
             onClick={() => setModalReforcoAberto(true)}
             style={{
-              background: "rgba(255, 255, 255, 0.2)",
-              color: "white",
-              border: "1px solid rgba(255, 255, 255, 0.4)",
+              background: "#243144",
+              color: "#cbd5e1",
+              border: "1px solid #33435c",
               padding: "9px 14px",
               borderRadius: 8,
               fontSize: 12,
@@ -508,7 +512,7 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
       </div>
 
       {/* 2. MENU DE NAVEGAÇÃO ENTRE ABAS DA COORDENAÇÃO */}
-      <div style={{ display: "flex", gap: 8, borderBottom: "2px solid #e2e8f0", paddingBottom: 6, overflowX: "auto" }}>
+      <div style={{ display: "flex", gap: 8, borderBottom: "1px solid #2c3b52", paddingBottom: 10, overflowX: "auto" }}>
         {[
           { id: "visao-geral", label: "Visão Geral & Diagnósticos", icon: "dashboard" },
           { id: "alertas", label: `Alunos em Alerta (${metricasPedagogicas.totalEmAlerta})`, icon: "alert-triangle" },
@@ -522,16 +526,17 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
             style={{
               padding: "8px 16px",
               borderRadius: 8,
-              border: "none",
-              background: abaAtiva === tab.id ? "#7c3aed" : "transparent",
-              color: abaAtiva === tab.id ? "white" : "#4b5563",
+              border: abaAtiva === tab.id ? "none" : "1px solid #33435c",
+              background: abaAtiva === tab.id ? "linear-gradient(135deg, #7c3aed 0%, #6366f1 100%)" : "#243144",
+              color: abaAtiva === tab.id ? "white" : "#cbd5e1",
               fontWeight: abaAtiva === tab.id ? 700 : 500,
               fontSize: 13,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               gap: 6,
-              transition: "all 0.2s"
+              transition: "all 0.2s",
+              boxShadow: abaAtiva === tab.id ? "0 4px 12px rgba(124, 58, 237, 0.35)" : "none"
             }}
           >
             <i className={`ti ti-${tab.icon}`} />
@@ -577,10 +582,10 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
           <Card>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <div>
-                <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#1f2937" }}>
-                  <i className="ti ti-books" style={{ color: "#7c3aed", marginRight: 6 }} /> Quadro de Turmas & Nivelamento Pedagógico
+                <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                  <i className="ti ti-books" style={{ color: "#c084fc", marginRight: 6 }} /> Quadro de Turmas & Nivelamento Pedagógico
                 </h3>
-                <p style={{ fontSize: 12, color: "#6b7280", margin: "2px 0 0 0" }}>
+                <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0 0" }}>
                   Distribuição de estudantes, turnos e acompanhamento pedagógico por sala.
                 </p>
               </div>
@@ -593,13 +598,13 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                   <thead>
-                    <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0" }}>
-                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#475569", fontWeight: 600 }}>Turma</th>
-                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#475569", fontWeight: 600 }}>Ano / Série</th>
-                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#475569", fontWeight: 600 }}>Turno</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Alunos</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Média da Sala</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Status Pedagógico</th>
+                    <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
+                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#94a3b8", fontWeight: 600 }}>Turma</th>
+                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#94a3b8", fontWeight: 600 }}>Ano / Série</th>
+                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#94a3b8", fontWeight: 600 }}>Turno</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Alunos</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Média da Sala</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Status Pedagógico</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -607,14 +612,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                       const alunosDaTurma = (alunos || []).filter(a => a.turmaId === t.id || a.turma === t.nome).length;
                       const mediaEstimada = (7.0 + (idx % 3) * 0.5).toFixed(1);
                       return (
-                        <tr key={t.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                          <td style={{ padding: "12px", fontWeight: 600, color: "#1e293b" }}>{t.nome}</td>
-                          <td style={{ padding: "12px", color: "#475569" }}>{t.ano || "Ensino Fundamental"}</td>
-                          <td style={{ padding: "12px", color: "#475569" }}>
+                        <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                          <td style={{ padding: "12px", fontWeight: 600, color: "#ffffff" }}>{t.nome}</td>
+                          <td style={{ padding: "12px", color: "#cbd5e1" }}>{t.ano || "Ensino Fundamental"}</td>
+                          <td style={{ padding: "12px" }}>
                             <Badge color={t.turno === "Manhã" ? "blue" : "amber"}>{t.turno || "Matutino"}</Badge>
                           </td>
-                          <td style={{ padding: "12px", textAlign: "center", fontWeight: 700 }}>{alunosDaTurma || t.capacidade || 25}</td>
-                          <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: Number(mediaEstimada) >= 7.0 ? "#059669" : "#d97706" }}>
+                          <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: "#38bdf8" }}>{alunosDaTurma || t.capacidade || 25}</td>
+                          <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: Number(mediaEstimada) >= 7.0 ? "#34d399" : "#fbbf24" }}>
                             {mediaEstimada}
                           </td>
                           <td style={{ padding: "12px", textAlign: "center" }}>
@@ -641,14 +646,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
           <Card>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
               <div>
-                <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#991b1b", display: "flex", alignItems: "center", gap: 6 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#f87171", display: "flex", alignItems: "center", gap: 6 }}>
                   <i className="ti ti-alert-triangle" /> Radar de Alunos com Defasagem de Aprendizagem
                 </h3>
-                <p style={{ fontSize: 12, color: "#6b7280", margin: "2px 0 0 0" }}>
+                <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0 0" }}>
                   Estudantes que necessitam de intervenção pedagógica prioritária, reforço escolar ou contato com responsáveis.
                 </p>
               </div>
-              <Btn variant="primary" onClick={() => setModalAtendimentoAberto(true)} style={{ background: "#7c3aed", borderColor: "#7c3aed" }}>
+              <Btn variant="primary" onClick={() => setModalAtendimentoAberto(true)} style={{ background: "linear-gradient(135deg, #7c3aed, #6366f1)", border: "none" }}>
                 <i className="ti ti-plus" /> Registrar Atendimento Pedagógico
               </Btn>
             </div>
@@ -657,24 +662,24 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                   <thead>
-                    <tr style={{ background: "#fef2f2", borderBottom: "2px solid #fecaca" }}>
-                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#991b1b", fontWeight: 600 }}>Estudante</th>
-                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#991b1b", fontWeight: 600 }}>Turma</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#991b1b", fontWeight: 600 }}>Média Atual</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#991b1b", fontWeight: 600 }}>Faltas Apuradas</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#991b1b", fontWeight: 600 }}>Motivo do Alerta</th>
-                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#991b1b", fontWeight: 600 }}>Ação Rápida</th>
+                    <tr style={{ background: "rgba(248, 113, 113, 0.15)", borderBottom: "1px solid rgba(248, 113, 113, 0.3)" }}>
+                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#f87171", fontWeight: 600 }}>Estudante</th>
+                      <th style={{ padding: "10px 12px", textAlign: "left", color: "#f87171", fontWeight: 600 }}>Turma</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#f87171", fontWeight: 600 }}>Média Atual</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#f87171", fontWeight: 600 }}>Faltas Apuradas</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#f87171", fontWeight: 600 }}>Motivo do Alerta</th>
+                      <th style={{ padding: "10px 12px", textAlign: "center", color: "#f87171", fontWeight: 600 }}>Ação Rápida</th>
                     </tr>
                   </thead>
                   <tbody>
                     {alunosEmAlerta.map(aluno => (
-                      <tr key={aluno.id} style={{ borderBottom: "1px solid #fee2e2" }}>
-                        <td style={{ padding: "12px", fontWeight: 600, color: "#1e293b" }}>{aluno.nome}</td>
-                        <td style={{ padding: "12px", color: "#475569" }}>{aluno.turma || aluno.ano || "1º Ano A"}</td>
-                        <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: aluno.mediaAtual < 6.0 ? "#dc2626" : "#059669" }}>
+                      <tr key={aluno.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                        <td style={{ padding: "12px", fontWeight: 600, color: "#ffffff" }}>{aluno.nome}</td>
+                        <td style={{ padding: "12px", color: "#cbd5e1" }}>{aluno.turma || aluno.ano || "1º Ano A"}</td>
+                        <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: aluno.mediaAtual < 6.0 ? "#f87171" : "#34d399" }}>
                           {aluno.mediaAtual}
                         </td>
-                        <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: aluno.faltas >= 10 ? "#dc2626" : "#475569" }}>
+                        <td style={{ padding: "12px", textAlign: "center", fontWeight: 700, color: aluno.faltas >= 10 ? "#f87171" : "#cbd5e1" }}>
                           {aluno.faltas} faltas
                         </td>
                         <td style={{ padding: "12px", textAlign: "center" }}>
@@ -689,10 +694,10 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                               setModalAtendimentoAberto(true);
                             }}
                             style={{
-                              background: "#7c3aed",
+                              background: "linear-gradient(135deg, #7c3aed, #6366f1)",
                               color: "white",
                               border: "none",
-                              padding: "5px 10px",
+                              padding: "5px 12px",
                               borderRadius: 6,
                               fontSize: 11,
                               fontWeight: 600,
@@ -714,24 +719,24 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
 
           {/* Histórico de Atendimentos & Intervenções Registradas */}
           <Card>
-            <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 16px 0", color: "#1f2937" }}>
-              <i className="ti ti-clipboard-list" style={{ color: "#7c3aed", marginRight: 6 }} /> Registro de Atendimentos Pedagógicos & Encaminhamentos
+            <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 16px 0", color: "#ffffff" }}>
+              <i className="ti ti-clipboard-list" style={{ color: "#c084fc", marginRight: 6 }} /> Registro de Atendimentos Pedagógicos & Encaminhamentos
             </h3>
 
             {atendimentos && atendimentos.length > 0 ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {atendimentos.map(at => (
-                  <div key={at.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 14, background: "#f8fafc" }}>
+                  <div key={at.id} style={{ border: "1px solid #33435c", borderRadius: 8, padding: 14, background: "#243144" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6, flexWrap: "wrap", gap: 8 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{ fontWeight: 700, color: "#1e293b", fontSize: 14 }}>{at.alunoNome}</span>
+                        <span style={{ fontWeight: 700, color: "#ffffff", fontSize: 14 }}>{at.alunoNome}</span>
                         <Badge color="blue">{at.tipo}</Badge>
                         <Badge color={at.responsavelPresente === "Sim" ? "green" : "gray"}>
                           {at.responsavelPresente === "Sim" ? "Com Responsável" : "Individual"}
                         </Badge>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{ fontSize: 12, color: "#64748b" }}>Data: {at.dataAtendimento}</span>
+                        <span style={{ fontSize: 12, color: "#94a3b8" }}>Data: {at.dataAtendimento}</span>
                         <button
                           onClick={async () => {
                             if (window.confirm("Excluir este registro de atendimento?")) {
@@ -739,15 +744,15 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                               recarregarAtendimentos();
                             }
                           }}
-                          style={{ border: "none", background: "none", color: "#ef4444", cursor: "pointer" }}
+                          style={{ border: "none", background: "none", color: "#f87171", cursor: "pointer" }}
                         >
                           <i className="ti ti-trash" />
                         </button>
                       </div>
                     </div>
-                    <p style={{ fontSize: 13, color: "#334155", margin: "4px 0 8px 0" }}>{at.descricao}</p>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#5b21b6" }}>
-                      Encaminhamento / Providência: <span>{at.encaminhamento}</span>
+                    <p style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0 8px 0" }}>{at.descricao}</p>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#c084fc" }}>
+                      Encaminhamento / Providência: <span style={{ color: "#ffffff" }}>{at.encaminhamento}</span>
                     </div>
                   </div>
                 ))}
@@ -764,14 +769,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
             <div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#1f2937" }}>
-                <i className="ti ti-file-certificate" style={{ color: "#7c3aed", marginRight: 6 }} /> Painel de Validação de Planos de Aula & Diários
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-file-certificate" style={{ color: "#c084fc", marginRight: 6 }} /> Painel de Validação de Planos de Aula & Diários
               </h3>
-              <p style={{ fontSize: 12, color: "#6b7280", margin: "2px 0 0 0" }}>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0 0" }}>
                 Supervisão dos planejamentos de ensino dos professores e emissão de pareceres formativos.
               </p>
             </div>
-            <Btn variant="primary" onClick={() => navigate("/professores")} style={{ background: "#7c3aed", borderColor: "#7c3aed" }}>
+            <Btn variant="primary" onClick={() => navigate("/professores")} style={{ background: "linear-gradient(135deg, #7c3aed, #6366f1)", border: "none" }}>
               <i className="ti ti-users" /> Quadro de Professores
             </Btn>
           </div>
@@ -780,13 +785,13 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0" }}>
-                    <th style={{ padding: "10px 12px", textAlign: "left", color: "#475569", fontWeight: 600 }}>Professor(a)</th>
-                    <th style={{ padding: "10px 12px", textAlign: "left", color: "#475569", fontWeight: 600 }}>Disciplina / Formação</th>
-                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Carga Horária</th>
-                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Status do Plano</th>
-                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Parecer do Coordenador</th>
-                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#475569", fontWeight: 600 }}>Ação</th>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
+                    <th style={{ padding: "10px 12px", textAlign: "left", color: "#94a3b8", fontWeight: 600 }}>Professor(a)</th>
+                    <th style={{ padding: "10px 12px", textAlign: "left", color: "#94a3b8", fontWeight: 600 }}>Disciplina / Formação</th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Carga Horária</th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Status do Plano</th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Parecer do Coordenador</th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", color: "#94a3b8", fontWeight: 600 }}>Ação</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -794,16 +799,16 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                     const planoExistente = (planos || []).find(pl => pl.professorId === prof.id);
                     const statusPlano = planoExistente?.status || (index % 3 === 0 ? "Validado" : index % 3 === 1 ? "Em Análise" : "Pendente");
                     return (
-                      <tr key={prof.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "12px", fontWeight: 600, color: "#1e293b" }}>{prof.nome}</td>
-                        <td style={{ padding: "12px", color: "#475569" }}>{prof.disciplina || prof.formacao || "Polivalente / Geral"}</td>
-                        <td style={{ padding: "12px", textAlign: "center" }}>{prof.cargaHoraria || 25}h semanais</td>
+                      <tr key={prof.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                        <td style={{ padding: "12px", fontWeight: 600, color: "#ffffff" }}>{prof.nome}</td>
+                        <td style={{ padding: "12px", color: "#cbd5e1" }}>{prof.disciplina || prof.formacao || "Polivalente / Geral"}</td>
+                        <td style={{ padding: "12px", textAlign: "center", color: "#cbd5e1" }}>{prof.cargaHoraria || 25}h semanais</td>
                         <td style={{ padding: "12px", textAlign: "center" }}>
                           <Badge color={statusPlano === "Validado" ? "green" : statusPlano === "Em Análise" ? "amber" : "red"}>
                             {statusPlano}
                           </Badge>
                         </td>
-                        <td style={{ padding: "12px", textAlign: "center", color: "#475569", fontSize: 12 }}>
+                        <td style={{ padding: "12px", textAlign: "center", color: "#cbd5e1", fontSize: 12 }}>
                           {planoExistente?.parecerCoordenador || "Planejamento alinhado às diretrizes da BNCC."}
                         </td>
                         <td style={{ padding: "12px", textAlign: "center" }}>
@@ -815,10 +820,10 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                               setModalParecerAberto(true);
                             }}
                             style={{
-                              background: "#7c3aed",
+                              background: "linear-gradient(135deg, #7c3aed, #6366f1)",
                               color: "white",
                               border: "none",
-                              padding: "5px 10px",
+                              padding: "5px 12px",
                               borderRadius: 6,
                               fontSize: 11,
                               fontWeight: 600,
@@ -845,14 +850,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
             <div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#1f2937" }}>
-                <i className="ti ti-users-group" style={{ color: "#7c3aed", marginRight: 6 }} /> Grupos de Reforço Escolar no Contraturno
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-users-group" style={{ color: "#c084fc", marginRight: 6 }} /> Grupos de Reforço Escolar no Contraturno
               </h3>
-              <p style={{ fontSize: 12, color: "#6b7280", margin: "2px 0 0 0" }}>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0 0" }}>
                 Aulas de recomposição de aprendizagem focadas em alfabetização, fluência leitora e raciocínio lógico-matemático.
               </p>
             </div>
-            <Btn variant="primary" onClick={() => setModalReforcoAberto(true)} style={{ background: "#7c3aed", borderColor: "#7c3aed" }}>
+            <Btn variant="primary" onClick={() => setModalReforcoAberto(true)} style={{ background: "linear-gradient(135deg, #7c3aed, #6366f1)", border: "none" }}>
               <i className="ti ti-plus" /> Nova Turma de Reforço
             </Btn>
           </div>
@@ -860,7 +865,7 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
           {gruposReforco && gruposReforco.length > 0 ? (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
               {gruposReforco.map(g => (
-                <div key={g.id} style={{ border: "1px solid #e2e8f0", borderRadius: 10, padding: 16, background: "#faf5ff" }}>
+                <div key={g.id} style={{ border: "1px solid #33435c", borderRadius: 10, padding: 16, background: "#243144" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                     <Badge color="purple">{g.disciplina}</Badge>
                     <button
@@ -870,17 +875,17 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
                           recarregarReforco();
                         }
                       }}
-                      style={{ border: "none", background: "none", color: "#ef4444", cursor: "pointer" }}
+                      style={{ border: "none", background: "none", color: "#f87171", cursor: "pointer" }}
                     >
                       <i className="ti ti-trash" />
                     </button>
                   </div>
-                  <h4 style={{ margin: "0 0 6px 0", fontSize: 15, fontWeight: 700, color: "#4c1d95" }}>{g.nome}</h4>
-                  <div style={{ fontSize: 12, color: "#6b7280", display: "flex", flexDirection: "column", gap: 4 }}>
-                    <div>👨‍🏫 Professor(a): <b>{g.professorNome}</b></div>
-                    <div>⏰ Horário: <b>{g.horario}</b></div>
-                    <div>🎯 Meta: <b>{g.metaAprendizagem}</b></div>
-                    <div>👥 Vagas Preenchidas: <b>{g.alunosInscritos || 12} / {g.vagas || 15}</b></div>
+                  <h4 style={{ margin: "0 0 6px 0", fontSize: 15, fontWeight: 700, color: "#ffffff" }}>{g.nome}</h4>
+                  <div style={{ fontSize: 12, color: "#cbd5e1", display: "flex", flexDirection: "column", gap: 4 }}>
+                    <div>👨‍🏫 Professor(a): <b style={{ color: "#ffffff" }}>{g.professorNome}</b></div>
+                    <div>⏰ Horário: <b style={{ color: "#ffffff" }}>{g.horario}</b></div>
+                    <div>🎯 Meta: <b style={{ color: "#38bdf8" }}>{g.metaAprendizagem}</b></div>
+                    <div>👥 Vagas Preenchidas: <b style={{ color: "#34d399" }}>{g.alunosInscritos || 12} / {g.vagas || 15}</b></div>
                   </div>
                 </div>
               ))}
@@ -896,14 +901,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
             <div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#1f2937" }}>
-                <i className="ti ti-notebook" style={{ color: "#7c3aed", marginRight: 6 }} /> Registro Digital de Conselhos de Classe & Reuniões
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#ffffff" }}>
+                <i className="ti ti-notebook" style={{ color: "#c084fc", marginRight: 6 }} /> Registro Digital de Conselhos de Classe & Reuniões
               </h3>
-              <p style={{ fontSize: 12, color: "#6b7280", margin: "2px 0 0 0" }}>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0 0" }}>
                 Atas de avaliação diagnóstica e deliberações pedagógicas realizadas com os docentes.
               </p>
             </div>
-            <Btn variant="primary" onClick={() => setModalConselhoAberto(true)} style={{ background: "#7c3aed", borderColor: "#7c3aed" }}>
+            <Btn variant="primary" onClick={() => setModalConselhoAberto(true)} style={{ background: "linear-gradient(135deg, #7c3aed, #6366f1)", border: "none" }}>
               <i className="ti ti-plus" /> Lavrar Nova Ata de Conselho
             </Btn>
           </div>
@@ -911,19 +916,19 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
           {conselhos && conselhos.length > 0 ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {conselhos.map(c => (
-                <div key={c.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 16, background: "#f8fafc" }}>
+                <div key={c.id} style={{ border: "1px solid #33435c", borderRadius: 8, padding: 16, background: "#243144" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                       <Badge color="blue">{c.bimestre}</Badge>
-                      <span style={{ fontWeight: 700, fontSize: 14, color: "#1e293b" }}>Turma: {c.turma}</span>
+                      <span style={{ fontWeight: 700, fontSize: 14, color: "#ffffff" }}>Turma: {c.turma}</span>
                     </div>
-                    <span style={{ fontSize: 12, color: "#64748b" }}>Data da Reunião: {c.data}</span>
+                    <span style={{ fontSize: 12, color: "#94a3b8" }}>Data da Reunião: {c.data}</span>
                   </div>
-                  <div style={{ fontSize: 13, color: "#334155", marginBottom: 6 }}>
+                  <div style={{ fontSize: 13, color: "#cbd5e1", marginBottom: 6 }}>
                     <b>Deliberações Principais:</b> {c.pontosPrincipais}
                   </div>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#5b21b6" }}>
-                    <b>Encaminhamentos Finais:</b> {c.encaminhamentos}
+                  <div style={{ fontSize: 12, fontWeight: 600, color: "#c084fc" }}>
+                    <b>Encaminhamentos Finais:</b> <span style={{ color: "#ffffff" }}>{c.encaminhamentos}</span>
                   </div>
                 </div>
               ))}
@@ -971,14 +976,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               </Select>
             </div>
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#4b5563", marginBottom: 4 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#cbd5e1", marginBottom: 4 }}>
                 Descrição do Atendimento e Observações *
               </label>
               <textarea
                 value={formAtendimento.descricao}
                 onChange={e => setFormAtendimento({ ...formAtendimento, descricao: e.target.value })}
                 rows={3}
-                style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #d1d5db", fontSize: 13, outline: "none" }}
+                style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #33435c", background: "#161f2e", color: "#ffffff", fontSize: 13, outline: "none", boxSizing: "border-box" }}
                 placeholder="Descreva a conversa realizada, dificuldades identificadas e acordos estabelecidos..."
               />
             </div>
@@ -1011,14 +1016,14 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               <option value="Pendente">Necessita Adequações</option>
             </Select>
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#4b5563", marginBottom: 4 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#cbd5e1", marginBottom: 4 }}>
                 Parecer e Recomendações do Coordenador
               </label>
               <textarea
                 value={parecerTexto}
                 onChange={e => setParecerTexto(e.target.value)}
                 rows={4}
-                style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #d1d5db", fontSize: 13, outline: "none" }}
+                style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #33435c", background: "#161f2e", color: "#ffffff", fontSize: 13, outline: "none", boxSizing: "border-box" }}
                 placeholder="Insira as orientações pedagógicas, elogios ou pontos de melhoria no planejamento..."
               />
             </div>
@@ -1106,26 +1111,26 @@ export default function CoordenadorDashboard({ escolaId, onVoltarParaRede }) {
               />
             </div>
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#4b5563", marginBottom: 4 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#cbd5e1", marginBottom: 4 }}>
                 Deliberações Principais & Diagnóstico da Turma *
               </label>
               <textarea
                 value={formConselho.pontosPrincipais}
                 onChange={e => setFormConselho({ ...formConselho, pontosPrincipais: e.target.value })}
                 rows={3}
-                style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #d1d5db", fontSize: 13, outline: "none" }}
+                style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #33435c", background: "#161f2e", color: "#ffffff", fontSize: 13, outline: "none", boxSizing: "border-box" }}
                 placeholder="Resumo da discussão dos professores sobre o desempenho da turma..."
               />
             </div>
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#4b5563", marginBottom: 4 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#cbd5e1", marginBottom: 4 }}>
                 Encaminhamentos e Prazos Estabelecidos
               </label>
               <textarea
                 value={formConselho.encaminhamentos}
                 onChange={e => setFormConselho({ ...formConselho, encaminhamentos: e.target.value })}
                 rows={2}
-                style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #d1d5db", fontSize: 13, outline: "none" }}
+                style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #33435c", background: "#161f2e", color: "#ffffff", fontSize: 13, outline: "none", boxSizing: "border-box" }}
                 placeholder="Encaminhamentos para reforço, reuniões com pais e adaptações curriculares..."
               />
             </div>

@@ -135,26 +135,28 @@ export default function EstoqueAlimentacao({
                 width: "100%",
                 padding: "9px 12px 9px 36px",
                 borderRadius: 8,
-                border: "1px solid #d1d5db",
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#ffffff",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#94a3b8" }} />
           </div>
 
           <select
             value={filtroCategoria}
             onChange={(e) => setFiltroCategoria(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #33435c", fontSize: 13, background: "#1e293b", color: "#ffffff" }}
           >
-            <option value="">Todas as Categorias</option>
-            <option value="Não Perecíveis">Não Perecíveis</option>
-            <option value="Carnes & Frios">Carnes & Frios</option>
-            <option value="Hortifrúti & Frutas">Hortifrúti & Frutas</option>
-            <option value="Laticínios">Laticínios</option>
-            <option value="Panificação & Biscoitos">Panificação & Biscoitos</option>
-            <option value="Temperos & Óleos">Temperos & Óleos</option>
+            <option value="" style={{ background: "#1e293b", color: "#94a3b8" }}>Todas as Categorias</option>
+            <option value="Não Perecíveis" style={{ background: "#1e293b", color: "#ffffff" }}>Não Perecíveis</option>
+            <option value="Carnes & Frios" style={{ background: "#1e293b", color: "#ffffff" }}>Carnes & Frios</option>
+            <option value="Hortifrúti & Frutas" style={{ background: "#1e293b", color: "#ffffff" }}>Hortifrúti & Frutas</option>
+            <option value="Laticínios" style={{ background: "#1e293b", color: "#ffffff" }}>Laticínios</option>
+            <option value="Panificação & Biscoitos" style={{ background: "#1e293b", color: "#ffffff" }}>Panificação & Biscoitos</option>
+            <option value="Temperos & Óleos" style={{ background: "#1e293b", color: "#ffffff" }}>Temperos & Óleos</option>
           </select>
         </div>
 
@@ -171,7 +173,7 @@ export default function EstoqueAlimentacao({
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                   <th style={{ padding: "12px 16px" }}>Alimento / Produto</th>
                   <th style={{ padding: "12px 16px" }}>Categoria</th>
                   <th style={{ padding: "12px 16px" }}>Saldo em Estoque</th>
@@ -191,42 +193,42 @@ export default function EstoqueAlimentacao({
                   const isVencido = dVal && dVal < hoje;
 
                   return (
-                    <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                    <tr key={item.id} style={{ borderBottom: "1px solid #243144" }}>
                       <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#1e293b" }}>{item.nome}</div>
-                        <div style={{ fontSize: 11, color: "#64748b" }}>Unidade: {item.unidade}</div>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{item.nome}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Unidade: {item.unidade}</div>
                       </td>
                       <td style={{ padding: "12px 16px" }}>
                         <Badge color="blue">{item.categoria}</Badge>
                       </td>
                       <td style={{ padding: "12px 16px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ fontSize: 15, fontWeight: 700, color: isBaixo ? "#dc2626" : "#059669" }}>
+                          <span style={{ fontSize: 15, fontWeight: 700, color: isBaixo ? "#f87171" : "#34d399" }}>
                             {qtd} {item.unidade?.split(" ")[0]}
                           </span>
                           {isBaixo && (
-                            <span title="Estoque abaixo do mínimo!" style={{ color: "#dc2626", fontSize: 13 }}>⚠️</span>
+                            <span title="Estoque abaixo do mínimo!" style={{ color: "#f87171", fontSize: 13 }}>⚠️</span>
                           )}
                         </div>
                       </td>
-                      <td style={{ padding: "12px 16px", color: "#64748b" }}>
+                      <td style={{ padding: "12px 16px", color: "#94a3b8" }}>
                         {min} {item.unidade?.split(" ")[0]}
                       </td>
-                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#475569" }}>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                         {item.localArmazenamento || "Despensa Principal"}
                       </td>
                       <td style={{ padding: "12px 16px", fontSize: 12 }}>
                         {dVal ? (
-                          <div style={{ fontWeight: 600, color: isVencido ? "#dc2626" : "#334155" }}>
+                          <div style={{ fontWeight: 600, color: isVencido ? "#f87171" : "#ffffff" }}>
                             {dVal.toLocaleDateString("pt-BR")}
                             {isVencido && " (Vencido)"}
                           </div>
                         ) : (
-                          <span style={{ color: "#9ca3af" }}>-</span>
+                          <span style={{ color: "#94a3b8" }}>-</span>
                         )}
-                        {item.lote && <div style={{ fontSize: 10, color: "#64748b" }}>Lote: {item.lote}</div>}
+                        {item.lote && <div style={{ fontSize: 10, color: "#94a3b8" }}>Lote: {item.lote}</div>}
                       </td>
-                      <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1e293b" }}>
+                      <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
                         {(qtd * (Number(item.ultimoPreco) || 0)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </td>
                       <td style={{ padding: "12px 16px", textAlign: "right" }}>

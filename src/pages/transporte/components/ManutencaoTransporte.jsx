@@ -159,20 +159,22 @@ export default function ManutencaoTransporte({
               onChange={(e) => setBusca(e.target.value)}
               style={{
                 width: "100%",
-                padding: "9px 12px 9px 36px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
+                padding: "10px 14px 10px 38px",
+                borderRadius: 10,
+                border: "1px solid #2c3b52",
+                background: "#1e293b",
+                color: "#f8fafc",
                 fontSize: 13,
                 outline: "none"
               }}
             />
-            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 11, color: "#9ca3af" }} />
+            <i className="ti ti-search" style={{ position: "absolute", left: 12, top: 12, color: "#64748b" }} />
           </div>
 
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
-            style={{ padding: "9px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, background: "white" }}
+            style={{ padding: "10px 14px", borderRadius: 10, border: "1px solid #2c3b52", fontSize: 13, background: "#1e293b", color: "#f8fafc", outline: "none" }}
           >
             <option value="">Todos os Tipos</option>
             <option value="Preventiva">Preventiva</option>
@@ -183,8 +185,8 @@ export default function ManutencaoTransporte({
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ fontSize: 13, color: "#475569" }}>
-            Total em Manutenções: <strong style={{ color: "#991b1b", fontSize: 15 }}>{totalGastoManutencoes.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+          <div style={{ fontSize: 13, color: "#cbd5e1", background: "#161f2e", padding: "8px 14px", borderRadius: 8, border: "1px solid #2c3b52" }}>
+            Total em Manutenções: <strong style={{ color: "#f87171", fontSize: 15 }}>{totalGastoManutencoes.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
           </div>
           <Btn variant="primary" onClick={abrirNovo}>
             <i className="ti ti-plus" /> Registrar Manutenção
@@ -193,14 +195,14 @@ export default function ManutencaoTransporte({
       </div>
 
       {/* Tabela de Manutenções */}
-      <Card style={{ padding: 0, overflow: "hidden" }}>
+      <Card style={{ padding: 0, overflow: "hidden", background: "#1e293b", border: "1px solid #2c3b52" }}>
         {manutencoesFiltradas.length === 0 ? (
           <EmptyState icon="wrench" texto="Nenhum registro de manutenção veicular encontrado." />
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
                   <th style={{ padding: "12px 16px" }}>Data / Tipo</th>
                   <th style={{ padding: "12px 16px" }}>Veículo</th>
                   <th style={{ padding: "12px 16px" }}>Serviço / Descrição</th>
@@ -213,10 +215,10 @@ export default function ManutencaoTransporte({
                 </tr>
               </thead>
               <tbody>
-                {manutencoesFiltradas.map((m) => (
-                  <tr key={m.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                {manutencoesFiltradas.map((m, idx) => (
+                  <tr key={m.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>
+                      <div style={{ fontWeight: 600, color: "#ffffff" }}>
                         {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
                       </div>
                       <Badge color={m.tipo === "Preventiva" ? "green" : m.tipo === "Corretiva" ? "red" : "blue"}>
@@ -224,35 +226,35 @@ export default function ManutencaoTransporte({
                       </Badge>
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e40af" }}>{m.veiculoPlaca}</div>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>{m.veiculoModelo}</div>
+                      <div style={{ fontWeight: 600, color: "#60a5fa" }}>{m.veiculoPlaca}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{m.veiculoModelo}</div>
                     </td>
                     <td style={{ padding: "12px 16px", maxWidth: 280 }}>
-                      <div style={{ fontWeight: 500, color: "#1e293b" }}>{m.descricao}</div>
+                      <div style={{ fontWeight: 500, color: "#f8fafc" }}>{m.descricao}</div>
                       {m.numeroNota && (
-                        <div style={{ fontSize: 11, color: "#64748b" }}>Doc: {m.numeroNota}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Doc: {m.numeroNota}</div>
                       )}
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#475569" }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
                       {m.fornecedor || "Mecânica da Prefeitura"}
                     </td>
-                    <td style={{ padding: "12px 16px" }}>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
                       {m.kmMomento ? `${Number(m.kmMomento).toLocaleString("pt-BR")} km` : "-"}
                     </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                       {m.proximaRevisaoKm ? (
                         <div>{Number(m.proximaRevisaoKm).toLocaleString("pt-BR")} km</div>
                       ) : null}
                       {m.proximaRevisaoData ? (
-                        <div style={{ color: "#64748b" }}>{new Date(m.proximaRevisaoData + "T00:00:00").toLocaleDateString("pt-BR")}</div>
+                        <div style={{ color: "#94a3b8" }}>{new Date(m.proximaRevisaoData + "T00:00:00").toLocaleDateString("pt-BR")}</div>
                       ) : null}
                       {!m.proximaRevisaoKm && !m.proximaRevisaoData && "-"}
                     </td>
                     <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#991b1b" }}>
+                      <div style={{ fontWeight: 700, color: "#f87171" }}>
                         {(Number(m.custoTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </div>
-                      <div style={{ fontSize: 10, color: "#64748b" }}>
+                      <div style={{ fontSize: 10, color: "#94a3b8" }}>
                         Peças: {(Number(m.custoPecas) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </div>
                     </td>

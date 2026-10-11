@@ -214,19 +214,19 @@ export default function MatriculaOnlinePublica() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#f1f5f9",
+      background: "#161f2e",
       fontFamily: "Inter, system-ui, sans-serif",
-      color: "#1e293b",
+      color: "#ffffff",
       padding: "24px 16px"
     }}>
       {/* Cabeçalho Oficial do Portal */}
       <header style={{
         maxWidth: 900,
         margin: "0 auto 24px",
-        background: "white",
+        background: "#1e293b",
         borderRadius: 16,
         padding: "20px 24px",
-        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+        border: "1px solid #2c3b52",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -235,24 +235,34 @@ export default function MatriculaOnlinePublica() {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{
-            width: 48,
-            height: 48,
-            borderRadius: 12,
-            background: "linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)",
-            color: "white",
+            width: 52,
+            height: 52,
+            borderRadius: 14,
+            background: "#ffffff",
+            border: "2px solid #3b82f6",
+            padding: 3,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 24,
-            boxShadow: "0 4px 12px rgba(29, 78, 216, 0.25)"
+            boxShadow: "0 4px 12px rgba(59, 130, 246, 0.25)",
+            flexShrink: 0
           }}>
-            <i className="ti ti-school" />
+            <img
+              src="/logo.png"
+              alt="SIGEM"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                borderRadius: 10
+              }}
+            />
           </div>
           <div>
-            <h1 style={{ fontSize: 18, fontWeight: 800, color: "#0f172a", margin: 0 }}>
+            <h1 style={{ fontSize: 18, fontWeight: 800, color: "#ffffff", margin: 0 }}>
               SIGEM · Matrícula Escolar Online
             </h1>
-            <p style={{ fontSize: 12, color: "#64748b", margin: 0 }}>
+            <p style={{ fontSize: 12, color: "#94a3b8", margin: 0 }}>
               Secretaria Municipal de Educação · Ano Letivo {new Date().getFullYear()}
             </p>
           </div>
@@ -265,13 +275,13 @@ export default function MatriculaOnlinePublica() {
             style={{
               padding: "8px 16px",
               borderRadius: 8,
-              border: "none",
+              border: modoAba === "solicitar" ? "1px solid #3b82f6" : "1px solid #2c3b52",
               fontSize: 13,
               fontWeight: 600,
               cursor: "pointer",
-              background: modoAba === "solicitar" ? "#1d4ed8" : "#f1f5f9",
-              color: modoAba === "solicitar" ? "white" : "#475569",
-              transition: "all 0.2s"
+              background: modoAba === "solicitar" ? "rgba(59, 130, 246, 0.2)" : "#243144",
+              color: modoAba === "solicitar" ? "#60a5fa" : "#94a3b8",
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-clipboard-plus" style={{ marginRight: 6 }} />
@@ -283,13 +293,13 @@ export default function MatriculaOnlinePublica() {
             style={{
               padding: "8px 16px",
               borderRadius: 8,
-              border: "none",
+              border: modoAba === "consultar" ? "1px solid #3b82f6" : "1px solid #2c3b52",
               fontSize: 13,
               fontWeight: 600,
               cursor: "pointer",
-              background: modoAba === "consultar" ? "#1d4ed8" : "#f1f5f9",
-              color: modoAba === "consultar" ? "white" : "#475569",
-              transition: "all 0.2s"
+              background: modoAba === "consultar" ? "rgba(59, 130, 246, 0.2)" : "#243144",
+              color: modoAba === "consultar" ? "#60a5fa" : "#94a3b8",
+              transition: "all 0.15s ease"
             }}
           >
             <i className="ti ti-search" style={{ marginRight: 6 }} />
@@ -306,18 +316,18 @@ export default function MatriculaOnlinePublica() {
             {solicitacaoSucesso ? (
               /* Tela de Sucesso com Protocolo */
               <div style={{
-                background: "white",
+                background: "#1e293b",
                 borderRadius: 16,
                 padding: 36,
-                boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06)",
+                border: "1px solid #2c3b52",
                 textAlign: "center"
               }}>
                 <div style={{
                   width: 64,
                   height: 64,
                   borderRadius: "50%",
-                  background: "#dcfce7",
-                  color: "#166534",
+                  background: "rgba(52, 211, 153, 0.2)",
+                  color: "#34d399",
                   fontSize: 32,
                   display: "flex",
                   alignItems: "center",
@@ -326,10 +336,10 @@ export default function MatriculaOnlinePublica() {
                 }}>
                   <i className="ti ti-check" />
                 </div>
-                <h2 style={{ fontSize: 22, fontWeight: 800, color: "#0f172a", marginBottom: 6 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 800, color: "#ffffff", marginBottom: 6 }}>
                   Solicitação de Matrícula Enviada com Sucesso!
                 </h2>
-                <p style={{ fontSize: 14, color: "#64748b", maxWidth: 520, margin: "0 auto 24px" }}>
+                <p style={{ fontSize: 14, color: "#94a3b8", maxWidth: 520, margin: "0 auto 24px" }}>
                   A documentação e os dados do estudante foram recebidos pela Secretaria Escolar e estão em processo de triagem.
                 </p>
 
@@ -337,14 +347,14 @@ export default function MatriculaOnlinePublica() {
                 <div style={{
                   maxWidth: 480,
                   margin: "0 auto 24px",
-                  background: "#f8fafc",
+                  background: "#161f2e",
                   borderRadius: 12,
                   padding: 20,
-                  border: "2px dashed #93c5fd",
+                  border: "2px dashed #3b82f6",
                   textAlign: "left"
                 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                    <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#3b82f6" }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#60a5fa" }}>
                       Protocolo de Acompanhamento
                     </span>
                     <span style={{
@@ -352,20 +362,21 @@ export default function MatriculaOnlinePublica() {
                       fontWeight: 700,
                       padding: "2px 8px",
                       borderRadius: 10,
-                      background: "#fef9c3",
-                      color: "#854d0e"
+                      background: "rgba(251, 191, 36, 0.15)",
+                      color: "#fbbf24",
+                      border: "1px solid rgba(251, 191, 36, 0.3)"
                     }}>
                       🟡 Solicitação Pendente
                     </span>
                   </div>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: "#1e40af", fontFamily: "monospace", letterSpacing: 1, marginBottom: 12 }}>
+                  <div style={{ fontSize: 24, fontWeight: 800, color: "#60a5fa", fontFamily: "monospace", letterSpacing: 1, marginBottom: 12 }}>
                     {solicitacaoSucesso.protocolo}
                   </div>
-                  <div style={{ fontSize: 13, color: "#334155", display: "flex", flexDirection: "column", gap: 4 }}>
-                    <div><strong>Aluno:</strong> {solicitacaoSucesso.alunoNome}</div>
-                    <div><strong>Escola Desejada:</strong> {solicitacaoSucesso.escolaNome}</div>
-                    <div><strong>Série / Turno:</strong> {solicitacaoSucesso.serieAno} ({solicitacaoSucesso.serieTurno})</div>
-                    <div><strong>Responsável:</strong> {solicitacaoSucesso.responsavelNome}</div>
+                  <div style={{ fontSize: 13, color: "#cbd5e1", display: "flex", flexDirection: "column", gap: 4 }}>
+                    <div><strong>Aluno:</strong> <span style={{ color: "#ffffff" }}>{solicitacaoSucesso.alunoNome}</span></div>
+                    <div><strong>Escola Desejada:</strong> <span style={{ color: "#ffffff" }}>{solicitacaoSucesso.escolaNome}</span></div>
+                    <div><strong>Série / Turno:</strong> <span style={{ color: "#ffffff" }}>{solicitacaoSucesso.serieAno} ({solicitacaoSucesso.serieTurno})</span></div>
+                    <div><strong>Responsável:</strong> <span style={{ color: "#ffffff" }}>{solicitacaoSucesso.responsavelNome}</span></div>
                   </div>
                 </div>
 
@@ -381,10 +392,10 @@ export default function MatriculaOnlinePublica() {
             ) : (
               /* Formulário em Etapas */
               <div style={{
-                background: "white",
+                background: "#1e293b",
                 borderRadius: 16,
                 padding: "28px",
-                boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06)"
+                border: "1px solid #2c3b52"
               }}>
                 {/* Indicador de Etapas */}
                 <div style={{
@@ -392,7 +403,7 @@ export default function MatriculaOnlinePublica() {
                   gridTemplateColumns: "repeat(5, 1fr)",
                   gap: 8,
                   marginBottom: 28,
-                  borderBottom: "1px solid #f1f5f9",
+                  borderBottom: "1px solid #2c3b52",
                   paddingBottom: 20
                 }}>
                   {[
@@ -419,21 +430,21 @@ export default function MatriculaOnlinePublica() {
                           width: 34,
                           height: 34,
                           borderRadius: "50%",
-                          background: isPassado ? "#22c55e" : isAtivo ? "#1d4ed8" : "#f1f5f9",
-                          color: isPassado || isAtivo ? "white" : "#64748b",
+                          background: isPassado ? "#10b981" : isAtivo ? "#3b82f6" : "#243144",
+                          color: isPassado || isAtivo ? "white" : "#94a3b8",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           fontSize: 14,
                           fontWeight: 700,
-                          transition: "all 0.2s"
+                          transition: "all 0.15s ease"
                         }}>
                           {isPassado ? <i className="ti ti-check" /> : step.num}
                         </div>
                         <span style={{
                           fontSize: 11,
                           fontWeight: isAtivo ? 700 : 500,
-                          color: isAtivo ? "#1d4ed8" : "#64748b"
+                          color: isAtivo ? "#60a5fa" : isPassado ? "#34d399" : "#94a3b8"
                         }}>
                           {step.label}
                         </span>
@@ -447,11 +458,11 @@ export default function MatriculaOnlinePublica() {
                 {/* ETAPA 1: DADOS DO ALUNO */}
                 {etapaAtual === 1 && (
                   <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    <div style={{ borderBottom: "1px solid #f1f5f9", paddingBottom: 8 }}>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+                    <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 8 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>
                         1. Dados do Estudante
                       </h3>
-                      <p style={{ fontSize: 12, color: "#64748b", margin: "2px 0 0" }}>
+                      <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0" }}>
                         Informe as informações básicas da criança ou jovem
                       </p>
                     </div>
@@ -513,11 +524,12 @@ export default function MatriculaOnlinePublica() {
                       </div>
 
                       {/* Deficiência / AEE */}
-                      <div style={{ gridColumn: "span 2", background: "#f8fafc", padding: 14, borderRadius: 10, border: "1px solid #e2e8f0" }}>
-                        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontWeight: 600, fontSize: 13 }}>
+                      <div style={{ gridColumn: "span 2", background: "#161f2e", padding: 14, borderRadius: 10, border: "1px solid #2c3b52" }}>
+                        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>
                           <input
                             type="checkbox"
                             checked={form.alunoPcd}
+                            style={{ accentColor: "#3b82f6" }}
                             onChange={(e) => setForm({ ...form, alunoPcd: e.target.checked })}
                           />
                           <span>O estudante possui alguma deficiência, TEA ou necessidade educacional específica?</span>
@@ -540,11 +552,11 @@ export default function MatriculaOnlinePublica() {
                 {/* ETAPA 2: DADOS DO RESPONSÁVEL LEGAL */}
                 {etapaAtual === 2 && (
                   <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    <div style={{ borderBottom: "1px solid #f1f5f9", paddingBottom: 8 }}>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+                    <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 8 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>
                         2. Dados do Responsável Legal & Endereço
                       </h3>
-                      <p style={{ fontSize: 12, color: "#64748b", margin: "2px 0 0" }}>
+                      <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0" }}>
                         Pai, mãe ou tutor legal responsável pela matrícula
                       </p>
                     </div>
@@ -595,7 +607,7 @@ export default function MatriculaOnlinePublica() {
 
                       {/* Endereço */}
                       <div style={{ gridColumn: "span 2", marginTop: 8 }}>
-                        <h4 style={{ fontSize: 14, fontWeight: 700, color: "#334155", margin: "0 0 10px" }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", margin: "0 0 10px" }}>
                           Endereço Residencial da Família
                         </h4>
                       </div>
@@ -642,11 +654,11 @@ export default function MatriculaOnlinePublica() {
                 {/* ETAPA 3: ESCOLA DESEJADA E SÉRIE */}
                 {etapaAtual === 3 && (
                   <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    <div style={{ borderBottom: "1px solid #f1f5f9", paddingBottom: 8 }}>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+                    <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 8 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>
                         3. Escolha da Unidade Escolar & Série
                       </h3>
-                      <p style={{ fontSize: 12, color: "#64748b", margin: "2px 0 0" }}>
+                      <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0" }}>
                         Selecione a escola municipal e etapa pretendida
                       </p>
                     </div>
@@ -704,11 +716,11 @@ export default function MatriculaOnlinePublica() {
                 {/* ETAPA 4: DOCUMENTOS COMPROBATÓRIOS */}
                 {etapaAtual === 4 && (
                   <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    <div style={{ borderBottom: "1px solid #f1f5f9", paddingBottom: 8 }}>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+                    <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 8 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>
                         4. Documentos & Anexos
                       </h3>
-                      <p style={{ fontSize: 12, color: "#64748b", margin: "2px 0 0" }}>
+                      <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0" }}>
                         Anexe fotos ou PDFs dos documentos comprobatórios para agilizar a aprovação
                       </p>
                     </div>
@@ -718,8 +730,8 @@ export default function MatriculaOnlinePublica() {
                         <div
                           key={idx}
                           style={{
-                            background: docItem.nome ? "#f0fdf4" : "#f8fafc",
-                            border: docItem.nome ? "1px solid #86efac" : "1px solid #e2e8f0",
+                            background: docItem.nome ? "rgba(52, 211, 153, 0.08)" : "#161f2e",
+                            border: docItem.nome ? "1px solid rgba(52, 211, 153, 0.4)" : "1px solid #2c3b52",
                             borderRadius: 10,
                             padding: "12px 16px",
                             display: "flex",
@@ -729,25 +741,26 @@ export default function MatriculaOnlinePublica() {
                           }}
                         >
                           <div>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: "#1e293b" }}>
-                              {docItem.tipo} {docItem.obrigatorio && <span style={{ color: "#ef4444" }}>*</span>}
+                            <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>
+                              {docItem.tipo} {docItem.obrigatorio && <span style={{ color: "#f87171" }}>*</span>}
                             </div>
-                            <div style={{ fontSize: 11, color: docItem.nome ? "#166534" : "#64748b" }}>
+                            <div style={{ fontSize: 11, color: docItem.nome ? "#34d399" : "#94a3b8" }}>
                               {docItem.nome ? `Arquivo: ${docItem.nome}` : "Nenhum arquivo anexado ainda"}
                             </div>
                           </div>
 
                           <label style={{
-                            padding: "6px 12px",
+                            padding: "6px 14px",
                             borderRadius: 6,
-                            background: docItem.nome ? "#22c55e" : "#1d4ed8",
+                            background: docItem.nome ? "#10b981" : "#3b82f6",
                             color: "white",
                             fontSize: 12,
                             fontWeight: 600,
                             cursor: "pointer",
                             display: "inline-flex",
                             alignItems: "center",
-                            gap: 6
+                            gap: 6,
+                            transition: "all 0.15s ease"
                           }}>
                             <i className="ti ti-upload" />
                             {docItem.nome ? "Alterar" : "Anexar"}
@@ -766,46 +779,46 @@ export default function MatriculaOnlinePublica() {
                 {/* ETAPA 5: REVISÃO E ENVIO */}
                 {etapaAtual === 5 && (
                   <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    <div style={{ borderBottom: "1px solid #f1f5f9", paddingBottom: 8 }}>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+                    <div style={{ borderBottom: "1px solid #2c3b52", paddingBottom: 8 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>
                         5. Revisão dos Dados e Confirmação
                       </h3>
-                      <p style={{ fontSize: 12, color: "#64748b", margin: "2px 0 0" }}>
+                      <p style={{ fontSize: 12, color: "#94a3b8", margin: "2px 0 0" }}>
                         Confira as informações antes de finalizar o envio para a Secretaria
                       </p>
                     </div>
 
                     <div style={{
-                      background: "#f8fafc",
+                      background: "#161f2e",
                       borderRadius: 12,
                       padding: 16,
-                      border: "1px solid #e2e8f0",
+                      border: "1px solid #2c3b52",
                       display: "flex",
                       flexDirection: "column",
                       gap: 12,
                       fontSize: 13
                     }}>
                       <div>
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Estudante</span>
-                        <div style={{ fontWeight: 700, color: "#0f172a" }}>{form.alunoNome}</div>
-                        <div style={{ color: "#475569", fontSize: 12 }}>Nascimento: {form.alunoDataNasc} · Sexo: {form.alunoSexo}</div>
+                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Estudante</span>
+                        <div style={{ fontWeight: 700, color: "#ffffff" }}>{form.alunoNome}</div>
+                        <div style={{ color: "#cbd5e1", fontSize: 12 }}>Nascimento: {form.alunoDataNasc} · Sexo: {form.alunoSexo}</div>
                       </div>
 
-                      <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Responsável Legal</span>
-                        <div style={{ fontWeight: 700, color: "#0f172a" }}>{form.responsavelNome} ({form.responsavelParentesco})</div>
-                        <div style={{ color: "#475569", fontSize: 12 }}>WhatsApp: {form.responsavelTelefone} · CPF: {form.responsavelCpf || "Não informado"}</div>
+                      <div style={{ borderTop: "1px solid #2c3b52", paddingTop: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Responsável Legal</span>
+                        <div style={{ fontWeight: 700, color: "#ffffff" }}>{form.responsavelNome} ({form.responsavelParentesco})</div>
+                        <div style={{ color: "#cbd5e1", fontSize: 12 }}>WhatsApp: {form.responsavelTelefone} · CPF: {form.responsavelCpf || "Não informado"}</div>
                       </div>
 
-                      <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Escola & Série Solicitada</span>
-                        <div style={{ fontWeight: 700, color: "#1d4ed8" }}>{form.escolaNome}</div>
-                        <div style={{ color: "#475569", fontSize: 12 }}>{form.serieAno} · Turno {form.serieTurno}</div>
+                      <div style={{ borderTop: "1px solid #2c3b52", paddingTop: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Escola & Série Solicitada</span>
+                        <div style={{ fontWeight: 700, color: "#60a5fa" }}>{form.escolaNome}</div>
+                        <div style={{ color: "#cbd5e1", fontSize: 12 }}>{form.serieAno} · Turno {form.serieTurno}</div>
                       </div>
 
-                      <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#64748b" }}>Endereço</span>
-                        <div style={{ color: "#475569", fontSize: 12 }}>
+                      <div style={{ borderTop: "1px solid #2c3b52", paddingTop: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Endereço</span>
+                        <div style={{ color: "#cbd5e1", fontSize: 12 }}>
                           {form.enderecoRua}, {form.enderecoNumero} - {form.enderecoBairro}, {form.enderecoCidade}/{form.enderecoUf}
                         </div>
                       </div>
@@ -820,7 +833,7 @@ export default function MatriculaOnlinePublica() {
                   alignItems: "center",
                   marginTop: 28,
                   paddingTop: 16,
-                  borderTop: "1px solid #f1f5f9"
+                  borderTop: "1px solid #2c3b52"
                 }}>
                   {etapaAtual > 1 ? (
                     <Btn onClick={handleVoltar}>
@@ -852,16 +865,16 @@ export default function MatriculaOnlinePublica() {
         {/* ABA 2: CONSULTAR STATUS DA SOLICITAÇÃO */}
         {modoAba === "consultar" && (
           <div style={{
-            background: "white",
+            background: "#1e293b",
             borderRadius: 16,
             padding: "28px",
-            boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06)"
+            border: "1px solid #2c3b52"
           }}>
             <div style={{ textAlign: "center", maxWidth: 480, margin: "0 auto 24px" }}>
-              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0f172a", marginBottom: 6 }}>
+              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#ffffff", marginBottom: 6 }}>
                 Acompanhar Solicitação de Matrícula
               </h2>
-              <p style={{ fontSize: 13, color: "#64748b" }}>
+              <p style={{ fontSize: 13, color: "#94a3b8" }}>
                 Informe o código do protocolo recebido ou o CPF do responsável para verificar o status em tempo real.
               </p>
             </div>
@@ -899,39 +912,39 @@ export default function MatriculaOnlinePublica() {
             {/* Resultado da Consulta */}
             {resultadoConsulta && (
               <div style={{
-                background: "#f8fafc",
+                background: "#161f2e",
                 borderRadius: 14,
                 padding: 24,
-                border: "1px solid #e2e8f0",
+                border: "1px solid #2c3b52",
                 maxWidth: 600,
                 margin: "0 auto"
               }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, borderBottom: "1px solid #e2e8f0", paddingBottom: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, borderBottom: "1px solid #2c3b52", paddingBottom: 12 }}>
                   <div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>Protocolo</span>
-                    <div style={{ fontSize: 18, fontWeight: 800, color: "#1e40af", fontFamily: "monospace" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>Protocolo</span>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: "#60a5fa", fontFamily: "monospace" }}>
                       {resultadoConsulta.protocolo}
                     </div>
                   </div>
 
                   <div>
                     {resultadoConsulta.status === "Pendente" && (
-                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "#fef9c3", color: "#854d0e" }}>
+                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", border: "1px solid rgba(251, 191, 36, 0.3)" }}>
                         🟡 Solicitação Pendente
                       </span>
                     )}
                     {resultadoConsulta.status === "Aprovada" && (
-                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "#dcfce7", color: "#166534" }}>
+                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", border: "1px solid rgba(52, 211, 153, 0.3)" }}>
                         🟢 Matrícula Aprovada!
                       </span>
                     )}
                     {resultadoConsulta.status === "Indeferida" && (
-                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "#fee2e2", color: "#991b1b" }}>
+                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "rgba(248, 113, 113, 0.15)", color: "#f87171", border: "1px solid rgba(248, 113, 113, 0.3)" }}>
                         🔴 Solicitação Indeferida
                       </span>
                     )}
                     {resultadoConsulta.status === "Aguardando Correção" && (
-                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "#e0f2fe", color: "#0369a1" }}>
+                      <span style={{ padding: "4px 10px", borderRadius: 12, fontSize: 12, fontWeight: 700, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
                         🔵 Aguardando Correção
                       </span>
                     )}
@@ -939,21 +952,21 @@ export default function MatriculaOnlinePublica() {
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13, marginBottom: 20 }}>
-                  <div><strong>Aluno:</strong> {resultadoConsulta.alunoNome}</div>
-                  <div><strong>Escola:</strong> {resultadoConsulta.escolaNome}</div>
-                  <div><strong>Série / Turno:</strong> {resultadoConsulta.serieAno} ({resultadoConsulta.serieTurno})</div>
+                  <div><strong>Aluno:</strong> <span style={{ color: "#ffffff" }}>{resultadoConsulta.alunoNome}</span></div>
+                  <div><strong>Escola:</strong> <span style={{ color: "#ffffff" }}>{resultadoConsulta.escolaNome}</span></div>
+                  <div><strong>Série / Turno:</strong> <span style={{ color: "#ffffff" }}>{resultadoConsulta.serieAno} ({resultadoConsulta.serieTurno})</span></div>
                   {resultadoConsulta.matriculaOficial && (
-                    <div style={{ background: "#ecfdf5", padding: "8px 12px", borderRadius: 8, color: "#065f46" }}>
+                    <div style={{ background: "rgba(52, 211, 153, 0.15)", padding: "8px 12px", borderRadius: 8, color: "#34d399", border: "1px solid rgba(52, 211, 153, 0.3)" }}>
                       <strong>Nº Oficial de Matrícula:</strong> {resultadoConsulta.matriculaOficial} · <strong>Turma:</strong> {resultadoConsulta.turmaAprovada}
                     </div>
                   )}
                   {resultadoConsulta.motivoIndeferimento && (
-                    <div style={{ background: "#fef2f2", padding: "8px 12px", borderRadius: 8, color: "#991b1b" }}>
+                    <div style={{ background: "rgba(248, 113, 113, 0.15)", padding: "8px 12px", borderRadius: 8, color: "#f87171", border: "1px solid rgba(248, 113, 113, 0.3)" }}>
                       <strong>Motivo:</strong> {resultadoConsulta.motivoIndeferimento}
                     </div>
                   )}
                   {resultadoConsulta.pendenciaDocumental && (
-                    <div style={{ background: "#f0f9ff", padding: "8px 12px", borderRadius: 8, color: "#075985" }}>
+                    <div style={{ background: "rgba(56, 189, 248, 0.15)", padding: "8px 12px", borderRadius: 8, color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
                       <strong>Orientação da Secretaria:</strong> {resultadoConsulta.pendenciaDocumental}
                     </div>
                   )}
@@ -961,17 +974,17 @@ export default function MatriculaOnlinePublica() {
 
                 {/* Histórico / Linha do Tempo */}
                 <div>
-                  <h4 style={{ fontSize: 13, fontWeight: 700, color: "#334155", marginBottom: 8 }}>
+                  <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ffffff", marginBottom: 8 }}>
                     Linha do Tempo do Atendimento:
                   </h4>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {(resultadoConsulta.historicoAnalise || []).map((h, i) => (
-                      <div key={i} style={{ fontSize: 12, background: "white", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", color: "#64748b", fontSize: 11, marginBottom: 2 }}>
-                          <span>{h.status}</span>
+                      <div key={i} style={{ fontSize: 12, background: "#243144", padding: 10, borderRadius: 8, border: "1px solid #33435c" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", color: "#94a3b8", fontSize: 11, marginBottom: 2 }}>
+                          <span style={{ color: "#60a5fa", fontWeight: 600 }}>{h.status}</span>
                           <span>{h.dataHora ? new Date(h.dataHora).toLocaleString("pt-BR") : ""}</span>
                         </div>
-                        <div style={{ color: "#1e293b" }}>{h.mensagem}</div>
+                        <div style={{ color: "#cbd5e1" }}>{h.mensagem}</div>
                       </div>
                     ))}
                   </div>
@@ -984,3 +997,5 @@ export default function MatriculaOnlinePublica() {
     </div>
   );
 }
+
+

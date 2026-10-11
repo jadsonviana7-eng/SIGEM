@@ -108,44 +108,56 @@ export default function Notas() {
 
   return (
     <div>
-      <Card style={{ marginBottom:16 }}>
-        <div style={{ display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end" }}>
-          <div style={{ display:"flex",flexDirection:"column",gap:4 }}>
-            <label style={{ fontSize:12,fontWeight:500,color:"#374151" }}>Turma</label>
-            <select value={turmaSel} onChange={e=>setTurmaSel(e.target.value)}
-              style={{ border:"1px solid #d1d5db",borderRadius:6,padding:"7px 10px",fontSize:13,background:"white",minWidth:120 }}>
+      <Card style={{ marginBottom: 16 }}>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Turma</label>
+            <select
+              value={turmaSel}
+              onChange={e => setTurmaSel(e.target.value)}
+              style={{ border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", minWidth: 140, outline: "none", cursor: "pointer" }}
+            >
               <option value="">Selecione...</option>
-              {turmas.map(t=><option key={t.id} value={t.nome}>{t.nome}</option>)}
+              {turmas.map(t => <option key={t.id} value={t.nome}>{t.nome}</option>)}
             </select>
           </div>
-          <div style={{ display:"flex",flexDirection:"column",gap:4 }}>
-            <label style={{ fontSize:12,fontWeight:500,color:"#374151" }}>Disciplina</label>
-            <select value={discSel} onChange={e=>setDiscSel(e.target.value)}
-              style={{ border:"1px solid #d1d5db",borderRadius:6,padding:"7px 10px",fontSize:13,background:"white",minWidth:150 }}>
-              {DISCIPLINAS.map(d=><option key={d}>{d}</option>)}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Disciplina</label>
+            <select
+              value={discSel}
+              onChange={e => setDiscSel(e.target.value)}
+              style={{ border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", minWidth: 160, outline: "none", cursor: "pointer" }}
+            >
+              {DISCIPLINAS.map(d => <option key={d}>{d}</option>)}
             </select>
           </div>
-          <Btn variant="primary" onClick={salvarTodos} disabled={!turmaSel||salvando} style={{ marginLeft:"auto" }}>
-            <i className="ti ti-device-floppy" /> {salvando?"Salvando...":"Salvar notas"}
+          <Btn variant="primary" onClick={salvarTodos} disabled={!turmaSel || salvando} style={{ marginLeft: "auto" }}>
+            <i className="ti ti-device-floppy" /> {salvando ? "Salvando..." : "Salvar notas"}
           </Btn>
         </div>
-        {salvo && <div style={{ marginTop:10,fontSize:12,color:"#166534",background:"#dcfce7",padding:"6px 10px",borderRadius:6 }}>✓ Notas salvas com sucesso!</div>}
+        {salvo && (
+          <div style={{ marginTop: 12, fontSize: 12, fontWeight: 600, color: "#34d399", background: "rgba(16, 185, 129, 0.15)", border: "1px solid rgba(16, 185, 129, 0.3)", padding: "8px 12px", borderRadius: 8, display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <i className="ti ti-check" /> Notas salvas com sucesso!
+          </div>
+        )}
       </Card>
 
       {!turmaSel ? (
-        <div style={{ textAlign:"center",padding:48,color:"#9ca3af" }}>
-          <i className="ti ti-clipboard-check" style={{ fontSize:40,display:"block",marginBottom:12 }} />
-          <p>Selecione uma turma e disciplina para lançar as notas.</p>
+        <div style={{ textAlign: "center", padding: 48, color: "#94a3b8" }}>
+          <i className="ti ti-clipboard-check" style={{ fontSize: 40, display: "block", marginBottom: 12, color: "#818cf8" }} />
+          <p style={{ fontSize: 13 }}>Selecione uma turma e disciplina para lançar as notas.</p>
         </div>
       ) : (
-        <Card style={{ padding:0,overflow:"auto" }}>
-          <table style={{ width:"100%",borderCollapse:"collapse" }}>
+        <Card style={{ padding: 0, overflow: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr>
-                <th style={{ textAlign:"left",padding:"10px 12px",fontSize:11,fontWeight:600,color:"#888",borderBottom:"1px solid #e5e5e4" }}>Aluno</th>
-                {BIMESTRES_LABELS.map(b=><th key={b} style={{ padding:"10px 12px",fontSize:11,fontWeight:600,color:"#888",borderBottom:"1px solid #e5e5e4",textAlign:"center" }}>{b}</th>)}
-                <th style={{ padding:"10px 12px",fontSize:11,fontWeight:600,color:"#888",borderBottom:"1px solid #e5e5e4",textAlign:"center" }}>Média</th>
-                <th style={{ padding:"10px 12px",fontSize:11,fontWeight:600,color:"#888",borderBottom:"1px solid #e5e5e4" }}>Situação</th>
+              <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                <th style={{ textAlign: "left", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Aluno</th>
+                {BIMESTRES_LABELS.map(b => (
+                  <th key={b} style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1", textAlign: "center" }}>{b}</th>
+                ))}
+                <th style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1", textAlign: "center" }}>Média</th>
+                <th style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Situação</th>
               </tr>
             </thead>
             <tbody>
@@ -154,18 +166,37 @@ export default function Notas() {
                 const media = calcularMedia(n);
                 const sit = situacaoAluno(media);
                 return (
-                  <tr key={a.id} style={{ borderBottom:"1px solid #f3f4f6" }}>
-                    <td style={{ padding:"8px 12px",fontWeight:500,fontSize:13 }}>{a.nome}</td>
-                    {BIMESTRES.map(b=>(
-                      <td key={b} style={{ padding:"6px 8px",textAlign:"center" }}>
-                        <input type="number" min="0" max="10" step="0.1"
-                          value={n[b]??""} onChange={e=>setNota(a.id,b,e.target.value)}
+                  <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s" }}>
+                    <td style={{ padding: "10px 14px", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>{a.nome}</td>
+                    {BIMESTRES.map(b => (
+                      <td key={b} style={{ padding: "6px 8px", textAlign: "center" }}>
+                        <input
+                          type="number"
+                          min="0"
+                          max="10"
+                          step="0.1"
+                          value={n[b] ?? ""}
+                          onChange={e => setNota(a.id, b, e.target.value)}
                           placeholder="—"
-                          style={{ width:54,border:"1px solid #d1d5db",borderRadius:6,padding:"5px 4px",fontSize:13,textAlign:"center",background:"white",fontFamily:"inherit" }} />
+                          style={{
+                            width: 58,
+                            border: "1px solid #33435c",
+                            borderRadius: 8,
+                            padding: "6px 4px",
+                            fontSize: 13,
+                            textAlign: "center",
+                            background: "#243144",
+                            color: "#ffffff",
+                            fontFamily: "inherit",
+                            outline: "none"
+                          }}
+                        />
                       </td>
                     ))}
-                    <td style={{ padding:"8px 12px",textAlign:"center",fontSize:16,fontWeight:700 }}>{media??'—'}</td>
-                    <td style={{ padding:"8px 12px" }}><Badge color={sit.cor}>{sit.label}</Badge></td>
+                    <td style={{ padding: "10px 14px", textAlign: "center", fontSize: 15, fontWeight: 700, color: media !== null ? (media >= 7 ? "#34d399" : media >= 5 ? "#fbbf24" : "#f87171") : "#94a3b8" }}>
+                      {media ?? "—"}
+                    </td>
+                    <td style={{ padding: "10px 14px" }}><Badge color={sit.cor}>{sit.label}</Badge></td>
                   </tr>
                 );
               })}

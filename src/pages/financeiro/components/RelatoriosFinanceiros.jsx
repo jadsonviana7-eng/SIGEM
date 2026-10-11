@@ -55,18 +55,18 @@ export default function RelatoriosFinanceiros({ transacoes, caixas, categorias }
     if (tipoRelatorio === "fluxo") {
       const fluxo = gerarFluxoCaixa();
       return (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
-          <div style={{ background: "#f8fafc", padding: 20, borderRadius: 8, border: "1px solid #e2e8f0" }}>
-            <div style={{ fontSize: 13, color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Total de Receitas</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: "#10b981", marginTop: 8 }}>{formatarMoeda(fluxo.receitas)}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+          <div style={{ background: "rgba(16, 185, 129, 0.1)", padding: 20, borderRadius: 8, border: "1px solid rgba(16, 185, 129, 0.25)" }}>
+            <div style={{ fontSize: 13, color: "#34d399", fontWeight: 600, textTransform: "uppercase" }}>Total de Receitas</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: "#34d399", marginTop: 8 }}>{formatarMoeda(fluxo.receitas)}</div>
           </div>
-          <div style={{ background: "#f8fafc", padding: 20, borderRadius: 8, border: "1px solid #e2e8f0" }}>
-            <div style={{ fontSize: 13, color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>Total de Despesas</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: "#ef4444", marginTop: 8 }}>{formatarMoeda(fluxo.despesas)}</div>
+          <div style={{ background: "rgba(239, 68, 68, 0.1)", padding: 20, borderRadius: 8, border: "1px solid rgba(239, 68, 68, 0.25)" }}>
+            <div style={{ fontSize: 13, color: "#f87171", fontWeight: 600, textTransform: "uppercase" }}>Total de Despesas</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: "#f87171", marginTop: 8 }}>{formatarMoeda(fluxo.despesas)}</div>
           </div>
-          <div style={{ background: fluxo.saldo >= 0 ? "#ecfdf5" : "#fef2f2", padding: 20, borderRadius: 8, border: `1px solid ${fluxo.saldo >= 0 ? "#a7f3d0" : "#fecaca"}` }}>
-            <div style={{ fontSize: 13, color: fluxo.saldo >= 0 ? "#047857" : "#b91c1c", fontWeight: 600, textTransform: "uppercase" }}>Resultado Líquido</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: fluxo.saldo >= 0 ? "#059669" : "#dc2626", marginTop: 8 }}>{formatarMoeda(fluxo.saldo)}</div>
+          <div style={{ background: fluxo.saldo >= 0 ? "rgba(59, 130, 246, 0.12)" : "rgba(239, 68, 68, 0.15)", padding: 20, borderRadius: 8, border: `1px solid ${fluxo.saldo >= 0 ? "rgba(59, 130, 246, 0.3)" : "rgba(239, 68, 68, 0.3)"}` }}>
+            <div style={{ fontSize: 13, color: fluxo.saldo >= 0 ? "#60a5fa" : "#fca5a5", fontWeight: 600, textTransform: "uppercase" }}>Resultado Líquido</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: fluxo.saldo >= 0 ? "#60a5fa" : "#f87171", marginTop: 8 }}>{formatarMoeda(fluxo.saldo)}</div>
           </div>
         </div>
       );
@@ -77,22 +77,22 @@ export default function RelatoriosFinanceiros({ transacoes, caixas, categorias }
     return (
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
         <thead>
-          <tr style={{ borderBottom: "1px solid #e5e7eb", color: "#6b7280" }}>
-            <th style={{ padding: "12px 16px", fontWeight: 500 }}>{tipoRelatorio === "categoria" ? "Categoria" : "Conta / Caixa"}</th>
-            <th style={{ padding: "12px 16px", fontWeight: 500, textAlign: "right" }}>Entradas (Receitas)</th>
-            <th style={{ padding: "12px 16px", fontWeight: 500, textAlign: "right" }}>Saídas (Despesas)</th>
-            <th style={{ padding: "12px 16px", fontWeight: 500, textAlign: "right" }}>Saldo Líquido</th>
+          <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+            <th style={{ padding: "12px 16px", fontWeight: 600 }}>{tipoRelatorio === "categoria" ? "Categoria" : "Conta / Caixa"}</th>
+            <th style={{ padding: "12px 16px", fontWeight: 600, textAlign: "right" }}>Entradas (Receitas)</th>
+            <th style={{ padding: "12px 16px", fontWeight: 600, textAlign: "right" }}>Saídas (Despesas)</th>
+            <th style={{ padding: "12px 16px", fontWeight: 600, textAlign: "right" }}>Saldo Líquido</th>
           </tr>
         </thead>
         <tbody>
           {dados.map(d => {
             const saldo = d.Receita - d.Despesa;
             return (
-              <tr key={d.nome} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1f2937" }}>{d.nome}</td>
-                <td style={{ padding: "12px 16px", textAlign: "right", color: "#10b981", fontWeight: 500 }}>{d.Receita > 0 ? formatarMoeda(d.Receita) : "-"}</td>
-                <td style={{ padding: "12px 16px", textAlign: "right", color: "#ef4444", fontWeight: 500 }}>{d.Despesa > 0 ? formatarMoeda(d.Despesa) : "-"}</td>
-                <td style={{ padding: "12px 16px", textAlign: "right", fontWeight: 700, color: saldo >= 0 ? "#059669" : "#dc2626" }}>{formatarMoeda(saldo)}</td>
+              <tr key={d.nome} style={{ borderBottom: "1px solid #2c3b52" }}>
+                <td style={{ padding: "12px 16px", fontWeight: 600, color: "#f8fafc" }}>{d.nome}</td>
+                <td style={{ padding: "12px 16px", textAlign: "right", color: "#34d399", fontWeight: 600 }}>{d.Receita > 0 ? formatarMoeda(d.Receita) : "-"}</td>
+                <td style={{ padding: "12px 16px", textAlign: "right", color: "#f87171", fontWeight: 600 }}>{d.Despesa > 0 ? formatarMoeda(d.Despesa) : "-"}</td>
+                <td style={{ padding: "12px 16px", textAlign: "right", fontWeight: 800, color: saldo >= 0 ? "#34d399" : "#f87171" }}>{formatarMoeda(saldo)}</td>
               </tr>
             );
           })}
@@ -104,12 +104,12 @@ export default function RelatoriosFinanceiros({ transacoes, caixas, categorias }
   return (
     <Card>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600 }}>Relatórios Financeiros</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>Relatórios Financeiros</h3>
       </div>
 
-      <div style={{ display: "flex", gap: 16, marginBottom: 24, padding: 16, background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", alignItems: "flex-end", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 16, marginBottom: 24, padding: 16, background: "#243144", borderRadius: 8, border: "1px solid #33435c", alignItems: "flex-end", flexWrap: "wrap" }}>
         <div style={{ flex: 1, minWidth: 260 }}>
-          <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: "#374151", marginBottom: 4 }}>Período (Clique na data inicial e arraste até a final)</label>
+          <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#cbd5e1", marginBottom: 4 }}>Período (Clique na data inicial e arraste até a final)</label>
           <DatePicker
             selectsRange={true}
             startDate={startDate}
@@ -119,7 +119,7 @@ export default function RelatoriosFinanceiros({ transacoes, caixas, categorias }
             dateFormat="dd/MM/yyyy"
             isClearable={true}
             placeholderText="Selecione as datas"
-            customInput={<input style={{ border: "1px solid #d1d5db", borderRadius: 6, padding: "7px 10px", fontSize: 13, width: "100%", outline: "none", fontFamily: "inherit" }} />}
+            customInput={<input style={{ border: "1px solid #33435c", borderRadius: 6, padding: "7px 10px", fontSize: 13, width: "100%", outline: "none", fontFamily: "inherit", background: "#1e293b", color: "#ffffff" }} />}
           />
         </div>
         <div style={{ width: 220 }}>

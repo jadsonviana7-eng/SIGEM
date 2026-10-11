@@ -113,8 +113,9 @@ export default function ControleEstoque({
           <button
             onClick={() => window.print()}
             style={{
-              background: "#f8fafc",
-              border: "1px solid #d1d5db",
+              background: "#243144",
+              border: "1px solid #33435c",
+              color: "#cbd5e1",
               padding: "8px 14px",
               borderRadius: 6,
               fontSize: 12,
@@ -139,19 +140,19 @@ export default function ControleEstoque({
         {/* Card Itens Vencidos */}
         <Card style={{ borderLeft: "4px solid #ef4444", padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#991b1b" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#f87171" }}>
               <i className="ti ti-alert-octagon" style={{ marginRight: 4 }} /> Produtos Vencidos
             </span>
             <Badge color="red">{itensVencidos.length}</Badge>
           </div>
           {itensVencidos.length === 0 ? (
-            <div style={{ fontSize: 12, color: "#059669" }}>✓ Nenhum produto vencido na despensa.</div>
+            <div style={{ fontSize: 12, color: "#34d399" }}>✓ Nenhum produto vencido na despensa.</div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#4b5563" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#cbd5e1" }}>
               {itensVencidos.map(i => (
-                <div key={i.id} style={{ display: "flex", justifyContent: "space-between", background: "#fef2f2", padding: "4px 8px", borderRadius: 4 }}>
-                  <span>{i.nome}</span>
-                  <strong style={{ color: "#991b1b" }}>{new Date(i.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</strong>
+                <div key={i.id} style={{ display: "flex", justifyContent: "space-between", background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "4px 8px", borderRadius: 4 }}>
+                  <span style={{ color: "#ffffff" }}>{i.nome}</span>
+                  <strong style={{ color: "#fca5a5" }}>{new Date(i.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</strong>
                 </div>
               ))}
             </div>
@@ -161,19 +162,19 @@ export default function ControleEstoque({
         {/* Card Itens a Vencer em 15 Dias */}
         <Card style={{ borderLeft: "4px solid #f59e0b", padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#92400e" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#fbbf24" }}>
               <i className="ti ti-clock-hour-4" style={{ marginRight: 4 }} /> Validade Próxima (&lt; 15 dias)
             </span>
             <Badge color="amber">{itensVencendo15Dias.length}</Badge>
           </div>
           {itensVencendo15Dias.length === 0 ? (
-            <div style={{ fontSize: 12, color: "#059669" }}>✓ Nenhum produto com validade crítica.</div>
+            <div style={{ fontSize: 12, color: "#34d399" }}>✓ Nenhum produto com validade crítica.</div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#4b5563" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#cbd5e1" }}>
               {itensVencendo15Dias.map(i => (
-                <div key={i.id} style={{ display: "flex", justifyContent: "space-between", background: "#fffbeb", padding: "4px 8px", borderRadius: 4 }}>
-                  <span>{i.nome} ({i.quantidadeAtual} {i.unidade?.split(" ")[0]})</span>
-                  <strong style={{ color: "#b45309" }}>{new Date(i.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</strong>
+                <div key={i.id} style={{ display: "flex", justifyContent: "space-between", background: "rgba(245, 158, 11, 0.15)", border: "1px solid rgba(245, 158, 11, 0.3)", padding: "4px 8px", borderRadius: 4 }}>
+                  <span style={{ color: "#ffffff" }}>{i.nome} ({i.quantidadeAtual} {i.unidade?.split(" ")[0]})</span>
+                  <strong style={{ color: "#fcd34d" }}>{new Date(i.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</strong>
                 </div>
               ))}
             </div>
@@ -183,19 +184,19 @@ export default function ControleEstoque({
         {/* Card Estoque Baixo / Reposição */}
         <Card style={{ borderLeft: "4px solid #3b82f6", padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#1e40af" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#60a5fa" }}>
               <i className="ti ti-package-off" style={{ marginRight: 4 }} /> Necessitam Reposição
             </span>
             <Badge color="blue">{itensCriticos.length}</Badge>
           </div>
           {itensCriticos.length === 0 ? (
-            <div style={{ fontSize: 12, color: "#059669" }}>✓ Estoque de todos os itens em nível seguro.</div>
+            <div style={{ fontSize: 12, color: "#34d399" }}>✓ Estoque de todos os itens em nível seguro.</div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#4b5563" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#cbd5e1" }}>
               {itensCriticos.slice(0, 3).map(i => (
-                <div key={i.id} style={{ display: "flex", justifyContent: "space-between", background: "#eff6ff", padding: "4px 8px", borderRadius: 4 }}>
-                  <span>{i.nome}</span>
-                  <strong style={{ color: "#dc2626" }}>{i.quantidadeAtual} / mín {i.estoqueMinimo}</strong>
+                <div key={i.id} style={{ display: "flex", justifyContent: "space-between", background: "rgba(59, 130, 246, 0.15)", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 8px", borderRadius: 4 }}>
+                  <span style={{ color: "#ffffff" }}>{i.nome}</span>
+                  <strong style={{ color: "#f87171" }}>{i.quantidadeAtual} / mín {i.estoqueMinimo}</strong>
                 </div>
               ))}
             </div>
@@ -205,13 +206,13 @@ export default function ControleEstoque({
 
       {/* Tabela de Conciliação Geral de Estoque */}
       <Card style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ padding: "14px 18px", background: "#f8fafc", borderBottom: "1px solid #e2e8f0", fontWeight: 700, color: "#1f2937", fontSize: 14 }}>
+        <div style={{ padding: "14px 18px", background: "#161f2e", borderBottom: "1px solid #33435c", fontWeight: 700, color: "#ffffff", fontSize: 14 }}>
           Posição Consolidada de Inventário da Despensa
         </div>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
             <thead>
-              <tr style={{ borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+              <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                 <th style={{ padding: "12px 16px" }}>Produto</th>
                 <th style={{ padding: "12px 16px" }}>Categoria</th>
                 <th style={{ padding: "12px 16px" }}>Local de Guarda</th>
@@ -229,20 +230,20 @@ export default function ControleEstoque({
                 const pct = min > 0 ? Math.min(Math.round((qtd / min) * 100), 100) : 100;
 
                 return (
-                  <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1e293b" }}>{item.nome}</td>
-                    <td style={{ padding: "12px 16px" }}>{item.categoria}</td>
-                    <td style={{ padding: "12px 16px", color: "#64748b" }}>{item.localArmazenamento || "Despensa Seca"}</td>
-                    <td style={{ padding: "12px 16px", fontWeight: 700, color: isCritico ? "#dc2626" : "#059669" }}>
+                  <tr key={item.id} style={{ borderBottom: "1px solid #243144" }}>
+                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>{item.nome}</td>
+                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>{item.categoria}</td>
+                    <td style={{ padding: "12px 16px", color: "#94a3b8" }}>{item.localArmazenamento || "Despensa Seca"}</td>
+                    <td style={{ padding: "12px 16px", fontWeight: 700, color: isCritico ? "#f87171" : "#34d399" }}>
                       {qtd} {item.unidade?.split(" ")[0]}
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#64748b" }}>{min} {item.unidade?.split(" ")[0]}</td>
+                    <td style={{ padding: "12px 16px", color: "#94a3b8" }}>{min} {item.unidade?.split(" ")[0]}</td>
                     <td style={{ padding: "12px 16px" }}>
                       <Badge color={isCritico ? "red" : pct < 150 ? "amber" : "green"}>
                         {isCritico ? "Crítico / Repor" : "Adequado"}
                       </Badge>
                     </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
                       {item.dataValidade ? new Date(item.dataValidade + "T00:00:00").toLocaleDateString("pt-BR") : "-"}
                     </td>
                   </tr>
@@ -263,7 +264,7 @@ export default function ControleEstoque({
           larguraMax={720}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <p style={{ fontSize: 13, color: "#4b5563", margin: 0 }}>
+            <p style={{ fontSize: 13, color: "#cbd5e1", margin: 0 }}>
               Insira a contagem física real dos alimentos apurada na despensa. Ao salvar, as quantidades no sistema serão conciliadas com a contagem.
             </p>
 
@@ -273,10 +274,10 @@ export default function ControleEstoque({
               onChange={(e) => setResponsavelBalanco(e.target.value)}
             />
 
-            <div style={{ maxHeight: 380, overflowY: "auto", border: "1px solid #e5e7eb", borderRadius: 8 }}>
+            <div style={{ maxHeight: 380, overflowY: "auto", border: "1px solid #33435c", borderRadius: 8 }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e5e7eb", position: "sticky", top: 0 }}>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", position: "sticky", top: 0, color: "#cbd5e1" }}>
                     <th style={{ padding: "8px 12px", textAlign: "left" }}>Produto</th>
                     <th style={{ padding: "8px 12px", textAlign: "center", width: 120 }}>Saldo Atual</th>
                     <th style={{ padding: "8px 12px", textAlign: "center", width: 140 }}>Contagem Física Real</th>
@@ -284,12 +285,12 @@ export default function ControleEstoque({
                 </thead>
                 <tbody>
                   {itensEstoque.map(i => (
-                    <tr key={i.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                    <tr key={i.id} style={{ borderBottom: "1px solid #243144" }}>
                       <td style={{ padding: "8px 12px" }}>
-                        <strong>{i.nome}</strong>
-                        <div style={{ fontSize: 10, color: "#64748b" }}>{i.categoria} · {i.unidade}</div>
+                        <strong style={{ color: "#ffffff" }}>{i.nome}</strong>
+                        <div style={{ fontSize: 10, color: "#94a3b8" }}>{i.categoria} · {i.unidade}</div>
                       </td>
-                      <td style={{ padding: "8px 12px", textAlign: "center", color: "#64748b" }}>
+                      <td style={{ padding: "8px 12px", textAlign: "center", color: "#cbd5e1" }}>
                         {i.quantidadeAtual}
                       </td>
                       <td style={{ padding: "8px 12px", textAlign: "center" }}>
@@ -302,7 +303,9 @@ export default function ControleEstoque({
                             padding: "6px 8px",
                             textAlign: "center",
                             borderRadius: 6,
-                            border: "1px solid #d1d5db",
+                            border: "1px solid #33435c",
+                            background: "#1e293b",
+                            color: "#ffffff",
                             fontWeight: 600,
                             fontSize: 13
                           }}

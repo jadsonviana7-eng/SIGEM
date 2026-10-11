@@ -13,32 +13,38 @@ export default function AlertasSecretaria({
   const [notificadoSucesso, setNotificadoSucesso] = useState(false);
 
   // 1. Alunos abaixo da frequência mínima (< 75%)
-  const alunosBaixaFreq = alunos.filter((a, idx) => {
-    // Calculado ou mock realístico se banco for pequeno
-    const presenca = a.presencaPct !== undefined ? Number(a.presencaPct) : (88 - ((idx * 7) % 25));
-    return presenca < 75;
+  const alunosBaixaFreq = alunos.filter((a) => {
+    if (a.presencaPct !== undefined && a.presencaPct !== null) {
+      return Number(a.presencaPct) < 75;
+    }
+    if (a.frequencia !== undefined && a.frequencia !== null) {
+      return Number(a.frequencia) < 75;
+    }
+    return false;
   });
-  const countBaixaFreq = Math.max(alunosBaixaFreq.length, 37);
+  const countBaixaFreq = alunosBaixaFreq.length;
 
   // 2. Turmas que não fecharam notas do bimestre
-  const turmasPendentesNotas = turmas.filter((t, idx) => {
-    return t.fechadoNotas !== true || idx % 2 === 0;
+  const turmasPendentesNotas = turmas.filter((t) => {
+    return t.fechadoNotas !== true && t.fechado !== true && t.statusFechamento !== "Fechado";
   });
-  const countTurmasPendentes = Math.max(turmasPendentesNotas.length, 12);
+  const countTurmasPendentes = turmasPendentesNotas.length;
 
-  // 3. Escolas com cadernetas / diários pendentes
-  const escolasCadernetasPendentes = escolas.filter((e, idx) => idx % 3 === 0);
-  const countEscolasPendentes = Math.max(escolasCadernetasPendentes.length, 5);
+  // 3. Escolas com cadernetas / diários pendentes (baseado nas turmas da escola)
+  const idsEscolasComPendencias = new Set(turmasPendentesNotas.map((t) => t.escolaId).filter(Boolean));
+  const escolasCadernetasPendentes = escolas.filter((e) => idsEscolasComPendencias.has(e.id));
+  const countEscolasPendentes = escolasCadernetasPendentes.length;
 
-  // 4. Alunos sem documentação completa (certidão, NIS, cartão de vacina)
-  const alunosSemDocs = alunos.filter((a, idx) => {
-    return !a.certidaoNascimento || !a.cpf || idx % 4 === 0;
+  // 4. Alunos sem documentação básica completa (CPF ou Certidão / Registro Civil)
+  const alunosSemDocs = alunos.filter((a) => {
+    return !a.cpf || (!a.registroCivil && !a.certidaoNascimento);
   });
-  const countAlunosSemDocs = Math.max(alunosSemDocs.length, 18);
+  const countAlunosSemDocs = alunosSemDocs.length;
 
-  // 5. Professores com diários de classe em atraso
-  const professoresDiarioAtraso = professores.filter((p, idx) => idx % 4 === 0);
-  const countProfDiarioAtraso = Math.max(professoresDiarioAtraso.length, 3);
+  // 5. Professores com turmas pendentes de fechamento
+  const nomesProfsPendentes = new Set(turmasPendentesNotas.map((t) => t.professor).filter(Boolean));
+  const professoresDiarioAtraso = professores.filter((p) => nomesProfsPendentes.has(p.nome) || p.diarioAtraso === true);
+  const countProfDiarioAtraso = professoresDiarioAtraso.length;
 
   const listaAlertas = [
     {
@@ -46,25 +52,22 @@ export default function AlertasSecretaria({
       tipo: "danger",
       icone: "ti ti-user-exclamation",
       titulo: `${countBaixaFreq} alunos abaixo da frequência mínima`,
-      subtitulo: "Frequência escolar inferior a 75% — risco de evasão (LDB / Conselho Tutelar)",
+      subtitulo: countBaixaFreq > 0 
+        ? "Frequência escolar inferior a 75% — risco de evasão (LDB / Conselho Tutelar)"
+        : "Nenhum aluno em infrequência crítica registrada na rede escolar (< 75%)",
       count: countBaixaFreq,
-      corDestaque: "#dc2626",
-      bgDestaque: "#fef2f2",
-      borda: "#fecaca",
+      corDestaque: "#ef4444",
+      bgDestaque: "rgba(239, 68, 68, 0.08)",
+      borda: "rgba(239, 68, 68, 0.25)",
       acaoTexto: "Ver Alunos & Notificar",
       detalhes: {
         titulo: "Alunos com Infrequência Crítica (< 75%)",
         descricao: "Estudantes em situação de risco de abandono ou perda de benefício social por falta reiterada.",
-        itens: (alunos.length > 0 ? alunos.slice(0, 10) : [
-          { nome: "Lucas Gabriel Santos da Silva", turma: "5º Ano A", escola: "E.M. Senador Teotônio Vilela", faltas: 14, freq: "68%" },
-          { nome: "Ana Cecília de Oliveira Lima", turma: "3º Ano B", escola: "E.M. Aloísio Ernande Brandão", faltas: 12, freq: "71%" },
-          { nome: "Guilherme Henrique Ferreira", turma: "7º Ano C", escola: "E.M. São Cristóvão", faltas: 16, freq: "64%" },
-          { nome: "Rafaela Maria dos Santos", turma: "4º Ano A", escola: "E.M. Cleto Campelo", faltas: 11, freq: "73%" }
-        ]).map((item, idx) => ({
+        itens: (alunosBaixaFreq.length > 0 ? alunosBaixaFreq.slice(0, 15) : []).map((item, idx) => ({
           nome: item.nome || `Aluno em Risco ${idx + 1}`,
-          turma: item.turma || "5º Ano B",
-          escola: item.escola || "Escola Municipal da Rede",
-          detalhe: item.faltas ? `${item.faltas} faltas acumuladas (${item.freq})` : "Taxa de presença: 69%"
+          turma: item.turma || item.ano || "Turma Municipal",
+          escola: item.escolaNome || (escolas.find(e => e.id === item.escolaId)?.nome) || "Escola Municipal",
+          detalhe: item.faltas ? `${item.faltas} faltas acumuladas (${item.presencaPct || item.frequencia}%)` : `Taxa de presença: ${item.presencaPct || item.frequencia || 0}%`
         }))
       }
     },
@@ -72,26 +75,25 @@ export default function AlertasSecretaria({
       id: "fechamento_notas",
       tipo: "warning",
       icone: "ti ti-clipboard-x",
-      titulo: `${countTurmasPendentes} turmas ainda não fecharam notas`,
-      subtitulo: "Pendência no lançamento de médias bimestrais e atas de conselho de classe",
+      titulo: `${countTurmasPendentes} turmas com notas pendentes`,
+      subtitulo: "Prazo de fechamento: até o término do 1º Bimestre (Conforme Calendário SEMED)",
       count: countTurmasPendentes,
-      corDestaque: "#d97706",
-      bgDestaque: "#fffbeb",
-      borda: "#fde68a",
+      corDestaque: "#f59e0b",
+      bgDestaque: "rgba(245, 158, 11, 0.08)",
+      borda: "rgba(245, 158, 11, 0.25)",
       acaoTexto: "Cobrar Fechamento",
       detalhes: {
         titulo: "Turmas com Fechamento de Bimestre Pendente",
-        descricao: "Turmas cujos diários eletrônicos ainda não foram homologados pela coordenação.",
-        itens: (turmas.length > 0 ? turmas.slice(0, 8) : [
-          { nome: "6º Ano A — Matutino", escola: "E.M. Senador Teotônio Vilela", detalhe: "Pendente: Notas de Matemática e Ciências" },
-          { nome: "8º Ano B — Vespertino", escola: "E.M. Aloísio Ernande Brandão", detalhe: "Pendente: Conselho de Classe" },
-          { nome: "4º Ano C — Integral", escola: "E.M. Cleto Campelo", detalhe: "Pendente: Fechamento do 2º Bimestre" }
-        ]).map((item, idx) => ({
-          nome: item.nome || `Turma ${idx + 1}`,
-          turma: item.serie || item.ano || "Fundamental",
-          escola: item.escola || "Escola da Rede",
-          detalhe: item.detalhe || "Aguardando lançamento docente"
-        }))
+        descricao: "Turmas com notas ou diários eletrônicos em fase de lançamento docente / homologação pela coordenação.",
+        itens: (turmasPendentesNotas.length > 0 ? turmasPendentesNotas.slice(0, 15) : []).map((item, idx) => {
+          const escNome = (escolas.find(e => e.id === item.escolaId)?.nome) || "Escola Municipal";
+          return {
+            nome: item.nome || `Turma ${idx + 1}`,
+            turma: item.serie || item.ano || item.turno || "Fundamental",
+            escola: escNome,
+            detalhe: `Professor(a): ${item.professor || "Regente"} · Prazo: Fim do Bimestre Letivo`
+          };
+        })
       }
     },
     {
@@ -99,25 +101,24 @@ export default function AlertasSecretaria({
       tipo: "purple",
       icone: "ti ti-notebook",
       titulo: `${countEscolasPendentes} escolas com cadernetas pendentes`,
-      subtitulo: "Diários de classe eletrônicos aguardando validação final da SEMED",
+      subtitulo: "Unidades escolares com registros ou diários aguardando homologação final",
       count: countEscolasPendentes,
-      corDestaque: "#7c3aed",
-      bgDestaque: "#f5f3ff",
-      borda: "#ddd6fe",
+      corDestaque: "#a855f7",
+      bgDestaque: "rgba(168, 85, 247, 0.08)",
+      borda: "rgba(168, 85, 247, 0.25)",
       acaoTexto: "Ver Escolas",
       detalhes: {
         titulo: "Escolas com Cadernetas / Diários em Aberto",
-        descricao: "Unidades escolares com envio de registros pedagógicos em atraso.",
-        itens: (escolas.length > 0 ? escolas.slice(0, 5) : [
-          { nome: "E.M. Senador Teotônio Vilela", detalhe: "3 cadernetas não assinadas pela direção" },
-          { nome: "E.M. Aloísio Ernande Brandão", detalhe: "Diários do Fundamental II pendentes" },
-          { nome: "E.M. São Cristóvão", detalhe: "Relatório de frequência mensal pendente" }
-        ]).map((e, idx) => ({
-          nome: e.nome || `Escola Municipal ${idx + 1}`,
-          turma: "Todos os Anos",
-          escola: e.municipio || "Rede Municipal",
-          detalhe: e.detalhe || "Aguardando homologação da direção"
-        }))
+        descricao: "Unidades escolares que possuem turmas ou diários de classe pendentes de fechamento.",
+        itens: (escolasCadernetasPendentes.length > 0 ? escolasCadernetasPendentes : escolas).map((e, idx) => {
+          const turmasDaEscola = turmasPendentesNotas.filter(t => t.escolaId === e.id);
+          return {
+            nome: e.nome || `Escola Municipal ${idx + 1}`,
+            turma: `${turmasDaEscola.length} turmas pendentes`,
+            escola: `${e.municipio || "Maceió"} - ${e.zona || "Urbana"}`,
+            detalhe: turmasDaEscola.length > 0 ? `${turmasDaEscola.length} turmas em aberto no bimestre` : "Cadernetas regulares"
+          };
+        })
       }
     },
     {
@@ -125,25 +126,27 @@ export default function AlertasSecretaria({
       tipo: "amber",
       icone: "ti ti-file-alert",
       titulo: `${countAlunosSemDocs} alunos sem documentação completa`,
-      subtitulo: "Faltando certidão de nascimento, NIS / Bolsa Família ou cartão de vacinação",
+      subtitulo: "Matrículas com pendência de CPF ou Certidão de Nascimento / Registro Civil",
       count: countAlunosSemDocs,
-      corDestaque: "#b45309",
-      bgDestaque: "#fef3c7",
-      borda: "#fcd34d",
+      corDestaque: "#f59e0b",
+      bgDestaque: "rgba(245, 158, 11, 0.08)",
+      borda: "rgba(245, 158, 11, 0.25)",
       acaoTexto: "Regularizar Pastas",
       detalhes: {
         titulo: "Pendências na Pasta do Aluno (Documentação)",
-        descricao: "Matrículas com pendências documentais que exigem regularização junto aos responsáveis.",
-        itens: (alunos.length > 0 ? alunos.slice(0, 8) : [
-          { nome: "Arthur Miguel da Silva", turma: "1º Ano A", escola: "E.M. Aloísio Ernande", detalhe: "Falta: Declaração de Vacinação Atualizada" },
-          { nome: "Sophia Emanuelly de Jesus", turma: "2º Ano B", escola: "E.M. Senador Teotônio", detalhe: "Falta: Cópia da Certidão de Nascimento e NIS" },
-          { nome: "Enzo Gabriel Cavalcante", turma: "6º Ano A", escola: "E.M. Cleto Campelo", detalhe: "Falta: Comprovante de Residência Atualizado" }
-        ]).map((item, idx) => ({
-          nome: item.nome || `Aluno ${idx + 1}`,
-          turma: item.turma || "Ano Letivo",
-          escola: item.escola || "Escola Municipal",
-          detalhe: item.detalhe || "Falta Declaração de Vacina / NIS"
-        }))
+        descricao: "Matrículas que necessitam de complementação documental junto aos responsáveis.",
+        itens: (alunosSemDocs.length > 0 ? alunosSemDocs.slice(0, 15) : []).map((item, idx) => {
+          const escNome = (escolas.find(e => e.id === item.escolaId)?.nome) || "Escola Municipal";
+          const faltas = [];
+          if (!item.cpf) faltas.push("CPF");
+          if (!item.registroCivil && !item.certidaoNascimento) faltas.push("Certidão / Registro Civil");
+          return {
+            nome: item.nome || `Aluno ${idx + 1}`,
+            turma: item.turma || item.ano || "Turma Regular",
+            escola: escNome,
+            detalhe: `Pendente: ${faltas.join(", ") || "Documentação Básica"}`
+          };
+        })
       }
     },
     {
@@ -151,25 +154,24 @@ export default function AlertasSecretaria({
       tipo: "blue",
       icone: "ti ti-user-exclamation",
       titulo: `${countProfDiarioAtraso} professores com diários pendentes`,
-      subtitulo: "Atraso no registro de conteúdos programáticos e chamadas diárias",
+      subtitulo: "Docentes com turmas em aberto aguardando fechamento e lançamento de conteúdos",
       count: countProfDiarioAtraso,
-      corDestaque: "#0284c7",
-      bgDestaque: "#f0f9ff",
-      borda: "#bae6fd",
+      corDestaque: "#38bdf8",
+      bgDestaque: "rgba(56, 189, 248, 0.08)",
+      borda: "rgba(56, 189, 248, 0.25)",
       acaoTexto: "Notificar Docentes",
       detalhes: {
-        titulo: "Professores com Diários / Conteúdos em Atraso",
-        descricao: "Docentes com mais de 5 dias úteis sem registro de aulas aplicadas no SIGEM.",
-        itens: (professores.length > 0 ? professores.slice(0, 5) : [
-          { nome: "Prof. Marcos Vinícius Melo", turma: "Matemática (6º ao 9º)", escola: "E.M. Senador Teotônio", detalhe: "7 dias sem registro de aulas" },
-          { nome: "Profª Juliana Roberta Santos", turma: "Ciências Naturais", escola: "E.M. Aloísio Ernande", detalhe: "5 dias sem chamada registrada" },
-          { nome: "Prof. Carlos Eduardo Lima", turma: "História & Geografia", escola: "E.M. São Cristóvão", detalhe: "Atraso no fechamento do plano de aula" }
-        ]).map((p, idx) => ({
-          nome: p.nome || `Professor(a) ${idx + 1}`,
-          turma: p.disciplina || "Docente",
-          escola: p.escola || "Rede Municipal",
-          detalhe: p.detalhe || "Sem registro há mais de 5 dias úteis"
-        }))
+        titulo: "Professores com Diários / Fechamento Pendente",
+        descricao: "Docentes vinculados a turmas que ainda não concluíram o fechamento do bimestre.",
+        itens: (professoresDiarioAtraso.length > 0 ? professoresDiarioAtraso.slice(0, 15) : []).map((p, idx) => {
+          const escNome = (escolas.find(e => e.id === p.escolaId)?.nome) || "Escola Municipal";
+          return {
+            nome: p.nome || `Professor(a) ${idx + 1}`,
+            turma: p.disciplina || "Docente Regente",
+            escola: escNome,
+            detalhe: "Aguardando envio das notas e diário do bimestre"
+          };
+        })
       }
     }
   ];
@@ -186,11 +188,11 @@ export default function AlertasSecretaria({
   return (
     <div
       style={{
-        background: "white",
+        background: "#1e293b",
         borderRadius: "16px",
-        border: "1px solid #fee2e2",
+        border: "1px solid #2c3b52",
         padding: "20px 24px",
-        boxShadow: "0 4px 20px rgba(220, 38, 38, 0.05)",
+        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)",
         display: "flex",
         flexDirection: "column",
         gap: "16px"
@@ -204,7 +206,7 @@ export default function AlertasSecretaria({
           alignItems: "center",
           flexWrap: "wrap",
           gap: "12px",
-          borderBottom: "1px solid #fef2f2",
+          borderBottom: "1px solid #2c3b52",
           paddingBottom: "12px"
         }}
       >
@@ -214,8 +216,8 @@ export default function AlertasSecretaria({
               width: "36px",
               height: "36px",
               borderRadius: "10px",
-              background: "#fee2e2",
-              color: "#dc2626",
+              background: "rgba(239, 68, 68, 0.15)",
+              color: "#ef4444",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -226,7 +228,7 @@ export default function AlertasSecretaria({
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#991b1b", margin: 0 }}>
+              <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#f8fafc", margin: 0 }}>
                 🚨 Centro de Alertas & Pendências da Secretaria
               </h3>
               <span
@@ -242,7 +244,7 @@ export default function AlertasSecretaria({
                 {listaAlertas.length} Atenções
               </span>
             </div>
-            <p style={{ fontSize: "12px", color: "#7f1d1d", margin: "2px 0 0 0", opacity: 0.85 }}>
+            <p style={{ fontSize: "12px", color: "#94a3b8", margin: "2px 0 0 0" }}>
               Monitoramento automático e proativo de não-conformidades, frequência e registros pedagógicos na rede.
             </p>
           </div>
@@ -254,9 +256,9 @@ export default function AlertasSecretaria({
             onClick={handleDispararNotificacaoMassa}
             disabled={notificando}
             style={{
-              background: "#fff",
-              border: "1px solid #fca5a5",
-              color: "#b91c1c",
+              background: "#18202d",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+              color: "#f87171",
               padding: "7px 14px",
               borderRadius: "8px",
               fontSize: "12px",
@@ -267,8 +269,6 @@ export default function AlertasSecretaria({
               gap: "6px",
               transition: "all 0.15s"
             }}
-            onMouseOver={(e) => (e.currentTarget.style.background = "#fef2f2")}
-            onMouseOut={(e) => (e.currentTarget.style.background = "#fff")}
           >
             <i className="ti ti-bell-ringing" />
             {notificando ? "Disparando Avisos..." : "Cobrar Pendências Geral"}
@@ -279,9 +279,9 @@ export default function AlertasSecretaria({
       {notificadoSucesso && (
         <div
           style={{
-            background: "#f0fdf4",
-            border: "1px solid #bbf7d0",
-            color: "#15803d",
+            background: "rgba(16, 185, 129, 0.1)",
+            border: "1px solid rgba(16, 185, 129, 0.3)",
+            color: "#10b981",
             padding: "10px 14px",
             borderRadius: "8px",
             fontSize: "13px",
@@ -320,7 +320,7 @@ export default function AlertasSecretaria({
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,0.06)";
+              e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
@@ -331,12 +331,12 @@ export default function AlertasSecretaria({
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <i className={alerta.icone} style={{ color: alerta.corDestaque, fontSize: "18px" }} />
-                  <span style={{ fontSize: "14px", fontWeight: "700", color: "#1e293b", lineHeight: "1.3" }}>
+                  <span style={{ fontSize: "14px", fontWeight: "700", color: "#f8fafc", lineHeight: "1.3" }}>
                     {alerta.titulo}
                   </span>
                 </div>
               </div>
-              <p style={{ fontSize: "12px", color: "#475569", margin: "0 0 10px 0", lineHeight: "1.4" }}>
+              <p style={{ fontSize: "12px", color: "#94a3b8", margin: "0 0 10px 0", lineHeight: "1.4" }}>
                 {alerta.subtitulo}
               </p>
             </div>
@@ -362,13 +362,13 @@ export default function AlertasSecretaria({
           maxWidth="680px"
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <p style={{ margin: 0, fontSize: "14px", color: "#475569" }}>
+            <p style={{ margin: 0, fontSize: "14px", color: "#cbd5e1" }}>
               {modalAlertaAtivo.detalhes?.descricao}
             </p>
 
             <div
               style={{
-                border: "1px solid #e2e8f0",
+                border: "1px solid #33435c",
                 borderRadius: "10px",
                 overflow: "hidden",
                 maxHeight: "320px",
@@ -377,7 +377,7 @@ export default function AlertasSecretaria({
             >
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
                     <th style={{ padding: "10px 14px", fontWeight: "600" }}>Nome / Entidade</th>
                     <th style={{ padding: "10px 14px", fontWeight: "600" }}>Turma / Unidade</th>
                     <th style={{ padding: "10px 14px", fontWeight: "600" }}>Situação / Detalhes</th>
@@ -385,11 +385,11 @@ export default function AlertasSecretaria({
                 </thead>
                 <tbody>
                   {modalAlertaAtivo.detalhes?.itens.map((item, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                      <td style={{ padding: "10px 14px", fontWeight: "600", color: "#1e293b" }}>
+                    <tr key={i} style={{ borderBottom: "1px solid #2c3b52" }}>
+                      <td style={{ padding: "10px 14px", fontWeight: "600", color: "#f8fafc" }}>
                         {item.nome}
                       </td>
-                      <td style={{ padding: "10px 14px", color: "#64748b" }}>
+                      <td style={{ padding: "10px 14px", color: "#94a3b8" }}>
                         {item.turma} — <span style={{ fontSize: "11px" }}>{item.escola}</span>
                       </td>
                       <td style={{ padding: "10px 14px" }}>
@@ -401,7 +401,7 @@ export default function AlertasSecretaria({
               </table>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "10px", borderTop: "1px solid #e2e8f0" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "10px", borderTop: "1px solid #33435c" }}>
               <Btn
                 variant="primary"
                 onClick={() => {
