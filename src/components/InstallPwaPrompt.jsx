@@ -53,10 +53,10 @@ export default function InstallPwaPrompt() {
   return (
     <div style={{
       position: 'fixed',
-      bottom: '18px',
+      bottom: '76px',
       left: '50%',
       transform: 'translateX(-50%)',
-      zIndex: 9999,
+      zIndex: 90,
       maxWidth: '92%',
       width: '420px',
       backgroundColor: '#1e293b',

@@ -437,44 +437,44 @@ export default function Ocorrencias() {
       )}
 
       {/* CARDS DE RESUMO KPI */}
-      <div className="no-print" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
-        <Card style={{ padding: "1.25rem", borderLeft: "4px solid #6366f1", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+      <div className="no-print sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.75rem" }}>
+        <Card style={{ padding: "0.85rem 1rem", borderLeft: "4px solid #6366f1", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div style={{ width: 34, height: 34, borderRadius: "8px", background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>
             <i className="ti ti-clipboard-list" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Total Registrado</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{total}</div>
+            <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Total Registrado</div>
+            <div style={{ fontSize: "1.15rem", fontWeight: 800, color: "#ffffff" }}>{total}</div>
           </div>
         </Card>
 
-        <Card style={{ padding: "1.25rem", borderLeft: "4px solid #f59e0b", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+        <Card style={{ padding: "0.85rem 1rem", borderLeft: "4px solid #f59e0b", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div style={{ width: 34, height: 34, borderRadius: "8px", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>
             <i className="ti ti-clock-pause" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Em Apuração / Abertas</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{abertas}</div>
+            <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Em Apuração / Abertas</div>
+            <div style={{ fontSize: "1.15rem", fontWeight: 800, color: "#ffffff" }}>{abertas}</div>
           </div>
         </Card>
 
-        <Card style={{ padding: "1.25rem", borderLeft: "4px solid #8b5cf6", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(139, 92, 246, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+        <Card style={{ padding: "0.85rem 1rem", borderLeft: "4px solid #8b5cf6", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div style={{ width: 34, height: 34, borderRadius: "8px", background: "rgba(139, 92, 246, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>
             <i className="ti ti-bell-ringing" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Família Notificada</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{notificadas}</div>
+            <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Família Notificada</div>
+            <div style={{ fontSize: "1.15rem", fontWeight: 800, color: "#ffffff" }}>{notificadas}</div>
           </div>
         </Card>
 
-        <Card style={{ padding: "1.25rem", borderLeft: "4px solid #10b981", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ width: 44, height: 44, borderRadius: "10px", background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
+        <Card style={{ padding: "0.85rem 1rem", borderLeft: "4px solid #10b981", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div style={{ width: 34, height: 34, borderRadius: "8px", background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>
             <i className="ti ti-circle-check" />
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Resolvidas / Concluídas</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#ffffff" }}>{resolvidas}</div>
+            <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Resolvidas / Concluídas</div>
+            <div style={{ fontSize: "1.15rem", fontWeight: 800, color: "#ffffff" }}>{resolvidas}</div>
           </div>
         </Card>
       </div>
@@ -568,8 +568,9 @@ export default function Ocorrencias() {
             descricao={busca || turmaFiltro || tipoFiltro ? "Tente ajustar os filtros de pesquisa." : "Nenhuma ocorrência foi registrada para esta escola até o momento."}
           />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
               <thead>
                 <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#cbd5e1", textAlign: "left" }}>
                   <th style={{ padding: "10px 12px", width: "130px" }}>Código / Data</th>
@@ -741,7 +742,90 @@ export default function Ocorrencias() {
               </tbody>
             </table>
           </div>
-        )}
+
+          {/* Visualização Mobile: Cards Otimizados */}
+          <div className="sigem-mobile-cards">
+            {ocorrenciasFiltradas.map((oc) => {
+              const gravidadeInfo = GRAVIDADES_OCORRENCIA.find(g => g.id === oc.gravidade) || GRAVIDADES_OCORRENCIA[1];
+              const statusInfo = STATUS_OCORRENCIA.find(s => s.id === oc.status) || STATUS_OCORRENCIA[0];
+
+              return (
+                <div
+                  key={`mob-oco-${oc.id}`}
+                  onClick={() => {
+                    setOcorrenciaSelecionada(oc);
+                    setModalAcompanhamentoAberto(true);
+                  }}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    cursor: "pointer",
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+                >
+                  {/* Foto / Ícone */}
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 10,
+                    background: "var(--bg-surface)",
+                    border: "1px solid var(--border-color)",
+                    overflow: "hidden",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0
+                  }}>
+                    {oc.alunoFotoUrl ? (
+                      <img src={oc.alunoFotoUrl} alt={oc.alunoNome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                      <i className="ti ti-clipboard-text" style={{ fontSize: 20, color: "var(--text-muted)" }} />
+                    )}
+                  </div>
+
+                  {/* Dados Essenciais */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+                      <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {oc.alunoNome}
+                      </span>
+                      <Badge color={gravidadeInfo.cor}>
+                        {gravidadeInfo.label}
+                      </Badge>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
+                      <Badge color="blue">{oc.turma || "—"}</Badge>
+                      <span style={{ color: "var(--text-muted)" }}>{oc.tipo}</span>
+                      <span style={{ color: "var(--text-muted)", marginLeft: "auto", fontFamily: "monospace" }}>
+                        {oc.data ? oc.data.split("-").reverse().join("/") : "—"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Status & Chevron */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                    <Badge color={statusInfo.cor}>
+                      {statusInfo.label}
+                    </Badge>
+                    <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                      <i className="ti ti-chevron-right" />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
       </Card>
 
       {/* ========================================================================= */}

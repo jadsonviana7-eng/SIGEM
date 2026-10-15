@@ -268,45 +268,45 @@ export default function Transferencias() {
       </div>
 
       {/* Painel de Indicadores (KPIs) */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-        <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+      <div className="sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+        <Card style={{ padding: "12px 14px", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 10, background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
             <i className="ti ti-files" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Total de Transferências</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#ffffff" }}>{totalGeral} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>registros</span></div>
+            <div style={{ fontSize: 10, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Total de Transferências</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#ffffff" }}>{totalGeral} <span style={{ fontSize: 10, fontWeight: 500, color: "#94a3b8" }}>registros</span></div>
           </div>
         </Card>
 
-        <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(239, 68, 68, 0.15)", color: "#f87171", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+        <Card style={{ padding: "12px 14px", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 10, background: "rgba(239, 68, 68, 0.15)", color: "#f87171", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
             <i className="ti ti-arrow-up-right" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Transferências de Saída</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#f87171" }}>{totalSaida} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>expedidas</span></div>
+            <div style={{ fontSize: 10, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Transferências de Saída</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#f87171" }}>{totalSaida} <span style={{ fontSize: 10, fontWeight: 500, color: "#94a3b8" }}>expedidas</span></div>
           </div>
         </Card>
 
-        <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+        <Card style={{ padding: "12px 14px", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 10, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
             <i className="ti ti-arrow-down-left" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Transferências de Entrada</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#34d399" }}>{totalEntrada} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>recebidas</span></div>
+            <div style={{ fontSize: 10, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Transferências de Entrada</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#34d399" }}>{totalEntrada} <span style={{ fontSize: 10, fontWeight: 500, color: "#94a3b8" }}>recebidas</span></div>
           </div>
         </Card>
 
-        <Card style={{ padding: "18px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: totalPendentes > 0 ? "rgba(245, 158, 11, 0.15)" : "#243144", color: totalPendentes > 0 ? "#fbbf24" : "#94a3b8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
+        <Card style={{ padding: "12px 14px", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 10, background: totalPendentes > 0 ? "rgba(245, 158, 11, 0.15)" : "#243144", color: totalPendentes > 0 ? "#fbbf24" : "#94a3b8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
             <i className="ti ti-clock" />
           </div>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Documentos Pendentes</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: totalPendentes > 0 ? "#fbbf24" : "#ffffff" }}>
-              {totalPendentes} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>em andamento</span>
+            <div style={{ fontSize: 10, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Documentos Pendentes</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: totalPendentes > 0 ? "#fbbf24" : "#ffffff" }}>
+              {totalPendentes} <span style={{ fontSize: 10, fontWeight: 500, color: "#94a3b8" }}>em andamento</span>
             </div>
           </div>
         </Card>
@@ -406,83 +406,155 @@ export default function Transferencias() {
               texto="Nenhum registro de transferência encontrado para os critérios selecionados."
             />
           ) : (
-            <Card style={{ padding: 0, overflow: "hidden" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <thead>
-                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
-                    {["Data", "Estudante", "Tipo", "Origem → Destino", "Motivo", "Documentação", "Situação", "Ações"].map(h => (
-                      <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {transferenciasFiltradas.map(t => {
-                    const isSaida = t.tipo?.includes("Saída");
-                    return (
-                      <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
-                        <td style={{ padding: "12px 14px", fontSize: 12, color: "#94a3b8", whiteSpace: "nowrap" }}>
-                          {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
-                        </td>
-                        <td style={{ padding: "12px 14px" }}>
-                          <div style={{ fontWeight: 600, color: "#ffffff" }}>{t.alunoNome}</div>
-                          <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>Matrícula: {t.alunoMatricula || "—"}</div>
-                        </td>
-                        <td style={{ padding: "12px 14px" }}>
-                          <Badge color={isSaida ? "red" : "green"}>
-                            <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} style={{ marginRight: 4 }} />
-                            {isSaida ? "Saída" : "Entrada"}
-                          </Badge>
-                        </td>
-                        <td style={{ padding: "12px 14px", maxWidth: 260 }}>
-                          <div style={{ fontSize: 12, color: "#cbd5e1" }}>
-                            <strong>De:</strong> {t.escolaOrigem || "—"}
-                          </div>
-                          <div style={{ fontSize: 12, color: "#818cf8", marginTop: 2 }}>
-                            <strong>Para:</strong> {t.escolaDestino || "—"}
-                          </div>
-                        </td>
-                        <td style={{ padding: "12px 14px" }}>
-                          <div style={{ fontSize: 12, color: "#ffffff", fontWeight: 500 }}>{t.motivo}</div>
-                          {t.responsavel && (
-                            <div style={{ fontSize: 11, color: "#94a3b8" }}>Req.: {t.responsavel}</div>
-                          )}
-                        </td>
-                        <td style={{ padding: "12px 14px" }}>
-                          <span style={{ fontSize: 12, color: t.documentacao?.includes("Oficial") ? "#34d399" : "#cbd5e1" }}>
-                            {t.documentacao || "Declaração Emitida"}
-                          </span>
-                        </td>
-                        <td style={{ padding: "12px 14px" }}>
-                          <Badge color={t.situacao === "Concluída" ? "green" : t.situacao === "Cancelada" ? "red" : "amber"}>
-                            {t.situacao || "Concluída"}
-                          </Badge>
-                        </td>
-                        <td style={{ padding: "12px 14px" }}>
-                          <div style={{ display: "flex", gap: 6 }}>
-                            <Btn
-                              variant="secondary"
-                              onClick={() => setDocTransferencia(t)}
-                              style={{ padding: "5px 9px", fontSize: 11 }}
-                              title="Imprimir Declaração Oficial de Transferência"
-                            >
-                              <i className="ti ti-printer" /> Declaração
-                            </Btn>
-                            <Btn
-                              variant="danger"
-                              onClick={() => handleExcluirTransferencia(t.id)}
-                              style={{ padding: "5px 8px", fontSize: 11 }}
-                              title="Remover Registro"
-                            >
-                              <i className="ti ti-trash" />
-                            </Btn>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </Card>
+          <>
+            <div className="sigem-desktop-table">
+              <Card style={{ padding: 0, overflow: "hidden" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                      {["Data", "Estudante", "Tipo", "Origem → Destino", "Motivo", "Documentação", "Situação", "Ações"].map(h => (
+                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transferenciasFiltradas.map(t => {
+                      const isSaida = t.tipo?.includes("Saída");
+                      return (
+                        <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#94a3b8", whiteSpace: "nowrap" }}>
+                            {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <div style={{ fontWeight: 600, color: "#ffffff" }}>{t.alunoNome}</div>
+                            <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>Matrícula: {t.alunoMatricula || "—"}</div>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <Badge color={isSaida ? "red" : "green"}>
+                              <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} style={{ marginRight: 4 }} />
+                              {isSaida ? "Saída" : "Entrada"}
+                            </Badge>
+                          </td>
+                          <td style={{ padding: "12px 14px", maxWidth: 260 }}>
+                            <div style={{ fontSize: 12, color: "#cbd5e1" }}>
+                              <strong>De:</strong> {t.escolaOrigem || "—"}
+                            </div>
+                            <div style={{ fontSize: 12, color: "#818cf8", marginTop: 2 }}>
+                              <strong>Para:</strong> {t.escolaDestino || "—"}
+                            </div>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <div style={{ fontSize: 12, color: "#ffffff", fontWeight: 500 }}>{t.motivo}</div>
+                            {t.responsavel && (
+                              <div style={{ fontSize: 11, color: "#94a3b8" }}>Req.: {t.responsavel}</div>
+                            )}
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <span style={{ fontSize: 12, color: t.documentacao?.includes("Oficial") ? "#34d399" : "#cbd5e1" }}>
+                              {t.documentacao || "Declaração Emitida"}
+                            </span>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <Badge color={t.situacao === "Concluída" ? "green" : t.situacao === "Cancelada" ? "red" : "amber"}>
+                              {t.situacao || "Concluída"}
+                            </Badge>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <div style={{ display: "flex", gap: 6 }}>
+                              <Btn
+                                variant="secondary"
+                                onClick={() => setDocTransferencia(t)}
+                                style={{ padding: "5px 9px", fontSize: 11 }}
+                                title="Imprimir Declaração Oficial de Transferência"
+                              >
+                                <i className="ti ti-printer" /> Declaração
+                              </Btn>
+                              <Btn
+                                variant="danger"
+                                onClick={() => handleExcluirTransferencia(t.id)}
+                                style={{ padding: "5px 8px", fontSize: 11 }}
+                                title="Remover Registro"
+                              >
+                                <i className="ti ti-trash" />
+                              </Btn>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </Card>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards">
+              {transferenciasFiltradas.map(t => {
+                const isSaida = t.tipo?.includes("Saída");
+                return (
+                  <div
+                    key={`mob-transf-${t.id}`}
+                    onClick={() => setDocTransferencia(t)}
+                    style={{
+                      background: "var(--bg-card)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: 14,
+                      padding: "12px 14px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      cursor: "pointer",
+                      boxShadow: "var(--card-shadow)",
+                      transition: "all 0.15s ease"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+                  >
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 10,
+                      background: isSaida ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)",
+                      color: isSaida ? "#f87171" : "#34d399",
+                      border: "1px solid var(--border-color)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 20,
+                      flexShrink: 0
+                    }}>
+                      <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} />
+                    </div>
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+                        <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {t.alunoNome}
+                        </span>
+                        <Badge color={isSaida ? "red" : "green"}>
+                          {isSaida ? "Saída" : "Entrada"}
+                        </Badge>
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
+                        <span style={{ fontFamily: "monospace", color: "var(--text-muted)" }}>#{t.alunoMatricula || "S/N"}</span>
+                        <span style={{ color: "var(--text-muted)" }}>· {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</span>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                      <Badge color={t.situacao === "Concluída" ? "green" : "amber"}>
+                        {t.situacao || "Concluída"}
+                      </Badge>
+                      <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                        <i className="ti ti-chevron-right" />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
           )}
         </div>
       )}

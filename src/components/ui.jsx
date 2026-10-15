@@ -64,12 +64,12 @@ export function Badge({ children, color = "blue", variant, className = "" }) {
   const activeColor = variant ? (variantMap[variant] || "blue") : color;
 
   const colors = {
-    blue:   { bg: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" },
-    green:  { bg: "rgba(16, 185, 129, 0.15)", color: "#34d399", border: "1px solid rgba(16, 185, 129, 0.3)" },
-    red:    { bg: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.3)" },
-    amber:  { bg: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", border: "1px solid rgba(245, 158, 11, 0.3)" },
-    purple: { bg: "rgba(168, 85, 247, 0.15)", color: "#c084fc", border: "1px solid rgba(168, 85, 247, 0.3)" },
-    gray:   { bg: "rgba(148, 163, 184, 0.12)", color: "#94a3b8", border: "1px solid rgba(148, 163, 184, 0.25)" },
+    blue:   { bg: "var(--badge-blue-bg, rgba(56, 189, 248, 0.15))", color: "var(--badge-blue-text, #38bdf8)", border: "1px solid var(--badge-blue-border, rgba(56, 189, 248, 0.3))" },
+    green:  { bg: "var(--badge-green-bg, rgba(16, 185, 129, 0.15))", color: "var(--badge-green-text, #34d399)", border: "1px solid var(--badge-green-border, rgba(16, 185, 129, 0.3))" },
+    red:    { bg: "var(--badge-red-bg, rgba(239, 68, 68, 0.15))", color: "var(--badge-red-text, #f87171)", border: "1px solid var(--badge-red-border, rgba(239, 68, 68, 0.3))" },
+    amber:  { bg: "var(--badge-amber-bg, rgba(245, 158, 11, 0.15))", color: "var(--badge-amber-text, #fbbf24)", border: "1px solid var(--badge-amber-border, rgba(245, 158, 11, 0.3))" },
+    purple: { bg: "var(--badge-purple-bg, rgba(168, 85, 247, 0.15))", color: "var(--badge-purple-text, #c084fc)", border: "1px solid var(--badge-purple-border, rgba(168, 85, 247, 0.3))" },
+    gray:   { bg: "var(--badge-gray-bg, rgba(148, 163, 184, 0.12))", color: "var(--badge-gray-text, #94a3b8)", border: "1px solid var(--badge-gray-border, rgba(148, 163, 184, 0.25))" },
   };
   const c = colors[activeColor] || colors.blue;
   return (
@@ -96,7 +96,7 @@ export function Btn({ children, onClick, variant = "default", type = "button", d
   const variants = {
     default: { background: "var(--bg-surface, #243144)", color: "var(--text-secondary, #cbd5e1)", border: "1px solid var(--border-subtle, #33435c)" },
     primary: { background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)", color: "#ffffff", border: "none", boxShadow: "0 4px 14px rgba(99, 102, 241, 0.35)" },
-    danger:  { background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.35)" },
+    danger:  { background: "var(--badge-red-bg, rgba(239, 68, 68, 0.15))", color: "var(--badge-red-text, #f87171)", border: "1px solid var(--badge-red-border, rgba(239, 68, 68, 0.35))" },
     outline: { background: "transparent", color: "var(--text-secondary, #cbd5e1)", border: "1px solid var(--border-subtle, #33435c)" },
     ghost:   { background: "transparent", color: "var(--text-muted, #94a3b8)", border: "none" }
   };
@@ -264,11 +264,13 @@ export function Modal({
 
   return (
     <div
+      className="ui-modal-overlay"
       style={{
         position: "fixed",
         inset: 0,
         background: "rgba(10, 15, 25, 0.75)",
         backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -282,12 +284,13 @@ export function Modal({
       }}
     >
       <div
+        className="ui-modal-card"
         style={{
           background: "var(--bg-card, #1e293b)",
           border: "1px solid var(--border-color, #2c3b52)",
           color: "var(--text-primary, #f8fafc)",
           borderRadius: 16,
-          padding: "clamp(16px, 3vw, 24px)",
+          padding: "clamp(14px, 3vw, 24px)",
           width: modalWidth,
           maxWidth: "96vw",
           maxHeight: "92vh",
@@ -318,7 +321,7 @@ export function Modal({
           {children}
         </div>
         {!semRodape && !esconderRodape && (
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 16, paddingTop: 14, borderTop: "1px solid #2c3b52", flexShrink: 0, background: "#1e293b" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border-color, #2c3b52)", flexShrink: 0, background: "var(--bg-card, #1e293b)", flexWrap: "wrap" }}>
             <Btn onClick={handleClose} variant="outline">Fechar</Btn>
             {handleSave && (
               <Btn variant="primary" onClick={handleSave} disabled={salvando}>
@@ -334,9 +337,9 @@ export function Modal({
 
 export function Alert({ children, tipo = "success" }) {
   const cores = {
-    success: { bg: "rgba(16, 185, 129, 0.15)", color: "#34d399", border: "rgba(16, 185, 129, 0.35)" },
-    error:   { bg: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "rgba(239, 68, 68, 0.35)" },
-    info:    { bg: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "rgba(56, 189, 248, 0.35)" },
+    success: { bg: "var(--badge-green-bg, rgba(16, 185, 129, 0.15))", color: "var(--badge-green-text, #34d399)", border: "var(--badge-green-border, rgba(16, 185, 129, 0.35))" },
+    error:   { bg: "var(--badge-red-bg, rgba(239, 68, 68, 0.15))", color: "var(--badge-red-text, #f87171)", border: "var(--badge-red-border, rgba(239, 68, 68, 0.35))" },
+    info:    { bg: "var(--badge-blue-bg, rgba(56, 189, 248, 0.15))", color: "var(--badge-blue-text, #38bdf8)", border: "var(--badge-blue-border, rgba(56, 189, 248, 0.35))" },
   };
   const c = cores[tipo] || cores.info;
   return (
@@ -364,7 +367,7 @@ export const LoadingSpinner = Spinner;
 
 export function EmptyState({ icon = "inbox", texto = "Nenhum item encontrado." }) {
   return (
-    <div style={{ textAlign: "center", padding: "48px 24px", color: "#94a3b8" }}>
+    <div style={{ textAlign: "center", padding: "48px 24px", color: "var(--text-muted, #94a3b8)" }}>
       <i className={`ti ti-${icon}`} style={{ fontSize: 40, display: "block", marginBottom: 12 }} />
       <p style={{ fontSize: 13 }}>{texto}</p>
     </div>
@@ -375,7 +378,7 @@ export function ProgressBar({ valor, max = 100 }) {
   const pct = Math.min(Math.round((valor / max) * 100), 100);
   const cor = pct > 90 ? "#ef4444" : pct > 70 ? "#f59e0b" : "#22c55e";
   return (
-    <div style={{ height: 6, background: "#243144", borderRadius: 4, marginTop: 4, overflow: "hidden" }}>
+    <div style={{ height: 6, background: "var(--bg-surface-hover, #243144)", borderRadius: 4, marginTop: 4, overflow: "hidden" }}>
       <div style={{ width: `${pct}%`, height: "100%", background: cor, borderRadius: 4, transition: "width .3s" }} />
     </div>
   );
@@ -393,7 +396,7 @@ export function Pagination({ currentPage = 1, totalPages = 1, onPageChange }) {
       >
         <i className="ti ti-chevron-left" /> Anterior
       </Btn>
-      <span style={{ padding: "0 8px", color: "#94a3b8", fontWeight: 600 }}>
+      <span style={{ padding: "0 8px", color: "var(--text-muted, #94a3b8)", fontWeight: 600 }}>
         Página {currentPage} de {totalPages}
       </span>
       <Btn
@@ -420,9 +423,9 @@ export function NotificationModal({ isOpen, onClose, tipo = "sucesso", titulo = 
             width: 52,
             height: 52,
             borderRadius: "50%",
-            background: isSucesso ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
-            border: isSucesso ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(239, 68, 68, 0.3)",
-            color: isSucesso ? "#34d399" : "#f87171",
+            background: isSucesso ? "var(--badge-green-bg, rgba(16, 185, 129, 0.15))" : "var(--badge-red-bg, rgba(239, 68, 68, 0.15))",
+            border: isSucesso ? "1px solid var(--badge-green-border, rgba(16, 185, 129, 0.3))" : "1px solid var(--badge-red-border, rgba(239, 68, 68, 0.3))",
+            color: isSucesso ? "var(--badge-green-text, #34d399)" : "var(--badge-red-text, #f87171)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -432,10 +435,10 @@ export function NotificationModal({ isOpen, onClose, tipo = "sucesso", titulo = 
         >
           <i className={isSucesso ? "ti ti-check" : "ti ti-alert-triangle"} />
         </div>
-        <h4 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", color: "#ffffff" }}>
+        <h4 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", color: "var(--text-primary, #ffffff)" }}>
           {titulo}
         </h4>
-        <p style={{ fontSize: 13, color: "#94a3b8", margin: "0 0 18px", lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "var(--text-muted, #94a3b8)", margin: "0 0 18px", lineHeight: 1.5 }}>
           {mensagem}
         </p>
         <Btn

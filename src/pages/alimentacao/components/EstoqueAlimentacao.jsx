@@ -170,83 +170,162 @@ export default function EstoqueAlimentacao({
         {itensFiltrados.length === 0 ? (
           <EmptyState icon="packages" texto="Nenhum item encontrado no estoque da despensa." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
-                  <th style={{ padding: "12px 16px" }}>Alimento / Produto</th>
-                  <th style={{ padding: "12px 16px" }}>Categoria</th>
-                  <th style={{ padding: "12px 16px" }}>Saldo em Estoque</th>
-                  <th style={{ padding: "12px 16px" }}>Estoque Mínimo</th>
-                  <th style={{ padding: "12px 16px" }}>Armazenamento</th>
-                  <th style={{ padding: "12px 16px" }}>Validade / Lote</th>
-                  <th style={{ padding: "12px 16px" }}>Valor Estocado</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {itensFiltrados.map((item) => {
-                  const qtd = Number(item.quantidadeAtual) || 0;
-                  const min = Number(item.estoqueMinimo) || 0;
-                  const isBaixo = qtd <= min;
-                  const dVal = item.dataValidade ? new Date(item.dataValidade + "T00:00:00") : null;
-                  const isVencido = dVal && dVal < hoje;
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+                    <th style={{ padding: "12px 16px" }}>Alimento / Produto</th>
+                    <th style={{ padding: "12px 16px" }}>Categoria</th>
+                    <th style={{ padding: "12px 16px" }}>Saldo em Estoque</th>
+                    <th style={{ padding: "12px 16px" }}>Estoque Mínimo</th>
+                    <th style={{ padding: "12px 16px" }}>Armazenamento</th>
+                    <th style={{ padding: "12px 16px" }}>Validade / Lote</th>
+                    <th style={{ padding: "12px 16px" }}>Valor Estocado</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {itensFiltrados.map((item) => {
+                    const qtd = Number(item.quantidadeAtual) || 0;
+                    const min = Number(item.estoqueMinimo) || 0;
+                    const isBaixo = qtd <= min;
+                    const dVal = item.dataValidade ? new Date(item.dataValidade + "T00:00:00") : null;
+                    const isVencido = dVal && dVal < hoje;
 
-                  return (
-                    <tr key={item.id} style={{ borderBottom: "1px solid #243144" }}>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{item.nome}</div>
-                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Unidade: {item.unidade}</div>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <Badge color="blue">{item.categoria}</Badge>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ fontSize: 15, fontWeight: 700, color: isBaixo ? "#f87171" : "#34d399" }}>
-                            {qtd} {item.unidade?.split(" ")[0]}
-                          </span>
-                          {isBaixo && (
-                            <span title="Estoque abaixo do mínimo!" style={{ color: "#f87171", fontSize: 13 }}>⚠️</span>
-                          )}
-                        </div>
-                      </td>
-                      <td style={{ padding: "12px 16px", color: "#94a3b8" }}>
-                        {min} {item.unidade?.split(" ")[0]}
-                      </td>
-                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                        {item.localArmazenamento || "Despensa Principal"}
-                      </td>
-                      <td style={{ padding: "12px 16px", fontSize: 12 }}>
-                        {dVal ? (
-                          <div style={{ fontWeight: 600, color: isVencido ? "#f87171" : "#ffffff" }}>
-                            {dVal.toLocaleDateString("pt-BR")}
-                            {isVencido && " (Vencido)"}
+                    return (
+                      <tr key={item.id} style={{ borderBottom: "1px solid #243144" }}>
+                        <td style={{ padding: "12px 16px" }}>
+                          <div style={{ fontWeight: 600, color: "#ffffff" }}>{item.nome}</div>
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>Unidade: {item.unidade}</div>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          <Badge color="blue">{item.categoria}</Badge>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                            <span style={{ fontSize: 15, fontWeight: 700, color: isBaixo ? "#f87171" : "#34d399" }}>
+                              {qtd} {item.unidade?.split(" ")[0]}
+                            </span>
+                            {isBaixo && (
+                              <span title="Estoque abaixo do mínimo!" style={{ color: "#f87171", fontSize: 13 }}>⚠️</span>
+                            )}
                           </div>
-                        ) : (
-                          <span style={{ color: "#94a3b8" }}>-</span>
-                        )}
-                        {item.lote && <div style={{ fontSize: 10, color: "#94a3b8" }}>Lote: {item.lote}</div>}
-                      </td>
-                      <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
-                        {(qtd * (Number(item.ultimoPreco) || 0)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                      </td>
-                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                          <Btn onClick={() => abrirEditar(item)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                            <i className="ti ti-edit" />
-                          </Btn>
-                          <Btn variant="danger" onClick={() => handleExcluir(item.id, item.nome)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                            <i className="ti ti-trash" />
-                          </Btn>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        </td>
+                        <td style={{ padding: "12px 16px", color: "#94a3b8" }}>
+                          {min} {item.unidade?.split(" ")[0]}
+                        </td>
+                        <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                          {item.localArmazenamento || "Despensa Principal"}
+                        </td>
+                        <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                          {dVal ? (
+                            <div style={{ fontWeight: 600, color: isVencido ? "#f87171" : "#ffffff" }}>
+                              {dVal.toLocaleDateString("pt-BR")}
+                              {isVencido && " (Vencido)"}
+                            </div>
+                          ) : (
+                            <span style={{ color: "#94a3b8" }}>-</span>
+                          )}
+                          {item.lote && <div style={{ fontSize: 10, color: "#94a3b8" }}>Lote: {item.lote}</div>}
+                        </td>
+                        <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
+                          {(qtd * (Number(item.ultimoPreco) || 0)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </td>
+                        <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                          <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                            <Btn onClick={() => abrirEditar(item)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                              <i className="ti ti-edit" />
+                            </Btn>
+                            <Btn variant="danger" onClick={() => handleExcluir(item.id, item.nome)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                              <i className="ti ti-trash" />
+                            </Btn>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {itensFiltrados.map((item) => {
+                const qtd = Number(item.quantidadeAtual) || 0;
+                const min = Number(item.estoqueMinimo) || 0;
+                const isBaixo = qtd <= min;
+
+                return (
+                  <div
+                    key={`mob-est-${item.id}`}
+                    onClick={() => abrirEditar(item)}
+                    style={{
+                      background: "var(--bg-card)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: 14,
+                      padding: "12px 14px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      cursor: "pointer",
+                      boxShadow: "var(--card-shadow)",
+                      transition: "all 0.15s ease"
+                    }}
+                  >
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 12,
+                      background: "rgba(16, 185, 129, 0.15)",
+                      color: "#10b981",
+                      border: "1px solid rgba(16, 185, 129, 0.3)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 22,
+                      flexShrink: 0
+                    }}>
+                      <i className="ti ti-package" />
+                    </div>
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{
+                        fontWeight: 700,
+                        color: "var(--text-primary)",
+                        fontSize: 14,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                      }}>
+                        {item.nome}
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3 }}>
+                        <Badge color="blue">{item.categoria}</Badge>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                          {item.unidade}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                      <span style={{
+                        fontSize: 14,
+                        fontWeight: 700,
+                        color: isBaixo ? "#f87171" : "#10b981",
+                        background: isBaixo ? "rgba(239, 68, 68, 0.1)" : "rgba(16, 185, 129, 0.1)",
+                        padding: "3px 8px",
+                        borderRadius: 8
+                      }}>
+                        {qtd} {item.unidade?.split(" ")[0]}
+                      </span>
+                      <i className="ti ti-chevron-right" style={{ color: "var(--text-muted)", fontSize: 18 }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </Card>
 

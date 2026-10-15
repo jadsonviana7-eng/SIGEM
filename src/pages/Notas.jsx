@@ -148,28 +148,98 @@ export default function Notas() {
           <p style={{ fontSize: 13 }}>Selecione uma turma e disciplina para lançar as notas.</p>
         </div>
       ) : (
-        <Card style={{ padding: 0, overflow: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
-                <th style={{ textAlign: "left", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Aluno</th>
-                {BIMESTRES_LABELS.map(b => (
-                  <th key={b} style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1", textAlign: "center" }}>{b}</th>
-                ))}
-                <th style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1", textAlign: "center" }}>Média</th>
-                <th style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Situação</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alunos.map(a => {
-                const n = notasMap[a.id] || {};
-                const media = calcularMedia(n);
-                const sit = situacaoAluno(media);
-                return (
-                  <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s" }}>
-                    <td style={{ padding: "10px 14px", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>{a.nome}</td>
-                    {BIMESTRES.map(b => (
-                      <td key={b} style={{ padding: "6px 8px", textAlign: "center" }}>
+        <>
+          {/* Visualização Desktop: Tabela de Notas */}
+          <div className="sigem-desktop-table">
+            <Card style={{ padding: 0, overflow: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color)" }}>
+                    <th style={{ textAlign: "left", padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>Aluno</th>
+                    {BIMESTRES_LABELS.map(b => (
+                      <th key={b} style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", textAlign: "center" }}>{b}</th>
+                    ))}
+                    <th style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", textAlign: "center" }}>Média</th>
+                    <th style={{ padding: "12px 14px", fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>Situação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {alunos.map(a => {
+                    const n = notasMap[a.id] || {};
+                    const media = calcularMedia(n);
+                    const sit = situacaoAluno(media);
+                    return (
+                      <tr key={a.id} style={{ borderBottom: "1px solid var(--border-color)", transition: "background 0.15s" }}>
+                        <td style={{ padding: "10px 14px", fontWeight: 600, fontSize: 13, color: "var(--text-primary)" }}>{a.nome}</td>
+                        {BIMESTRES.map(b => (
+                          <td key={b} style={{ padding: "6px 8px", textAlign: "center" }}>
+                            <input
+                              type="number"
+                              min="0"
+                              max="10"
+                              step="0.1"
+                              value={n[b] ?? ""}
+                              onChange={e => setNota(a.id, b, e.target.value)}
+                              placeholder="—"
+                              style={{
+                                width: 58,
+                                border: "1px solid var(--border-color)",
+                                borderRadius: 8,
+                                padding: "6px 4px",
+                                fontSize: 13,
+                                textAlign: "center",
+                                background: "var(--bg-surface)",
+                                color: "var(--text-primary)",
+                                fontFamily: "inherit",
+                                outline: "none"
+                              }}
+                            />
+                          </td>
+                        ))}
+                        <td style={{ padding: "10px 14px", textAlign: "center", fontSize: 15, fontWeight: 700, color: media !== null ? (media >= 7 ? "#34d399" : media >= 5 ? "#fbbf24" : "#f87171") : "var(--text-muted)" }}>
+                          {media ?? "—"}
+                        </td>
+                        <td style={{ padding: "10px 14px" }}><Badge color={sit.cor}>{sit.label}</Badge></td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Card>
+          </div>
+
+          {/* Visualização Mobile: Cards Otimizados para Lançamento */}
+          <div className="sigem-mobile-cards">
+            {alunos.map(a => {
+              const n = notasMap[a.id] || {};
+              const media = calcularMedia(n);
+              const sit = situacaoAluno(media);
+              return (
+                <div
+                  key={`mob-nota-${a.id}`}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "14px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    boxShadow: "var(--card-shadow)"
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontWeight: 700, fontSize: 14, color: "var(--text-primary)" }}>
+                      {a.nome}
+                    </span>
+                    <Badge color={sit.cor}>{sit.label}</Badge>
+                  </div>
+
+                  {/* Lançamento Bimestral por Chips */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
+                    {BIMESTRES.map((b, idx) => (
+                      <div key={b} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                        <span style={{ fontSize: 10, color: "var(--text-muted)", fontWeight: 600 }}>{idx + 1}º Bim</span>
                         <input
                           type="number"
                           min="0"
@@ -179,30 +249,33 @@ export default function Notas() {
                           onChange={e => setNota(a.id, b, e.target.value)}
                           placeholder="—"
                           style={{
-                            width: 58,
-                            border: "1px solid #33435c",
+                            width: "100%",
+                            border: "1px solid var(--border-color)",
                             borderRadius: 8,
-                            padding: "6px 4px",
-                            fontSize: 13,
+                            padding: "8px 2px",
+                            fontSize: 14,
                             textAlign: "center",
-                            background: "#243144",
-                            color: "#ffffff",
-                            fontFamily: "inherit",
+                            background: "var(--bg-surface)",
+                            color: "var(--text-primary)",
+                            fontWeight: 600,
                             outline: "none"
                           }}
                         />
-                      </td>
+                      </div>
                     ))}
-                    <td style={{ padding: "10px 14px", textAlign: "center", fontSize: 15, fontWeight: 700, color: media !== null ? (media >= 7 ? "#34d399" : media >= 5 ? "#fbbf24" : "#f87171") : "#94a3b8" }}>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", borderTop: "1px solid var(--border-color)", paddingTop: 8 }}>
+                    <span style={{ fontSize: 12, color: "var(--text-muted)", marginRight: 6 }}>Média Final:</span>
+                    <strong style={{ fontSize: 15, color: media !== null ? (media >= 7 ? "#34d399" : media >= 5 ? "#fbbf24" : "#f87171") : "var(--text-muted)" }}>
                       {media ?? "—"}
-                    </td>
-                    <td style={{ padding: "10px 14px" }}><Badge color={sit.cor}>{sit.label}</Badge></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Card>
+                    </strong>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );

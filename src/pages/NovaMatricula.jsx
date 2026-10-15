@@ -428,8 +428,8 @@ export default function NovaMatricula() {
                   gap: 6,
                   padding: "10px 8px",
                   borderRadius: 8,
-                  border: isAtivo ? "1.5px solid #3b82f6" : "1px solid #2c3b52",
-                  background: isAtivo ? "rgba(59, 130, 246, 0.15)" : isConcluido ? "rgba(52, 211, 153, 0.1)" : "#161f2e",
+                  border: isAtivo ? "1.5px solid #3b82f6" : "1px solid var(--border-color)",
+                  background: isAtivo ? "var(--badge-blue-bg, rgba(59, 130, 246, 0.15))" : isConcluido ? "var(--badge-green-bg, rgba(52, 211, 153, 0.1))" : "var(--bg-surface)",
                   cursor: "pointer",
                   transition: "all 0.15s ease",
                   textAlign: "center"
@@ -439,8 +439,8 @@ export default function NovaMatricula() {
                   width: 28,
                   height: 28,
                   borderRadius: "50%",
-                  background: isAtivo ? "#3b82f6" : isConcluido ? "#10b981" : "#243144",
-                  color: isAtivo || isConcluido ? "#ffffff" : "#94a3b8",
+                  background: isAtivo ? "#3b82f6" : isConcluido ? "#10b981" : "var(--border-color)",
+                  color: isAtivo || isConcluido ? "#ffffff" : "var(--text-secondary)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -449,11 +449,11 @@ export default function NovaMatricula() {
                 }}>
                   {isConcluido ? <i className="ti ti-check" /> : etapa.numero}
                 </div>
-                <span style={{ fontSize: 12, fontWeight: isAtivo ? 700 : 600, color: isAtivo ? "#60a5fa" : isConcluido ? "#34d399" : "#94a3b8" }}>
+                <span style={{ fontSize: 12, fontWeight: isAtivo ? 700 : 600, color: isAtivo ? "var(--badge-blue-text, #0369a1)" : isConcluido ? "var(--badge-green-text, #15803d)" : "var(--text-secondary)" }}>
                   {etapa.label}
                 </span>
                 {etapa.id === "documentos" && (
-                  <span style={{ fontSize: 10, fontWeight: 700, color: qtdDocsAnexados >= 4 ? "#34d399" : "#fbbf24" }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: qtdDocsAnexados >= 4 ? "var(--badge-green-text, #15803d)" : "var(--badge-amber-text, #b45309)" }}>
                     {qtdDocsAnexados}/{TIPOS_DOCUMENTOS_ALUNO.length} anexados
                   </span>
                 )}
@@ -464,7 +464,7 @@ export default function NovaMatricula() {
       </Card>
 
       {/* Conteúdo da Etapa Atual */}
-      <Card style={{ padding: "28px", background: "#1e293b", border: "1px solid #2c3b52" }}>
+      <Card style={{ padding: "28px", background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
         
         {/* ========================================================================= */}
         {/* PASSO 1: ESCOLA, ETAPA E TURMA                                            */}
@@ -472,18 +472,18 @@ export default function NovaMatricula() {
         {passoAtivo === 1 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "#ffffff" }}>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: 17, fontWeight: 700, color: "var(--text-primary)" }}>
                 1. Escola, Etapa de Ensino e Verificação de Vagas
               </h3>
-              <p style={{ margin: 0, fontSize: 13, color: "#94a3b8" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "var(--text-muted)" }}>
                 Defina a unidade de ensino e a turma para vinculação do estudante.
               </p>
             </div>
 
             {/* Painel de Vagas da Turma */}
-            <div style={{ background: "#161f2e", border: "1.5px solid #2c3b52", padding: 18, borderRadius: 10 }}>
+            <div style={{ background: "var(--bg-surface)", border: "1.5px solid var(--border-color)", padding: 18, borderRadius: 10 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: "#60a5fa" }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "var(--badge-blue-text, #0369a1)" }}>
                   Disponibilidade de Vagas na Turma Pretendida
                 </span>
                 {infoTurmaAtual && (
@@ -495,7 +495,7 @@ export default function NovaMatricula() {
 
               <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 16 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: 6 }}>
                     Turma Pretendida *
                   </label>
                   <Select
@@ -529,8 +529,8 @@ export default function NovaMatricula() {
               {infoTurmaAtual && (
                 <div style={{ marginTop: 14 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                    <span style={{ color: "#94a3b8" }}>Ocupação da Turma</span>
-                    <strong style={{ color: "#ffffff" }}>{infoTurmaAtual.ocupadas} de {infoTurmaAtual.totalVagas} alunos ({infoTurmaAtual.percentual}%)</strong>
+                    <span style={{ color: "var(--text-muted)" }}>Ocupação da Turma</span>
+                    <strong style={{ color: "var(--text-primary)" }}>{infoTurmaAtual.ocupadas} de {infoTurmaAtual.totalVagas} alunos ({infoTurmaAtual.percentual}%)</strong>
                   </div>
                   <ProgressBar value={infoTurmaAtual.percentual} />
                 </div>
@@ -539,7 +539,7 @@ export default function NovaMatricula() {
 
             <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 500, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)", display: "block", marginBottom: 4 }}>
                   Unidade Escolar
                 </label>
                 <Select

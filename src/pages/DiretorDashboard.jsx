@@ -433,7 +433,7 @@ export default function DiretorDashboard({ escolaId, onVoltarParaRede }) {
       </div>
 
       {/* 2. CARDS DE KPIS ESTRATÉGICOS DA ESCOLA */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 14 }}>
+      <div className="sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 14 }}>
         
         {/* Total de Alunos */}
         <div style={{ background: "#1e293b", borderRadius: 12, padding: 16, border: "1px solid #2c3b52", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>

@@ -5,7 +5,7 @@ import {
   solicitarCorrecaoMatriculaOnline,
   injectSolicitacoesMockData
 } from "../../../services/matriculaOnlineService";
-import { Btn, Modal, Select, Input, Alert } from "../../../components/ui";
+import { Btn, Modal, Select, Input, Alert, Badge } from "../../../components/ui";
 
 export default function SolicitacoesMatriculaOnline({
   solicitacoes = [],
@@ -280,9 +280,9 @@ export default function SolicitacoesMatriculaOnline({
             style={{
               padding: "7px 14px",
               borderRadius: 8,
-              background: "rgba(59, 130, 246, 0.15)",
-              color: "#93c5fd",
-              border: "1px solid #2c3b52",
+              background: "var(--badge-blue-bg, rgba(59, 130, 246, 0.15))",
+              color: "var(--badge-blue-text, #0369a1)",
+              border: "1px solid var(--badge-blue-border, #2c3b52)",
               textDecoration: "none",
               fontSize: 13,
               fontWeight: 600,
@@ -299,7 +299,7 @@ export default function SolicitacoesMatriculaOnline({
       </div>
 
       {/* TABELA DE SOLICITAÇÕES */}
-      <div style={{
+      <div className="sigem-desktop-table" style={{
         background: "#1e293b",
         borderRadius: 14,
         border: "1px solid #2c3b52",
@@ -420,6 +420,86 @@ export default function SolicitacoesMatriculaOnline({
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Visualização Mobile: Cards Otimizados */}
+      <div className="sigem-mobile-cards">
+        {solicitacoesFiltradas.length === 0 ? (
+          <div style={{ padding: 30, textAlign: "center", color: "#94a3b8" }}>
+            Nenhuma solicitação de matrícula encontrada.
+          </div>
+        ) : (
+          solicitacoesFiltradas.map((sol) => (
+            <div
+              key={`mob-sol-${sol.id}`}
+              onClick={() => handleAbrirAnalise(sol, "aprovar")}
+              style={{
+                background: "var(--bg-card)",
+                border: "1px solid var(--border-color)",
+                borderRadius: 14,
+                padding: "12px 14px",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                cursor: "pointer",
+                boxShadow: "var(--card-shadow)",
+                transition: "all 0.15s ease"
+              }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+            >
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 10,
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-color)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 20,
+                color: "#60a5fa",
+                flexShrink: 0
+              }}>
+                <i className="ti ti-clipboard-list" />
+              </div>
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+                  <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {sol.alunoNome}
+                  </span>
+                  <span style={{ fontFamily: "monospace", fontSize: 11, color: "#60a5fa", fontWeight: 700 }}>
+                    {sol.protocolo}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
+                  <Badge color="blue">{sol.serieAno}</Badge>
+                  <span style={{ color: "var(--text-muted)" }}>{sol.serieTurno}</span>
+                  {sol.alunoPcd && <span style={{ color: "#c084fc", fontWeight: 600 }}>♿ PCD</span>}
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                <span style={{
+                  padding: "3px 8px",
+                  borderRadius: 10,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  background: sol.status === "Aprovada" ? "rgba(52, 211, 153, 0.15)" : sol.status === "Pendente" ? "rgba(251, 191, 36, 0.15)" : "rgba(248, 113, 113, 0.15)",
+                  color: sol.status === "Aprovada" ? "#34d399" : sol.status === "Pendente" ? "#fbbf24" : "#f87171",
+                  border: "1px solid rgba(255,255,255,0.1)"
+                }}>
+                  {sol.status}
+                </span>
+                <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                  <i className="ti ti-chevron-right" />
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* MODAL DE ANÁLISE, APROVAÇÃO E ENTURMAÇÃO */}

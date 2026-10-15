@@ -70,6 +70,7 @@ export default function VisaoGeralModelo({
 
       {/* 2. Top 4 KPI Cards - Paleta Lighter Slate-Navy */}
       <div
+        className="sigem-kpi-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
@@ -80,31 +81,31 @@ export default function VisaoGeralModelo({
         <div
           style={{
             background: "#1e293b",
-            borderRadius: "18px",
+            borderRadius: "16px",
             border: "1px solid #2c3b52",
-            padding: "22px 24px",
+            padding: "16px 18px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            gap: "14px",
+            gap: "10px",
             boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "13px", fontWeight: "600", color: "#94a3b8" }}>
+            <span style={{ fontSize: "11.5px", fontWeight: "600", color: "#94a3b8" }}>
               Total de Alunos
             </span>
             <div
               style={{
-                width: "42px",
-                height: "42px",
+                width: "34px",
+                height: "34px",
                 borderRadius: "50%",
                 background: "rgba(59, 130, 246, 0.18)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#60a5fa",
-                fontSize: "20px"
+                fontSize: "16px"
               }}
             >
               <i className="ti ti-users" />
@@ -112,12 +113,12 @@ export default function VisaoGeralModelo({
           </div>
 
           <div>
-            <div style={{ fontSize: "36px", fontWeight: "800", color: "#38bdf8", lineHeight: 1 }}>
+            <div style={{ fontSize: "24px", fontWeight: "800", color: "#38bdf8", lineHeight: 1 }}>
               {valAlunos}
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#10b981", fontWeight: "500" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#10b981", fontWeight: "500" }}>
             <i className="ti ti-trending-up" />
             <span>{usarDemoExato ? "0" : alunosAtivos} alunos ativos</span>
           </div>
@@ -127,31 +128,31 @@ export default function VisaoGeralModelo({
         <div
           style={{
             background: "#1e293b",
-            borderRadius: "18px",
+            borderRadius: "16px",
             border: "1px solid #2c3b52",
-            padding: "22px 24px",
+            padding: "16px 18px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            gap: "14px",
+            gap: "10px",
             boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "13px", fontWeight: "600", color: "#94a3b8" }}>
+            <span style={{ fontSize: "11.5px", fontWeight: "600", color: "#94a3b8" }}>
               Total de Professores
             </span>
             <div
               style={{
-                width: "42px",
-                height: "42px",
+                width: "34px",
+                height: "34px",
                 borderRadius: "50%",
                 background: "rgba(168, 85, 247, 0.18)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#c084fc",
-                fontSize: "20px"
+                fontSize: "16px"
               }}
             >
               <i className="ti ti-school" />
@@ -159,12 +160,12 @@ export default function VisaoGeralModelo({
           </div>
 
           <div>
-            <div style={{ fontSize: "36px", fontWeight: "800", color: "#ffffff", lineHeight: 1 }}>
+            <div style={{ fontSize: "24px", fontWeight: "800", color: "#ffffff", lineHeight: 1 }}>
               {valDocentes}
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#10b981", fontWeight: "500" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#10b981", fontWeight: "500" }}>
             <i className="ti ti-trending-up" />
             <span>{usarDemoExato ? "0" : professoresAtivos} professores ativos</span>
           </div>
@@ -174,31 +175,31 @@ export default function VisaoGeralModelo({
         <div
           style={{
             background: "#1e293b",
-            borderRadius: "18px",
+            borderRadius: "16px",
             border: "1px solid #2c3b52",
-            padding: "22px 24px",
+            padding: "16px 18px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            gap: "14px",
+            gap: "10px",
             boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "13px", fontWeight: "600", color: "#94a3b8" }}>
+            <span style={{ fontSize: "11.5px", fontWeight: "600", color: "#94a3b8" }}>
               Total de Turmas
             </span>
             <div
               style={{
-                width: "42px",
-                height: "42px",
+                width: "34px",
+                height: "34px",
                 borderRadius: "50%",
                 background: "rgba(245, 158, 11, 0.18)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#fbbf24",
-                fontSize: "20px"
+                fontSize: "16px"
               }}
             >
               <i className="ti ti-book" />
@@ -206,12 +207,12 @@ export default function VisaoGeralModelo({
           </div>
 
           <div>
-            <div style={{ fontSize: "36px", fontWeight: "800", color: "#ffffff", lineHeight: 1 }}>
+            <div style={{ fontSize: "24px", fontWeight: "800", color: "#ffffff", lineHeight: 1 }}>
               {valTurmas}
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#38bdf8", fontWeight: "500" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#38bdf8", fontWeight: "500" }}>
             <i className="ti ti-books" />
             <span>0 disciplinas ofertadas</span>
           </div>
@@ -221,31 +222,31 @@ export default function VisaoGeralModelo({
         <div
           style={{
             background: "#1e293b",
-            borderRadius: "18px",
+            borderRadius: "16px",
             border: "1px solid #2c3b52",
-            padding: "22px 24px",
+            padding: "16px 18px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            gap: "14px",
+            gap: "10px",
             boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)"
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "13px", fontWeight: "600", color: "#94a3b8" }}>
+            <span style={{ fontSize: "11.5px", fontWeight: "600", color: "#94a3b8" }}>
               Matrículas Pendentes
             </span>
             <div
               style={{
-                width: "42px",
-                height: "42px",
+                width: "34px",
+                height: "34px",
                 borderRadius: "50%",
                 background: "rgba(16, 185, 129, 0.18)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#34d399",
-                fontSize: "20px"
+                fontSize: "16px"
               }}
             >
               <i className="ti ti-chart-bar" />
@@ -253,12 +254,12 @@ export default function VisaoGeralModelo({
           </div>
 
           <div>
-            <div style={{ fontSize: "36px", fontWeight: "800", color: "#ffffff", lineHeight: 1 }}>
+            <div style={{ fontSize: "24px", fontWeight: "800", color: "#ffffff", lineHeight: 1 }}>
               {valPendencias}
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#10b981", fontWeight: "500" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: "#10b981", fontWeight: "500" }}>
             <i className="ti ti-trending-down" />
             <span>Requer análise</span>
           </div>

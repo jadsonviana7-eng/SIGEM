@@ -5,7 +5,9 @@ import { useFirestore } from "../hooks/useFirestore";
 import { getAlunos } from "../services/alunosService";
 import { getTurmas } from "../services/turmasService";
 import { getHistoricoConsolidado } from "../services/historicoService";
+import { getEscolaById } from "../services/escolasService";
 import { Card, Badge, Btn, Modal, Spinner, EmptyState } from "../components/ui";
+import CabecalhoDocumentoOficial from "../components/CabecalhoDocumentoOficial";
 
 export default function HistoricoEscolar() {
   const [searchParams] = useSearchParams();
@@ -13,12 +15,30 @@ export default function HistoricoEscolar() {
 
   const { user, escolas, selectedEscolaId } = useAuth();
   const activeEscolaId = selectedEscolaId || user?.selectedEscolaId || "";
-  const escolaAtual = (escolas || []).find(e => e.id === activeEscolaId) || {
-    nome: "Escola Municipal de Ensino Fundamental",
-    inep: "27012345",
-    cidade: "Porto Calvo",
-    uf: "AL"
-  };
+  const [escolaCarregada, setEscolaCarregada] = useState(null);
+
+  // Se a escola ativa não estiver na lista global em memória, busca direto no Firestore
+  useEffect(() => {
+    let ativo = true;
+    if (activeEscolaId && !(escolas || []).some(e => e.id === activeEscolaId)) {
+      getEscolaById(activeEscolaId).then(res => {
+        if (ativo && res) setEscolaCarregada(res);
+      }).catch(err => console.error("Erro ao carregar dados da escola:", err));
+    }
+    return () => { ativo = false; };
+  }, [activeEscolaId, escolas]);
+
+  const escolaAtual = useMemo(() => {
+    const daLista = (escolas || []).find(e => e.id === activeEscolaId);
+    if (daLista) return daLista;
+    if (escolaCarregada) return escolaCarregada;
+    return {
+      nome: "Escola Municipal",
+      inep: "27000000",
+      municipio: "Maceió",
+      uf: "AL"
+    };
+  }, [escolas, activeEscolaId, escolaCarregada]);
 
   const [turmaFiltro, setTurmaFiltro] = useState("");
   const [busca, setBusca] = useState("");
@@ -58,7 +78,9 @@ export default function HistoricoEscolar() {
     setAlunoSelecionadoId(alunoId);
     setCarregandoHistorico(true);
     try {
-      const dados = await getHistoricoConsolidado(alunoId, activeEscolaId, escolaAtual);
+      const alunoObj = (todosAlunos || []).find(a => a.id === alunoId);
+      const escAluno = (escolas || []).find(e => e.id === alunoObj?.escolaId) || escolaAtual;
+      const dados = await getHistoricoConsolidado(alunoId, activeEscolaId, escAluno);
       setHistoricoCarregado(dados);
       setModalVisualizar(true);
     } catch (err) {
@@ -114,6 +136,29 @@ export default function HistoricoEscolar() {
             background: #ffffff !important;
             display: block !important;
           }
+          .cabecalho-documento-oficial h2 {
+            font-size: 12px !important;
+            margin: 0 !important;
+            font-weight: bold !important;
+          }
+          .cabecalho-documento-oficial h3 {
+            font-size: 11.5px !important;
+            margin: 1px 0 !important;
+            font-weight: bold !important;
+          }
+          .cabecalho-documento-oficial .escola-nome-oficial {
+            font-size: 15px !important;
+            font-weight: 900 !important;
+            margin: 3px 0 2px !important;
+          }
+          .cabecalho-documento-oficial .escola-detalhes-oficial {
+            font-size: 10px !important;
+            line-height: 1.35 !important;
+          }
+          .cabecalho-documento-oficial .boletim-titulo-tag {
+            font-size: 11px !important;
+            padding: 3px 14px !important;
+          }
           .historico-tabela {
             width: 100% !important;
             border-collapse: collapse !important;
@@ -147,19 +192,19 @@ export default function HistoricoEscolar() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span style={{ fontSize: "1.6rem" }}>📜</span>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "#ffffff" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0, color: "var(--text-primary)" }}>
               Histórico Escolar Oficial & Trajetória
             </h1>
           </div>
-          <p style={{ margin: "0.25rem 0 0", color: "#94a3b8", fontSize: "0.9rem" }}>
+          <p style={{ margin: "0.25rem 0 0", color: "var(--text-muted)", fontSize: "0.9rem" }}>
             Emissão eletrônica com validação criptográfica 🔐, QR Code oficial e consolidação automática de trajetória.
           </p>
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
           <a href="/validar-documento" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-            <Btn variant="default" style={{ color: "#818cf8", borderColor: "#33435c", background: "rgba(99, 102, 241, 0.15)", fontWeight: 600 }}>
-              <i className="ti ti-shield-check" style={{ color: "#818cf8" }} />
+            <Btn variant="default" style={{ color: "var(--accent-indigo, #818cf8)", borderColor: "var(--border-color)", background: "var(--bg-surface)", fontWeight: 600 }}>
+              <i className="ti ti-shield-check" style={{ color: "var(--accent-indigo, #818cf8)" }} />
               Portal de Validação 🔐
             </Btn>
           </a>
@@ -169,28 +214,28 @@ export default function HistoricoEscolar() {
       {/* PAINEL PRINCIPAL DE ESTUDANTES */}
       <Card className="no-print">
         {/* FILTROS & BUSCA */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid #33435c" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.25rem", paddingBottom: "1rem", borderBottom: "1px solid var(--border-color)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#1e293b", padding: "0.4rem 0.85rem", borderRadius: "8px", border: "1px solid #33435c" }}>
-              <i className="ti ti-books" style={{ color: "#94a3b8" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "var(--bg-surface)", padding: "0.4rem 0.85rem", borderRadius: "8px", border: "1px solid var(--border-color)" }}>
+              <i className="ti ti-books" style={{ color: "var(--text-muted)" }} />
               <select
                 value={turmaFiltro}
                 onChange={(e) => setTurmaFiltro(e.target.value)}
-                style={{ background: "#1e293b", border: "none", fontWeight: 600, color: "#ffffff", cursor: "pointer", outline: "none", fontSize: "0.85rem" }}
+                style={{ background: "transparent", border: "none", fontWeight: 600, color: "var(--text-primary)", cursor: "pointer", outline: "none", fontSize: "0.85rem" }}
               >
-                <option value="" style={{ background: "#1e293b", color: "#94a3b8" }}>Todas as Turmas</option>
+                <option value="" style={{ background: "var(--bg-card)", color: "var(--text-muted)" }}>Todas as Turmas</option>
                 {(turmas || []).map(t => (
-                  <option key={t.id || t.nome} value={t.nome} style={{ background: "#1e293b", color: "#ffffff" }}>{t.nome}</option>
+                  <option key={t.id || t.nome} value={t.nome} style={{ background: "var(--bg-card)", color: "var(--text-primary)" }}>{t.nome}</option>
                 ))}
               </select>
             </div>
-            <span style={{ fontSize: "0.85rem", color: "#94a3b8", fontWeight: 500 }}>
+            <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: 500 }}>
               {alunosFiltrados.length} {alunosFiltrados.length === 1 ? "aluno encontrado" : "alunos encontrados"}
             </span>
           </div>
 
-          <div style={{ position: "relative", minWidth: 280 }}>
-            <i className="ti ti-search" style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
+          <div style={{ position: "relative", flex: "1 1 240px", maxWidth: "100%" }}>
+            <i className="ti ti-search" style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
             <input
               type="text"
               placeholder="Buscar por nome, matrícula ou CPF..."
@@ -200,9 +245,9 @@ export default function HistoricoEscolar() {
                 width: "100%",
                 padding: "0.45rem 0.75rem 0.45rem 2.2rem",
                 borderRadius: "8px",
-                border: "1px solid #33435c",
-                background: "#1e293b",
-                color: "#ffffff",
+                border: "1px solid var(--border-color)",
+                background: "var(--bg-surface)",
+                color: "var(--text-primary)",
                 fontSize: "0.85rem",
                 outline: "none"
               }}
@@ -223,68 +268,150 @@ export default function HistoricoEscolar() {
             descricao="Não há alunos correspondentes aos filtros selecionados."
           />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "2px solid #33435c", color: "#cbd5e1" }}>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Estudante</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Matrícula / CPF</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma Atual</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Trajetória Escolar</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Status</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "right" }}>Emissão Oficial</th>
-                </tr>
-              </thead>
-              <tbody>
-                {alunosFiltrados.map((a) => {
-                  const trajetoriaCount = (a.trajetoriaEscolar || []).length || 5;
-                  return (
-                    <tr key={a.id} style={{ borderBottom: "1px solid #243144" }}>
-                      <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.95rem" }}>{a.nome}</div>
-                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Mãe: {a.mae || a.responsavel || "Não informada"}</span>
-                      </td>
+          <>
+            {/* Visualização Desktop: Tabela Estruturada */}
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
+                <thead>
+                  <tr style={{ background: "var(--bg-surface)", borderBottom: "2px solid var(--border-color)", color: "var(--text-secondary)" }}>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Estudante</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Matrícula / CPF</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma Atual</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Trajetória Escolar</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Status</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "right" }}>Emissão Oficial</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {alunosFiltrados.map((a) => {
+                    const trajetoriaCount = (a.trajetoriaEscolar || []).length || 5;
+                    return (
+                      <tr key={a.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
+                        <td style={{ padding: "1rem" }}>
+                          <div style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: "0.95rem" }}>{a.nome}</div>
+                          <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Mãe: {a.mae || a.responsavel || "Não informada"}</span>
+                        </td>
 
-                      <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 600, color: "#cbd5e1" }}>{a.matricula || "—"}</div>
-                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>CPF: {a.cpf || "Não informado"}</span>
-                      </td>
+                        <td style={{ padding: "1rem" }}>
+                          <div style={{ fontWeight: 600, color: "var(--text-secondary)" }}>{a.matricula || "—"}</div>
+                          <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>CPF: {a.cpf || "Não informado"}</span>
+                        </td>
 
-                      <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{a.turma || "Sem turma"}</div>
-                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>{a.turno || "Matutino"}</span>
-                      </td>
+                        <td style={{ padding: "1rem" }}>
+                          <div style={{ fontWeight: 600, color: "var(--text-primary)" }}>{a.turma || "Sem turma"}</div>
+                          <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{a.turno || "Matutino"}</span>
+                        </td>
 
-                      <td style={{ padding: "1rem" }}>
-                        <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(99, 102, 241, 0.15)", border: "1px solid rgba(99, 102, 241, 0.3)", padding: "0.25rem 0.6rem", borderRadius: "12px", fontSize: "0.8rem", color: "#818cf8", fontWeight: 600 }}>
-                          <i className="ti ti-timeline" style={{ color: "#818cf8" }} />
-                          {trajetoriaCount} anos registrados
-                        </div>
-                      </td>
+                        <td style={{ padding: "1rem" }}>
+                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(99, 102, 241, 0.15)", border: "1px solid rgba(99, 102, 241, 0.3)", padding: "0.25rem 0.6rem", borderRadius: "12px", fontSize: "0.8rem", color: "#818cf8", fontWeight: 600 }}>
+                            <i className="ti ti-timeline" style={{ color: "#818cf8" }} />
+                            {trajetoriaCount} anos registrados
+                          </div>
+                        </td>
 
-                      <td style={{ padding: "1rem" }}>
-                        <Badge tipo={a.status === "Transferido" ? "aviso" : "sucesso"}>
-                          {a.status || "Ativo"}
-                        </Badge>
-                      </td>
+                        <td style={{ padding: "1rem" }}>
+                          <Badge tipo={a.status === "Transferido" ? "aviso" : "sucesso"}>
+                            {a.status || "Ativo"}
+                          </Badge>
+                        </td>
 
-                      <td style={{ padding: "1rem", textAlign: "right" }}>
-                        <Btn
-                          tamanho="pequeno"
-                          variante="primario"
-                          onClick={() => carregarHistoricoAluno(a.id)}
-                          desabilitado={carregandoHistorico && alunoSelecionadoId === a.id}
-                        >
-                          <i className="ti ti-file-certificate" />
-                          {carregandoHistorico && alunoSelecionadoId === a.id ? "Gerando..." : "Gerar Histórico 📜"}
-                        </Btn>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        <td style={{ padding: "1rem", textAlign: "right" }}>
+                          <Btn
+                            tamanho="pequeno"
+                            variante="primario"
+                            onClick={() => carregarHistoricoAluno(a.id)}
+                            desabilitado={carregandoHistorico && alunoSelecionadoId === a.id}
+                          >
+                            <i className="ti ti-file-certificate" />
+                            {carregandoHistorico && alunoSelecionadoId === a.id ? "Gerando..." : "Gerar Histórico 📜"}
+                          </Btn>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards">
+              {alunosFiltrados.map((a) => {
+                const trajetoriaCount = (a.trajetoriaEscolar || []).length || 5;
+                const isCarregandoEste = carregandoHistorico && alunoSelecionadoId === a.id;
+
+                return (
+                  <div
+                    key={`mob-hist-${a.id}`}
+                    onClick={() => carregarHistoricoAluno(a.id)}
+                    style={{
+                      background: "var(--bg-card)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: 14,
+                      padding: "12px 14px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      cursor: "pointer",
+                      boxShadow: "var(--card-shadow)",
+                      transition: "all 0.15s ease"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+                  >
+                    {/* Avatar / Ícone */}
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 10,
+                      background: "var(--bg-surface)",
+                      border: "1px solid var(--border-color)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 20,
+                      color: "var(--text-muted)",
+                      flexShrink: 0
+                    }}>
+                      <i className="ti ti-file-certificate" style={{ color: "#818cf8" }} />
+                    </div>
+
+                    {/* Dados Essenciais */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+                        <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {a.nome}
+                        </span>
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
+                        <Badge color="blue">{a.turma || "Sem turma"}</Badge>
+                        <span style={{ fontFamily: "monospace", color: "var(--text-muted)" }}>
+                          #{a.matricula || "S/N"}
+                        </span>
+                        <span style={{ color: "var(--text-muted)", marginLeft: "auto" }}>
+                          {trajetoriaCount} anos reg.
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Status & Ação / Chevron */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                      <Badge tipo={a.status === "Transferido" ? "aviso" : "sucesso"}>
+                        {a.status || "Ativo"}
+                      </Badge>
+                      <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                        {isCarregandoEste ? (
+                          <i className="ti ti-loader rotate" style={{ color: "var(--accent-indigo)" }} />
+                        ) : (
+                          <i className="ti ti-chevron-right" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </Card>
 
@@ -331,20 +458,11 @@ export default function HistoricoEscolar() {
               }}
             >
               {/* CABEÇALHO OFICIAL COM BRASÃO */}
-              <div style={{ textAlign: "center", borderBottom: "2px solid #000", paddingBottom: "0.4rem", marginBottom: "0.5rem" }}>
-                <h2 style={{ fontSize: "0.95rem", fontWeight: "bold", margin: 0, textTransform: "uppercase" }}>
-                  ESTADO DE ALAGOAS · PREFEITURA MUNICIPAL DE PORTO CALVO
-                </h2>
-                <h3 style={{ fontSize: "0.85rem", fontWeight: "bold", margin: "0.15rem 0", color: "#222" }}>
-                  SECRETARIA MUNICIPAL DE EDUCAÇÃO
-                </h3>
-                <p style={{ fontSize: "0.75rem", margin: "0.15rem 0" }}>
-                  <strong>{escolaAtual.nome}</strong> · CÓDIGO INEP: {escolaAtual.inep}
-                </p>
-                <div style={{ marginTop: "0.25rem", display: "inline-block", border: "1.5px solid #000", padding: "0.2rem 1.2rem", fontWeight: "bold", fontSize: "0.85rem", letterSpacing: "0.04em" }}>
-                  HISTÓRICO ESCOLAR DO ENSINO FUNDAMENTAL
-                </div>
-              </div>
+              <CabecalhoDocumentoOficial
+                escola={historicoCarregado?.escola || escolaAtual}
+                tituloDocumento="HISTÓRICO ESCOLAR DO ENSINO FUNDAMENTAL"
+                protocolo={historicoCarregado?.autenticacao?.codigoValidacao}
+              />
 
               {/* DADOS CADASTRAIS DO ALUNO */}
               <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "0.3rem 0.6rem", background: "#f8fafc", border: "1px solid #000", padding: "0.4rem 0.6rem", fontSize: "0.74rem", marginBottom: "0.5rem" }}>
@@ -430,7 +548,9 @@ export default function HistoricoEscolar() {
                       <td style={{ border: "1px solid #000", padding: "2.5px" }}>{t.cargaHoraria || "800 h/a"}</td>
                       <td style={{ border: "1px solid #000", padding: "2.5px" }}>{t.frequenciaPercentual || "95%"}</td>
                       <td style={{ border: "1px solid #000", padding: "2.5px 5px", textAlign: "left" }}>{t.escola}</td>
-                      <td style={{ border: "1px solid #000", padding: "2.5px" }}>{t.cidadeUf || "Porto Calvo - AL"}</td>
+                      <td style={{ border: "1px solid #000", padding: "2.5px" }}>
+                        {t.cidadeUf || `${historicoCarregado?.escola?.municipio || historicoCarregado?.escola?.cidade || escolaAtual?.municipio || escolaAtual?.cidade || "Maceió"} - ${historicoCarregado?.escola?.uf || escolaAtual?.uf || "AL"}`}
+                      </td>
                       <td style={{ border: "1px solid #000", padding: "2.5px", fontWeight: "bold" }}>
                         {t.situacaoFinal === "Aprovado" ? "APROVADO" : t.situacaoFinal.toUpperCase()}
                       </td>
@@ -470,6 +590,11 @@ export default function HistoricoEscolar() {
                 <strong>OBSERVAÇÕES LEGAIS:</strong> Documento expedido em conformidade com a Lei de Diretrizes e Bases da Educação Nacional (Lei Federal nº 9.394/1996) e Resoluções do Conselho Nacional e Municipal de Educação. Média curricular calculada na escala de 0,0 a 10,0.
               </div>
 
+              {/* LOCAL E DATA */}
+              <div style={{ textAlign: "right", fontSize: "0.72rem", marginBottom: "20px", fontStyle: "italic" }}>
+                {historicoCarregado?.escola?.municipio || historicoCarregado?.escola?.cidade || escolaAtual?.municipio || escolaAtual?.cidade || "Maceió"} - {historicoCarregado?.escola?.uf || escolaAtual?.uf || "AL"}, {historicoCarregado?.dataEmissao || new Date().toLocaleDateString("pt-BR", { day: '2-digit', month: 'long', year: 'numeric' })}.
+              </div>
+
               {/* ASSINATURAS MOVIDAS 50PX PARA BAIXO */}
               <div
                 className="historico-assinaturas"
@@ -484,12 +609,16 @@ export default function HistoricoEscolar() {
                 <div>
                   <div className="linha-ass" style={{ width: "180px", borderTop: "1px solid #000", margin: "0 auto 3px" }} />
                   <strong>Secretário(a) Escolar</strong>
-                  <div style={{ fontSize: "0.65rem", color: "#444" }}>Reg. Nº 1420/SEDUC</div>
+                  <div style={{ fontSize: "0.65rem", color: "#444" }}>
+                    {historicoCarregado?.escola?.secretario || escolaAtual?.secretario || "Secretaria Escolar · Reg. SEDUC"}
+                  </div>
                 </div>
                 <div>
                   <div className="linha-ass" style={{ width: "180px", borderTop: "1px solid #000", margin: "0 auto 3px" }} />
                   <strong>Diretor(a) Escolar</strong>
-                  <div style={{ fontSize: "0.65rem", color: "#444" }}>Portaria Nº 082/2024</div>
+                  <div style={{ fontSize: "0.65rem", color: "#444" }}>
+                    {historicoCarregado?.escola?.diretor || escolaAtual?.diretor || "Direção Escolar · Portaria SEDUC"}
+                  </div>
                 </div>
               </div>
             </div>

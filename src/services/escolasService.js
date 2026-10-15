@@ -1,6 +1,6 @@
 import {
   collection, addDoc, updateDoc, deleteDoc,
-  doc, getDocs, query, orderBy, serverTimestamp
+  doc, getDocs, getDoc, query, orderBy, serverTimestamp
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -10,6 +10,13 @@ export async function getEscolas() {
   const q = query(collection(db, COL), orderBy("nome"));
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+export async function getEscolaById(id) {
+  if (!id) return null;
+  const snap = await getDoc(doc(db, COL, id));
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data() };
 }
 
 export async function addEscola(dados) {

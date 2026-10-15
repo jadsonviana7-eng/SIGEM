@@ -242,33 +242,40 @@ export default function Frequencia() {
             <div style={{ textAlign: "center", padding: 48, color: "#94a3b8" }}><p style={{ fontSize: 13 }}>Nenhum aluno nesta turma.</p></div>
           ) : (
             <Card style={{ padding: 0, overflow: "auto" }}>
-              <div style={{ padding: "14px 18px", background: "#243144", borderBottom: "1px solid #2c3b52", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>Lista de Alunos ({alunosDiario.length})</span>
+              <div style={{ padding: "14px 18px", background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>Lista de Alunos ({alunosDiario.length})</span>
                 <Btn variant="primary" onClick={salvarDiario} disabled={salvando}>
                   <i className="ti ti-device-floppy" /> {salvando ? "Salvando..." : "Salvar Diário de Classe"}
                 </Btn>
               </div>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
-                    <th style={{ width: 70, textAlign: "center", padding: "12px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Presença</th>
-                    <th style={{ textAlign: "left", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "#cbd5e1" }}>Aluno</th>
+                  <tr style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color)" }}>
+                    <th style={{ width: 70, textAlign: "center", padding: "12px", fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>Presença</th>
+                    <th style={{ textAlign: "left", padding: "12px 16px", fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>Aluno</th>
                   </tr>
                 </thead>
                 <tbody>
                   {alunosDiario.map(a => {
                     const presente = frequenciaDiaria[a.id] === "P";
                     return (
-                      <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", background: presente ? "transparent" : "rgba(239, 68, 68, 0.08)", transition: "background 0.15s" }}>
+                      <tr
+                        key={a.id}
+                        onClick={() => setFrequenciaDiaria({ ...frequenciaDiaria, [a.id]: presente ? "F" : "P" })}
+                        style={{ borderBottom: "1px solid var(--border-color)", background: presente ? "transparent" : "rgba(239, 68, 68, 0.08)", transition: "background 0.15s", cursor: "pointer" }}
+                      >
                         <td style={{ textAlign: "center", padding: "12px" }}>
                           <input
                             type="checkbox"
                             checked={presente}
-                            onChange={(e) => setFrequenciaDiaria({ ...frequenciaDiaria, [a.id]: e.target.checked ? "P" : "F" })}
-                            style={{ width: 18, height: 18, cursor: "pointer", accentColor: "#34d399" }}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              setFrequenciaDiaria({ ...frequenciaDiaria, [a.id]: e.target.checked ? "P" : "F" });
+                            }}
+                            style={{ width: 20, height: 20, cursor: "pointer", accentColor: "#34d399" }}
                           />
                         </td>
-                        <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 600, color: presente ? "#ffffff" : "#f87171" }}>
+                        <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 600, color: presente ? "var(--text-primary)" : "#f87171" }}>
                           {a.nome}
                         </td>
                       </tr>

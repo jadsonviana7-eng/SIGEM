@@ -206,70 +206,134 @@ export default function AlunosTransporte({
         {alunosFiltrados.length === 0 ? (
           <EmptyState icon="users" texto="Nenhum aluno transportado encontrado com os filtros selecionados." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
-                  <th style={{ padding: "12px 16px" }}>Estudante</th>
-                  <th style={{ padding: "12px 16px" }}>Turma / Turno</th>
-                  <th style={{ padding: "12px 16px" }}>Rota / Linha</th>
-                  <th style={{ padding: "12px 16px" }}>Ponto de Embarque</th>
-                  <th style={{ padding: "12px 16px" }}>Responsável / Contato</th>
-                  <th style={{ padding: "12px 16px" }}>Necessidades</th>
-                  <th style={{ padding: "12px 16px" }}>Status</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {alunosFiltrados.map((aluno, idx) => (
-                  <tr key={aluno.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{aluno.nomeAluno}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <span style={{ fontWeight: 500, color: "#f8fafc" }}>{aluno.turma || "-"}</span>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{aluno.turno}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color="blue">{aluno.rotaNome || "Sem rota"}</Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <span style={{ display: "flex", alignItems: "center", gap: 5, color: "#cbd5e1" }}>
-                        <i className="ti ti-map-pin" style={{ color: "#f87171" }} />
-                        {aluno.pontoNome || "Ponto Principal"}
-                      </span>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ color: "#cbd5e1" }}>{aluno.responsavel || "-"}</div>
-                      <div style={{ fontSize: 11, color: "#60a5fa", fontWeight: 500 }}>{aluno.telefoneContato || "-"}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      {aluno.necessidadeEspecial && aluno.necessidadeEspecial !== "Nenhuma" ? (
-                        <Badge color="red">{aluno.necessidadeEspecial}</Badge>
-                      ) : (
-                        <span style={{ color: "#64748b" }}>-</span>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color={aluno.status === "Ativo" ? "green" : aluno.status === "Suspenso" ? "amber" : "gray"}>
-                        {aluno.status || "Ativo"}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                        <Btn onClick={() => abrirEditar(aluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-edit" />
-                        </Btn>
-                        <Btn variant="danger" onClick={() => handleExcluir(aluno.id, aluno.nomeAluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-trash" />
-                        </Btn>
-                      </div>
-                    </td>
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
+                    <th style={{ padding: "12px 16px" }}>Estudante</th>
+                    <th style={{ padding: "12px 16px" }}>Turma / Turno</th>
+                    <th style={{ padding: "12px 16px" }}>Rota / Linha</th>
+                    <th style={{ padding: "12px 16px" }}>Ponto de Embarque</th>
+                    <th style={{ padding: "12px 16px" }}>Responsável / Contato</th>
+                    <th style={{ padding: "12px 16px" }}>Necessidades</th>
+                    <th style={{ padding: "12px 16px" }}>Status</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {alunosFiltrados.map((aluno, idx) => (
+                    <tr key={aluno.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{aluno.nomeAluno}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <span style={{ fontWeight: 500, color: "#f8fafc" }}>{aluno.turma || "-"}</span>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{aluno.turno}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color="blue">{aluno.rotaNome || "Sem rota"}</Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: 5, color: "#cbd5e1" }}>
+                          <i className="ti ti-map-pin" style={{ color: "#f87171" }} />
+                          {aluno.pontoNome || "Ponto Principal"}
+                        </span>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ color: "#cbd5e1" }}>{aluno.responsavel || "-"}</div>
+                        <div style={{ fontSize: 11, color: "#60a5fa", fontWeight: 500 }}>{aluno.telefoneContato || "-"}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        {aluno.necessidadeEspecial && aluno.necessidadeEspecial !== "Nenhuma" ? (
+                          <Badge color="red">{aluno.necessidadeEspecial}</Badge>
+                        ) : (
+                          <span style={{ color: "#64748b" }}>-</span>
+                        )}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color={aluno.status === "Ativo" ? "green" : aluno.status === "Suspenso" ? "amber" : "gray"}>
+                          {aluno.status || "Ativo"}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                          <Btn onClick={() => abrirEditar(aluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-edit" />
+                          </Btn>
+                          <Btn variant="danger" onClick={() => handleExcluir(aluno.id, aluno.nomeAluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-trash" />
+                          </Btn>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {alunosFiltrados.map((aluno) => (
+                <div
+                  key={`mob-transp-${aluno.id}`}
+                  onClick={() => abrirEditar(aluno)}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    cursor: "pointer",
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: "rgba(59, 130, 246, 0.15)",
+                    color: "#60a5fa",
+                    border: "1px solid rgba(59, 130, 246, 0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 22,
+                    flexShrink: 0
+                  }}>
+                    <i className="ti ti-bus" />
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontWeight: 700,
+                      color: "var(--text-primary)",
+                      fontSize: 14,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}>
+                      {aluno.nomeAluno}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}>
+                      <Badge color="blue">{aluno.turma || "-"}</Badge>
+                      <Badge color="purple">{aluno.rotaNome || "Sem rota"}</Badge>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                    <Badge color={aluno.status === "Ativo" ? "green" : "gray"}>
+                      {aluno.status || "Ativo"}
+                    </Badge>
+                    <i className="ti ti-chevron-right" style={{ color: "var(--text-muted)", fontSize: 18 }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 

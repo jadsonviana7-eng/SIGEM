@@ -90,7 +90,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  color: #718096;
+  color: var(--text-muted, #718096);
   text-decoration: none;
   transition: all 0.18s ease;
   position: relative;
@@ -98,16 +98,18 @@
 }
 .navItem i {
   font-size: 21px;
-  color: #8896ab;
+  color: var(--text-subtle, #8896ab);
   transition: color 0.18s ease, transform 0.18s ease;
 }
 .navItem span {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 500;
   text-align: center;
   line-height: 1.1;
-  max-width: 62px;
-  white-space: nowrap;
+  max-width: 66px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   letter-spacing: -0.2px;
@@ -118,7 +120,7 @@
   color: var(--text-primary);
 }
 .navItem:hover i {
-  color: var(--text-primary);
+  color: var(--accent-indigo);
   transform: scale(1.08);
 }
 
@@ -171,8 +173,9 @@
   transition: all 0.15s ease;
 }
 .expandBtn:hover {
-  color: #ffffff;
-  border-color: #6366f1;
+  color: var(--accent-indigo);
+  border-color: var(--accent-indigo);
+  background: var(--bg-surface-hover);
 }
 
 /* Área Principal */
@@ -427,12 +430,12 @@
 /* Mobile & Drawer */
 .menuBtn {
   display: none;
-  background: #243144;
-  border: 1px solid #33435c;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
   width: 36px;
   height: 36px;
-  color: #f8fafc;
+  color: var(--text-primary);
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -454,15 +457,56 @@
 }
 
 @media (max-width: 768px) {
+  .topbar {
+    height: 60px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .topbarLeft {
+    gap: 8px;
+    max-width: 65%;
+  }
+
+  .schoolName {
+    max-width: 130px;
+    font-size: 13px;
+  }
+
+  .academicPill {
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .topbarRight {
+    gap: 6px;
+  }
+
+  .iconBtn {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+    border-radius: 8px;
+  }
+
+  .userAvatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
-    width: 84px;
+    width: 88px;
     height: 100%;
     transform: translateX(-100%);
-    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.7);
+    z-index: 120;
+    background: var(--bg-sidebar);
   }
   .sidebarOpen {
     transform: translateX(0);
@@ -477,9 +521,10 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(4px);
-    z-index: 90;
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 110;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -489,10 +534,133 @@
     pointer-events: auto;
   }
   .content {
-    padding: 16px;
-    padding-bottom: 80px;
+    padding: 14px 12px;
+    padding-bottom: 84px;
   }
   .userInfo {
     display: none;
+  }
+
+  /* Barra de Navegação Inferior (Mobile Dock) */
+  .bottomNav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-sidebar);
+    border-top: 1px solid var(--border-color);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 100;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+    overflow: visible;
+  }
+
+  .bottomNavItem {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    padding: 4px 0;
+    touch-action: manipulation;
+  }
+
+  .bottomNavItem i {
+    font-size: 20px;
+    transition: transform 0.15s ease;
+  }
+
+  .bottomNavItem:active {
+    transform: scale(0.92);
+  }
+
+  .bottomNavItemActive {
+    color: var(--accent-indigo) !important;
+  }
+
+  .bottomNavItemActive i {
+    color: var(--accent-indigo) !important;
+    transform: translateY(-1px);
+  }
+
+  /* Botão Home Central no Dock Inferior */
+  .bottomNavCenterHome {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    position: relative;
+    top: -10px;
+    touch-action: manipulation;
+  }
+
+  .homeCircleIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-indigo, #6366f1) 0%, #4338ca 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.45);
+    border: 3px solid var(--bg-sidebar, #161f2e);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .bottomNavCenterHome:active .homeCircleIcon {
+    transform: scale(0.92);
+  }
+
+  .homeCircleLabel {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-top: 2px;
+    transition: color 0.15s ease;
+  }
+
+  .bottomNavCenterHomeActive .homeCircleIcon {
+    background: linear-gradient(135deg, #4f46e5 0%, #312e81 100%);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35), 0 4px 16px rgba(99, 102, 241, 0.6);
+  }
+
+  .bottomNavCenterHomeActive .homeCircleLabel {
+    color: var(--accent-indigo, #818cf8) !important;
+  }
+
+  .fab {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .academicPill {
+    display: none;
+  }
+  .schoolName {
+    max-width: 140px;
   }
 }

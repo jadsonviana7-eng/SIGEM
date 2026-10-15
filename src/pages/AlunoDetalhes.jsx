@@ -929,61 +929,61 @@ export default function AlunoDetalhes() {
                 )}
               </div>
 
-              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 13, color: "#94a3b8" }}>
+              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 13, color: "var(--text-secondary)" }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-id" style={{ color: "#818cf8" }} /> Matrícula: <strong style={{ color: "#ffffff" }}>{aluno.matricula || "Não gerada"}</strong>
+                  <i className="ti ti-id" style={{ color: "#818cf8" }} /> Matrícula: <strong style={{ color: "var(--text-primary)" }}>{aluno.matricula || "Não gerada"}</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-chalkboard" style={{ color: "#818cf8" }} /> Turma: <strong style={{ color: "#ffffff" }}>{aluno.turma} ({aluno.ano})</strong>
+                  <i className="ti ti-chalkboard" style={{ color: "#818cf8" }} /> Turma: <strong style={{ color: "var(--text-primary)" }}>{aluno.turma} ({aluno.ano})</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-sun" style={{ color: "#818cf8" }} /> Turno: <strong style={{ color: "#ffffff" }}>{aluno.turno}</strong>
+                  <i className="ti ti-sun" style={{ color: "#818cf8" }} /> Turno: <strong style={{ color: "var(--text-primary)" }}>{aluno.turno}</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-cake" style={{ color: "#818cf8" }} /> Idade: <strong style={{ color: "#ffffff" }}>{idadeCalculada}</strong>
+                  <i className="ti ti-cake" style={{ color: "#818cf8" }} /> Idade: <strong style={{ color: "var(--text-primary)" }}>{idadeCalculada}</strong>
                 </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <i className="ti ti-school" style={{ color: "#818cf8" }} /> Escola: <strong style={{ color: "#ffffff" }}>{aluno.escolaNome || "Unidade Polo"}</strong>
+                  <i className="ti ti-school" style={{ color: "#818cf8" }} /> Escola: <strong style={{ color: "var(--text-primary)" }}>{aluno.escolaNome || "Unidade Polo"}</strong>
                 </span>
               </div>
             </div>
           </div>
 
           {/* Mini KPI Cards Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14, marginTop: 20, paddingTop: 18, borderTop: "1px solid #2c3b52" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14, marginTop: 20, paddingTop: 18, borderTop: "1px solid var(--border-color)" }}>
             {/* Card Docs */}
-            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ background: "var(--bg-surface)", padding: "12px 16px", borderRadius: 12, border: "1px solid var(--border-color)", display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-files" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Documentos</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Documentos</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)" }}>
                   {totalDocsEntregues} de {TIPOS_DOCUMENTOS_ALUNO.length} <span style={{ fontSize: 12, fontWeight: 500, color: percentualDocs === 100 ? "#34d399" : "#fbbf24" }}>({percentualDocs}% obrig.)</span>
                 </div>
               </div>
             </div>
 
             {/* Card Média Geral */}
-            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ background: "var(--bg-surface)", padding: "12px 16px", borderRadius: 12, border: "1px solid var(--border-color)", display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-award" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Média Geral</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Média Geral</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)" }}>
                   {mediaGeral !== null ? `${mediaGeral} / 10.0` : "Sem notas"}
                 </div>
               </div>
             </div>
 
             {/* Card Frequência */}
-            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ background: "var(--bg-surface)", padding: "12px 16px", borderRadius: 12, border: "1px solid var(--border-color)", display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", border: "1px solid rgba(168, 85, 247, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-calendar-check" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Frequência</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Frequência</div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: percentualPresencaGeral >= 75 ? "#34d399" : "#f87171" }}>
                   {percentualPresencaGeral}% {percentualPresencaGeral < 75 && <span style={{ fontSize: 11 }}>⚠️ Baixa</span>}
                 </div>
@@ -991,13 +991,13 @@ export default function AlunoDetalhes() {
             </div>
 
             {/* Card Ocorrências */}
-            <div style={{ background: "#243144", padding: "12px 16px", borderRadius: 12, border: "1px solid #33435c", display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ background: "var(--bg-surface)", padding: "12px 16px", borderRadius: 12, border: "1px solid var(--border-color)", display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 42, height: 42, borderRadius: 10, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", border: "1px solid rgba(245, 158, 11, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                 <i className="ti ti-clipboard-text" />
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Ocorrências / Apont.</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Ocorrências / Apont.</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)" }}>
                   {ocorrencias.length} reg. / {apontamentos.length} apont.
                 </div>
               </div>

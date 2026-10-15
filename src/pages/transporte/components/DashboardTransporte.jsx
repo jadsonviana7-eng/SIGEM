@@ -183,7 +183,7 @@ export default function DashboardTransporte({
       </div>
 
       {/* Grid de Cards de Estatísticas Principais */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+      <div className="sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
         <Card style={{ padding: "18px 20px", borderLeft: "4px solid #3b82f6", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>

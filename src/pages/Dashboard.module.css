@@ -1,0 +1,19 @@
+.mobileContainer {
+  display: none;
+  width: 100%;
+}
+
+.desktopContainer {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .mobileContainer {
+    display: block;
+  }
+
+  .desktopContainer {
+    display: none !important;
+  }
+}

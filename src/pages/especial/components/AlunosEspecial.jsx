@@ -231,98 +231,164 @@ export default function AlunosEspecial({
         {alunosFiltrados.length === 0 ? (
           <EmptyState icon="users" texto="Nenhum estudante com cadastro de Educação Especial encontrado." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "1px solid #2c3b52", color: "#94a3b8" }}>
-                  <th style={{ padding: "12px 16px" }}>Estudante</th>
-                  <th style={{ padding: "12px 16px" }}>Turma Regular</th>
-                  <th style={{ padding: "12px 16px" }}>Diagnóstico / CID</th>
-                  <th style={{ padding: "12px 16px" }}>Laudo Homologado</th>
-                  <th style={{ padding: "12px 16px" }}>Atendimento AEE</th>
-                  <th style={{ padding: "12px 16px" }}>Mediação / Apoio</th>
-                  <th style={{ padding: "12px 16px" }}>Status</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {alunosFiltrados.map((aluno) => (
-                  <tr key={aluno.id} style={{ borderBottom: "1px solid #243144" }}>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#f8fafc" }}>{aluno.nomeAluno}</div>
-                      {aluno.responsavelNome && (
-                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Resp: {aluno.responsavelNome}</div>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <span style={{ fontWeight: 500, color: "#cbd5e1" }}>{aluno.turmaRegular || "-"}</span>
-                    </td>
-                    <td style={{ padding: "12px 16px", maxWidth: 240 }}>
-                      <div style={{ fontWeight: 600, color: "#818cf8" }}>{aluno.diagnosticoPrincipal}</div>
-                      {aluno.cid10 && <div style={{ fontSize: 11, color: "#94a3b8" }}>{aluno.cid10}</div>}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color={aluno.temLaudoMedico?.includes("Sim") ? "green" : "amber"}>
-                        {aluno.temLaudoMedico || "Pendente"}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                      <div>{aluno.frequenciaAEE || "A definir"}</div>
-                      {aluno.professorAEEResponsavel && (
-                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Prof(a): {aluno.professorAEEResponsavel}</div>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12 }}>
-                      {aluno.necessitaMediadorApoio?.includes("Sim") ? (
-                        <div>
-                          <Badge color="blue">Com Mediador(a)</Badge>
-                          {aluno.profissionalApoio && (
-                            <div style={{ fontSize: 11, color: "#cbd5e1", marginTop: 2 }}>{aluno.profissionalApoio}</div>
-                          )}
-                        </div>
-                      ) : (
-                        <span style={{ color: "#64748b" }}>Autônomo</span>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color={aluno.status === "Ativo no AEE" ? "green" : "gray"}>
-                        {aluno.status || "Ativo"}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                        <button
-                          onClick={() => abrirProntuarioSigiloso(aluno)}
-                          title="Ver Prontuário Confidencial"
-                          style={{
-                            background: "#243144",
-                            color: "#818cf8",
-                            border: "1px solid #33435c",
-                            borderRadius: 6,
-                            padding: "6px 10px",
-                            fontSize: 12,
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 4
-                          }}
-                        >
-                          <i className="ti ti-lock" /> Prontuário
-                        </button>
-                        <Btn onClick={() => abrirEditar(aluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-edit" />
-                        </Btn>
-                        <Btn variant="danger" onClick={() => handleExcluir(aluno.id, aluno.nomeAluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-trash" />
-                        </Btn>
-                      </div>
-                    </td>
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #2c3b52", color: "#94a3b8" }}>
+                    <th style={{ padding: "12px 16px" }}>Estudante</th>
+                    <th style={{ padding: "12px 16px" }}>Turma Regular</th>
+                    <th style={{ padding: "12px 16px" }}>Diagnóstico / CID</th>
+                    <th style={{ padding: "12px 16px" }}>Laudo Homologado</th>
+                    <th style={{ padding: "12px 16px" }}>Atendimento AEE</th>
+                    <th style={{ padding: "12px 16px" }}>Mediação / Apoio</th>
+                    <th style={{ padding: "12px 16px" }}>Status</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {alunosFiltrados.map((aluno) => (
+                    <tr key={aluno.id} style={{ borderBottom: "1px solid #243144" }}>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#f8fafc" }}>{aluno.nomeAluno}</div>
+                        {aluno.responsavelNome && (
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>Resp: {aluno.responsavelNome}</div>
+                        )}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <span style={{ fontWeight: 500, color: "#cbd5e1" }}>{aluno.turmaRegular || "-"}</span>
+                      </td>
+                      <td style={{ padding: "12px 16px", maxWidth: 240 }}>
+                        <div style={{ fontWeight: 600, color: "#818cf8" }}>{aluno.diagnosticoPrincipal}</div>
+                        {aluno.cid10 && <div style={{ fontSize: 11, color: "#94a3b8" }}>{aluno.cid10}</div>}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color={aluno.temLaudoMedico?.includes("Sim") ? "green" : "amber"}>
+                          {aluno.temLaudoMedico || "Pendente"}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                        <div>{aluno.frequenciaAEE || "A definir"}</div>
+                        {aluno.professorAEEResponsavel && (
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>Prof(a): {aluno.professorAEEResponsavel}</div>
+                        )}
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                        {aluno.necessitaMediadorApoio?.includes("Sim") ? (
+                          <div>
+                            <Badge color="blue">Com Mediador(a)</Badge>
+                            {aluno.profissionalApoio && (
+                              <div style={{ fontSize: 11, color: "#cbd5e1", marginTop: 2 }}>{aluno.profissionalApoio}</div>
+                            )}
+                          </div>
+                        ) : (
+                          <span style={{ color: "#64748b" }}>Autônomo</span>
+                        )}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color={aluno.status === "Ativo no AEE" ? "green" : "gray"}>
+                          {aluno.status || "Ativo"}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                          <button
+                            onClick={() => abrirProntuarioSigiloso(aluno)}
+                            title="Ver Prontuário Confidencial"
+                            style={{
+                              background: "#243144",
+                              color: "#818cf8",
+                              border: "1px solid #33435c",
+                              borderRadius: 6,
+                              padding: "6px 10px",
+                              fontSize: 12,
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 4
+                            }}
+                          >
+                            <i className="ti ti-lock" /> Prontuário
+                          </button>
+                          <Btn onClick={() => abrirEditar(aluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-edit" />
+                          </Btn>
+                          <Btn variant="danger" onClick={() => handleExcluir(aluno.id, aluno.nomeAluno)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-trash" />
+                          </Btn>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {alunosFiltrados.map((aluno) => (
+                <div
+                  key={`mob-aee-${aluno.id}`}
+                  onClick={() => abrirProntuarioSigiloso(aluno)}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    cursor: "pointer",
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: "rgba(99, 102, 241, 0.15)",
+                    color: "#818cf8",
+                    border: "1px solid rgba(99, 102, 241, 0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 22,
+                    flexShrink: 0
+                  }}>
+                    <i className="ti ti-heart-handshake" />
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontWeight: 700,
+                      color: "var(--text-primary)",
+                      fontSize: 14,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}>
+                      {aluno.nomeAluno}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}>
+                      <Badge color="blue">{aluno.turmaRegular || "Sem Turma"}</Badge>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                        {aluno.diagnosticoPrincipal || "AEE"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                    <Badge color={aluno.status === "Ativo no AEE" ? "green" : "gray"}>
+                      {aluno.status === "Ativo no AEE" ? "Ativo" : aluno.status || "Ativo"}
+                    </Badge>
+                    <i className="ti ti-chevron-right" style={{ color: "var(--text-muted)", fontSize: 18 }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 

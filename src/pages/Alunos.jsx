@@ -342,115 +342,209 @@ export default function Alunos() {
     <div>
       {alerta && <Alert tipo={alerta.tipo}>{alerta.msg}</Alert>}
 
-      <div style={{ display:"flex",gap:12,marginBottom:16,alignItems:"center",flexWrap:"wrap" }}>
-        <div style={{ display:"flex",alignItems:"center",gap:8,background:"#243144",border:"1px solid #33435c",borderRadius:10,padding:"8px 12px",flex:1,maxWidth:340 }}>
-          <i className="ti ti-search" style={{ color:"#94a3b8",fontSize:16 }} />
+      <div style={{ display:"flex",gap:10,marginBottom:16,alignItems:"center",flexWrap:"wrap" }}>
+        <div style={{ display:"flex",alignItems:"center",gap:8,background:"var(--bg-surface)",border:"1px solid var(--border-color)",borderRadius:10,padding:"8px 12px",flex:"1 1 240px",maxWidth:"100%" }}>
+          <i className="ti ti-search" style={{ color:"var(--text-muted)",fontSize:16 }} />
           <input value={busca} onChange={e=>setBusca(e.target.value)} placeholder="Buscar por nome, matrícula ou turma..."
-            style={{ border:"none",background:"none",fontSize:13,outline:"none",width:"100%",color:"#ffffff" }} />
+            style={{ border:"none",background:"none",fontSize:13,outline:"none",width:"100%",color:"var(--text-primary)" }} />
         </div>
         <select
           value={filtroTurma}
           onChange={e => setFiltroTurma(e.target.value)}
-          style={{ padding: "8.5px 12px", border: "1px solid #33435c", borderRadius: 10, fontSize: 13, outline: "none", background: "#243144", color: "#ffffff", cursor: "pointer" }}
+          style={{ padding: "8.5px 12px", border: "1px solid var(--border-color)", borderRadius: 10, fontSize: 13, outline: "none", background: "var(--bg-surface)", color: "var(--text-primary)", cursor: "pointer", flex: "1 1 140px" }}
         >
-          <option value="" style={{ background: "#1e293b", color: "#ffffff" }}>Todas as Turmas</option>
+          <option value="">Todas as Turmas</option>
           {(turmas || []).map(t => (
-            <option key={t.id} value={t.nome} style={{ background: "#1e293b", color: "#ffffff" }}>{t.nome}</option>
+            <option key={t.id} value={t.nome}>{t.nome}</option>
           ))}
         </select>
-        <Btn variant="primary" onClick={abrirNovo}>
+        <Btn variant="primary" onClick={abrirNovo} style={{ flex: "0 0 auto" }}>
           <i className="ti ti-plus" aria-hidden="true" /> Novo aluno
         </Btn>
       </div>
 
-      <Card style={{ padding:0,overflow:"hidden" }}>
-        {!filtrados.length ? <EmptyState icon="users-off" texto="Nenhum aluno encontrado." /> : (
-          <table style={{ width:"100%",borderCollapse:"collapse" }}>
-            <thead>
-              <tr style={{ background: "rgba(36, 49, 68, 0.5)" }}>
-                {["Matrícula", "Nome do Aluno", "Ano / Turma", "Turno", "Mãe / Resp.", "Docs Anexos", "Status", "Ações"].map(h => (
-                  <th key={h} style={{ textAlign:"left",padding:"12px 14px",fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.5px",borderBottom:"1px solid #2c3b52" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtrados.map(a => {
-                const censoCompleto = !!(a.cpf && a.mae && a.nascimento);
-                const qtdDocs = Object.keys(a.documentos || {}).length;
-
-                return (
-                  <Fragment key={a.id}>
-                    <tr
-                      onClick={() => navigate(`/alunos/${a.id}`)}
-                      style={{ cursor: "pointer", borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
-                      onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
-                      onMouseOut={e => e.currentTarget.style.background="transparent"}
-                    >
-                      <td style={{ padding:"12px 14px",fontFamily:"monospace",fontSize:12,color:"#94a3b8" }}>{a.matricula || "—"}</td>
-                      <td style={{ padding:"12px 14px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          {/* Miniatura do Aluno */}
-                          <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "#243144", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
-                            {a.fotoUrl ? (
-                              <img src={a.fotoUrl} alt={a.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                            ) : (
-                              <i className="ti ti-user" style={{ fontSize: 20, color: "#94a3b8" }} />
-                            )}
-                          </div>
-                          <div style={{ display: "flex", flexDirection: "column" }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                              <span style={{ fontWeight:600, color: "#ffffff", fontSize: 13 }}>{a.nome}</span>
-                              {!censoCompleto && <span style={{ color: "#ef4444", fontSize: 10, cursor: "help" }} title="Dados obrigatórios do Censo Escolar pendentes (CPF/Mãe/Nascimento)">⚠️</span>}
-                            </div>
-                            <span style={{ fontSize: 11, color: "#94a3b8" }}>CPF: {a.cpf || "Não informado"}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td style={{ padding:"12px 14px" }}><Badge>{a.turma}</Badge> <span style={{ fontSize:11,color:"#94a3b8",marginLeft:4 }}>{a.ano}</span></td>
-                      <td style={{ padding:"12px 14px",fontSize:13,color:"#cbd5e1" }}>{a.turno}</td>
-                      <td style={{ padding:"12px 14px",fontSize:12,color:"#cbd5e1" }}>
-                        <div>{a.mae || <span style={{ color: "#f87171" }}>Sem Mãe</span>}</div>
-                        {a.responsavel && a.responsavel !== a.mae && <div style={{ fontSize: 11, color: "#94a3b8" }}>Resp: {a.responsavel}</div>}
-                      </td>
-                      <td style={{ padding:"12px 14px" }}>
-                        <span style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 4,
-                          fontSize: 11,
-                          fontWeight: 600,
-                          padding: "3px 9px",
-                          borderRadius: 10,
-                          background: qtdDocs >= 4 ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
-                          color: qtdDocs >= 4 ? "#34d399" : "#fbbf24",
-                          border: qtdDocs >= 4 ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(245, 158, 11, 0.3)"
-                        }}>
-                          <i className="ti ti-folder" /> {qtdDocs} / {TIPOS_DOCUMENTOS_ALUNO.length}
-                        </span>
-                      </td>
-                      <td style={{ padding:"12px 14px" }}><Badge color={a.status==="Ativo"?"green":a.status==="Transferido"?"amber":"gray"}>{a.status || "Ativo"}</Badge></td>
-                      <td style={{ padding:"12px 14px" }}>
-                        <div style={{ display:"flex",gap:4 }}>
-                          <Btn
-                            onClick={(e) => { e.stopPropagation(); navigate(`/alunos/${a.id}`); }}
-                            style={{ padding:"5px 10px",fontSize:12, background: "rgba(56, 189, 248, 0.12)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)", fontWeight: 600 }}
-                            title="Abrir Ficha Expandida do Aluno"
-                          >
-                            <i className="ti ti-id" style={{ fontSize: 13 }} aria-hidden="true" /> Ficha
-                          </Btn>
-                          <Btn onClick={(e) => { e.stopPropagation(); abrirOcorrencias(a); }} style={{ padding:"5px 8px",fontSize:12, background: "rgba(192, 132, 252, 0.12)", color: "#c084fc", border: "1px solid rgba(192, 132, 252, 0.3)" }} title="Ocorrências"><i className="ti ti-clipboard-text" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
-                          <Btn onClick={(e) => { e.stopPropagation(); abrirEditar(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Editar Aluno"><i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
-                          <Btn variant="danger" onClick={(e) => { e.stopPropagation(); remover(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Excluir Aluno"><i className="ti ti-trash" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
-                        </div>
-                      </td>
+      {!filtrados.length ? (
+        <EmptyState icon="users-off" texto="Nenhum aluno encontrado." />
+      ) : (
+        <>
+          {/* Visualização Desktop: Tabela Estruturada Completa */}
+          <div className="sigem-desktop-table">
+            <Card style={{ padding: 0, overflow: "hidden" }}>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ background: "var(--bg-surface)" }}>
+                      {["Matrícula", "Nome do Aluno", "Ano / Turma", "Turno", "Mãe / Resp.", "Docs Anexos", "Status", "Ações"].map(h => (
+                        <th key={h} style={{ textAlign:"left",padding:"12px 14px",fontSize:11,fontWeight:700,color:"var(--text-muted)",textTransform:"uppercase",letterSpacing:"0.5px",borderBottom:"1px solid var(--border-color)" }}>{h}</th>
+                      ))}
                     </tr>
-                  </Fragment>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
-      </Card>
+                  </thead>
+                  <tbody>
+                    {filtrados.map(a => {
+                      const censoCompleto = !!(a.cpf && a.mae && a.nascimento);
+                      const qtdDocs = Object.keys(a.documentos || {}).length;
+
+                      return (
+                        <Fragment key={a.id}>
+                          <tr
+                            onClick={() => navigate(`/alunos/${a.id}`)}
+                            style={{ cursor: "pointer", borderBottom: "1px solid var(--border-color)", transition: "background 0.15s ease" }}
+                            onMouseOver={e => e.currentTarget.style.background="var(--bg-surface)"}
+                            onMouseOut={e => e.currentTarget.style.background="transparent"}
+                          >
+                            <td style={{ padding:"12px 14px",fontFamily:"monospace",fontSize:12,color:"var(--text-muted)" }}>{a.matricula || "—"}</td>
+                            <td style={{ padding:"12px 14px" }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                                <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "var(--bg-surface)", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid var(--border-color)", flexShrink: 0 }}>
+                                  {a.fotoUrl ? (
+                                    <img src={a.fotoUrl} alt={a.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                  ) : (
+                                    <i className="ti ti-user" style={{ fontSize: 20, color: "var(--text-muted)" }} />
+                                  )}
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                    <span style={{ fontWeight:600, color: "var(--text-primary)", fontSize: 13 }}>{a.nome}</span>
+                                    {!censoCompleto && <span style={{ color: "#ef4444", fontSize: 10, cursor: "help" }} title="Dados obrigatórios do Censo Escolar pendentes (CPF/Mãe/Nascimento)">⚠️</span>}
+                                  </div>
+                                  <span style={{ fontSize: 11, color: "var(--text-muted)" }}>CPF: {a.cpf || "Não informado"}</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td style={{ padding:"12px 14px" }}><Badge>{a.turma}</Badge> <span style={{ fontSize:11,color:"var(--text-muted)",marginLeft:4 }}>{a.ano}</span></td>
+                            <td style={{ padding:"12px 14px",fontSize:13,color:"var(--text-secondary)" }}>{a.turno}</td>
+                            <td style={{ padding:"12px 14px",fontSize:12,color:"var(--text-secondary)" }}>
+                              <div>{a.mae || <span style={{ color: "#f87171" }}>Sem Mãe</span>}</div>
+                              {a.responsavel && a.responsavel !== a.mae && <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Resp: {a.responsavel}</div>}
+                            </td>
+                            <td style={{ padding:"12px 14px" }}>
+                              <span style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 4,
+                                fontSize: 11,
+                                fontWeight: 600,
+                                padding: "3px 9px",
+                                borderRadius: 10,
+                                background: qtdDocs >= 4 ? "var(--badge-green-bg, rgba(16, 185, 129, 0.15))" : "var(--badge-amber-bg, rgba(245, 158, 11, 0.15))",
+                                color: qtdDocs >= 4 ? "var(--badge-green-text, #34d399)" : "var(--badge-amber-text, #fbbf24)",
+                                border: qtdDocs >= 4 ? "1px solid var(--badge-green-border, rgba(16, 185, 129, 0.3))" : "1px solid var(--badge-amber-border, rgba(245, 158, 11, 0.3))"
+                              }}>
+                                <i className="ti ti-folder" /> {qtdDocs} / {TIPOS_DOCUMENTOS_ALUNO.length}
+                              </span>
+                            </td>
+                            <td style={{ padding:"12px 14px" }}><Badge color={a.status==="Ativo"?"green":a.status==="Transferido"?"amber":"gray"}>{a.status || "Ativo"}</Badge></td>
+                            <td style={{ padding:"12px 14px" }}>
+                              <div style={{ display:"flex",gap:4 }}>
+                                <Btn
+                                  onClick={(e) => { e.stopPropagation(); navigate(`/alunos/${a.id}`); }}
+                                  style={{ padding:"5px 10px",fontSize:12, background: "var(--badge-blue-bg, rgba(56, 189, 248, 0.12))", color: "var(--badge-blue-text, #0369a1)", border: "1px solid var(--badge-blue-border, rgba(56, 189, 248, 0.3))", fontWeight: 600 }}
+                                  title="Abrir Ficha Expandida do Aluno"
+                                >
+                                  <i className="ti ti-id" style={{ fontSize: 13 }} aria-hidden="true" /> Ficha
+                                </Btn>
+                                <Btn onClick={(e) => { e.stopPropagation(); abrirOcorrencias(a); }} style={{ padding:"5px 8px",fontSize:12, background: "var(--badge-purple-bg, rgba(192, 132, 252, 0.12))", color: "var(--badge-purple-text, #6d28d9)", border: "1px solid var(--badge-purple-border, rgba(192, 132, 252, 0.3))" }} title="Ocorrências"><i className="ti ti-clipboard-text" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
+                                <Btn onClick={(e) => { e.stopPropagation(); abrirEditar(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Editar Aluno"><i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
+                                <Btn variant="danger" onClick={(e) => { e.stopPropagation(); remover(a); }} style={{ padding:"5px 8px",fontSize:12 }} title="Excluir Aluno"><i className="ti ti-trash" style={{ fontSize: 13 }} aria-hidden="true" /></Btn>
+                              </div>
+                            </td>
+                          </tr>
+                        </Fragment>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </div>
+
+          {/* Visualização Mobile: Cards Otimizados (Foto, Nome, Turma, Matrícula e Toque) */}
+          <div className="sigem-mobile-cards">
+            {filtrados.map((a) => {
+              const censoCompleto = !!(a.cpf && a.mae && a.nascimento);
+              return (
+                <div
+                  key={`mob-${a.id}`}
+                  onClick={() => navigate(`/alunos/${a.id}`)}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    cursor: "pointer",
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+                >
+                  {/* Foto do Aluno */}
+                  <div
+                    style={{
+                      width: 46,
+                      height: 46,
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      background: "var(--bg-surface)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: "1px solid var(--border-color)",
+                      flexShrink: 0
+                    }}
+                  >
+                    {a.fotoUrl ? (
+                      <img src={a.fotoUrl} alt={a.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                      <i className="ti ti-user" style={{ fontSize: 24, color: "var(--text-muted)" }} />
+                    )}
+                  </div>
+
+                  {/* Informações Essenciais */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                      <span
+                        style={{
+                          fontWeight: 700,
+                          color: "var(--text-primary)",
+                          fontSize: 13.5,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis"
+                        }}
+                      >
+                        {a.nome}
+                      </span>
+                      {!censoCompleto && <span style={{ color: "#ef4444", fontSize: 11 }} title="Censo pendente">⚠️</span>}
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                      <Badge color="blue">{a.turma || "Sem Turma"}</Badge>
+                      {a.ano && <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{a.ano}</span>}
+                      <span style={{ fontSize: 11, fontFamily: "monospace", color: "var(--text-muted)", marginLeft: "auto" }}>
+                        #{a.matricula || "S/N"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Status & Indicador de Navegação */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                    <Badge color={a.status === "Ativo" ? "green" : a.status === "Transferido" ? "amber" : "gray"}>
+                      {a.status || "Ativo"}
+                    </Badge>
+                    <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                      <i className="ti ti-chevron-right" />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {/* Modal de Cadastro / Edição com aba Documentos */}
       {modalAberto && (
@@ -461,14 +555,14 @@ export default function Alunos() {
           salvando={salvando}
           width={960}
         >
-          <div style={{ display: "flex", gap: 20, minHeight: 460 }}>
-            {/* Navegação Lateral (Sidebar) */}
-            <div style={{
+          <div className="sigem-modal-container" style={{ display: "flex", gap: 16, minHeight: 440 }}>
+            {/* Navegação Lateral (Sidebar) / Abas no Mobile */}
+            <div className="sigem-modal-tabs" style={{
               width: 190,
               display: "flex",
               flexDirection: "column",
               gap: 6,
-              borderRight: "1px solid #2c3b52",
+              borderRight: "1px solid var(--border-color)",
               paddingRight: 12,
               flexShrink: 0
             }}>
@@ -483,18 +577,19 @@ export default function Alunos() {
                 <button
                   key={t.id}
                   type="button"
+                  className="sigem-modal-tab-btn"
                   onClick={() => setAbaAtiva(t.id)}
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 10,
-                    padding: "10px 14px",
+                    gap: 8,
+                    padding: "9px 12px",
                     border: "none",
                     borderRadius: 8,
-                    background: abaAtiva === t.id ? "rgba(99, 102, 241, 0.15)" : "transparent",
+                    background: abaAtiva === t.id ? "var(--badge-purple-bg, rgba(99, 102, 241, 0.15))" : "transparent",
                     fontSize: 13,
-                    fontWeight: abaAtiva === t.id ? 600 : 500,
-                    color: abaAtiva === t.id ? "#818cf8" : "#94a3b8",
+                    fontWeight: abaAtiva === t.id ? 700 : 500,
+                    color: abaAtiva === t.id ? "var(--accent-indigo, #818cf8)" : "var(--text-muted)",
                     cursor: "pointer",
                     transition: "all 0.15s ease",
                     textAlign: "left"

@@ -117,7 +117,7 @@ export function calcularResultadoGeral(disciplinasProcessadas, frequenciaGlobalP
 /**
  * Constrói o boletim completo do aluno
  */
-export async function getBoletimCompleto(aluno, escolaId, anoLetivo = "2026") {
+export async function getBoletimCompleto(aluno, escolaId, anoLetivo = "2026", escolaInfo = null) {
   if (!aluno) return null;
 
   try {
@@ -195,6 +195,8 @@ export async function getBoletimCompleto(aluno, escolaId, anoLetivo = "2026") {
       turma: aluno.turma || "Não enturmado",
       anoLetivo: String(anoLetivo),
       turno: aluno.turno || "Matutino",
+      escolaId: aluno.escolaId || escolaId || "",
+      escola: escolaInfo,
       totalFaltas: totalFaltasGeral,
       frequenciaPerc,
       mediaGeral,

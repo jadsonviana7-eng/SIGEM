@@ -118,7 +118,7 @@ export default function Professores() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        borderBottom: "1px solid #2c3b52",
+        borderBottom: "1px solid var(--border-color)",
         marginBottom: 16,
         gap: 8
       }}>
@@ -132,7 +132,7 @@ export default function Professores() {
               background: "none",
               fontSize: 14,
               fontWeight: 600,
-              color: abaAtiva === "professores" ? "#818cf8" : "#94a3b8",
+              color: abaAtiva === "professores" ? "var(--primary-color, #4f46e5)" : "var(--text-muted)",
               cursor: "pointer"
             }}
           >
@@ -148,7 +148,7 @@ export default function Professores() {
               background: "none",
               fontSize: 14,
               fontWeight: 600,
-              color: abaAtiva === "demais-servidores" ? "#818cf8" : "#94a3b8",
+              color: abaAtiva === "demais-servidores" ? "var(--primary-color, #4f46e5)" : "var(--text-muted)",
               cursor: "pointer"
             }}
           >
@@ -161,80 +161,150 @@ export default function Professores() {
         </Btn>
       </div>
 
-      <Card style={{ padding:0,overflow:"hidden" }}>
-        {!listaFiltrada.length ? (
-          <EmptyState
-            icon={abaAtiva === "professores" ? "chalkboard" : "users"}
-            texto={abaAtiva === "professores" ? "Nenhum professor cadastrado." : "Nenhum servidor administrativo cadastrado."}
-          />
-        ) : (
-          <table style={{ width:"100%",borderCollapse:"collapse" }}>
-            <thead>
-              <tr style={{ background: "rgba(36, 49, 68, 0.5)" }}>
-                {colunas.map(h => (
-                  <th key={h} style={{ textAlign:"left",padding:"12px 14px",fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.5px",borderBottom:"1px solid #2c3b52" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {listaFiltrada.map(p => (
-                <tr key={p.id} style={{ borderBottom:"1px solid #2c3b52", transition: "background 0.15s ease" }}
-                  onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
-                  onMouseOut={e => e.currentTarget.style.background="transparent"}
-                >
-                  <td style={{ padding:"12px 14px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "#243144", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
-                        {p.fotoUrl ? (
-                          <img src={p.fotoUrl} alt={p.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                        ) : (
-                          <i className="ti ti-user" style={{ fontSize: 20, color: "#94a3b8" }} />
-                        )}
-                      </div>
-                      <span style={{ fontWeight:600, color:"#ffffff", fontSize: 13 }}>{p.nome}</span>
-                    </div>
-                  </td>
-                  <td style={{ padding:"12px 14px",fontSize:13 }}>
-                    <Badge color="gray">{p.cargo || "Professor"}</Badge>
-                    {p.vinculo && <Badge color={p.vinculo === "Efetivo" ? "blue" : "purple"} style={{ marginLeft: 4 }}>{p.vinculo}</Badge>}
-                  </td>
-                  {abaAtiva === "professores" && (
-                    <td style={{ padding:"12px 14px" }}>
-                      {(p.disciplinas||[]).map(d => (
-                        <Badge key={d} color="blue" style={{ marginRight:3 }}>{d}</Badge>
+      {!listaFiltrada.length ? (
+        <EmptyState
+          icon={abaAtiva === "professores" ? "chalkboard" : "users"}
+          texto={abaAtiva === "professores" ? "Nenhum professor cadastrado." : "Nenhum servidor administrativo cadastrado."}
+        />
+      ) : (
+        <>
+          {/* Visualização Desktop: Tabela Estruturada */}
+          <div className="sigem-desktop-table">
+            <Card style={{ padding: 0, overflow: "hidden" }}>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ background: "var(--bg-surface)" }}>
+                      {colunas.map(h => (
+                        <th key={h} style={{ textAlign:"left",padding:"12px 14px",fontSize:11,fontWeight:700,color:"var(--text-muted)",textTransform:"uppercase",letterSpacing:"0.5px",borderBottom:"1px solid var(--border-color)" }}>{h}</th>
                       ))}
-                    </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {listaFiltrada.map(p => (
+                      <tr key={p.id} style={{ borderBottom:"1px solid var(--border-color)", transition: "background 0.15s ease" }}
+                        onMouseOver={e => e.currentTarget.style.background="var(--bg-surface)"}
+                        onMouseOut={e => e.currentTarget.style.background="transparent"}
+                      >
+                        <td style={{ padding:"12px 14px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                            <div style={{ width: 40, height: 40, borderRadius: 8, overflow: "hidden", background: "var(--bg-surface)", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid var(--border-color)", flexShrink: 0 }}>
+                              {p.fotoUrl ? (
+                                <img src={p.fotoUrl} alt={p.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                              ) : (
+                                <i className="ti ti-user" style={{ fontSize: 20, color: "var(--text-muted)" }} />
+                              )}
+                            </div>
+                            <span style={{ fontWeight:600, color:"var(--text-primary)", fontSize: 13 }}>{p.nome}</span>
+                          </div>
+                        </td>
+                        <td style={{ padding:"12px 14px",fontSize:13 }}>
+                          <Badge color="gray">{p.cargo || "Professor"}</Badge>
+                          {p.vinculo && <Badge color={p.vinculo === "Efetivo" ? "blue" : "purple"} style={{ marginLeft: 4 }}>{p.vinculo}</Badge>}
+                        </td>
+                        {abaAtiva === "professores" && (
+                          <td style={{ padding:"12px 14px" }}>
+                            {(p.disciplinas||[]).map(d => (
+                              <Badge key={d} color="blue" style={{ marginRight:3 }}>{d}</Badge>
+                            ))}
+                          </td>
+                        )}
+                        <td style={{ padding:"12px 14px",fontSize:13,color:"var(--text-secondary)" }}>{p.turno}</td>
+                        <td style={{ padding:"12px 14px",fontSize:12,color:"var(--text-muted)" }}>{p.telefone}<br />{p.email}</td>
+                        <td style={{ padding:"12px 14px" }}><Badge color={p.status==="Ativo"?"green":"amber"}>{p.status}</Badge></td>
+                        <td style={{ padding:"12px 14px" }}>
+                          <div style={{ display: "flex", gap: 4 }}>
+                            <Btn onClick={() => setProfessorFicha(p)} style={{ padding:"5px 9px",fontSize:12, background: "var(--badge-blue-bg, rgba(56, 189, 248, 0.12))", color: "var(--badge-blue-text, #0369a1)", border: "1px solid var(--badge-blue-border, rgba(56, 189, 248, 0.3))" }} title="Visualizar Ficha">
+                              <i className="ti ti-eye" style={{ fontSize: 13 }} aria-hidden="true" />
+                            </Btn>
+                            <Btn onClick={()=>abrirEditar(p)} style={{ padding:"5px 9px",fontSize:12 }} title="Editar">
+                              <i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" />
+                            </Btn>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </div>
+
+          {/* Visualização Mobile: Cards Essenciais */}
+          <div className="sigem-mobile-cards">
+            {listaFiltrada.map(p => (
+              <div
+                key={`mob-prof-${p.id}`}
+                onClick={() => setProfessorFicha(p)}
+                style={{
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border-color)",
+                  borderRadius: 14,
+                  padding: "12px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  cursor: "pointer",
+                  boxShadow: "var(--card-shadow)",
+                  transition: "all 0.15s ease"
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+              >
+                {/* Foto / Avatar */}
+                <div style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  background: "var(--bg-surface)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1px solid var(--border-color)",
+                  flexShrink: 0
+                }}>
+                  {p.fotoUrl ? (
+                    <img src={p.fotoUrl} alt={p.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ) : (
+                    <i className="ti ti-user" style={{ fontSize: 24, color: "var(--text-muted)" }} />
                   )}
-                  <td style={{ padding:"12px 14px",fontSize:13,color:"#cbd5e1" }}>{p.turno}</td>
-                  <td style={{ padding:"12px 14px",fontSize:12,color:"#94a3b8" }}>{p.telefone}<br />{p.email}</td>
-                  <td style={{ padding:"12px 14px" }}><Badge color={p.status==="Ativo"?"green":"amber"}>{p.status}</Badge></td>
-                  <td style={{ padding:"12px 14px" }}>
-                    <div style={{ display: "flex", gap: 4 }}>
-                      <Btn onClick={() => setProfessorFicha(p)} style={{ padding:"5px 9px",fontSize:12, background: "rgba(56, 189, 248, 0.12)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" }} title="Visualizar Ficha">
-                        <i className="ti ti-eye" style={{ fontSize: 13 }} aria-hidden="true" />
-                      </Btn>
-                      <Btn onClick={()=>abrirEditar(p)} style={{ padding:"5px 9px",fontSize:12 }} title="Editar">
-                        <i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" />
-                      </Btn>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </Card>
+                </div>
+
+                {/* Dados Essenciais */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: 4 }}>
+                    {p.nome}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                    <Badge color="gray">{p.cargo || (abaAtiva === "professores" ? "Professor" : "Servidor")}</Badge>
+                    {p.turno && <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{p.turno}</span>}
+                  </div>
+                </div>
+
+                {/* Status & Chevron */}
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                  <Badge color={p.status === "Ativo" ? "green" : "amber"}>{p.status || "Ativo"}</Badge>
+                  <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                    <i className="ti ti-chevron-right" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {modalAberto && (
         <Modal titulo={editId?"Editar Servidor":"Novo Servidor"} onClose={()=>setModalAberto(false)} onSave={salvar} salvando={salvando}>
           <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
             {/* Upload de Foto */}
-            <div style={{ display:"flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 10, border: "1px solid #33435c", marginBottom: 4 }}>
-              <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#1e293b", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #6366f1", flexShrink: 0 }}>
+            <div style={{ display:"flex", alignItems: "center", gap: 16, background: "var(--bg-surface)", padding: 12, borderRadius: 10, border: "1px solid var(--border-color)", marginBottom: 4 }}>
+              <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "var(--bg-card)", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #6366f1", flexShrink: 0 }}>
                 {form.fotoUrl ? (
                   <img src={form.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <i className="ti ti-camera" style={{ fontSize: 22, color: "#94a3b8" }} />
+                  <i className="ti ti-camera" style={{ fontSize: 22, color: "var(--text-muted)" }} />
                 )}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>

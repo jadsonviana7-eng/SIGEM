@@ -45,7 +45,7 @@ export async function registrarEmissaoDocumento(escolaId, aluno, escolaInfo, tip
     escolaId: escolaId || "",
     escolaNome: escolaInfo?.nome || "Escola Municipal",
     escolaInep: escolaInfo?.inep || "27000000",
-    escolaMunicipio: escolaInfo?.cidade || "Porto Calvo",
+    escolaMunicipio: escolaInfo?.municipio || escolaInfo?.cidade || "Maceió",
     escolaUf: escolaInfo?.uf || "AL",
     dataEmissao: new Date().toISOString(),
     valido: true,

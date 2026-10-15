@@ -155,6 +155,7 @@ export default function KpisCentroComando({
 
   return (
     <div
+      className="sigem-kpi-grid"
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
@@ -165,11 +166,11 @@ export default function KpisCentroComando({
         <div
           key={kpi.id}
           style={{
-            background: "#1e293b",
+            background: "var(--bg-card)",
             borderRadius: "14px",
             padding: "18px 20px",
-            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.18)",
-            border: "1px solid #2c3b52",
+            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.06)",
+            border: "1px solid var(--border-color)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -179,15 +180,15 @@ export default function KpisCentroComando({
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 8px 22px rgba(0, 0, 0, 0.25)";
+            e.currentTarget.style.boxShadow = "0 8px 22px rgba(0, 0, 0, 0.12)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "0 6px 20px rgba(0, 0, 0, 0.18)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(0, 0, 0, 0.06)";
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
-            <span style={{ fontSize: "12px", fontWeight: "700", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.4px" }}>
+            <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.4px" }}>
               {kpi.label}
             </span>
             <div
@@ -195,7 +196,7 @@ export default function KpisCentroComando({
                 width: "36px",
                 height: "36px",
                 borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.08)",
+                background: "var(--bg-surface)",
                 color: kpi.cor,
                 display: "flex",
                 alignItems: "center",
@@ -208,10 +209,10 @@ export default function KpisCentroComando({
           </div>
 
           <div>
-            <div style={{ fontSize: "26px", fontWeight: "800", color: "#ffffff", lineHeight: "1.1", letterSpacing: "-0.5px" }}>
+            <div style={{ fontSize: "26px", fontWeight: "800", color: "var(--text-primary)", lineHeight: "1.1", letterSpacing: "-0.5px" }}>
               {kpi.valor}
             </div>
-            <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "6px", lineHeight: "1.3" }}>
+            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "6px", lineHeight: "1.3" }}>
               {kpi.detalhe}
             </div>
           </div>

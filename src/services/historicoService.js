@@ -1,5 +1,6 @@
 import { getAlunoById } from "./alunosService";
 import { getNotasAluno } from "./notasService";
+import { getEscolaById } from "./escolasService";
 import { registrarEmissaoDocumento } from "./validacaoDocumentosService";
 import { DISCIPLINAS } from "../utils/constants";
 
@@ -19,13 +20,30 @@ export async function getHistoricoConsolidado(alunoId, escolaId, escolaInfo) {
     const aluno = await getAlunoById(alunoId);
     if (!aluno) return null;
 
-    const notasAtuais = await getNotasAluno(alunoId, escolaId);
+    // Se escolaInfo não foi fornecida ou estiver incompleta, busca no Firestore
+    const targetEscolaId = aluno.escolaId || escolaId;
+    if ((!escolaInfo || !escolaInfo.nome) && targetEscolaId) {
+      try {
+        const escolaDb = await getEscolaById(targetEscolaId);
+        if (escolaDb) {
+          escolaInfo = { ...escolaDb, ...escolaInfo };
+        }
+      } catch (errEsc) {
+        console.warn("Não foi possível carregar escola por ID:", errEsc);
+      }
+    }
+
+    const notasAtuais = await getNotasAluno(alunoId, targetEscolaId);
 
     // Mapeia trajetória pregressa do aluno (salva no cadastro do aluno ou em transferências)
     const trajetoriaCadastrada = Array.isArray(aluno.trajetoriaEscolar) ? aluno.trajetoriaEscolar : [];
 
     // Se não tiver trajetória pregressa gravada, gera a progressão realista até a série atual
     let registrosTrajetoria = [...trajetoriaCadastrada];
+
+    const municipioEscola = escolaInfo?.municipio || escolaInfo?.cidade || "Maceió";
+    const ufEscola = escolaInfo?.uf || "AL";
+    const cidadeUfFormatada = `${municipioEscola} - ${ufEscola}`;
 
     if (registrosTrajetoria.length === 0) {
       // Cria a progressão histórica baseada no ano/série atual do aluno
@@ -41,8 +59,8 @@ export async function getHistoricoConsolidado(alunoId, escolaId, escolaInfo) {
           id: `marco_${idx + 1}`,
           serieAno: serie,
           anoLetivo: anoLetivoMarco,
-          escola: isAtual ? (escolaInfo?.nome || "Escola Municipal Atual") : (idx < 4 ? "E.M. Prof. José Da Silva" : (escolaInfo?.nome || "Escola Municipal")),
-          cidadeUf: isAtual ? `${escolaInfo?.cidade || 'Porto Calvo'} - ${escolaInfo?.uf || 'AL'}` : "Porto Calvo - AL",
+          escola: isAtual ? (escolaInfo?.nome || "Escola Municipal") : (idx < 4 ? "E.M. Prof. José Da Silva" : (escolaInfo?.nome || "Escola Municipal")),
+          cidadeUf: isAtual ? cidadeUfFormatada : cidadeUfFormatada,
           situacaoFinal: isAtual ? (aluno.status === "Concluído" ? "Aprovado" : "Cursando") : "Aprovado",
           cargaHoraria: "800 h/a",
           diasLetivos: "200 dias",

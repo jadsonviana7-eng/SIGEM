@@ -4,18 +4,38 @@ import { useFirestore } from "../hooks/useFirestore";
 import { getAlunos } from "../services/alunosService";
 import { getTurmas } from "../services/turmasService";
 import { getBoletimCompleto } from "../services/boletimService";
+import { getEscolaById } from "../services/escolasService";
 import { ANO_LETIVO_ATUAL } from "../utils/constants";
 import { Card, Badge, Btn, Modal, Spinner, EmptyState } from "../components/ui";
+import CabecalhoDocumentoOficial from "../components/CabecalhoDocumentoOficial";
 
 export default function Boletim() {
   const { user, escolas, selectedEscolaId } = useAuth();
   const activeEscolaId = selectedEscolaId || user?.selectedEscolaId || "";
-  const escolaAtual = (escolas || []).find(e => e.id === activeEscolaId) || {
-    nome: "Escola Municipal de Ensino Fundamental",
-    inep: "27012345",
-    cidade: "Porto Calvo",
-    uf: "AL"
-  };
+  const [escolaCarregada, setEscolaCarregada] = useState(null);
+
+  // Se a escola ativa não estiver na lista global em memória, busca direto no Firestore
+  useEffect(() => {
+    let ativo = true;
+    if (activeEscolaId && !(escolas || []).some(e => e.id === activeEscolaId)) {
+      getEscolaById(activeEscolaId).then(res => {
+        if (ativo && res) setEscolaCarregada(res);
+      }).catch(err => console.error("Erro ao carregar dados da escola:", err));
+    }
+    return () => { ativo = false; };
+  }, [activeEscolaId, escolas]);
+
+  const escolaAtual = useMemo(() => {
+    const daLista = (escolas || []).find(e => e.id === activeEscolaId);
+    if (daLista) return daLista;
+    if (escolaCarregada) return escolaCarregada;
+    return {
+      nome: "Escola Municipal",
+      inep: "27000000",
+      municipio: "Maceió",
+      uf: "AL"
+    };
+  }, [escolas, activeEscolaId, escolaCarregada]);
 
   const [anoLetivo, setAnoLetivo] = useState(String(ANO_LETIVO_ATUAL || 2026));
   const [turmaSelecionada, setTurmaSelecionada] = useState("");
@@ -65,7 +85,10 @@ export default function Boletim() {
 
       setCarregandoBoletins(true);
       try {
-        const promessas = alunosDaTurma.map(aluno => getBoletimCompleto(aluno, activeEscolaId, anoLetivo));
+        const promessas = alunosDaTurma.map(aluno => {
+          const escAluno = (escolas || []).find(e => e.id === aluno.escolaId) || escolaAtual;
+          return getBoletimCompleto(aluno, activeEscolaId, anoLetivo, escAluno);
+        });
         const resultados = await Promise.all(promessas);
         if (ativo) {
           setBoletinsCalculados(resultados.filter(Boolean));
@@ -190,34 +213,39 @@ export default function Boletim() {
             background: #fff !important;
           }
           .boletim-cabecalho {
-            margin-bottom: 6px !important;
-            padding-bottom: 4px !important;
+            margin-bottom: 8px !important;
+            padding-bottom: 6px !important;
             border-bottom: 1.5px solid #000 !important;
             text-align: center !important;
           }
           .boletim-cabecalho h2 {
-            font-size: 11px !important;
+            font-size: 12px !important;
             margin: 0 !important;
             font-weight: bold !important;
             text-transform: uppercase !important;
-            letter-spacing: 0.02em !important;
+            letter-spacing: 0.03em !important;
           }
           .boletim-cabecalho h3 {
-            font-size: 9.5px !important;
+            font-size: 11.5px !important;
             margin: 1px 0 !important;
             font-weight: bold !important;
           }
-          .boletim-cabecalho p {
-            font-size: 8.5px !important;
-            margin: 1px 0 !important;
+          .boletim-cabecalho .escola-nome-oficial {
+            font-size: 14.5px !important;
+            font-weight: 900 !important;
+            margin: 3px 0 2px !important;
+          }
+          .boletim-cabecalho .escola-detalhes-oficial {
+            font-size: 10px !important;
+            line-height: 1.35 !important;
           }
           .boletim-titulo-tag {
             display: inline-block !important;
-            border: 1.2px solid #000 !important;
-            padding: 2px 8px !important;
+            border: 1.5px solid #000 !important;
+            padding: 3px 14px !important;
             font-weight: bold !important;
-            font-size: 9px !important;
-            margin-top: 3px !important;
+            font-size: 11px !important;
+            margin-top: 4px !important;
           }
           .boletim-dados-grid {
             display: grid !important;
@@ -320,7 +348,7 @@ export default function Boletim() {
       </div>
 
       {/* CARDS DE SITUAÇÃO AUTOMÁTICA */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
+      <div className="sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
         {/* 🟢 APROVADOS */}
         <div
           onClick={() => setFiltroStatus("APROVADO")}
@@ -558,191 +586,284 @@ export default function Boletim() {
             descricao="Não há alunos matriculados ou correspondentes aos filtros selecionados nesta turma."
           />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
-              <thead>
-                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#cbd5e1" }}>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Aluno / Matrícula</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma & Ano</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>Média Geral</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>Total Faltas</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>% Presença</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Situação / Resultado</th>
-                  <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "right" }}>Ações do Boletim</th>
-                </tr>
-              </thead>
-              <tbody>
-                {boletinsFiltrados.map((b) => {
-                  const isAprovado = b.resultadoFinal === "Aprovado";
-                  const isRecuperacao = b.resultadoFinal === "Recuperação";
-                  const isReprovado = b.resultadoFinal === "Reprovado" || b.resultadoFinal === "Reprovado por Falta";
-                  const isCursando = b.resultadoFinal === "Cursando";
+          <>
+            {/* Visualização Desktop: Tabela Completa */}
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.875rem" }}>
+                <thead>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#cbd5e1" }}>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Aluno / Matrícula</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Turma & Ano</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>Média Geral</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>Total Faltas</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "center" }}>% Presença</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600 }}>Situação / Resultado</th>
+                    <th style={{ padding: "0.85rem 1rem", fontWeight: 600, textAlign: "right" }}>Ações do Boletim</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {boletinsFiltrados.map((b) => {
+                    const isAprovado = b.resultadoFinal === "Aprovado";
+                    const isRecuperacao = b.resultadoFinal === "Recuperação";
+                    const isReprovado = b.resultadoFinal === "Reprovado" || b.resultadoFinal === "Reprovado por Falta";
+                    const isCursando = b.resultadoFinal === "Cursando";
 
-                  return (
-                    <tr
-                      key={b.alunoId}
-                      style={{
-                        borderBottom: "1px solid #2c3b52",
-                        transition: "background 0.15s"
-                      }}
-                    >
-                      {/* NOME & MATRICULA */}
-                      <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.95rem" }}>
+                    return (
+                      <tr
+                        key={b.alunoId}
+                        style={{
+                          borderBottom: "1px solid #2c3b52",
+                          transition: "background 0.15s"
+                        }}
+                      >
+                        {/* NOME & MATRICULA */}
+                        <td style={{ padding: "1rem" }}>
+                          <div style={{ fontWeight: 700, color: "#ffffff", fontSize: "0.95rem" }}>
+                            {b.alunoNome}
+                          </div>
+                          <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
+                            Matrícula: {b.alunoMatricula}
+                          </span>
+                        </td>
+
+                        {/* TURMA */}
+                        <td style={{ padding: "1rem" }}>
+                          <div style={{ fontWeight: 600, color: "#cbd5e1" }}>
+                            {b.turma}
+                          </div>
+                          <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
+                            Ano Letivo {b.anoLetivo} · {b.turno}
+                          </span>
+                        </td>
+
+                        {/* MEDIA GERAL */}
+                        <td style={{ padding: "1rem", textAlign: "center" }}>
+                          <span
+                            style={{
+                              fontWeight: 800,
+                              fontSize: "1rem",
+                              color: b.mediaGeral === null ? "#94a3b8" : b.mediaGeral >= 6.0 ? "#34d399" : b.mediaGeral >= 4.0 ? "#fbbf24" : "#f87171"
+                            }}
+                          >
+                            {b.mediaGeral !== null ? b.mediaGeral.toFixed(1) : "—"}
+                          </span>
+                        </td>
+
+                        {/* TOTAL FALTAS */}
+                        <td style={{ padding: "1rem", textAlign: "center" }}>
+                          <span style={{ fontWeight: 600, color: b.totalFaltas > 40 ? "#f87171" : "#cbd5e1" }}>
+                            {b.totalFaltas} {b.totalFaltas === 1 ? "falta" : "faltas"}
+                          </span>
+                        </td>
+
+                        {/* FREQUÊNCIA */}
+                        <td style={{ padding: "1rem", textAlign: "center" }}>
+                          <span style={{ fontWeight: 700, color: b.frequenciaPerc >= 75 ? "#34d399" : "#f87171" }}>
+                            {b.frequenciaPerc}%
+                          </span>
+                        </td>
+
+                        {/* SITUAÇÃO / RESULTADO COM BADGE COLORIDO */}
+                        <td style={{ padding: "1rem" }}>
+                          {isAprovado && (
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(16, 185, 129, 0.15)", color: "#34d399", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(16, 185, 129, 0.3)" }}>
+                              <span style={{ fontSize: "0.9rem" }}>🟢</span>
+                              Aprovado
+                            </div>
+                          )}
+                          {isRecuperacao && (
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(245, 158, 11, 0.3)" }}>
+                              <span style={{ fontSize: "0.9rem" }}>🟡</span>
+                              Recuperação
+                            </div>
+                          )}
+                          {isReprovado && (
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(239, 68, 68, 0.15)", color: "#f87171", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(239, 68, 68, 0.3)" }}>
+                              <span style={{ fontSize: "0.9rem" }}>🔴</span>
+                              Reprovado
+                            </div>
+                          )}
+                          {isCursando && (
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
+                              <span style={{ fontSize: "0.9rem" }}>🔵</span>
+                              Cursando
+                            </div>
+                          )}
+                        </td>
+
+                        {/* BOTÕES: VISUALIZAR, BAIXAR PDF, IMPRIMIR */}
+                        <td style={{ padding: "1rem", textAlign: "right" }}>
+                          <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.4rem", flexWrap: "wrap" }}>
+                            {/* VISUALIZAR */}
+                            <button
+                              onClick={() => handleVisualizar(b)}
+                              title="Visualizar Boletim Escolar"
+                              style={{
+                                padding: "0.35rem 0.65rem",
+                                borderRadius: "8px",
+                                border: "1px solid #33435c",
+                                background: "#243144",
+                                color: "#cbd5e1",
+                                fontSize: "0.8rem",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.3rem"
+                              }}
+                            >
+                              <i className="ti ti-eye" style={{ color: "#818cf8" }} />
+                              Visualizar
+                            </button>
+
+                            {/* BAIXAR PDF */}
+                            <button
+                              onClick={() => {
+                                handleVisualizar(b);
+                                setTimeout(() => handleBaixarPDF(), 300);
+                              }}
+                              title="Baixar Boletim em PDF"
+                              style={{
+                                padding: "0.35rem 0.65rem",
+                                borderRadius: "8px",
+                                border: "1px solid #33435c",
+                                background: "#243144",
+                                color: "#cbd5e1",
+                                fontSize: "0.8rem",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.3rem"
+                              }}
+                            >
+                              <i className="ti ti-file-download" style={{ color: "#f87171" }} />
+                              Baixar PDF
+                            </button>
+
+                            {/* IMPRIMIR */}
+                            <button
+                              onClick={() => {
+                                handleVisualizar(b);
+                                setTimeout(() => handleImprimirIndividual(), 300);
+                              }}
+                              title="Imprimir Boletim Oficial"
+                              style={{
+                                padding: "0.35rem 0.65rem",
+                                borderRadius: "8px",
+                                border: "1px solid #33435c",
+                                background: "#243144",
+                                color: "#cbd5e1",
+                                fontSize: "0.8rem",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.3rem"
+                              }}
+                            >
+                              <i className="ti ti-printer" style={{ color: "#34d399" }} />
+                              Imprimir
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards">
+              {boletinsFiltrados.map((b) => {
+                const isAprovado = b.resultadoFinal === "Aprovado";
+                const isRecuperacao = b.resultadoFinal === "Recuperação";
+                const isReprovado = b.resultadoFinal === "Reprovado" || b.resultadoFinal === "Reprovado por Falta";
+                const isCursando = b.resultadoFinal === "Cursando";
+                const statusColor = isAprovado ? "green" : isRecuperacao ? "amber" : isReprovado ? "red" : "blue";
+
+                return (
+                  <div
+                    key={`mob-boletim-${b.alunoId}`}
+                    onClick={() => handleVisualizar(b)}
+                    style={{
+                      background: "var(--bg-card)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: 14,
+                      padding: "12px 14px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      cursor: "pointer",
+                      boxShadow: "var(--card-shadow)",
+                      transition: "all 0.15s ease"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+                  >
+                    {/* Avatar / Ícone */}
+                    <div style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 10,
+                      background: "var(--bg-surface)",
+                      border: "1px solid var(--border-color)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 20,
+                      color: "var(--text-muted)",
+                      flexShrink: 0
+                    }}>
+                      <i className="ti ti-certificate" style={{ color: "#818cf8" }} />
+                    </div>
+
+                    {/* Dados Essenciais */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+                        <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                           {b.alunoNome}
-                        </div>
-                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                          Matrícula: {b.alunoMatricula}
                         </span>
-                      </td>
-
-                      {/* TURMA */}
-                      <td style={{ padding: "1rem" }}>
-                        <div style={{ fontWeight: 600, color: "#cbd5e1" }}>
-                          {b.turma}
-                        </div>
-                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                          Ano Letivo {b.anoLetivo} · {b.turno}
-                        </span>
-                      </td>
-
-                      {/* MEDIA GERAL */}
-                      <td style={{ padding: "1rem", textAlign: "center" }}>
-                        <span
-                          style={{
+                        {b.mediaGeral !== null && (
+                          <span style={{
                             fontWeight: 800,
-                            fontSize: "1rem",
-                            color: b.mediaGeral === null ? "#94a3b8" : b.mediaGeral >= 6.0 ? "#34d399" : b.mediaGeral >= 4.0 ? "#fbbf24" : "#f87171"
-                          }}
-                        >
-                          {b.mediaGeral !== null ? b.mediaGeral.toFixed(1) : "—"}
+                            fontSize: 12,
+                            padding: "2px 6px",
+                            borderRadius: 6,
+                            background: b.mediaGeral >= 6.0 ? "rgba(16, 185, 129, 0.15)" : b.mediaGeral >= 4.0 ? "rgba(245, 158, 11, 0.15)" : "rgba(239, 68, 68, 0.15)",
+                            color: b.mediaGeral >= 6.0 ? "#34d399" : b.mediaGeral >= 4.0 ? "#fbbf24" : "#f87171"
+                          }}>
+                            Média {b.mediaGeral.toFixed(1)}
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
+                        <Badge color="blue">{b.turma}</Badge>
+                        <span style={{ fontFamily: "monospace", color: "var(--text-muted)" }}>
+                          #{b.alunoMatricula || "S/N"}
                         </span>
-                      </td>
-
-                      {/* TOTAL FALTAS */}
-                      <td style={{ padding: "1rem", textAlign: "center" }}>
-                        <span style={{ fontWeight: 600, color: b.totalFaltas > 40 ? "#f87171" : "#cbd5e1" }}>
-                          {b.totalFaltas} {b.totalFaltas === 1 ? "falta" : "faltas"}
+                        <span style={{ color: "var(--text-muted)", marginLeft: "auto" }}>
+                          {b.frequenciaPerc}% pres.
                         </span>
-                      </td>
+                      </div>
+                    </div>
 
-                      {/* FREQUÊNCIA */}
-                      <td style={{ padding: "1rem", textAlign: "center" }}>
-                        <span style={{ fontWeight: 700, color: b.frequenciaPerc >= 75 ? "#34d399" : "#f87171" }}>
-                          {b.frequenciaPerc}%
-                        </span>
-                      </td>
-
-                      {/* SITUAÇÃO / RESULTADO COM BADGE COLORIDO */}
-                      <td style={{ padding: "1rem" }}>
-                        {isAprovado && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(16, 185, 129, 0.15)", color: "#34d399", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(16, 185, 129, 0.3)" }}>
-                            <span style={{ fontSize: "0.9rem" }}>🟢</span>
-                            Aprovado
-                          </div>
-                        )}
-                        {isRecuperacao && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(245, 158, 11, 0.3)" }}>
-                            <span style={{ fontSize: "0.9rem" }}>🟡</span>
-                            Recuperação
-                          </div>
-                        )}
-                        {isReprovado && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(239, 68, 68, 0.15)", color: "#f87171", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(239, 68, 68, 0.3)" }}>
-                            <span style={{ fontSize: "0.9rem" }}>🔴</span>
-                            Reprovado
-                          </div>
-                        )}
-                        {isCursando && (
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", padding: "0.3rem 0.75rem", borderRadius: "16px", fontWeight: 700, fontSize: "0.8rem", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
-                            <span style={{ fontSize: "0.9rem" }}>🔵</span>
-                            Cursando
-                          </div>
-                        )}
-                      </td>
-
-                      {/* BOTÕES: VISUALIZAR, BAIXAR PDF, IMPRIMIR */}
-                      <td style={{ padding: "1rem", textAlign: "right" }}>
-                        <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.4rem", flexWrap: "wrap" }}>
-                          {/* VISUALIZAR */}
-                          <button
-                            onClick={() => handleVisualizar(b)}
-                            title="Visualizar Boletim Escolar"
-                            style={{
-                              padding: "0.35rem 0.65rem",
-                              borderRadius: "8px",
-                              border: "1px solid #33435c",
-                              background: "#243144",
-                              color: "#cbd5e1",
-                              fontSize: "0.8rem",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "0.3rem"
-                            }}
-                          >
-                            <i className="ti ti-eye" style={{ color: "#818cf8" }} />
-                            Visualizar
-                          </button>
-
-                          {/* BAIXAR PDF */}
-                          <button
-                            onClick={() => {
-                              handleVisualizar(b);
-                              setTimeout(() => handleBaixarPDF(), 300);
-                            }}
-                            title="Baixar Boletim em PDF"
-                            style={{
-                              padding: "0.35rem 0.65rem",
-                              borderRadius: "8px",
-                              border: "1px solid #33435c",
-                              background: "#243144",
-                              color: "#cbd5e1",
-                              fontSize: "0.8rem",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "0.3rem"
-                            }}
-                          >
-                            <i className="ti ti-file-download" style={{ color: "#f87171" }} />
-                            Baixar PDF
-                          </button>
-
-                          {/* IMPRIMIR */}
-                          <button
-                            onClick={() => {
-                              handleVisualizar(b);
-                              setTimeout(() => handleImprimirIndividual(), 300);
-                            }}
-                            title="Imprimir Boletim Oficial"
-                            style={{
-                              padding: "0.35rem 0.65rem",
-                              borderRadius: "8px",
-                              border: "1px solid #33435c",
-                              background: "#243144",
-                              color: "#cbd5e1",
-                              fontSize: "0.8rem",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "0.3rem"
-                            }}
-                          >
-                            <i className="ti ti-printer" style={{ color: "#34d399" }} />
-                            Imprimir
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                    {/* Badge de Situação & Chevron */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                      <Badge color={statusColor}>
+                        {b.resultadoFinal || "Cursando"}
+                      </Badge>
+                      <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                        <i className="ti ti-chevron-right" />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </Card>
 
@@ -783,20 +904,10 @@ export default function Boletim() {
               }}
             >
               {/* CABEÇALHO OFICIAL */}
-              <div className="boletim-cabecalho" style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: "0.4rem", marginBottom: "0.5rem" }}>
-                <h2 style={{ fontSize: "0.9rem", fontWeight: "bold", margin: 0, textTransform: "uppercase" }}>
-                  ESTADO DE ALAGOAS · PREFEITURA MUNICIPAL DE PORTO CALVO
-                </h2>
-                <h3 style={{ fontSize: "0.8rem", fontWeight: "bold", margin: "0.1rem 0", color: "#222" }}>
-                  SECRETARIA MUNICIPAL DE EDUCAÇÃO
-                </h3>
-                <p style={{ fontSize: "0.72rem", margin: "0.1rem 0" }}>
-                  <strong>{escolaAtual.nome}</strong> · CÓDIGO INEP: {escolaAtual.inep}
-                </p>
-                <div className="boletim-titulo-tag" style={{ marginTop: "0.25rem", display: "inline-block", border: "1.2px solid #000", padding: "0.15rem 0.8rem", fontWeight: "bold", fontSize: "0.78rem", letterSpacing: "0.03em" }}>
-                  BOLETIM ESCOLAR INDIVIDUAL · ANO LETIVO {alunoBoletimModal.anoLetivo}
-                </div>
-              </div>
+              <CabecalhoDocumentoOficial
+                escola={alunoBoletimModal.escola || escolaAtual}
+                tituloDocumento={`BOLETIM ESCOLAR INDIVIDUAL · ANO LETIVO ${alunoBoletimModal.anoLetivo}`}
+              />
 
               {/* DADOS CADASTRAIS DO ALUNO */}
               <div className="boletim-dados-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "0.3rem 0.6rem", background: "#f8fafc", border: "1px solid #000", padding: "0.4rem 0.6rem", fontSize: "0.75rem", marginBottom: "0.5rem" }}>
@@ -915,6 +1026,11 @@ export default function Boletim() {
                 <div>
                   <div className="linha-assinatura" style={{ width: "160px", borderTop: "1px solid #000", margin: "0 auto 3px" }} />
                   <strong>Direção Escolar</strong>
+                  {(alunoBoletimModal.escola?.diretor || escolaAtual?.diretor) && (
+                    <div style={{ fontSize: "0.65rem", color: "#444" }}>
+                      {alunoBoletimModal.escola?.diretor || escolaAtual?.diretor}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -966,15 +1082,11 @@ export default function Boletim() {
             <div className="print-lote-folhas boletim-print-target" style={{ display: "none" }}>
               {boletinsCalculados.map((b) => (
                 <div key={b.alunoId} className="boletim-container-a4">
-                  {/* CABEÇALHO */}
-                  <div className="boletim-cabecalho">
-                    <h2>ESTADO DE ALAGOAS · PREFEITURA MUNICIPAL DE PORTO CALVO</h2>
-                    <h3>SECRETARIA MUNICIPAL DE EDUCAÇÃO</h3>
-                    <p><strong>{escolaAtual.nome}</strong> · CÓDIGO INEP: {escolaAtual.inep}</p>
-                    <div className="boletim-titulo-tag">
-                      BOLETIM ESCOLAR INDIVIDUAL · ANO LETIVO {b.anoLetivo}
-                    </div>
-                  </div>
+                  {/* CABEÇALHO OFICIAL */}
+                  <CabecalhoDocumentoOficial
+                    escola={b.escola || escolaAtual}
+                    tituloDocumento={`BOLETIM ESCOLAR INDIVIDUAL · ANO LETIVO ${b.anoLetivo}`}
+                  />
 
                   {/* DADOS CADASTRAIS */}
                   <div className="boletim-dados-grid">
@@ -1062,6 +1174,11 @@ export default function Boletim() {
                     <div>
                       <div className="linha-assinatura" />
                       <strong>Direção Escolar</strong>
+                      {(b.escola?.diretor || escolaAtual?.diretor) && (
+                        <div style={{ fontSize: "7px", color: "#444" }}>
+                          {b.escola?.diretor || escolaAtual?.diretor}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
