@@ -1,6 +1,9 @@
-# SIGEM — Sistema Integrado de Gerenciamento Escolar Municipal
+# SIGEM — Sistema Integrado de Gestão Escolar Municipal
 
-Sistema web para gestão de escolas públicas de ensino fundamental (1º ao 9º ano).
+> 🌐 **Acesso ao Sistema Online (Produção):**  
+> 👉 **[https://app-escola-6da78.web.app](https://app-escola-6da78.web.app)**
+
+Sistema web completo para gestão de escolas públicas de ensino fundamental (1º ao 9º ano).  
 Construído com **React + Firebase**.
 
 ---
