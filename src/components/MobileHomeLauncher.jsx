@@ -188,7 +188,7 @@ export default function MobileHomeLauncher({ dashboardNode }) {
                 Olá, {user?.displayName ? user.displayName.split(" ")[0] : "Gestor(a)"} 👋
               </span>
               <span className={styles.subGreeting}>
-                {user?.role || "Administrador"} · Painel Mobile
+                {user?.role || "Administrador"}
               </span>
             </div>
           </div>

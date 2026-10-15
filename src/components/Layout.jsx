@@ -223,24 +223,31 @@ export default function Layout({ children, titulo }) {
               </div>
             </div>
 
-            {/* Nome da Escola */}
+            {/* Nome da Escola (ocultado no mobile via CSS) */}
             <h1 className={styles.schoolName}>
               {escolaAtual.nome || "Escola Municipal Modelo"}
             </h1>
 
             {/* Dropdown Pill de Nível / Escola Ativa */}
-            {(escolas || []).length > 1 && user?.role === "Administrador" ? (
+            {user?.role === "Administrador" ? (
               <select
                 value={selectedEscolaId}
                 onChange={(e) => alterarEscolaAtiva(e.target.value)}
                 className={styles.academicPill}
                 style={{ outline: "none", cursor: "pointer" }}
+                aria-label="Selecionar Entidade"
               >
-                {(escolas || []).map((esc) => (
-                  <option key={esc.id} value={esc.id} style={{ background: "#243144", color: "#fff" }}>
-                    {esc.nome}
+                {(escolas || []).length > 0 ? (
+                  (escolas || []).map((esc) => (
+                    <option key={esc.id} value={esc.id} style={{ background: "#243144", color: "#fff" }}>
+                      {esc.nome}
+                    </option>
+                  ))
+                ) : (
+                  <option value={escolaAtual?.id || ""} style={{ background: "#243144", color: "#fff" }}>
+                    {escolaAtual?.nome || "Escola Municipal Modelo"}
                   </option>
-                ))}
+                )}
               </select>
             ) : (
               <div
