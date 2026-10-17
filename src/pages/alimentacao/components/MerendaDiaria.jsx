@@ -176,65 +176,143 @@ export default function MerendaDiaria({
         {merendasFiltradas.length === 0 ? (
           <EmptyState icon="soup" texto="Nenhum registro de merenda servida encontrado." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
-                  <th style={{ padding: "12px 16px" }}>Data / Turno</th>
-                  <th style={{ padding: "12px 16px" }}>Refeição / Prato do Dia</th>
-                  <th style={{ padding: "12px 16px" }}>Alunos Atendidos</th>
-                  <th style={{ padding: "12px 16px" }}>Aceitabilidade</th>
-                  <th style={{ padding: "12px 16px" }}>Sobras / Desperdício</th>
-                  <th style={{ padding: "12px 16px" }}>Equipe / Merendeiras</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {merendasFiltradas.map((m) => (
-                  <tr key={m.id} style={{ borderBottom: "1px solid #243144" }}>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#ffffff" }}>
-                        {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
-                      </div>
-                      <Badge color="blue">{m.turno}</Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", maxWidth: 280 }}>
-                      <div style={{ fontWeight: 600, color: "#34d399" }}>{m.cardapioRef}</div>
-                      {m.observacoes && (
-                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{m.observacoes}</div>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <strong style={{ fontSize: 14, color: "#ffffff" }}>{m.refeicoesServidas}</strong>
-                      <span style={{ fontSize: 11, color: "#94a3b8" }}> / previstos {m.refeicoesPrevistas || m.refeicoesServidas}</span>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color={m.aceitabilidade?.includes("Excelente") ? "green" : m.aceitabilidade?.includes("Ótima") ? "blue" : "amber"}>
-                        {m.aceitabilidade}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12 }}>
-                      <div style={{ color: "#cbd5e1" }}>Sobras limpas: <strong style={{ color: "#ffffff" }}>{m.sobrasLimpasKg || 0} kg</strong></div>
-                      <div style={{ color: "#f87171" }}>Resto-ingesta: <strong>{m.restoIngestaKg || 0} kg</strong></div>
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1", fontSize: 12 }}>
-                      {m.merendeiras || "Equipe da Cozinha"}
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                        <Btn onClick={() => abrirEditar(m)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-edit" />
-                        </Btn>
-                        <Btn variant="danger" onClick={() => handleExcluir(m.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-trash" />
-                        </Btn>
-                      </div>
-                    </td>
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+                    <th style={{ padding: "12px 16px" }}>Data / Turno</th>
+                    <th style={{ padding: "12px 16px" }}>Refeição / Prato do Dia</th>
+                    <th style={{ padding: "12px 16px" }}>Alunos Atendidos</th>
+                    <th style={{ padding: "12px 16px" }}>Aceitabilidade</th>
+                    <th style={{ padding: "12px 16px" }}>Sobras / Desperdício</th>
+                    <th style={{ padding: "12px 16px" }}>Equipe / Merendeiras</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {merendasFiltradas.map((m) => (
+                    <tr key={m.id} style={{ borderBottom: "1px solid #243144" }}>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>
+                          {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                        </div>
+                        <Badge color="blue">{m.turno}</Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", maxWidth: 280 }}>
+                        <div style={{ fontWeight: 600, color: "#34d399" }}>{m.cardapioRef}</div>
+                        {m.observacoes && (
+                          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{m.observacoes}</div>
+                        )}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <strong style={{ fontSize: 14, color: "#ffffff" }}>{m.refeicoesServidas}</strong>
+                        <span style={{ fontSize: 11, color: "#94a3b8" }}> / previstos {m.refeicoesPrevistas || m.refeicoesServidas}</span>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color={m.aceitabilidade?.includes("Excelente") ? "green" : m.aceitabilidade?.includes("Ótima") ? "blue" : "amber"}>
+                          {m.aceitabilidade}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12 }}>
+                        <div style={{ color: "#cbd5e1" }}>Sobras limpas: <strong style={{ color: "#ffffff" }}>{m.sobrasLimpasKg || 0} kg</strong></div>
+                        <div style={{ color: "#f87171" }}>Resto-ingesta: <strong>{m.restoIngestaKg || 0} kg</strong></div>
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1", fontSize: 12 }}>
+                        {m.merendeiras || "Equipe da Cozinha"}
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                          <Btn onClick={() => abrirEditar(m)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-edit" />
+                          </Btn>
+                          <Btn variant="danger" onClick={() => handleExcluir(m.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-trash" />
+                          </Btn>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {merendasFiltradas.map((m) => (
+                <div
+                  key={`mob-merenda-${m.id}`}
+                  onClick={() => abrirEditar(m)}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    cursor: "pointer",
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: "rgba(16, 185, 129, 0.15)",
+                    color: "#34d399",
+                    border: "1px solid rgba(16, 185, 129, 0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 22,
+                    flexShrink: 0
+                  }}>
+                    <i className="ti ti-soup" />
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontWeight: 700,
+                      color: "var(--text-primary)",
+                      fontSize: 14,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}>
+                      {m.cardapioRef}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                        {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                      </span>
+                      <Badge color="blue">{m.turno}</Badge>
+                      <Badge color="green">{m.refeicoesServidas} servidas</Badge>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                    <Btn
+                      onClick={(e) => { e.stopPropagation(); abrirEditar(m); }}
+                      style={{ padding: "6px 8px", fontSize: 12 }}
+                      title="Editar"
+                    >
+                      <i className="ti ti-edit" />
+                    </Btn>
+                    <Btn
+                      variant="danger"
+                      onClick={(e) => { e.stopPropagation(); handleExcluir(m.id); }}
+                      style={{ padding: "6px 8px", fontSize: 12 }}
+                      title="Excluir"
+                    >
+                      <i className="ti ti-trash" />
+                    </Btn>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 

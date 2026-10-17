@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import {
   getAvisos,
@@ -11,6 +11,7 @@ import { getAlunos } from "../services/alunosService";
 import { getTurmas } from "../services/turmasService";
 import { getEscolas } from "../services/escolasService";
 import { Spinner, Btn } from "../components/ui";
+import styles from "./comunicacao/Comunicacao.module.css";
 
 import DashboardComunicacao from "./comunicacao/components/DashboardComunicacao";
 import AvisosComunicados from "./comunicacao/components/AvisosComunicados";
@@ -27,6 +28,8 @@ export default function Comunicacao() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [loading, setLoading] = useState(true);
   const [gerando, setGerando] = useState(false);
+  const [resumoMobileAberto, setResumoMobileAberto] = useState(false);
+  const mobileTabContainerRef = useRef(null);
 
   // Estados de Dados
   const [avisos, setAvisos] = useState([]);
@@ -193,18 +196,114 @@ export default function Comunicacao() {
   }
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "minmax(0, 1fr) 290px",
-        gap: 24,
-        alignItems: "start"
-      }}
-    >
+    <div className={styles.container}>
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── NAVEGAÇÃO MOBILE INTELIGENTE & ABAS DESLIZANTES ── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.mobileNavHeader}>
+        {/* Topo do Módulo Mobile */}
+        <div className={styles.mobileBarTop}>
+          <div className={styles.mobileModuleTitle}>
+            <div className={styles.mobileIconBadge}>
+              <i className="ti ti-speakerphone" />
+            </div>
+            <div className={styles.mobileTitleText}>
+              <span className={styles.mobileTitleMain}>Comunicação Escolar</span>
+              <span className={styles.mobileTitleSub}>{itemAtivoObj?.label || "Escola → Família"}</span>
+            </div>
+          </div>
+
+          <div className={styles.mobileBarActions}>
+            <button
+              type="button"
+              className={`${styles.mobileActionButton} ${resumoMobileAberto ? styles.mobileActionButtonActive : ""}`}
+              onClick={() => setResumoMobileAberto(!resumoMobileAberto)}
+              title="Resumo da Comunicação"
+            >
+              <i className="ti ti-chart-pie" />
+              <span>Resumo</span>
+            </button>
+
+            <button
+              type="button"
+              className={styles.mobileActionButton}
+              onClick={fetchData}
+              title="Recarregar Dados"
+            >
+              <i className="ti ti-refresh" />
+            </button>
+          </div>
+        </div>
+
+        {/* Resumo Colapsável no Mobile */}
+        {resumoMobileAberto && (
+          <div className={styles.mobileSummaryPanel}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc", display: "flex", alignItems: "center", gap: 6 }}>
+                <i className="ti ti-speakerphone" style={{ color: "#38bdf8" }} /> Canais de Comunicação
+              </span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Indicadores Atuais</span>
+            </div>
+
+            <div className={styles.mobileSummaryGrid}>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Comunicados Ativos</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#38bdf8" }}>{avisos.length}</span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Reuniões de Pais</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#34d399" }}>{reunioes.length}</span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Eventos no Mês</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#60a5fa" }}>{eventos.length}</span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Recados & WhatsApp</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#fbbf24" }}>{mensagens.length}</span>
+              </div>
+            </div>
+
+            <div style={{ paddingTop: 4 }}>
+              <Btn
+                onClick={handleGerarMock}
+                disabled={gerando}
+                style={{ width: "100%", justifyContent: "center", fontSize: 11, padding: "8px 10px" }}
+              >
+                <i className="ti ti-database-import" /> {gerando ? "Gerando..." : "Injetar Dados de Demonstração"}
+              </Btn>
+            </div>
+          </div>
+        )}
+
+        {/* Barra de Abas Deslizante no Topo (Sticky Touch Chips) */}
+        <div className={styles.mobileTabsSticky}>
+          <div className={styles.mobileTabsScroll} ref={mobileTabContainerRef}>
+            {gruposMenu.flatMap((g) => g.itens).map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`${styles.mobileTabChip} ${isActive ? styles.mobileTabChipActive : ""}`}
+                  onClick={() => setActiveTab(item.id)}
+                >
+                  <i className={`ti ti-${item.icon}`} />
+                  <span>{item.label}</span>
+                  {item.badge !== null && (
+                    <span className={styles.mobileTabBadge}>{item.badge}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* ═════════════════════════════════════════════════════ */}
       {/* ── COLUNA ESQUERDA: CONTEÚDO PRINCIPAL DO MÓDULO ── */}
       {/* ═════════════════════════════════════════════════════ */}
-      <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div className={styles.contentCol}>
         {loading ? (
           <Spinner />
         ) : (
@@ -228,7 +327,8 @@ export default function Comunicacao() {
                 alunos={alunos}
                 escolaId={activeEscolaId}
                 selectedEscola={selectedEscola}
-                onRefresh={fetchData}
+                usuario={user}
+                onReload={fetchData}
               />
             )}
 
@@ -239,7 +339,8 @@ export default function Comunicacao() {
                 alunos={alunos}
                 escolaId={activeEscolaId}
                 selectedEscola={selectedEscola}
-                onRefresh={fetchData}
+                usuario={user}
+                onReload={fetchData}
               />
             )}
 
@@ -249,7 +350,8 @@ export default function Comunicacao() {
                 turmas={turmas}
                 escolaId={activeEscolaId}
                 selectedEscola={selectedEscola}
-                onRefresh={fetchData}
+                usuario={user}
+                onReload={fetchData}
               />
             )}
 
@@ -270,6 +372,7 @@ export default function Comunicacao() {
                 turmas={turmas}
                 escolaId={activeEscolaId}
                 selectedEscola={selectedEscola}
+                usuario={user}
                 onRefresh={fetchData}
               />
             )}
@@ -291,56 +394,18 @@ export default function Comunicacao() {
       {/* ═════════════════════════════════════════════════════ */}
       {/* ── COLUNA DIREITA: MENU MODERNO DE NAVEGAÇÃO ────── */}
       {/* ═════════════════════════════════════════════════════ */}
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          display: "flex",
-          flexDirection: "column",
-          gap: 16
-        }}
-      >
+      <aside className={styles.desktopAside}>
         {/* Painel do Menu */}
-        <div
-          style={{
-            background: "#1e293b",
-            border: "1px solid #2c3b52",
-            borderRadius: 14,
-            padding: 16,
-            boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
-          }}
-        >
+        <div className={styles.sideCard}>
           {/* Header do Menu */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              paddingBottom: 12,
-              marginBottom: 12,
-              borderBottom: "1px solid #2c3b52"
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 8,
-                  background: "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)",
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 18,
-                  boxShadow: "0 2px 8px rgba(2, 132, 199, 0.3)"
-                }}
-              >
+          <div className={styles.sideHeader}>
+            <div className={styles.sideTitleWrap}>
+              <div className={styles.sideLogo}>
                 <i className="ti ti-speakerphone" />
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>Comunicação</div>
-                <div style={{ fontSize: 11, color: "#94a3b8" }}>Escola → Família</div>
+                <div className={styles.sideTitle}>Comunicação</div>
+                <div className={styles.sideSubtitle}>Escola → Família</div>
               </div>
             </div>
 
@@ -348,17 +413,7 @@ export default function Comunicacao() {
               type="button"
               onClick={fetchData}
               title="Recarregar Dados"
-              style={{
-                padding: "6px 8px",
-                background: "#243144",
-                border: "1px solid #33435c",
-                borderRadius: 6,
-                color: "#cbd5e1",
-                cursor: "pointer",
-                fontSize: 12,
-                display: "flex",
-                alignItems: "center"
-              }}
+              className={styles.sideRefreshBtn}
             >
               <i className="ti ti-refresh" />
             </button>
@@ -368,20 +423,11 @@ export default function Comunicacao() {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {gruposMenu.map((grupo, gIdx) => (
               <div key={gIdx}>
-                <div
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.6px",
-                    color: "#94a3b8",
-                    padding: "0 8px 6px 8px"
-                  }}
-                >
+                <div className={styles.sideGroupTitle}>
                   {grupo.titulo}
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <div className={styles.sideNavList}>
                   {grupo.itens.map((item) => {
                     const isActive = activeTab === item.id;
                     return (
@@ -389,67 +435,20 @@ export default function Comunicacao() {
                         key={item.id}
                         type="button"
                         onClick={() => setActiveTab(item.id)}
-                        style={{
-                          width: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          padding: "8px 10px",
-                          borderRadius: 8,
-                          border: "none",
-                          background: isActive ? "rgba(2, 132, 199, 0.15)" : "transparent",
-                          color: isActive ? "#38bdf8" : "#cbd5e1",
-                          fontWeight: isActive ? 700 : 500,
-                          fontSize: 13,
-                          cursor: "pointer",
-                          textAlign: "left",
-                          transition: "all 0.15s ease",
-                          borderLeft: isActive ? "3px solid #0284c7" : "3px solid transparent"
-                        }}
-                        onMouseOver={(e) => {
-                          if (!isActive) {
-                            e.currentTarget.style.background = "#243144";
-                            e.currentTarget.style.color = "#ffffff";
-                          }
-                        }}
-                        onMouseOut={(e) => {
-                          if (!isActive) {
-                            e.currentTarget.style.background = "transparent";
-                            e.currentTarget.style.color = "#cbd5e1";
-                          }
-                        }}
+                        className={`${styles.sideNavItem} ${isActive ? styles.sideNavItemActive : ""}`}
                       >
-                        <div style={{ display: "flex", alignItems: "center", gap: 9, minWidth: 0 }}>
-                          <i
-                            className={`ti ti-${item.icon}`}
-                            style={{
-                              fontSize: 16,
-                              color: isActive ? "#38bdf8" : "#94a3b8",
-                              flexShrink: 0
-                            }}
-                          />
-                          <span
-                            style={{
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis"
-                            }}
-                          >
+                        <div className={styles.sideItemLeft}>
+                          <i className={`ti ti-${item.icon} ${styles.sideItemIcon}`} />
+                          <span className={styles.sideItemText}>
                             {item.label}
                           </span>
                         </div>
 
                         {item.badge !== null && (
                           <span
-                            style={{
-                              fontSize: 11,
-                              fontWeight: 700,
-                              padding: "1px 6px",
-                              borderRadius: 10,
-                              background: isActive ? "#0284c7" : item.badge === "Online" ? "rgba(16, 185, 129, 0.2)" : "#243144",
-                              color: isActive ? "white" : item.badge === "Online" ? "#34d399" : "#94a3b8",
-                              flexShrink: 0
-                            }}
+                            className={`${styles.sideItemBadge} ${
+                              item.badge === "Online" ? styles.sideItemBadgeOnline : ""
+                            }`}
                           >
                             {item.badge}
                           </span>
@@ -463,43 +462,26 @@ export default function Comunicacao() {
           </div>
 
           {/* Rodapé Informativo da Aba Selecionada */}
-          <div
-            style={{
-              marginTop: 14,
-              paddingTop: 12,
-              borderTop: "1px solid #2c3b52",
-              background: "#243144",
-              borderRadius: 8,
-              padding: "10px 12px"
-            }}
-          >
-            <div style={{ fontSize: 11, color: "#94a3b8" }}>Seção Atual</div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>
+          <div className={styles.sideFooter}>
+            <div className={styles.sideFooterLabel}>Seção Atual</div>
+            <div className={styles.sideFooterTitle}>
               {itemAtivoObj.label}
             </div>
-            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+            <div className={styles.sideFooterSub}>
               {itemAtivoObj.subtitulo}
             </div>
           </div>
         </div>
 
         {/* Card de Demonstração & Mock Data */}
-        <div
-          style={{
-            background: "#1e293b",
-            border: "1px solid #2c3b52",
-            borderRadius: 14,
-            padding: 16,
-            boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+        <div className={styles.mockCard}>
+          <div className={styles.mockHeader}>
             <span style={{ fontSize: 18 }}>📢</span>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#34d399" }}>
+            <div className={styles.mockTitle}>
               Dados de Demonstração
             </div>
           </div>
-          <p style={{ fontSize: 11, color: "#94a3b8", margin: "0 0 12px 0", lineHeight: 1.4 }}>
+          <p className={styles.mockDesc}>
             Gere dados realistas de comunicados, reuniões de pais com atas, feiras escolares e notificações de boletim.
           </p>
           <Btn
@@ -509,9 +491,9 @@ export default function Comunicacao() {
             disabled={gerando}
             style={{
               width: "100%",
-              background: "#243144",
+              background: "var(--bg-surface, #243144)",
               color: "#34d399",
-              borderColor: "#33435c",
+              borderColor: "var(--border-subtle, #33435c)",
               fontWeight: 600,
               fontSize: 12,
               justifyContent: "center"
@@ -521,7 +503,7 @@ export default function Comunicacao() {
             {gerando ? "Injetando..." : "Injetar Dados de Teste"}
           </Btn>
         </div>
-      </div>
+      </aside>
     </div>
   );
 }

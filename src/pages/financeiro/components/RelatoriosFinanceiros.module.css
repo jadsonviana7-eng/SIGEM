@@ -1,0 +1,235 @@
+/* =========================================================
+   RelatoriosFinanceiros.module.css - Padrão SIGEM
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 1. Barra de Cabeçalho */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 260px;
+  flex: 1;
+}
+
+.headerTitle {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.btnPrint {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1px solid #38bdf8;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  flex-shrink: 0;
+}
+
+.btnPrint:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .headerBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .headerInfo {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .btnPrint {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* 2. Barra de Filtros e Período */
+.filtersBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 14px;
+  align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .filtersBar {
+    grid-template-columns: 1fr;
+    padding: 14px 16px;
+  }
+}
+
+/* 3. Indicadores de Fluxo de Caixa */
+.fluxoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .fluxoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fluxoCard {
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.fluxoLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fluxoValue {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+/* 4. Tabela de Breakdown em Desktop */
+.tableContainer {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.dataTable th {
+  background: var(--bg-surface, #243144);
+  color: var(--text-muted, #94a3b8);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+  white-space: nowrap;
+}
+
+.dataTable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+  vertical-align: middle;
+}
+
+/* 5. Modo Cards em Mobile */
+.mobileCards {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .tableContainer {
+    display: none;
+  }
+  .mobileCards {
+    display: flex;
+  }
+}
+
+.relCardMobile {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.relCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.relCardValues {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--bg-surface, #243144);
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle, #33435c);
+  font-size: 12px;
+}

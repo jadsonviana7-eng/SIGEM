@@ -1,0 +1,173 @@
+/* =========================================================
+   Matriculas.module.css - Ações Rápidas em Botões Quadrados
+   ========================================================= */
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.titleArea {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Grade com os 4 botões lado a lado */
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* Botão Quadrado */
+.squareActionBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 88px;
+  min-height: 72px;
+  padding: 8px 6px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+}
+
+.squareActionBtn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+.squareActionBtn:active {
+  transform: scale(0.96);
+}
+
+.squareActionBtn i {
+  font-size: 20px;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.squareActionBtn span {
+  font-size: 11px;
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* 1. Portal do Responsável */
+.btnPortal {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+.btnPortal i {
+  color: #38bdf8;
+}
+
+/* 2. Remanejar Turma */
+.btnRemanejar {
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  border-color: var(--border-subtle, #33435c);
+}
+.btnRemanejar i {
+  color: #fbbf24;
+}
+
+/* 3. Rematrícula em Lote */
+.btnRematricula {
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  border-color: var(--border-subtle, #33435c);
+}
+.btnRematricula i {
+  color: #818cf8;
+}
+
+/* 4. Nova Matrícula (Destaque Principal) */
+.btnNovaMatricula {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+.btnNovaMatricula i {
+  color: #ffffff;
+}
+
+/* Responsividade Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .headerWrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .titleArea {
+    min-width: 100%;
+  }
+
+  .actionsGrid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .squareActionBtn {
+    width: 100% !important;
+    min-height: 68px !important;
+    padding: 8px 4px !important;
+    border-radius: 10px !important;
+  }
+
+  .squareActionBtn i {
+    font-size: 19px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .squareActionBtn span {
+    font-size: 10.5px !important;
+    letter-spacing: -0.2px !important;
+  }
+}
+
+/* Telas ultra-pequenas (≤ 360px) */
+@media (max-width: 360px) {
+  .actionsGrid {
+    gap: 4px !important;
+  }
+
+  .squareActionBtn {
+    min-height: 64px !important;
+    padding: 6px 2px !important;
+  }
+
+  .squareActionBtn i {
+    font-size: 17px !important;
+  }
+
+  .squareActionBtn span {
+    font-size: 9.5px !important;
+  }
+}

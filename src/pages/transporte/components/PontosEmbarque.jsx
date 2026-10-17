@@ -140,7 +140,7 @@ export default function PontosEmbarque({
       {pontosFiltrados.length === 0 ? (
         <EmptyState icon="map-pin" texto="Nenhum ponto de embarque cadastrado." />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))", gap: 18 }}>
           {pontosFiltrados.map((ponto) => {
             const rotasQuePassam = rotas.filter(r => (r.pontosIds || []).includes(ponto.id));
             const alunosQueEmbarcam = alunos.filter(a => a.pontoId === ponto.id && (a.status === "Ativo" || !a.status));

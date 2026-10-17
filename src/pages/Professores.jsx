@@ -1,7 +1,8 @@
 import { useState, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
-import { getProfessores, addProfessor, updateProfessor } from "../services/professoresService";
+import { getProfessores, addProfessor, updateProfessor, deleteProfessor } from "../services/professoresService";
+import { registrarAuditoria } from "../services/auditoriaService";
 import { TURNOS, DISCIPLINAS } from "../utils/constants";
 import { Card, Badge, Btn, Modal, Input, Select, Alert, Spinner, EmptyState } from "../components/ui";
 import { comprimirEUploadFoto } from "../utils/upload";
@@ -12,8 +13,9 @@ const CARGOS = ["Diretor", "Secretário", "Professor", "Coordenador", "Merendeir
 const VAZIO = { nome:"",cpf:"",email:"",telefone:"",cargo:"Professor",turno:"Manhã",disciplinas:[],status:"Ativo",fotoUrl:"", vinculo:"Efetivo" };
 
 export default function Professores() {
-  const { user, selectedEscolaId } = useAuth();
+  const { user, selectedEscolaId, escolas } = useAuth();
   const activeEscolaId = user?.selectedEscolaId || "";
+  const escolaAtual = (escolas || []).find(e => e.id === activeEscolaId);
   
   const { dados: professores, carregando, recarregar } = useFirestore(
     useCallback(() => getProfessores(activeEscolaId), [activeEscolaId]),
@@ -86,14 +88,72 @@ export default function Professores() {
     };
 
     try {
-      if (editId) await updateProfessor(editId, dadosParaSalvar);
-      else await addProfessor(dadosParaSalvar, activeEscolaId);
+      if (editId) {
+        const antigo = professores.find(pr => pr.id === editId) || {};
+        await updateProfessor(editId, dadosParaSalvar);
+        await registrarAuditoria({
+          usuario: user,
+          escolaId: activeEscolaId,
+          escolaNome: escolaAtual?.nome || "Escola Municipal",
+          modulo: "Servidores",
+          acao: "EDICAO_SERVIDOR",
+          entidade: dadosParaSalvar.cargo || "Servidor",
+          entidadeId: editId,
+          entidadeNome: dadosParaSalvar.nome,
+          registroAnterior: `${antigo.nome || form.nome} (${antigo.cargo || form.cargo} · ${antigo.turno || form.turno})`,
+          registroNovo: `${dadosParaSalvar.nome} (${dadosParaSalvar.cargo} · ${dadosParaSalvar.turno})`,
+          descricao: `${user?.displayName || 'Secretaria'} editou os dados de ${dadosParaSalvar.nome}`
+        });
+      } else {
+        const docRef = await addProfessor(dadosParaSalvar, activeEscolaId);
+        await registrarAuditoria({
+          usuario: user,
+          escolaId: activeEscolaId,
+          escolaNome: escolaAtual?.nome || "Escola Municipal",
+          modulo: "Servidores",
+          acao: "CADASTRO_SERVIDOR",
+          entidade: dadosParaSalvar.cargo || "Servidor",
+          entidadeId: docRef?.id || "",
+          entidadeNome: dadosParaSalvar.nome,
+          registroAnterior: "—",
+          registroNovo: `${dadosParaSalvar.nome} (${dadosParaSalvar.cargo} · ${dadosParaSalvar.turno})`,
+          descricao: `${user?.displayName || 'Secretaria'} cadastrou ${dadosParaSalvar.nome}`
+        });
+      }
       setModalAberto(false);
-      setAlerta({ msg: `Servidor(a) "${form.nome}" salvo(a) com sucesso.`, tipo: "success" });
+      setAlerta({ msg: `${dadosParaSalvar.cargo === "Professor" ? "Professor(a)" : "Servidor(a)"} "${form.nome}" salvo(a) com sucesso.`, tipo: "success" });
       recarregar();
     } catch (e) {
       setAlerta({ msg: "Erro: " + e.message, tipo: "error" });
     } finally { setSalvando(false); }
+  }
+
+  async function remover(p) {
+    const cargoFormatado = p.cargo === "Professor" ? "o(a) professor(a)" : "o(a) servidor(a)";
+    if (!window.confirm(`Tem certeza que deseja excluir ${cargoFormatado} "${p.nome}"? Esta ação removerá o cadastro do servidor.`)) return;
+    try {
+      await deleteProfessor(p.id);
+      await registrarAuditoria({
+        usuario: user,
+        escolaId: activeEscolaId,
+        escolaNome: escolaAtual?.nome || "Escola Municipal",
+        modulo: "Servidores",
+        acao: "EXCLUSAO_SERVIDOR",
+        entidade: p.cargo || "Servidor",
+        entidadeId: p.id,
+        entidadeNome: p.nome,
+        registroAnterior: `${p.nome} (${p.cargo || 'Servidor'} · ${p.turno || '—'} · ${p.vinculo || 'Efetivo'})`,
+        registroNovo: "—",
+        descricao: `${user?.displayName || 'Secretaria'} excluiu ${cargoFormatado} ${p.nome}`
+      });
+      if (professorFicha?.id === p.id) {
+        setProfessorFicha(null);
+      }
+      setAlerta({ msg: `${p.cargo === "Professor" ? "Professor(a)" : "Servidor(a)"} "${p.nome}" excluído(a) com sucesso.`, tipo: "success" });
+      recarregar();
+    } catch (e) {
+      setAlerta({ msg: "Erro ao excluir: " + e.message, tipo: "error" });
+    }
   }
 
   if (carregando) return <Spinner />;
@@ -220,6 +280,9 @@ export default function Professores() {
                             <Btn onClick={()=>abrirEditar(p)} style={{ padding:"5px 9px",fontSize:12 }} title="Editar">
                               <i className="ti ti-edit" style={{ fontSize: 13 }} aria-hidden="true" />
                             </Btn>
+                            <Btn variant="danger" onClick={()=>remover(p)} style={{ padding:"5px 9px",fontSize:12 }} title="Excluir">
+                              <i className="ti ti-trash" style={{ fontSize: 13 }} aria-hidden="true" />
+                            </Btn>
                           </div>
                         </td>
                       </tr>
@@ -282,10 +345,24 @@ export default function Professores() {
                   </div>
                 </div>
 
-                {/* Status & Chevron */}
+                {/* Status & Ações Mobile */}
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-                  <Badge color={p.status === "Ativo" ? "green" : "amber"}>{p.status || "Ativo"}</Badge>
-                  <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                  <Btn
+                    onClick={(e) => { e.stopPropagation(); abrirEditar(p); }}
+                    style={{ padding: "6px 8px", fontSize: 12 }}
+                    title="Editar"
+                  >
+                    <i className="ti ti-edit" />
+                  </Btn>
+                  <Btn
+                    variant="danger"
+                    onClick={(e) => { e.stopPropagation(); remover(p); }}
+                    style={{ padding: "6px 8px", fontSize: 12 }}
+                    title="Excluir"
+                  >
+                    <i className="ti ti-trash" />
+                  </Btn>
+                  <div style={{ color: "var(--text-muted)", fontSize: 16, display: "flex", alignItems: "center", marginLeft: 2 }}>
                     <i className="ti ti-chevron-right" />
                   </div>
                 </div>
@@ -296,7 +373,12 @@ export default function Professores() {
       )}
 
       {modalAberto && (
-        <Modal titulo={editId?"Editar Servidor":"Novo Servidor"} onClose={()=>setModalAberto(false)} onSave={salvar} salvando={salvando}>
+        <Modal
+          titulo={editId ? (form.cargo === "Professor" ? "Editar Professor(a)" : "Editar Servidor(a)") : (abaAtiva === "professores" ? "Novo(a) Professor(a)" : "Novo(a) Servidor(a)")}
+          onClose={()=>setModalAberto(false)}
+          onSave={salvar}
+          salvando={salvando}
+        >
           <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
             {/* Upload de Foto */}
             <div style={{ display:"flex", alignItems: "center", gap: 16, background: "var(--bg-surface)", padding: 12, borderRadius: 10, border: "1px solid var(--border-color)", marginBottom: 4 }}>
@@ -400,23 +482,23 @@ export default function Professores() {
 
       {professorFicha && (
         <Modal
-          titulo="Ficha do Servidor"
+          titulo={professorFicha.cargo === "Professor" ? "Ficha do(a) Professor(a)" : "Ficha do(a) Servidor(a)"}
           onClose={() => setProfessorFicha(null)}
-          onSave={() => setProfessorFicha(null)}
+          semRodape
           width={600}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Header / Foto */}
-            <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c" }}>
-              <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", background: "#1e293b", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, background: "var(--bg-surface)", padding: 12, borderRadius: 10, border: "1px solid var(--border-color)" }}>
+              <div style={{ width: 64, height: 64, borderRadius: 12, overflow: "hidden", background: "var(--bg-card)", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid var(--border-color)", flexShrink: 0 }}>
                 {professorFicha.fotoUrl ? (
                   <img src={professorFicha.fotoUrl} alt={professorFicha.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <i className="ti ti-user" style={{ fontSize: 28, color: "#94a3b8" }} />
+                  <i className="ti ti-user" style={{ fontSize: 28, color: "var(--text-muted)" }} />
                 )}
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 600, color: "#ffffff", marginBottom: 4 }}>{professorFicha.nome}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>{professorFicha.nome}</div>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <Badge color="blue">{professorFicha.cargo || "Professor"}</Badge>
                   <Badge color={professorFicha.status === "Ativo" ? "green" : "amber"}>{professorFicha.status}</Badge>
@@ -425,23 +507,24 @@ export default function Professores() {
             </div>
 
             {/* Dados Pessoais e Contato */}
-            <div style={{ border: "1px solid #33435c", background: "#243144", borderRadius: 8, padding: 16 }}>
-              <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "#ffffff", textTransform: "uppercase", borderBottom: "1px solid #33435c", paddingBottom: 6 }}>
-                <i className="ti ti-address-book" style={{ marginRight: 6, color: "#6366f1" }} /> Contato e Lotação
+            <div style={{ border: "1px solid var(--border-color)", background: "var(--bg-surface)", borderRadius: 10, padding: 16 }}>
+              <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "var(--text-primary)", textTransform: "uppercase", borderBottom: "1px solid var(--border-color)", paddingBottom: 6 }}>
+                <i className="ti ti-address-book" style={{ marginRight: 6, color: "var(--primary-color, #6366f1)" }} /> Contato e Lotação
               </h4>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 16px" }}>
-                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>Telefone</span><span style={{ color: "#cbd5e1" }}>{professorFicha.telefone || "Não informado"}</span></div>
-                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>E-mail</span><span style={{ color: "#cbd5e1" }}>{professorFicha.email || "Não informado"}</span></div>
-                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>Turno</span><span style={{ color: "#cbd5e1" }}>{professorFicha.turno || "Não informado"}</span></div>
-                <div><span style={{ color: "#94a3b8", fontSize: 11, display: "block" }}>Vínculo</span><span style={{ color: "#cbd5e1" }}>{professorFicha.vinculo || "Não informado"}</span></div>
+                <div><span style={{ color: "var(--text-muted)", fontSize: 11, display: "block" }}>Telefone</span><span style={{ color: "var(--text-secondary)" }}>{professorFicha.telefone || "Não informado"}</span></div>
+                <div><span style={{ color: "var(--text-muted)", fontSize: 11, display: "block" }}>E-mail</span><span style={{ color: "var(--text-secondary)" }}>{professorFicha.email || "Não informado"}</span></div>
+                <div><span style={{ color: "var(--text-muted)", fontSize: 11, display: "block" }}>Turno</span><span style={{ color: "var(--text-secondary)" }}>{professorFicha.turno || "Não informado"}</span></div>
+                <div><span style={{ color: "var(--text-muted)", fontSize: 11, display: "block" }}>Vínculo</span><span style={{ color: "var(--text-secondary)" }}>{professorFicha.vinculo || "Não informado"}</span></div>
+                <div><span style={{ color: "var(--text-muted)", fontSize: 11, display: "block" }}>CPF</span><span style={{ color: "var(--text-secondary)" }}>{professorFicha.cpf || "Não informado"}</span></div>
               </div>
             </div>
 
             {/* Disciplinas (se professor) */}
             {professorFicha.cargo === "Professor" && professorFicha.disciplinas && professorFicha.disciplinas.length > 0 && (
-              <div style={{ border: "1px solid #33435c", background: "#243144", borderRadius: 8, padding: 16 }}>
-                <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "#ffffff", textTransform: "uppercase", borderBottom: "1px solid #33435c", paddingBottom: 6 }}>
-                  <i className="ti ti-books" style={{ marginRight: 6, color: "#6366f1" }} /> Disciplinas Lecionadas
+              <div style={{ border: "1px solid var(--border-color)", background: "var(--bg-surface)", borderRadius: 10, padding: 16 }}>
+                <h4 style={{ margin: "0 0 12px 0", fontSize: 13, color: "var(--text-primary)", textTransform: "uppercase", borderBottom: "1px solid var(--border-color)", paddingBottom: 6 }}>
+                  <i className="ti ti-books" style={{ marginRight: 6, color: "var(--primary-color, #6366f1)" }} /> Disciplinas Lecionadas
                 </h4>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {professorFicha.disciplinas.map(d => (
@@ -450,6 +533,46 @@ export default function Professores() {
                 </div>
               </div>
             )}
+
+            {/* Ações da Ficha */}
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 10,
+              paddingTop: 14,
+              borderTop: "1px solid var(--border-color)",
+              marginTop: 4,
+              flexWrap: "wrap"
+            }}>
+              <Btn
+                variant="danger"
+                onClick={() => remover(professorFicha)}
+                style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
+              >
+                <i className="ti ti-trash" /> Excluir
+              </Btn>
+
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <Btn
+                  variant="outline"
+                  onClick={() => setProfessorFicha(null)}
+                >
+                  Fechar
+                </Btn>
+                <Btn
+                  variant="primary"
+                  onClick={() => {
+                    const prof = professorFicha;
+                    setProfessorFicha(null);
+                    abrirEditar(prof);
+                  }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
+                >
+                  <i className="ti ti-edit" /> Editar
+                </Btn>
+              </div>
+            </div>
           </div>
         </Modal>
       )}

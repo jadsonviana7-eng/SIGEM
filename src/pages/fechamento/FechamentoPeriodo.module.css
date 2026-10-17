@@ -1,0 +1,488 @@
+/* =========================================================
+   FechamentoPeriodo.module.css - Layout Padrão do Módulo Fechamento
+   ========================================================= */
+
+.container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+.contentCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Coluna Lateral Desktop (Sticky) */
+.desktopAside {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header Móvel de Navegação */
+.mobileNavHeader {
+  display: none;
+}
+
+/* Barra Superior Mobile com Título e Ações Rápidas */
+.mobileBarTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg-card, #1e293b);
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color, #2c3b52);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.mobileModuleTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.mobileIconBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 3px 10px rgba(14, 165, 233, 0.35);
+  flex-shrink: 0;
+}
+
+.mobileTitleText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mobileTitleMain {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobileTitleSub {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobileBarActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.mobileActionButton {
+  padding: 8px 10px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 8px;
+  color: var(--text-secondary, #cbd5e1);
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.mobileActionButton:hover {
+  background: #33435c;
+  color: #ffffff;
+}
+
+.mobileActionButtonActive {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+  border-color: #0ea5e9;
+}
+
+/* Painel de Resumo Expansível no Mobile */
+.mobileSummaryPanel {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobileSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.mobileSummaryItem {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobileSummaryLabel {
+  font-size: 10.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+}
+
+.mobileSummaryValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Barra de Abas Deslizante no Topo (Sticky Touch Chips) */
+.mobileTabsSticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 0 10px 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.8) 85%, transparent 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.mobileTabsScroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mobileTabsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileTabChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  color: var(--text-secondary, #cbd5e1);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobileTabChipActive {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+}
+
+.mobileTabBadge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Painel Lateral Desktop */
+.sideCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.sideHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+}
+
+.sideTitleWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sideLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.sideTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+}
+
+.sideSubtitle {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.sideRefreshBtn {
+  padding: 6px 8px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 6px;
+  color: var(--text-secondary, #cbd5e1);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.sideRefreshBtn:hover {
+  background: #33435c;
+  color: #ffffff;
+}
+
+.sideGroupTitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted, #94a3b8);
+  padding: 0 8px 6px 8px;
+}
+
+.sideNavList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sideNavItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #cbd5e1);
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+}
+
+.sideNavItem:hover {
+  background: var(--bg-surface, #243144);
+  color: #ffffff;
+}
+
+.sideNavItemActive {
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  font-weight: 700;
+  border-left-color: #0ea5e9;
+}
+
+.sideItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.sideItemIcon {
+  font-size: 16px;
+  color: var(--text-muted, #94a3b8);
+  flex-shrink: 0;
+}
+
+.sideNavItemActive .sideItemIcon {
+  color: #38bdf8;
+}
+
+.sideItemText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sideItemBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: var(--bg-surface, #243144);
+  color: var(--text-muted, #94a3b8);
+  flex-shrink: 0;
+}
+
+.sideNavItemActive .sideItemBadge {
+  background: #0ea5e9;
+  color: #ffffff;
+}
+
+/* Card de Período / Bimestre na Lateral */
+.sidePeriodoCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidePeriodoLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted, #94a3b8);
+  letter-spacing: 0.5px;
+}
+
+.sidePeriodoSelect {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle, #33435c);
+  background: var(--bg-surface, #243144);
+  color: #ffffff;
+  font-size: 12.5px;
+  outline: none;
+  cursor: pointer;
+}
+
+.sidePeriodoMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  padding: 8px 10px;
+  background: var(--bg-surface, #243144);
+  border-radius: 6px;
+}
+
+/* Informações da Seção Atual no Rodapé do Menu */
+.sideFooter {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color, #2c3b52);
+  background: var(--bg-surface, #243144);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.sideFooterLabel {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.sideFooterTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+}
+
+.sideFooterSub {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 2px;
+}
+
+/* Responsividade Mobile & Tablet */
+@media (max-width: 992px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .desktopAside {
+    display: none !important;
+  }
+
+  .mobileNavHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .contentCol {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}

@@ -1,0 +1,245 @@
+/* =========================================================
+   DocumentosOficiais.module.css - Padrão de Design SIGEM
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 1. Barra de Cabeçalho e Seleção */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 260px;
+  flex: 1;
+}
+
+.headerTitle {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.btnPrintDocument {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1px solid #38bdf8;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  flex-shrink: 0;
+}
+
+.btnPrintDocument:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .headerBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .headerInfo {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .btnPrintDocument {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* 2. Barra de Configuração do Documento */
+.configCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 14px;
+  align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .configCard {
+    grid-template-columns: 1fr;
+    padding: 14px 16px;
+  }
+}
+
+/* 3. Folha Oficial em Papel Timbrado (Pré-Visualização e Impressão) */
+.documentSheet {
+  background: #ffffff;
+  color: #0f172a;
+  padding: 32px 40px;
+  border-radius: 14px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid #cbd5e1;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.documentTitleSection {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.docMainTitle {
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.docSubTitle {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 600;
+  margin: 0;
+}
+
+.docMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 12.5px;
+}
+
+.docTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+
+.docTable th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  padding: 8px 10px;
+  border: 1px solid #94a3b8;
+  text-align: left;
+}
+
+.docTable td {
+  padding: 7px 10px;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+}
+
+.docTable tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+/* Assinaturas no Rodapé do Documento */
+.docSignatures {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  padding-top: 20px;
+  page-break-inside: avoid;
+}
+
+.signBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  text-align: center;
+}
+
+.signLine {
+  width: 100%;
+  border-top: 1px solid #0f172a;
+  margin-bottom: 6px;
+}
+
+.signName {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.signRole {
+  font-size: 11px;
+  color: #475569;
+}
+
+/* Regras de Impressão A4 Profissional */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .documentSheet,
+  .documentSheet * {
+    visibility: visible;
+  }
+
+  .documentSheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+    border: none;
+    box-shadow: none;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}

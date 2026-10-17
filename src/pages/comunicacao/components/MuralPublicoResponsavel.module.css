@@ -1,0 +1,288 @@
+/* =========================================================
+   MuralPublicoResponsavel.module.css - Padrão de Design SIGEM
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 1. Indicadores Rápidos (KPIs) */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.statCard:hover {
+  border-color: rgba(2, 132, 199, 0.4);
+  transform: translateY(-1px);
+}
+
+.statIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.15;
+}
+
+.statLabel {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* 2. Barra de Cabeçalho */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 260px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .headerBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .headerInfo {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.headerTitle {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Barra de Identificação do Responsável */
+.idCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr auto;
+  gap: 14px;
+  align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .idCard {
+    grid-template-columns: 1fr;
+    padding: 14px 16px;
+  }
+
+  .idCard button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* Feed Items */
+.feedSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feedSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  margin-top: 6px;
+}
+
+.feedCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.feedCard:hover {
+  border-color: #0284c7;
+  transform: translateY(-1px);
+}
+
+.feedCardReuniao {
+  border-left: 4px solid #8b5cf6;
+}
+
+.feedCardAviso {
+  border-left: 4px solid #0284c7;
+}
+
+.feedCardEvento {
+  border-left: 4px solid #f59e0b;
+}
+
+.feedCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.feedCardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  margin: 4px 0 2px 0;
+}
+
+.feedCardMeta {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.feedDateBadge {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  padding: 8px 12px;
+  border-radius: 10px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-secondary, #cbd5e1);
+}
+
+.feedCardBody {
+  font-size: 13px;
+  color: var(--text-secondary, #cbd5e1);
+  line-height: 1.55;
+  margin: 0;
+  word-break: break-word;
+}
+
+.feedCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed var(--border-color, #2c3b52);
+  padding-top: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .feedCardTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feedDateBadge {
+    text-align: left;
+  }
+
+  .feedCardFooter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .feedCardFooter > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .feedCardFooter button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Card, Badge, Btn } from "../../../components/ui";
+import styles from "./DashboardTransporte.module.css";
 
 export default function DashboardTransporte({
   rotas = [],
@@ -121,61 +122,25 @@ export default function DashboardTransporte({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {/* Banner de Boas-Vindas e Ações Rápidas */}
-      <div style={{
-        background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
-        color: "white",
-        padding: "24px 28px",
-        borderRadius: 16,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: 16,
-        boxShadow: "0 10px 25px -5px rgba(30, 64, 175, 0.3)"
-      }}>
-        <div>
-          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}>
+      <div className={styles.banner}>
+        <div className={styles.bannerInfo}>
+          <h2 className={styles.bannerTitle}>
             <i className="ti ti-bus" style={{ fontSize: 26 }} /> Módulo de Transporte Escolar Integrado
           </h2>
-          <p style={{ margin: 0, fontSize: 14, opacity: 0.9 }}>
+          <p className={styles.bannerText}>
             Gerenciamento completo de rotas, veículos, motoristas, segurança dos estudantes, diário de bordo e despesas operacionais.
           </p>
         </div>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className={styles.bannerActions}>
           <button
             onClick={() => onNavigateTab("frequencia")}
-            style={{
-              background: "white",
-              color: "#1e40af",
-              border: "none",
-              padding: "10px 18px",
-              borderRadius: 8,
-              fontWeight: 600,
-              fontSize: 13,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              boxShadow: "0 2px 5px rgba(0,0,0,0.15)"
-            }}
+            className={styles.bannerBtnPrimary}
           >
             <i className="ti ti-clipboard-check" /> Fazer Chamada / Diário
           </button>
           <button
             onClick={() => onNavigateTab("alunos")}
-            style={{
-              background: "rgba(255, 255, 255, 0.15)",
-              color: "white",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              padding: "10px 18px",
-              borderRadius: 8,
-              fontWeight: 600,
-              fontSize: 13,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8
-            }}
+            className={styles.bannerBtnSecondary}
           >
             <i className="ti ti-users" /> Lista de Alunos
           </button>
@@ -183,7 +148,7 @@ export default function DashboardTransporte({
       </div>
 
       {/* Grid de Cards de Estatísticas Principais */}
-      <div className="sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+      <div className={styles.kpiGrid}>
         <Card style={{ padding: "18px 20px", borderLeft: "4px solid #3b82f6", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
@@ -271,7 +236,7 @@ export default function DashboardTransporte({
       </div>
 
       {/* Seção Central: Alertas & Ocupação das Linhas */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+      <div className={styles.splitGrid}>
         {/* Painel de Alertas e Vistorias */}
         <Card style={{ display: "flex", flexDirection: "column", background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
@@ -381,13 +346,13 @@ export default function DashboardTransporte({
 
       {/* Resumo de Viagens Recentes / Diário de Bordo */}
       <Card style={{ background: "#1e293b", borderColor: "#2c3b52" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
           <h3 style={{ fontSize: 16, fontWeight: 600, color: "#f8fafc", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
             <i className="ti ti-road" style={{ color: "#a78bfa" }} /> Últimos Registros do Diário de Bordo
           </h3>
           <button
             onClick={() => onNavigateTab("frequencia")}
-            style={{ background: "none", border: "none", color: "#60a5fa", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+            style={{ background: "none", border: "none", color: "#60a5fa", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 4 }}
           >
             Abrir Diário Completo <i className="ti ti-chevron-right" />
           </button>
@@ -398,38 +363,81 @@ export default function DashboardTransporte({
             Nenhum registro de viagem recente. Registre viagens e ocorrências na aba Frequência & Diário.
           </div>
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "1px solid #2c3b52", color: "#94a3b8" }}>
-                  <th style={{ padding: "10px 12px" }}>Data / Turno</th>
-                  <th style={{ padding: "10px 12px" }}>Linha / Rota</th>
-                  <th style={{ padding: "10px 12px" }}>Veículo / Placa</th>
-                  <th style={{ padding: "10px 12px" }}>Motorista</th>
-                  <th style={{ padding: "10px 12px" }}>KM Percorrido</th>
-                  <th style={{ padding: "10px 12px" }}>Passageiros</th>
-                  <th style={{ padding: "10px 12px" }}>Status / Ocorrências</th>
-                </tr>
-              </thead>
-              <tbody>
-                {viagens.slice(0, 5).map(v => (
-                  <tr key={v.id} style={{ borderBottom: "1px solid #243144" }}>
-                    <td style={{ padding: "10px 12px", fontWeight: 600, color: "#f8fafc" }}>
-                      {new Date(v.data + "T00:00:00").toLocaleDateString("pt-BR")} <span style={{ fontSize: 11, color: "#94a3b8" }}>({v.turno})</span>
-                    </td>
-                    <td style={{ padding: "10px 12px", color: "#cbd5e1" }}>{v.rotaNome}</td>
-                    <td style={{ padding: "10px 12px" }}><Badge color="blue">{v.veiculoPlaca}</Badge></td>
-                    <td style={{ padding: "10px 12px", color: "#cbd5e1" }}>{v.motoristaNome}</td>
-                    <td style={{ padding: "10px 12px", fontWeight: 600, color: "#f8fafc" }}>{v.kmPercorrido ? `${v.kmPercorrido} km` : "-"}</td>
-                    <td style={{ padding: "10px 12px", color: "#cbd5e1" }}>{v.alunosEmbarcados || 0} alunos</td>
-                    <td style={{ padding: "10px 12px", maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#94a3b8" }}>
-                      {v.ocorrencias || "Sem ocorrências"}
-                    </td>
+          <>
+            {/* Visualização Desktop: Tabela Tradicional */}
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #2c3b52", color: "#94a3b8" }}>
+                    <th style={{ padding: "10px 12px" }}>Data / Turno</th>
+                    <th style={{ padding: "10px 12px" }}>Linha / Rota</th>
+                    <th style={{ padding: "10px 12px" }}>Veículo / Placa</th>
+                    <th style={{ padding: "10px 12px" }}>Motorista</th>
+                    <th style={{ padding: "10px 12px" }}>KM Percorrido</th>
+                    <th style={{ padding: "10px 12px" }}>Passageiros</th>
+                    <th style={{ padding: "10px 12px" }}>Status / Ocorrências</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {viagens.slice(0, 5).map(v => (
+                    <tr key={v.id} style={{ borderBottom: "1px solid #243144" }}>
+                      <td style={{ padding: "10px 12px", fontWeight: 600, color: "#f8fafc" }}>
+                        {new Date(v.data + "T00:00:00").toLocaleDateString("pt-BR")} <span style={{ fontSize: 11, color: "#94a3b8" }}>({v.turno})</span>
+                      </td>
+                      <td style={{ padding: "10px 12px", color: "#cbd5e1" }}>{v.rotaNome}</td>
+                      <td style={{ padding: "10px 12px" }}><Badge color="blue">{v.veiculoPlaca}</Badge></td>
+                      <td style={{ padding: "10px 12px", color: "#cbd5e1" }}>{v.motoristaNome}</td>
+                      <td style={{ padding: "10px 12px", fontWeight: 600, color: "#f8fafc" }}>{v.kmPercorrido ? `${v.kmPercorrido} km` : "-"}</td>
+                      <td style={{ padding: "10px 12px", color: "#cbd5e1" }}>{v.alunosEmbarcados || 0} alunos</td>
+                      <td style={{ padding: "10px 12px", maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#94a3b8" }}>
+                        {v.ocorrencias || "Sem ocorrências"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards">
+              {viagens.slice(0, 5).map(v => (
+                <div key={`mob-viagem-${v.id}`} className={styles.mobileTripCard}>
+                  <div className={styles.mobileTripHeader}>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>
+                        {v.rotaNome}
+                      </div>
+                      <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                        {new Date(v.data + "T00:00:00").toLocaleDateString("pt-BR")} · {v.turno}
+                      </div>
+                    </div>
+                    <Badge color="blue">{v.veiculoPlaca || "Frota"}</Badge>
+                  </div>
+
+                  <div className={styles.mobileTripDetails}>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>Motorista:</span>
+                      <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 1 }}>{v.motoristaNome || "-"}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>Passageiros:</span>
+                      <div style={{ color: "#34d399", fontWeight: 600, marginTop: 1 }}>{v.alunosEmbarcados || 0} embarcados</div>
+                    </div>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>KM Percorrido:</span>
+                      <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 1 }}>{v.kmPercorrido ? `${v.kmPercorrido} km` : "-"}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>Ocorrências:</span>
+                      <div style={{ color: v.ocorrencias ? "#fbbf24" : "#94a3b8", fontWeight: 500, marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {v.ocorrencias || "Nenhuma"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
     </div>

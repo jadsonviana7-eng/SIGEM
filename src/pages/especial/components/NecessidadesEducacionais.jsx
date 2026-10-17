@@ -143,23 +143,23 @@ export default function NecessidadesEducacionais({
       {necessidadesFiltradas.length === 0 ? (
         <EmptyState icon="accessible" texto="Nenhum mapeamento de necessidades educacionais cadastrado." />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
           {necessidadesFiltradas.map((item) => (
-            <Card key={item.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 20, background: "#1e293b", borderColor: "#2c3b52" }}>
+            <Card key={item.id} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 18, background: "var(--bg-card, #1e293b)", borderColor: "var(--border-color, #2c3b52)" }}>
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                   <div>
-                    <h4 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#f8fafc" }}>
+                    <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary, #f8fafc)" }}>
                       {item.alunoNome}
                     </h4>
-                    <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
-                      Turma: <strong style={{ color: "#cbd5e1" }}>{item.turma || "Sala Regular"}</strong>
+                    <div style={{ fontSize: 12, color: "var(--text-muted, #94a3b8)", marginTop: 2 }}>
+                      Turma: <strong style={{ color: "var(--text-secondary, #cbd5e1)" }}>{item.turma || "Sala Regular"}</strong>
                     </div>
                   </div>
-                  <Badge color="blue">Acessibilidade Mapeada</Badge>
+                  <Badge color="blue">Acessibilidade</Badge>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: "#cbd5e1", background: "#243144", border: "1px solid #2c3b52", padding: 12, borderRadius: 8 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: "var(--text-secondary, #cbd5e1)", background: "var(--bg-surface, #243144)", border: "1px solid var(--border-color, #2c3b52)", padding: 12, borderRadius: 8 }}>
                   <div>
                     <strong style={{ color: "#f87171" }}>Barreiras de Aprendizagem:</strong>
                     <div>{item.barreirasIdentificadas || "Não informadas"}</div>
@@ -176,14 +176,14 @@ export default function NecessidadesEducacionais({
                   </div>
 
                   {item.orientacoesProfessores && (
-                    <div style={{ borderTop: "1px solid #33435c", paddingTop: 6, fontStyle: "italic", color: "#94a3b8" }}>
+                    <div style={{ borderTop: "1px solid var(--border-color, #33435c)", paddingTop: 6, fontStyle: "italic", color: "var(--text-muted, #94a3b8)" }}>
                       <strong style={{ color: "#a78bfa" }}>Dica Pedagógica:</strong> {item.orientacoesProfessores}
                     </div>
                   )}
                 </div>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 14, paddingTop: 10, borderTop: "1px solid #f1f5f9" }}>
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 6, marginTop: 14, paddingTop: 10, borderTop: "1px solid var(--border-color, #2c3b52)" }}>
                 <Btn onClick={() => abrirEditar(item)} style={{ padding: "6px 10px", fontSize: 12 }}>
                   <i className="ti ti-edit" /> Editar
                 </Btn>

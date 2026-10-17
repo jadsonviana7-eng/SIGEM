@@ -1,0 +1,575 @@
+/* =========================================================
+   PlanoAtendimentoPEI.module.css - Estilos do Módulo PEI / PDI
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 1. Indicadores Rápidos (KPIs) */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.statCard:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.statIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.15;
+}
+
+.statLabel {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 2. Barra de Cabeçalho */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 260px;
+  flex: 1;
+}
+
+.headerTitle {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.btnNovo {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #ffffff;
+  border: 1px solid #6366f1;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  flex-shrink: 0;
+}
+
+.btnNovo:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+}
+
+/* 3. Barra de Filtros */
+.filtersBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .filtersBar {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btnClearFilters {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  height: 38px;
+}
+
+.btnClearFilters:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+}
+
+/* 4. Grade de Cards dos Planos PEI */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  margin-top: 2px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  margin: 3px 0 0 0;
+}
+
+.planosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .planosGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.planoCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.planoCard:hover {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.18);
+}
+
+/* Topo do Card */
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTopLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.studentAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+}
+
+.studentIdentity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.studentName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.3;
+}
+
+.turmaTag {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+}
+
+.cardTopActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btnActionIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.btnActionPrint:hover {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.btnActionEdit:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.btnActionDelete:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Grid de Datas de Vigência & Revisão */
+.datesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.dateTile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dateTileLabel {
+  font-size: 10.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+}
+
+.dateTileValue {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+}
+
+/* Seções de Conteúdo Pedagógico */
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pedagogyBox {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 10px;
+  padding: 9px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pedagogyHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #818cf8;
+}
+
+.pedagogyText {
+  font-size: 12px;
+  color: var(--text-secondary, #cbd5e1);
+  line-height: 1.45;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Rodapé do Card */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-color, #2c3b52);
+  margin-top: auto;
+}
+
+.profBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btnViewDoc {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btnViewDoc:hover {
+  background: rgba(99, 102, 241, 0.25);
+  color: #ffffff;
+  border-color: #6366f1;
+}
+
+/* Estado Vazio */
+.emptyState {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  background: var(--bg-card, #1e293b);
+  border: 1px dashed var(--border-color, #2c3b52);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.emptyState i {
+  font-size: 42px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.emptyStateTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  margin-bottom: 4px;
+}
+
+.emptyStateSub {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  max-width: 440px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* =========================================================
+   FORMULÁRIO DO MODAL (CAMPOS UM ABAIXO DO OUTRO)
+   ========================================================= */
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: auto;
+  margin-left: 16px;
+  margin-right: 8px;
+}
+
+.formTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 10px 14px;
+  padding-left: 14px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  color: var(--text-primary, #ffffff);
+  transition: all 0.15s ease;
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.formTextarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.formTextarea::placeholder {
+  color: var(--text-muted, #94a3b8);
+  opacity: 0.7;
+}
+
+.fieldLabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.2px;
+}
+
+.fieldRequired {
+  color: #f87171;
+  font-weight: 700;
+}
+
+.fieldHint {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 2px;
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 18px;
+  margin-top: 4px;
+  margin-left: 16px;
+  margin-right: 8px;
+  border-top: 1px solid var(--border-color, #2c3b52);
+}
+
+@media (max-width: 640px) {
+  .modalFooter {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modalFooter button {
+    width: 100%;
+    justify-content: center;
+  }
+}

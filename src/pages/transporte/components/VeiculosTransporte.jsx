@@ -162,7 +162,7 @@ export default function VeiculosTransporte({
       {veiculosFiltrados.length === 0 ? (
         <EmptyState icon="bus" texto="Nenhum veículo cadastrado na frota escolar." />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))", gap: 18 }}>
           {veiculosFiltrados.map((veiculo) => {
             const rotaVinculada = rotas.find(r => r.veiculoId === veiculo.id);
             const totalManutencoes = manutencoes.filter(m => m.veiculoId === veiculo.id).length;

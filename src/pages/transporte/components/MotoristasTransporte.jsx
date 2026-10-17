@@ -151,7 +151,7 @@ export default function MotoristasTransporte({
       {motoristasFiltrados.length === 0 ? (
         <EmptyState icon="steering-wheel" texto="Nenhum motorista ou monitor cadastrado." />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))", gap: 18 }}>
           {motoristasFiltrados.map((m) => {
             const rotasAtendidas = rotas.filter(r => r.motoristaId === m.id || r.monitorId === m.id);
             const cnhVencida = m.validadeCnh && m.validadeCnh !== "-" && new Date(m.validadeCnh) < hoje;

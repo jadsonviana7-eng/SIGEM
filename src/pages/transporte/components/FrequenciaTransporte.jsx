@@ -7,6 +7,7 @@ import {
   updateViagemDiario,
   deleteViagemDiario
 } from "../../../services/transporteService";
+import styles from "./FrequenciaTransporte.module.css";
 
 export default function FrequenciaTransporte({
   rotas = [],
@@ -328,7 +329,7 @@ export default function FrequenciaTransporte({
 
           {/* Filtros da Chamada */}
           <Card style={{ padding: "18px 20px", background: "#1e293b", border: "1px solid #2c3b52" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr auto", gap: 14, alignItems: "flex-end" }}>
+            <div className={styles.filtrosGrid}>
               <Select
                 label="Selecione a Rota / Linha Escolar"
                 value={rotaSelecionadaId}
@@ -357,7 +358,7 @@ export default function FrequenciaTransporte({
                 <option value="Integral">Integral</option>
               </Select>
 
-              <div style={{ display: "flex", gap: 8 }}>
+              <div className={styles.filtrosAcoes}>
                 <button
                   type="button"
                   onClick={() => marcarTodos("P")}
@@ -396,110 +397,191 @@ export default function FrequenciaTransporte({
             {alunosDaRota.length === 0 ? (
               <EmptyState icon="users" texto="Nenhum aluno ativo vinculado a esta rota escolar." />
             ) : (
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-                <thead>
-                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
-                    <th style={{ padding: "12px 16px", width: 40 }}>#</th>
-                    <th style={{ padding: "12px 16px" }}>Estudante</th>
-                    <th style={{ padding: "12px 16px" }}>Turma</th>
-                    <th style={{ padding: "12px 16px" }}>Ponto de Parada</th>
-                    <th style={{ padding: "12px 16px", textAlign: "center", width: 280 }}>Status de Embarque</th>
-                    <th style={{ padding: "12px 16px" }}>Justificativa / Observação</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <>
+                {/* Visualização Desktop: Tabela Tradicional */}
+                <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                    <thead>
+                      <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
+                        <th style={{ padding: "12px 16px", width: 40 }}>#</th>
+                        <th style={{ padding: "12px 16px" }}>Estudante</th>
+                        <th style={{ padding: "12px 16px" }}>Turma</th>
+                        <th style={{ padding: "12px 16px" }}>Ponto de Parada</th>
+                        <th style={{ padding: "12px 16px", textAlign: "center", width: 280 }}>Status de Embarque</th>
+                        <th style={{ padding: "12px 16px" }}>Justificativa / Observação</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {alunosDaRota.map((al, idx) => {
+                        const status = presencas[al.id] || "P";
+                        return (
+                          <tr key={al.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                            <td style={{ padding: "12px 16px", color: "#94a3b8" }}>{idx + 1}</td>
+                            <td style={{ padding: "12px 16px" }}>
+                              <div style={{ fontWeight: 600, color: "#ffffff" }}>{al.nomeAluno}</div>
+                              {al.necessidadeEspecial && al.necessidadeEspecial !== "Nenhuma" && (
+                                <span style={{ fontSize: 11, color: "#f87171" }}>♿ {al.necessidadeEspecial}</span>
+                              )}
+                            </td>
+                            <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>{al.turma || "-"}</td>
+                            <td style={{ padding: "12px 16px" }}>
+                              <span style={{ fontSize: 12, color: "#cbd5e1", display: "flex", alignItems: "center", gap: 5 }}>
+                                <i className="ti ti-map-pin" style={{ color: "#60a5fa" }} />
+                                {al.pontoNome || "Ponto Padrão"}
+                              </span>
+                            </td>
+                            <td style={{ padding: "12px 16px", textAlign: "center" }}>
+                              <div style={{ display: "inline-flex", borderRadius: 8, overflow: "hidden", border: "1px solid #2c3b52", background: "#161f2e" }}>
+                                <button
+                                  type="button"
+                                  onClick={() => togglePresenca(al.id, "P")}
+                                  style={{
+                                    padding: "6px 14px",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                    background: status === "P" ? "#10b981" : "transparent",
+                                    color: status === "P" ? "white" : "#94a3b8"
+                                  }}
+                                >
+                                  Presente
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => togglePresenca(al.id, "F")}
+                                  style={{
+                                    padding: "6px 14px",
+                                    border: "none",
+                                    borderLeft: "1px solid #2c3b52",
+                                    borderRight: "1px solid #2c3b52",
+                                    cursor: "pointer",
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                    background: status === "F" ? "#ef4444" : "transparent",
+                                    color: status === "F" ? "white" : "#94a3b8"
+                                  }}
+                                >
+                                  Ausente
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => togglePresenca(al.id, "J")}
+                                  style={{
+                                    padding: "6px 14px",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                    background: status === "J" ? "#f59e0b" : "transparent",
+                                    color: status === "J" ? "white" : "#94a3b8"
+                                  }}
+                                >
+                                  Justificado
+                                </button>
+                              </div>
+                            </td>
+                            <td style={{ padding: "12px 16px" }}>
+                              <input
+                                type="text"
+                                placeholder="Motivo da ausência..."
+                                value={justificativas[al.id] || ""}
+                                onChange={(e) => setJustificativas({ ...justificativas, [al.id]: e.target.value })}
+                                style={{
+                                  width: "100%",
+                                  padding: "7px 12px",
+                                  fontSize: 12,
+                                  borderRadius: 8,
+                                  border: "1px solid #2c3b52",
+                                  background: "#161f2e",
+                                  color: "#f8fafc",
+                                  outline: "none"
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Visualização Mobile: Cards Touch Otimizados para Monitores/Motoristas */}
+                <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
                   {alunosDaRota.map((al, idx) => {
                     const status = presencas[al.id] || "P";
                     return (
-                      <tr key={al.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
-                        <td style={{ padding: "12px 16px", color: "#94a3b8" }}>{idx + 1}</td>
-                        <td style={{ padding: "12px 16px" }}>
-                          <div style={{ fontWeight: 600, color: "#ffffff" }}>{al.nomeAluno}</div>
-                          {al.necessidadeEspecial && al.necessidadeEspecial !== "Nenhuma" && (
-                            <span style={{ fontSize: 11, color: "#f87171" }}>♿ {al.necessidadeEspecial}</span>
-                          )}
-                        </td>
-                        <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>{al.turma || "-"}</td>
-                        <td style={{ padding: "12px 16px" }}>
-                          <span style={{ fontSize: 12, color: "#cbd5e1", display: "flex", alignItems: "center", gap: 5 }}>
-                            <i className="ti ti-map-pin" style={{ color: "#60a5fa" }} />
-                            {al.pontoNome || "Ponto Padrão"}
-                          </span>
-                        </td>
-                        <td style={{ padding: "12px 16px", textAlign: "center" }}>
-                          <div style={{ display: "inline-flex", borderRadius: 8, overflow: "hidden", border: "1px solid #2c3b52", background: "#161f2e" }}>
-                            <button
-                              type="button"
-                              onClick={() => togglePresenca(al.id, "P")}
-                              style={{
-                                padding: "6px 14px",
-                                border: "none",
-                                cursor: "pointer",
-                                fontSize: 12,
-                                fontWeight: 600,
-                                background: status === "P" ? "#10b981" : "transparent",
-                                color: status === "P" ? "white" : "#94a3b8"
-                              }}
-                            >
-                              Presente
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => togglePresenca(al.id, "F")}
-                              style={{
-                                padding: "6px 14px",
-                                border: "none",
-                                borderLeft: "1px solid #2c3b52",
-                                borderRight: "1px solid #2c3b52",
-                                cursor: "pointer",
-                                fontSize: 12,
-                                fontWeight: 600,
-                                background: status === "F" ? "#ef4444" : "transparent",
-                                color: status === "F" ? "white" : "#94a3b8"
-                              }}
-                            >
-                              Ausente
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => togglePresenca(al.id, "J")}
-                              style={{
-                                padding: "6px 14px",
-                                border: "none",
-                                cursor: "pointer",
-                                fontSize: 12,
-                                fontWeight: 600,
-                                background: status === "J" ? "#f59e0b" : "transparent",
-                                color: status === "J" ? "white" : "#94a3b8"
-                              }}
-                            >
-                              Justificado
-                            </button>
+                      <div key={`mob-chamada-${al.id}`} className={styles.alunoChamadaCard}>
+                        <div className={styles.alunoChamadaHeader}>
+                          <div className={styles.alunoChamadaInfo}>
+                            <div className={styles.alunoNome}>
+                              <span style={{ color: "#94a3b8", fontSize: 13, marginRight: 6 }}>#{idx + 1}</span>
+                              {al.nomeAluno}
+                            </div>
+                            <div className={styles.alunoMeta}>
+                              <span style={{ fontWeight: 600, color: "#60a5fa" }}>{al.turma || "Turma regular"}</span>
+                              <span>·</span>
+                              <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                                <i className="ti ti-map-pin" style={{ color: "#34d399", fontSize: 13 }} />
+                                {al.pontoNome || "Ponto de Parada"}
+                              </span>
+                            </div>
                           </div>
-                        </td>
-                        <td style={{ padding: "12px 16px" }}>
+
+                          {al.necessidadeEspecial && al.necessidadeEspecial !== "Nenhuma" && (
+                            <Badge color="red">♿ {al.necessidadeEspecial}</Badge>
+                          )}
+                        </div>
+
+                        {/* Botões Grandes Segmentados para Polegar */}
+                        <div className={styles.touchStatusGroup}>
+                          <button
+                            type="button"
+                            onClick={() => togglePresenca(al.id, "P")}
+                            className={`${styles.touchBtn} ${status === "P" ? styles.touchBtnPresente : ""}`}
+                          >
+                            <i className="ti ti-check" /> Presente
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => togglePresenca(al.id, "F")}
+                            className={`${styles.touchBtn} ${status === "F" ? styles.touchBtnAusente : ""}`}
+                          >
+                            <i className="ti ti-x" /> Falta
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => togglePresenca(al.id, "J")}
+                            className={`${styles.touchBtn} ${status === "J" ? styles.touchBtnJustificado : ""}`}
+                          >
+                            <i className="ti ti-info-circle" /> Justif.
+                          </button>
+                        </div>
+
+                        {/* Campo de Justificativa / Observação */}
+                        {status !== "P" && (
                           <input
                             type="text"
-                            placeholder="Motivo da ausência..."
+                            placeholder="Motivo ou justificativa da ausência..."
                             value={justificativas[al.id] || ""}
                             onChange={(e) => setJustificativas({ ...justificativas, [al.id]: e.target.value })}
                             style={{
                               width: "100%",
-                              padding: "7px 12px",
+                              padding: "8px 12px",
                               fontSize: 12,
                               borderRadius: 8,
-                              border: "1px solid #2c3b52",
+                              border: "1px solid #33435c",
                               background: "#161f2e",
                               color: "#f8fafc",
                               outline: "none"
                             }}
                           />
-                        </td>
-                      </tr>
+                        )}
+                      </div>
                     );
                   })}
-                </tbody>
-              </table>
+                </div>
+              </>
             )}
           </Card>
         </div>
@@ -513,67 +595,121 @@ export default function FrequenciaTransporte({
           {viagens.length === 0 ? (
             <EmptyState icon="book" texto="Nenhum registro no diário de bordo. Clique no botão acima para registrar uma viagem." />
           ) : (
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-                <thead>
-                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
-                    <th style={{ padding: "12px 16px" }}>Data / Turno</th>
-                    <th style={{ padding: "12px 16px" }}>Linha / Rota</th>
-                    <th style={{ padding: "12px 16px" }}>Veículo / Motorista</th>
-                    <th style={{ padding: "12px 16px" }}>Horários</th>
-                    <th style={{ padding: "12px 16px" }}>Odômetro (KM)</th>
-                    <th style={{ padding: "12px 16px" }}>Passageiros</th>
-                    <th style={{ padding: "12px 16px" }}>Ocorrências / Trânsito</th>
-                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {viagens.map((vg, idx) => (
-                    <tr key={vg.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#ffffff" }}>
-                          {new Date(vg.data + "T00:00:00").toLocaleDateString("pt-BR")}
-                        </div>
-                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{vg.turno}</div>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#60a5fa" }}>{vg.rotaNome}</div>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div><Badge color="blue">{vg.veiculoPlaca}</Badge></div>
-                        <div style={{ fontSize: 12, color: "#cbd5e1", marginTop: 4 }}>{vg.motoristaNome}</div>
-                      </td>
-                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                        <div>Saída: <strong style={{ color: "#ffffff" }}>{vg.horarioSaida || "-"}</strong></div>
-                        <div>Chegada: <strong style={{ color: "#ffffff" }}>{vg.horarioChegada || "-"}</strong></div>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{vg.kmPercorrido ? `${vg.kmPercorrido} km rodados` : "-"}</div>
-                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{vg.kmInicial} → {vg.kmFinal} km</div>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <span style={{ fontWeight: 600, color: "#34d399" }}>{vg.alunosEmbarcados || 0} alunos</span>
-                      </td>
-                      <td style={{ padding: "12px 16px", maxWidth: 220 }}>
-                        <div style={{ fontSize: 12, color: vg.ocorrencias ? "#cbd5e1" : "#64748b" }}>
-                          {vg.ocorrencias || "Sem incidentes registrados"}
-                        </div>
-                      </td>
-                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                          <Btn onClick={() => abrirEditarViagem(vg)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                            <i className="ti ti-edit" />
-                          </Btn>
-                          <Btn variant="danger" onClick={() => handleExcluirViagem(vg.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                            <i className="ti ti-trash" />
-                          </Btn>
-                        </div>
-                      </td>
+            <>
+              {/* Visualização Desktop: Tabela Tradicional */}
+              <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                  <thead>
+                    <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
+                      <th style={{ padding: "12px 16px" }}>Data / Turno</th>
+                      <th style={{ padding: "12px 16px" }}>Linha / Rota</th>
+                      <th style={{ padding: "12px 16px" }}>Veículo / Motorista</th>
+                      <th style={{ padding: "12px 16px" }}>Horários</th>
+                      <th style={{ padding: "12px 16px" }}>Odômetro (KM)</th>
+                      <th style={{ padding: "12px 16px" }}>Passageiros</th>
+                      <th style={{ padding: "12px 16px" }}>Ocorrências / Trânsito</th>
+                      <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {viagens.map((vg, idx) => (
+                      <tr key={vg.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                        <td style={{ padding: "12px 16px" }}>
+                          <div style={{ fontWeight: 600, color: "#ffffff" }}>
+                            {new Date(vg.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                          </div>
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>{vg.turno}</div>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          <div style={{ fontWeight: 600, color: "#60a5fa" }}>{vg.rotaNome}</div>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          <div><Badge color="blue">{vg.veiculoPlaca}</Badge></div>
+                          <div style={{ fontSize: 12, color: "#cbd5e1", marginTop: 4 }}>{vg.motoristaNome}</div>
+                        </td>
+                        <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                          <div>Saída: <strong style={{ color: "#ffffff" }}>{vg.horarioSaida || "-"}</strong></div>
+                          <div>Chegada: <strong style={{ color: "#ffffff" }}>{vg.horarioChegada || "-"}</strong></div>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          <div style={{ fontWeight: 600, color: "#ffffff" }}>{vg.kmPercorrido ? `${vg.kmPercorrido} km rodados` : "-"}</div>
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>{vg.kmInicial} → {vg.kmFinal} km</div>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          <span style={{ fontWeight: 600, color: "#34d399" }}>{vg.alunosEmbarcados || 0} alunos</span>
+                        </td>
+                        <td style={{ padding: "12px 16px", maxWidth: 220 }}>
+                          <div style={{ fontSize: 12, color: vg.ocorrencias ? "#cbd5e1" : "#64748b" }}>
+                            {vg.ocorrencias || "Sem incidentes registrados"}
+                          </div>
+                        </td>
+                        <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                          <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                            <Btn onClick={() => abrirEditarViagem(vg)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                              <i className="ti ti-edit" />
+                            </Btn>
+                            <Btn variant="danger" onClick={() => handleExcluirViagem(vg.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                              <i className="ti ti-trash" />
+                            </Btn>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Visualização Mobile: Cards de Diário de Bordo */}
+              <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+                {viagens.map((vg) => (
+                  <div key={`mob-diario-${vg.id}`} className={styles.diarioCard}>
+                    <div className={styles.diarioHeader}>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff" }}>{vg.rotaNome}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                          {new Date(vg.data + "T00:00:00").toLocaleDateString("pt-BR")} · {vg.turno}
+                        </div>
+                      </div>
+                      <Badge color="blue">{vg.veiculoPlaca}</Badge>
+                    </div>
+
+                    <div className={styles.diarioGrid}>
+                      <div>
+                        <span style={{ color: "#94a3b8" }}>Motorista:</span>
+                        <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 1 }}>{vg.motoristaNome || "-"}</div>
+                      </div>
+                      <div>
+                        <span style={{ color: "#94a3b8" }}>Passageiros:</span>
+                        <div style={{ color: "#34d399", fontWeight: 600, marginTop: 1 }}>{vg.alunosEmbarcados || 0} alunos</div>
+                      </div>
+                      <div>
+                        <span style={{ color: "#94a3b8" }}>Horário:</span>
+                        <div style={{ color: "#cbd5e1", marginTop: 1 }}>{vg.horarioSaida || "--:--"} às {vg.horarioChegada || "--:--"}</div>
+                      </div>
+                      <div>
+                        <span style={{ color: "#94a3b8" }}>KM Rodados:</span>
+                        <div style={{ color: "#ffffff", fontWeight: 600, marginTop: 1 }}>{vg.kmPercorrido ? `${vg.kmPercorrido} km` : "-"}</div>
+                      </div>
+                    </div>
+
+                    {vg.ocorrencias && (
+                      <div style={{ fontSize: 12, color: "#fbbf24", background: "rgba(245, 158, 11, 0.1)", padding: "8px 10px", borderRadius: 8, border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+                        <i className="ti ti-alert-triangle" /> {vg.ocorrencias}
+                      </div>
+                    )}
+
+                    <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 4 }}>
+                      <Btn onClick={() => abrirEditarViagem(vg)} style={{ fontSize: 12, padding: "6px 12px" }}>
+                        <i className="ti ti-edit" /> Editar
+                      </Btn>
+                      <Btn variant="danger" onClick={() => handleExcluirViagem(vg.id)} style={{ fontSize: 12, padding: "6px 12px" }}>
+                        <i className="ti ti-trash" /> Excluir
+                      </Btn>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </Card>
       )}
@@ -696,6 +832,26 @@ export default function FrequenciaTransporte({
             />
           </div>
         </Modal>
+      )}
+
+      {/* Barra Fixa Flutuante no Rodapé para Mobile */}
+      {subAba === "chamada" && alunosDaRota.length > 0 && (
+        <div className={styles.floatingSaveBar}>
+          <div className={styles.floatingSaveText}>
+            <span className={styles.floatingSaveMain}>Chamada da Rota</span>
+            <span className={styles.floatingSaveSub}>
+              {contadores.p} de {contadores.total} presentes ({contadores.taxa}%)
+            </span>
+          </div>
+          <Btn
+            variant="primary"
+            onClick={handleSalvarChamada}
+            disabled={salvandoChamada}
+            style={{ padding: "8px 16px", fontSize: 13, gap: 6 }}
+          >
+            <i className="ti ti-device-floppy" /> {salvandoChamada ? "Salvando..." : "Salvar Chamada"}
+          </Btn>
+        </div>
       )}
     </div>
   );

@@ -1,0 +1,517 @@
+/* =========================================================
+   ControleEstoque.module.css - Estilos da aba Controle & Balanço
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Header & Barra de Ações Rápidas */
+.headerBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 4px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btnPrint {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btnPrint:hover {
+  background: var(--bg-surface-hover, #2c3c52);
+  color: var(--text-primary, #ffffff);
+}
+
+/* Grid de Cards de Auditoria & Indicadores */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.kpiCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.kpiCardActive {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3) !important;
+}
+
+.kpiHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.kpiIconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.kpiBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kpiValue {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-primary, #ffffff);
+}
+
+.kpiLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary, #cbd5e1);
+}
+
+.kpiSub {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Barra de Filtros e Busca */
+.filterBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filterInputsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle, #33435c);
+  background: var(--bg-surface, #1e293b);
+  color: var(--text-primary, #ffffff);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.searchInput:focus {
+  border-color: #10b981;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  color: var(--text-muted, #94a3b8);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.categorySelect {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle, #33435c);
+  background: var(--bg-surface, #1e293b);
+  color: var(--text-primary, #ffffff);
+  font-size: 13px;
+  outline: none;
+  min-width: 170px;
+}
+
+.statusChipsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.statusChipsRow::-webkit-scrollbar {
+  display: none;
+}
+
+.chipBtn {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.chipBtn:hover {
+  background: var(--bg-surface-hover, #2c3c52);
+  color: var(--text-primary, #ffffff);
+}
+
+.chipBtnActive {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border-color: #10b981 !important;
+  color: #34d399 !important;
+}
+
+/* Card Principal da Tabela / Lista */
+.tableCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+}
+
+.tableHeaderBar {
+  padding: 14px 18px;
+  background: var(--bg-surface, #161f2e);
+  border-bottom: 1px solid var(--border-color, #33435c);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tableHeaderTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tableHeaderBadge {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+}
+
+/* Tabela Desktop */
+.desktopTable {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.desktopTable th {
+  padding: 12px 16px;
+  background: var(--bg-surface, #161f2e);
+  border-bottom: 1px solid var(--border-color, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.desktopTable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color, #243144);
+  vertical-align: middle;
+}
+
+.desktopTable tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Barra de Progresso de Estoque */
+.stockBarWrap {
+  width: 100%;
+  max-width: 90px;
+  height: 5px;
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.stockBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* =========================================================
+   CARDS MOBILE (Eliminam o monte de texto em colunas)
+   ========================================================= */
+.mobileCardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.mobileCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.15s ease;
+}
+
+.mobileCard:hover {
+  border-color: #3b82f6;
+}
+
+.mobileCardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.mobileCardIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mobileCardTitleBox {
+  flex: 1;
+  min-width: 0;
+}
+
+.mobileCardTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.mobileCardBadges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Box com duas métricas lado a lado no Card Mobile */
+.mobileMetricsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.mobileMetricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobileMetricLabel {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.mobileMetricValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Metadados no Card Mobile (Local e Validade) */
+.mobileMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary, #cbd5e1);
+  padding-top: 4px;
+  border-top: 1px dashed var(--border-color, #33435c);
+}
+
+.mobileMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mobileMetaIcon {
+  color: #10b981;
+  font-size: 14px;
+}
+
+/* Modal de Balanço Físico Responsivo */
+.modalCountList {
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color, #33435c);
+  border-radius: 10px;
+  background: var(--bg-surface, #1e293b);
+}
+
+.modalMobileItem {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color, #243144);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalMobileItem:last-child {
+  border-bottom: none;
+}
+
+.modalItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.modalItemInputRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--bg-card, #161f2e);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #2c3b52);
+}
+
+.stepBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #33435c);
+  background: var(--bg-surface, #243144);
+  color: var(--text-primary, #ffffff);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.stepBtn:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* Área de Impressão */
+@media print {
+  .headerActions,
+  .filterBar,
+  .btnPrint,
+  .kpiCard {
+    display: none !important;
+  }
+  
+  .desktopTable {
+    min-width: 100% !important;
+    font-size: 11px !important;
+  }
+}

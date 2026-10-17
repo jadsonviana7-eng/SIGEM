@@ -1,6 +1,13 @@
-import React, { useState } from "react";
-import { Card, Btn, Badge, Input, Select, Alert, EmptyState } from "../../../components/ui";
+import React, { useState, useMemo } from "react";
+import {
+  Btn,
+  Badge,
+  Input,
+  Select,
+  Alert
+} from "../../../components/ui";
 import { updateAviso, updateReuniao } from "../../../services/comunicacaoService";
+import styles from "./MuralPublicoResponsavel.module.css";
 
 export default function MuralPublicoResponsavel({
   avisos = [],
@@ -10,7 +17,6 @@ export default function MuralPublicoResponsavel({
   selectedEscola,
   onRefresh
 }) {
-  const [alunoFiltro, setAlunoFiltro] = useState("");
   const [responsavelNome, setResponsavelNome] = useState("");
   const [feedTipo, setFeedTipo] = useState("TODOS"); // TODOS | AVISOS | REUNIOES | EVENTOS
   const [sucessoMsg, setSucessoMsg] = useState(null);
@@ -20,6 +26,27 @@ export default function MuralPublicoResponsavel({
     const [y, m, d] = dt.split("-");
     return `${d}/${m}/${y}`;
   };
+
+  // KPIs
+  const kpis = useMemo(() => {
+    const totalAvisos = avisos.length;
+    const totalReunioes = reunioes.length;
+    const totalEventos = eventos.length;
+    let totalConfirmacoes = 0;
+    avisos.forEach(a => {
+      totalConfirmacoes += (a.confirmacoesLeitura || []).length;
+    });
+    reunioes.forEach(r => {
+      totalConfirmacoes += (r.confirmados || []).length;
+    });
+
+    return {
+      totalAvisos,
+      totalReunioes,
+      totalEventos,
+      totalConfirmacoes
+    };
+  }, [avisos, reunioes, eventos]);
 
   const handleConfirmarLeituraAviso = async (aviso) => {
     const nomeResp = responsavelNome.trim() || prompt("Por favor, digite seu nome completo para confirmar leitura:") || "";
@@ -84,287 +111,267 @@ export default function MuralPublicoResponsavel({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      {/* Header Mural */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
-          padding: "24px 28px",
-          borderRadius: "16px",
-          color: "#fff",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "16px",
-          boxShadow: "0 10px 25px -5px rgba(15, 23, 42, 0.4)"
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span style={{ fontSize: "28px" }}>📱</span>
-            <h2 style={{ fontSize: "22px", fontWeight: "700", margin: 0 }}>
-              Mural Digital do Responsável & Família
-            </h2>
+    <div className={styles.container}>
+      {/* 1. INDICADORES RÁPIDOS (KPIS) */}
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(2, 132, 199, 0.15)", color: "#38bdf8" }}>
+            <i className="ti ti-speakerphone" />
           </div>
-          <p style={{ margin: 0, opacity: 0.85, fontSize: "14px", maxWidth: "620px" }}>
-            Visão pública e transparente de todos os comunicados escolares, convocações de reuniões,
-            calendário de eventos e confirmação de leitura online.
-          </p>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.totalAvisos}</span>
+            <span className={styles.statLabel}>Avisos Ativos</span>
+          </div>
         </div>
 
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Badge variant="blue" style={{ fontSize: "13px", padding: "8px 14px", background: "rgba(255,255,255,0.1)", color: "#fff", borderColor: "rgba(255,255,255,0.2)" }}>
-            🏫 {selectedEscola?.nome || "Escola Municipal"}
-          </Badge>
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa" }}>
+            <i className="ti ti-calendar-time" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.totalReunioes}</span>
+            <span className={styles.statLabel}>Reuniões Convocadas</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24" }}>
+            <i className="ti ti-calendar-star" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.totalEventos}</span>
+            <span className={styles.statLabel}>Eventos Escolares</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(16, 185, 129, 0.15)", color: "#34d399" }}>
+            <i className="ti ti-checklist" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.totalConfirmacoes}</span>
+            <span className={styles.statLabel}>Ciências & Presenças</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. BARRA DE CABEÇALHO */}
+      <div className={styles.headerBar}>
+        <div className={styles.headerInfo}>
+          <div className={styles.headerTitle}>
+            <i className="ti ti-device-mobile" style={{ color: "#38bdf8" }} />
+            Mural Digital do Responsável & Família
+          </div>
+          <p className={styles.headerSubtitle}>
+            Canal público e transparente com todos os comunicados escolares, convocações de reuniões e confirmação de leitura online.
+          </p>
         </div>
       </div>
 
       {sucessoMsg && (
-        <Alert type="success" onClose={() => setSucessoMsg(null)}>
+        <Alert tipo="success">
           {sucessoMsg}
         </Alert>
       )}
 
-      {/* Barra de Identificação do Responsável para Confirmações */}
-      <Card style={{ padding: "18px 22px", background: "#f8fafc", border: "1px solid #e2e8f0" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr", gap: "16px", alignItems: "flex-end" }}>
-          <div>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-              👤 Seu Nome (Pai/Mãe/Responsável)
-            </label>
-            <Input
-              placeholder="Ex: Maria das Dores Silva"
-              value={responsavelNome}
-              onChange={(e) => setResponsavelNome(e.target.value)}
-              prefixIcon="ti ti-user"
-            />
-          </div>
-
-          <div>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-              Filtrar Tipo de Conteúdo
-            </label>
-            <Select
-              value={feedTipo}
-              onChange={(e) => setFeedTipo(e.target.value)}
-              options={[
-                { value: "TODOS", label: "Tudo (Avisos, Reuniões e Eventos)" },
-                { value: "AVISOS", label: "Somente Avisos & Comunicados" },
-                { value: "REUNIOES", label: "Somente Reuniões de Pais" },
-                { value: "EVENTOS", label: "Somente Eventos & Festas" }
-              ]}
-            />
-          </div>
-
-          <div>
-            <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "6px" }}>
-              🔗 Link público para as famílias:
-            </div>
-            <Btn
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Link do mural copiado para a área de transferência!");
-              }}
-              style={{ width: "100%", height: "38px" }}
-            >
-              <i className="ti ti-copy" style={{ marginRight: "6px" }}></i> Copiar Link do Portal
-            </Btn>
-          </div>
+      {/* 3. IDENTIFICAÇÃO E FILTRO */}
+      <div className={styles.idCard}>
+        <div>
+          <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+            👤 Seu Nome Completo (Pai, Mãe ou Responsável)
+          </label>
+          <Input
+            placeholder="Ex: Maria das Dores Silva"
+            value={responsavelNome}
+            onChange={(e) => setResponsavelNome(e.target.value)}
+            icon="ti ti-user"
+          />
         </div>
-      </Card>
 
-      {/* Feed Unificado */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-        {/* 1. SEÇÃO DE REUNIÕES */}
+        <div>
+          <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+            Filtrar Publicações
+          </label>
+          <Select
+            value={feedTipo}
+            onChange={(e) => setFeedTipo(e.target.value)}
+          >
+            <option value="TODOS">Todas as Publicações (Geral)</option>
+            <option value="AVISOS">Somente Avisos & Comunicados</option>
+            <option value="REUNIOES">Somente Reuniões de Pais</option>
+            <option value="EVENTOS">Somente Eventos & Mostras</option>
+          </Select>
+        </div>
+
+        <div>
+          <Btn
+            variant="outline"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              alert("Link do mural copiado para a área de transferência!");
+            }}
+            style={{ height: 38, whiteSpace: "nowrap" }}
+          >
+            <i className="ti ti-copy" />
+            Copiar Link do Mural
+          </Btn>
+        </div>
+      </div>
+
+      {/* 4. FEED UNIFICADO */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        {/* REUNIÕES */}
         {(feedTipo === "TODOS" || feedTipo === "REUNIOES") && reunioes.length > 0 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <h3 style={{ fontSize: "17px", fontWeight: "700", color: "#1e293b", margin: "10px 0 4px 0", display: "flex", alignItems: "center", gap: "8px" }}>
-              <i className="ti ti-users" style={{ color: "#7c3aed" }}></i> Próximas Reuniões de Pais & Mestres
-            </h3>
+          <div className={styles.feedSection}>
+            <div className={styles.feedSectionHeader}>
+              <i className="ti ti-users" style={{ color: "#a78bfa" }} />
+              Próximas Reuniões de Pais & Mestres
+            </div>
 
-            {reunioes.slice(0, 3).map((r) => {
+            {reunioes.map((r) => {
               const confirmadosCount = (r.confirmados || []).length;
               return (
-                <Card
-                  key={r.id}
-                  style={{
-                    padding: "20px",
-                    borderLeft: "5px solid #7c3aed",
-                    borderRadius: "12px",
-                    background: "#fff"
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
+                <div key={r.id} className={`${styles.feedCard} ${styles.feedCardReuniao}`}>
+                  <div className={styles.feedCardTop}>
                     <div>
-                      <Badge variant="purple">{r.tipo || "Reunião Pedagógica"}</Badge>
-                      <h4 style={{ fontSize: "18px", fontWeight: "700", color: "#1e293b", margin: "6px 0 4px 0" }}>
-                        {r.titulo}
-                      </h4>
-                      <div style={{ fontSize: "13px", color: "#64748b" }}>
-                        Público: <strong>{r.publicoAlvo} {r.turmaAlvo && `(${r.turmaAlvo})`}</strong>
+                      <Badge variant="purple">{r.modalidade || "Reunião de Pais"}</Badge>
+                      <h4 className={styles.feedCardTitle}>{r.titulo}</h4>
+                      <div className={styles.feedCardMeta}>
+                        Público Convocado: <strong>{r.turmaAlvo}</strong>
                       </div>
                     </div>
 
-                    <div style={{ textAlign: "right", background: "#f5f3ff", padding: "8px 14px", borderRadius: "10px" }}>
-                      <div style={{ fontSize: "12px", color: "#7c3aed", fontWeight: "600" }}>DATA & HORÁRIO</div>
-                      <div style={{ fontSize: "15px", fontWeight: "700", color: "#5b21b6" }}>
+                    <div className={styles.feedDateBadge}>
+                      <div style={{ fontSize: 11, color: "#a78bfa", fontWeight: 700 }}>DATA & HORÁRIO</div>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: "#ffffff" }}>
                         📅 {formatarDataBR(r.dataReuniao)} às {r.horarioInicio}
                       </div>
-                      <div style={{ fontSize: "12px", color: "#64748b" }}>📍 {r.local}</div>
+                      <div style={{ fontSize: 11.5, color: "#94a3b8" }}>📍 {r.local}</div>
                     </div>
                   </div>
 
-                  <p style={{ fontSize: "14px", color: "#334155", lineHeight: "1.5", margin: "0 0 16px 0" }}>
-                    {r.pauta || r.objetivo || "Reunião de alinhamento com a equipe docente."}
+                  <p className={styles.feedCardBody}>
+                    {r.pauta}
                   </p>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      borderTop: "1px solid #f1f5f9",
-                      paddingTop: "14px",
-                      flexWrap: "wrap",
-                      gap: "12px"
-                    }}
-                  >
-                    <span style={{ fontSize: "13px", color: "#64748b" }}>
-                      👥 <strong>{confirmadosCount}</strong> responsáveis confirmaram presença
+                  <div className={styles.feedCardFooter}>
+                    <span style={{ fontSize: 12.5, color: "#94a3b8" }}>
+                      👥 <strong>{confirmadosCount}</strong> responsáveis já confirmaram presença
                     </span>
 
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <div style={{ display: "flex", gap: 8 }}>
                       <Btn
-                        variant="secondary"
                         size="sm"
                         onClick={() => handleConfirmarPresencaReuniao(r, "CONFIRMADO")}
-                        style={{ background: "#22c55e", color: "#fff", borderColor: "#22c55e" }}
+                        style={{ background: "#059669", color: "#fff", borderColor: "#34d399", fontSize: 12 }}
                       >
-                        <i className="ti ti-check" style={{ marginRight: "4px" }}></i> Confirmar Presença
+                        <i className="ti ti-check" /> Confirmar Presença
                       </Btn>
 
                       <Btn
                         variant="outline"
                         size="sm"
                         onClick={() => handleConfirmarPresencaReuniao(r, "JUSTIFICADO")}
-                        style={{ color: "#64748b" }}
+                        style={{ fontSize: 12 }}
                       >
                         Justificar Ausência
                       </Btn>
                     </div>
                   </div>
-                </Card>
+                </div>
               );
             })}
           </div>
         )}
 
-        {/* 2. SEÇÃO DE AVISOS & COMUNICADOS */}
-        {(feedTipo === "TODOS" || feedTipo === "AVISOS") && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <h3 style={{ fontSize: "17px", fontWeight: "700", color: "#1e293b", margin: "14px 0 4px 0", display: "flex", alignItems: "center", gap: "8px" }}>
-              <i className="ti ti-bell-ringing" style={{ color: "#0284c7" }}></i> Comunicados Oficiais
-            </h3>
+        {/* AVISOS & COMUNICADOS */}
+        {(feedTipo === "TODOS" || feedTipo === "AVISOS") && avisos.length > 0 && (
+          <div className={styles.feedSection}>
+            <div className={styles.feedSectionHeader}>
+              <i className="ti ti-speakerphone" style={{ color: "#38bdf8" }} />
+              Avisos & Comunicados Oficiais
+            </div>
 
-            {avisos.length === 0 ? (
-              <EmptyState title="Nenhum comunicado no momento" description="A escola ainda não publicou avisos para este período." />
-            ) : (
-              avisos.map((av) => {
-                const cientesCount = (av.confirmacoesLeitura || []).length;
-                return (
-                  <Card
-                    key={av.id}
-                    style={{
-                      padding: "20px",
-                      borderLeft: `5px solid ${av.prioridade === "Urgente" ? "#ef4444" : av.prioridade === "Importante" ? "#f59e0b" : "#0284c7"}`,
-                      borderRadius: "12px",
-                      background: "#fff"
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px", marginBottom: "10px" }}>
-                      <div>
-                        <div style={{ display: "flex", gap: "8px", marginBottom: "4px" }}>
-                          <Badge variant={av.prioridade === "Urgente" ? "danger" : av.prioridade === "Importante" ? "warning" : "blue"}>
-                            {av.prioridade}
-                          </Badge>
-                          <Badge variant="neutral">{av.categoria || "Geral"}</Badge>
-                        </div>
-                        <h4 style={{ fontSize: "18px", fontWeight: "700", color: "#1e293b", margin: "4px 0" }}>
-                          {av.titulo}
-                        </h4>
-                      </div>
-
-                      <div style={{ fontSize: "12px", color: "#64748b", textAlign: "right" }}>
-                        Publicado em: <strong>{formatarDataBR(av.dataPublicacao)}</strong>
-                        <div style={{ fontSize: "11px", color: "#94a3b8" }}>{av.autor}</div>
+            {avisos.map((aviso) => {
+              const confirmacoesCount = (aviso.confirmacoesLeitura || []).length;
+              return (
+                <div key={aviso.id} className={`${styles.feedCard} ${styles.feedCardAviso}`}>
+                  <div className={styles.feedCardTop}>
+                    <div>
+                      <Badge variant={aviso.prioridade === "Urgente" ? "danger" : "blue"}>
+                        {aviso.categoria || "Geral"}
+                      </Badge>
+                      <h4 className={styles.feedCardTitle}>{aviso.titulo}</h4>
+                      <div className={styles.feedCardMeta}>
+                        Publicado em: <strong>{formatarDataBR(aviso.dataPublicacao)}</strong> · Autor: {aviso.autor || "Direção"}
                       </div>
                     </div>
+                  </div>
 
-                    <p style={{ fontSize: "14px", color: "#334155", lineHeight: "1.6", margin: "0 0 16px 0", whiteSpace: "pre-line" }}>
-                      {av.conteudo}
-                    </p>
+                  <p className={styles.feedCardBody}>
+                    {aviso.conteudo}
+                  </p>
 
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        borderTop: "1px solid #f1f5f9",
-                        paddingTop: "14px",
-                        flexWrap: "wrap",
-                        gap: "12px"
-                      }}
-                    >
-                      <span style={{ fontSize: "13px", color: "#64748b" }}>
-                        👁️ <strong>{cientesCount}</strong> confirmações de leitura registradas
-                      </span>
+                  <div className={styles.feedCardFooter}>
+                    <span style={{ fontSize: 12.5, color: "#94a3b8" }}>
+                      👁️ <strong>{confirmacoesCount}</strong> pais confirmaram a leitura
+                    </span>
 
-                      {av.exigeConfirmacaoLeitura && (
-                        <Btn
-                          variant="primary"
-                          size="sm"
-                          onClick={() => handleConfirmarLeituraAviso(av)}
-                          style={{ background: "#0284c7", borderColor: "#0284c7" }}
-                        >
-                          <i className="ti ti-check" style={{ marginRight: "6px" }}></i>
-                          Estou Ciente / Confirmar Leitura
-                        </Btn>
-                      )}
-                    </div>
-                  </Card>
-                );
-              })
-            )}
+                    {aviso.exigeConfirmacaoLeitura && (
+                      <Btn
+                        size="sm"
+                        onClick={() => handleConfirmarLeituraAviso(aviso)}
+                        style={{ background: "#0284c7", color: "#fff", borderColor: "#38bdf8", fontSize: 12 }}
+                      >
+                        <i className="ti ti-check" /> Confirmar Leitura
+                      </Btn>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
 
-        {/* 3. SEÇÃO DE EVENTOS */}
+        {/* EVENTOS */}
         {(feedTipo === "TODOS" || feedTipo === "EVENTOS") && eventos.length > 0 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <h3 style={{ fontSize: "17px", fontWeight: "700", color: "#1e293b", margin: "14px 0 4px 0", display: "flex", alignItems: "center", gap: "8px" }}>
-              <i className="ti ti-calendar-event" style={{ color: "#16a34a" }}></i> Eventos & Calendário Escolar
-            </h3>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
-              {eventos.slice(0, 4).map((ev) => (
-                <Card key={ev.id} style={{ padding: "18px", borderRadius: "12px" }}>
-                  <Badge variant="green" style={{ marginBottom: "8px" }}>{ev.categoria}</Badge>
-                  <h4 style={{ fontSize: "16px", fontWeight: "700", color: "#1e293b", margin: "0 0 6px 0" }}>
-                    {ev.titulo}
-                  </h4>
-                  <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 12px 0", lineHeight: "1.4" }}>
-                    {ev.descricao}
-                  </p>
-                  <div style={{ fontSize: "12px", color: "#334155", background: "#f8fafc", padding: "8px 12px", borderRadius: "8px" }}>
-                    <div>📅 <strong>Data:</strong> {formatarDataBR(ev.dataEvento)} ({ev.horaInicio} às {ev.horaFim})</div>
-                    <div>📍 <strong>Local:</strong> {ev.local}</div>
-                  </div>
-                </Card>
-              ))}
+          <div className={styles.feedSection}>
+            <div className={styles.feedSectionHeader}>
+              <i className="ti ti-calendar-star" style={{ color: "#fbbf24" }} />
+              Eventos e Atividades Culturais da Escola
             </div>
+
+            {eventos.map((ev) => (
+              <div key={ev.id} className={`${styles.feedCard} ${styles.feedCardEvento}`}>
+                <div className={styles.feedCardTop}>
+                  <div>
+                    <Badge variant="warning">{ev.categoria || "Evento Cultural"}</Badge>
+                    <h4 className={styles.feedCardTitle}>{ev.titulo}</h4>
+                    <div className={styles.feedCardMeta}>
+                      Público: <strong>{ev.publicoAlvo}</strong>
+                    </div>
+                  </div>
+
+                  <div className={styles.feedDateBadge}>
+                    <div style={{ fontSize: 11, color: "#fbbf24", fontWeight: 700 }}>DATA</div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: "#ffffff" }}>
+                      📅 {formatarDataBR(ev.dataEvento)} ({ev.horaInicio} às {ev.horaFim})
+                    </div>
+                    <div style={{ fontSize: 11.5, color: "#94a3b8" }}>📍 {ev.local}</div>
+                  </div>
+                </div>
+
+                <p className={styles.feedCardBody}>
+                  {ev.descricao || "Participe e prestigie nossos estudantes!"}
+                </p>
+
+                <div className={styles.feedCardFooter}>
+                  <span style={{ fontSize: 12.5, color: ev.abertoFamilia ? "#34d399" : "#94a3b8", fontWeight: 600 }}>
+                    {ev.abertoFamilia ? "👨‍👩‍👧‍👦 Evento com presença de famílias incentivada" : "🔒 Atividade pedagógica interna"}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

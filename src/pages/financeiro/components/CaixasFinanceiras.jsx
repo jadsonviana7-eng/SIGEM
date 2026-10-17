@@ -1,20 +1,33 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { addCaixa, updateCaixa, deleteCaixa } from "../../../services/financeiroService";
-import { Card, Btn, Input, Modal, Badge, EmptyState } from "../../../components/ui";
+import { Input, Modal } from "../../../components/ui";
+import styles from "./CaixasFinanceiras.module.css";
 
-export default function CaixasFinanceiras({ caixas, transacoes, onReload, escolaId }) {
+export default function CaixasFinanceiras({ caixas = [], transacoes = [], onReload, escolaId }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ id: null, nome: "", banco: "", agencia: "", conta: "", saldoInicial: 0 });
+  const [formData, setFormData] = useState({
+    id: null,
+    nome: "",
+    banco: "",
+    agencia: "",
+    conta: "",
+    saldoInicial: 0
+  });
   const [salvando, setSalvando] = useState(false);
 
-  const formatarMoeda = (valor) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+  const formatarMoeda = (valor) =>
+    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(valor || 0));
 
   const getSaldoAtual = (caixaId, saldoInicial) => {
-    const tx = transacoes.filter(t => t.caixaId === caixaId);
-    const receitas = tx.filter(t => t.tipo === "Receita").reduce((acc, curr) => acc + Number(curr.valor), 0);
-    const despesas = tx.filter(t => t.tipo === "Despesa").reduce((acc, curr) => acc + Number(curr.valor), 0);
-    return Number(saldoInicial) + receitas - despesas;
+    const tx = transacoes.filter((t) => t.caixaId === caixaId);
+    const receitas = tx
+      .filter((t) => t.tipo === "Receita")
+      .reduce((acc, curr) => acc + Number(curr.valor || 0), 0);
+    const despesas = tx
+      .filter((t) => t.tipo === "Despesa")
+      .reduce((acc, curr) => acc + Number(curr.valor || 0), 0);
+    return Number(saldoInicial || 0) + receitas - despesas;
   };
 
   const handleOpenNew = () => {
@@ -50,14 +63,17 @@ export default function CaixasFinanceiras({ caixas, transacoes, onReload, escola
       onReload();
     } catch (err) {
       console.error(err);
-      alert("Erro ao salvar caixa.");
+      alert("Erro ao salvar conta bancária/caixa: " + err.message);
+    } finally {
+      setSalvando(false);
     }
-    setSalvando(false);
   };
 
   const handleDelete = async (id) => {
-    const temTransacao = transacoes.some(t => t.caixaId === id);
-    if (temTransacao) return alert("Não é possível excluir um caixa que possui transações. Exclua as transações primeiro.");
+    const temTransacao = transacoes.some((t) => t.caixaId === id);
+    if (temTransacao) {
+      return alert("Não é possível excluir uma conta que já possui transações vinculadas.");
+    }
     if (window.confirm("Deseja realmente excluir esta conta?")) {
       await deleteCaixa(id);
       onReload();
@@ -65,52 +81,153 @@ export default function CaixasFinanceiras({ caixas, transacoes, onReload, escola
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", margin: 0 }}>Contas e Caixas</h3>
-        <Btn variant="primary" onClick={handleOpenNew}><i className="ti ti-plus" /> Nova Conta</Btn>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-        {caixas.length === 0 ? (
-          <div style={{ gridColumn: "1 / -1" }}>
-            <EmptyState icon="building-bank" texto="Nenhuma conta cadastrada." />
+    <div className={styles.container}>
+      {/* 1. BARRA DE CABEÇALHO */}
+      <div className={styles.headerBar}>
+        <div className={styles.headerInfo}>
+          <div className={styles.headerTitle}>
+            <i className="ti ti-building-bank" style={{ color: "#34d399" }} />
+            Contas Bancárias & Caixas Operacionais
           </div>
-        ) : caixas.map(c => {
-          const saldo = getSaldoAtual(c.id, c.saldoInicial);
-          return (
-            <Card key={c.id}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                <div>
-                  <h4 style={{ fontSize: 15, fontWeight: 700, color: "#f8fafc", marginBottom: 4 }}>{c.nome}</h4>
-                  {(c.banco || c.conta) && <div style={{ fontSize: 12, color: "#94a3b8" }}>{c.banco} • Ag {c.agencia} • Cc {c.conta}</div>}
-                </div>
-                <div style={{ display: "flex", gap: 4 }}>
-                  <Btn onClick={() => handleOpenEdit(c)} style={{ padding: "4px 8px" }}><i className="ti ti-edit" /></Btn>
-                  <Btn variant="danger" onClick={() => handleDelete(c.id)} style={{ padding: "4px 8px" }}><i className="ti ti-trash" /></Btn>
-                </div>
-              </div>
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px dashed #33435c" }}>
-                <div style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 600 }}>Saldo Atual</div>
-                <div style={{ fontSize: 24, fontWeight: 800, color: saldo < 0 ? "#f87171" : "#34d399", marginTop: 4 }}>
-                  {formatarMoeda(saldo)}
-                </div>
-              </div>
-            </Card>
-          );
-        })}
+          <p className={styles.headerSubtitle}>
+            Cadastre e acompanhe os saldos das contas correntes da escola, verbas de programas governamentais (PDDE) e caixa físico.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          className={styles.btnNovo}
+          onClick={handleOpenNew}
+        >
+          <i className="ti ti-plus" />
+          <span>Nova Conta / Caixa</span>
+        </button>
       </div>
 
+      {/* 2. GRADE DE CARDS */}
+      <div className={styles.caixasGrid}>
+        {caixas.length === 0 ? (
+          <div style={{ textAlign: "center", padding: 32, background: "var(--bg-card, #1e293b)", borderRadius: 16, border: "1px dashed var(--border-color, #2c3b52)", gridColumn: "1 / -1", color: "var(--text-muted, #94a3b8)" }}>
+            Nenhuma conta ou caixa cadastrado nesta unidade escolar.
+          </div>
+        ) : (
+          caixas.map((c) => {
+            const saldo = getSaldoAtual(c.id, c.saldoInicial);
+            return (
+              <div key={c.id} className={styles.caixaCard}>
+                <div className={styles.cardTop}>
+                  <div>
+                    <h4 className={styles.caixaTitle}>{c.nome}</h4>
+                    <div className={styles.caixaMeta}>
+                      {c.banco || "Caixa Físico"}
+                      {c.agencia ? ` · Agência: ${c.agencia}` : ""}
+                      {c.conta ? ` · Conta: ${c.conta}` : ""}
+                    </div>
+                  </div>
+                  <div className={styles.cardActions}>
+                    <button
+                      type="button"
+                      className={styles.iconBtn}
+                      onClick={() => handleOpenEdit(c)}
+                      title="Editar conta"
+                    >
+                      <i className="ti ti-edit" />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+                      onClick={() => handleDelete(c.id)}
+                      title="Excluir conta"
+                    >
+                      <i className="ti ti-trash" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className={styles.balanceSection}>
+                  <span className={styles.balanceLabel}>Saldo Atual Consolidado</span>
+                  <span
+                    className={styles.balanceValue}
+                    style={{ color: saldo < 0 ? "#f87171" : "#34d399" }}
+                  >
+                    {formatarMoeda(saldo)}
+                  </span>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* MODAL DE CONTA */}
       {modalOpen && (
-        <Modal titulo={isEditing ? "Editar Conta/Caixa" : "Nova Conta/Caixa"} onClose={() => setModalOpen(false)} onSave={handleSave} salvando={salvando}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <Input label="Nome da Conta (ex: PDDE, Caixa Escolar)" value={formData.nome} onChange={e => setFormData({ ...formData, nome: e.target.value })} />
-            <div style={{ display: "flex", gap: 12 }}>
-              <div style={{ flex: 1 }}><Input label="Banco" value={formData.banco} onChange={e => setFormData({ ...formData, banco: e.target.value })} /></div>
-              <div style={{ width: 100 }}><Input label="Agência" value={formData.agencia} onChange={e => setFormData({ ...formData, agencia: e.target.value })} /></div>
+        <Modal
+          titulo={isEditing ? "Editar Conta Bancária / Caixa" : "Nova Conta Bancária / Caixa"}
+          onClose={() => setModalOpen(false)}
+          onSave={handleSave}
+          salvando={salvando}
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: 14, width: "100%" }}>
+            <div>
+              <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+                Nome da Conta / Identificação *
+              </label>
+              <Input
+                placeholder="Ex: PDDE Básico, Caixa Escolar, Cantina"
+                value={formData.nome}
+                onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+              />
             </div>
-            <Input label="Número da Conta" value={formData.conta} onChange={e => setFormData({ ...formData, conta: e.target.value })} />
-            <Input label="Saldo Inicial (R$)" type="number" step="0.01" value={formData.saldoInicial} onChange={e => setFormData({ ...formData, saldoInicial: e.target.value })} />
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div>
+                <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+                  Instituição Financeira / Banco
+                </label>
+                <Input
+                  placeholder="Ex: Banco do Brasil, Caixa"
+                  value={formData.banco}
+                  onChange={(e) => setFormData({ ...formData, banco: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+                  Agência
+                </label>
+                <Input
+                  placeholder="Ex: 1234-5"
+                  value={formData.agencia}
+                  onChange={(e) => setFormData({ ...formData, agencia: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div>
+                <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+                  Número da Conta Corrente
+                </label>
+                <Input
+                  placeholder="Ex: 56789-0"
+                  value={formData.conta}
+                  onChange={(e) => setFormData({ ...formData, conta: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-secondary, #cbd5e1)", display: "block", marginBottom: 6 }}>
+                  Saldo Inicial (R$)
+                </label>
+                <Input
+                  type="number"
+                  step="0.01"
+                  placeholder="0,00"
+                  value={formData.saldoInicial}
+                  onChange={(e) => setFormData({ ...formData, saldoInicial: e.target.value })}
+                />
+              </div>
+            </div>
           </div>
         </Modal>
       )}

@@ -41,7 +41,7 @@ export default function DashboardEspecial({
             tipo: dRev < hoje ? "danger" : "warning",
             titulo: `Revisão de PEI: ${p.alunoNome}`,
             descricao: `Data prevista de revisão: ${dRev.toLocaleDateString("pt-BR")}. Avaliar alcance das metas pedagógicas.`,
-            tab: "planos"
+            tab: "plano"
           });
         }
       }
@@ -84,9 +84,9 @@ export default function DashboardEspecial({
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           <button
-            onClick={() => onNavigateTab("planos")}
+            onClick={() => onNavigateTab("plano")}
             style={{
               background: "white",
               color: "#4f46e5",
@@ -196,8 +196,8 @@ export default function DashboardEspecial({
         </Card>
       </div>
 
-      {/* Seção Central: Diagnósticos Atendidos & Alertas de PEI */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+      {/* Seção Central: Diagnósticos Atendidos & Alertas de PEI (Responsivo: 2 colunas no desktop, 1 no mobile) */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20 }}>
         {/* Distribuição de Alunos por Diagnóstico / Necessidade */}
         <Card style={{ background: "#1e293b", borderColor: "#2c3b52" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>

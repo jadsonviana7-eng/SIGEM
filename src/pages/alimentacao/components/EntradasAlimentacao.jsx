@@ -177,63 +177,139 @@ export default function EntradasAlimentacao({
         {entradasFiltradas.length === 0 ? (
           <EmptyState icon="arrow-down-left" texto="Nenhum registro de entrada de alimentos." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
-                  <th style={{ padding: "12px 16px" }}>Data do Recebimento</th>
-                  <th style={{ padding: "12px 16px" }}>Alimento / Gênero</th>
-                  <th style={{ padding: "12px 16px" }}>Qtd Recebida</th>
-                  <th style={{ padding: "12px 16px" }}>Fornecedor</th>
-                  <th style={{ padding: "12px 16px" }}>Doc / NF-e</th>
-                  <th style={{ padding: "12px 16px" }}>Validade / Lote</th>
-                  <th style={{ padding: "12px 16px" }}>Valor Total</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {entradasFiltradas.map((e) => (
-                  <tr key={e.id} style={{ borderBottom: "1px solid #243144" }}>
-                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
-                      {new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{e.itemNome}</div>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>Rec: {e.responsavelRecebimento || "-"}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color="green">+{e.quantidade} {e.unidade}</Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", maxWidth: 220 }}>
-                      <div style={{ fontWeight: 500, color: "#cbd5e1" }}>{e.fornecedorNome || "Prefeitura / PNAE"}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                      {e.numeroNotaFiscal || "-"}
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                      {e.dataValidade ? (
-                        <div>{new Date(e.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</div>
-                      ) : "-"}
-                      {e.lote && <div style={{ fontSize: 10, color: "#94a3b8" }}>{e.lote}</div>}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#34d399" }}>
-                        {(Number(e.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                      </div>
-                      <div style={{ fontSize: 10, color: "#64748b" }}>
-                        {(Number(e.valorUnitario) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / un
-                      </div>
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <Btn variant="danger" onClick={() => handleExcluir(e)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                        <i className="ti ti-trash" />
-                      </Btn>
-                    </td>
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+                    <th style={{ padding: "12px 16px" }}>Data do Recebimento</th>
+                    <th style={{ padding: "12px 16px" }}>Alimento / Gênero</th>
+                    <th style={{ padding: "12px 16px" }}>Qtd Recebida</th>
+                    <th style={{ padding: "12px 16px" }}>Fornecedor</th>
+                    <th style={{ padding: "12px 16px" }}>Doc / NF-e</th>
+                    <th style={{ padding: "12px 16px" }}>Validade / Lote</th>
+                    <th style={{ padding: "12px 16px" }}>Valor Total</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {entradasFiltradas.map((e) => (
+                    <tr key={e.id} style={{ borderBottom: "1px solid #243144" }}>
+                      <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
+                        {new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{e.itemNome}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Rec: {e.responsavelRecebimento || "-"}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color="green">+{e.quantidade} {e.unidade}</Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", maxWidth: 220 }}>
+                        <div style={{ fontWeight: 500, color: "#cbd5e1" }}>{e.fornecedorNome || "Prefeitura / PNAE"}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                        {e.numeroNotaFiscal || "-"}
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                        {e.dataValidade ? (
+                          <div>{new Date(e.dataValidade + "T00:00:00").toLocaleDateString("pt-BR")}</div>
+                        ) : "-"}
+                        {e.lote && <div style={{ fontSize: 10, color: "#94a3b8" }}>{e.lote}</div>}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 700, color: "#34d399" }}>
+                          {(Number(e.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </div>
+                        <div style={{ fontSize: 10, color: "#64748b" }}>
+                          {(Number(e.valorUnitario) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / un
+                        </div>
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <Btn variant="danger" onClick={() => handleExcluir(e)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                          <i className="ti ti-trash" />
+                        </Btn>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {entradasFiltradas.map((e) => (
+                <div
+                  key={`mob-ent-${e.id}`}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: "rgba(16, 185, 129, 0.15)",
+                    color: "#34d399",
+                    border: "1px solid rgba(16, 185, 129, 0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 22,
+                    flexShrink: 0
+                  }}>
+                    <i className="ti ti-arrow-down-left" />
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontWeight: 700,
+                      color: "var(--text-primary)",
+                      fontSize: 14,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}>
+                      {e.itemNome}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                        {new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                      </span>
+                      <Badge color="green">+{e.quantidade} {e.unidade}</Badge>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: "#34d399" }}>
+                        {(Number(e.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      </span>
+                    </div>
+                    {e.fornecedorNome && (
+                      <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                        {e.fornecedorNome}
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                    <Btn
+                      variant="danger"
+                      onClick={() => handleExcluir(e)}
+                      style={{ padding: "6px 8px", fontSize: 12 }}
+                      title="Excluir"
+                    >
+                      <i className="ti ti-trash" />
+                    </Btn>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 

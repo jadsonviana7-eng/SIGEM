@@ -1,164 +1,415 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useFirestore } from "../hooks/useFirestore";
 import { getAlunos } from "../services/alunosService";
 import { getProfessores } from "../services/professoresService";
 import { getTurmas } from "../services/turmasService";
-import { ANOS_LETIVOS, TURNOS } from "../utils/constants";
-import { Card, Badge, Spinner, ProgressBar } from "../components/ui";
+import { getEscolas } from "../services/escolasService";
+import { Spinner } from "../components/ui";
+import styles from "./relatorios/Relatorios.module.css";
 
-function Stat({ label, value, cor, numCor, borderCor }) {
-  return (
-    <div
-      style={{
-        background: cor || "#1e293b",
-        borderRadius: 8,
-        padding: "14px 16px",
-        border: `1px solid ${borderCor || "#33435c"}`,
-        textAlign: "center"
-      }}
-    >
-      <div style={{ fontSize: 28, fontWeight: 700, color: numCor || "#ffffff", marginBottom: 4 }}>{value}</div>
-      <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>{label}</div>
-    </div>
-  );
-}
+import DashboardRelatorios from "./relatorios/components/DashboardRelatorios";
+import RelatorioMatriculas from "./relatorios/components/RelatorioMatriculas";
+import RelatorioRendimento from "./relatorios/components/RelatorioRendimento";
+import RelatorioFrequencia from "./relatorios/components/RelatorioFrequencia";
+import RelatorioDocentes from "./relatorios/components/RelatorioDocentes";
+import DocumentosOficiais from "./relatorios/components/DocumentosOficiais";
 
 export default function Relatorios() {
   const { user, selectedEscolaId } = useAuth();
-  const activeEscolaId = user?.selectedEscolaId || "";
+  const activeEscolaId = selectedEscolaId || user?.escolaId || "";
 
-  const { dados: alunos, carregando: cA } = useFirestore(useCallback(() => getAlunos(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
-  const { dados: professores, carregando: cP } = useFirestore(useCallback(() => getProfessores(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
-  const { dados: turmas, carregando: cT } = useFirestore(useCallback(() => getTurmas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [loading, setLoading] = useState(true);
+  const [resumoMobileAberto, setResumoMobileAberto] = useState(false);
+  const mobileTabContainerRef = useRef(null);
 
-  if (cA || cP || cT) return <Spinner />;
+  // Estados de Dados
+  const [alunos, setAlunos] = useState([]);
+  const [professores, setProfessores] = useState([]);
+  const [turmas, setTurmas] = useState([]);
+  const [escolas, setEscolas] = useState([]);
 
-  const ativos = alunos.filter(a => a.status === "Ativo").length;
-  const transf = alunos.filter(a => a.status === "Transferido").length;
-  const inativos = alunos.filter(a => a.status === "Inativo").length;
+  useEffect(() => {
+    if (activeEscolaId) {
+      fetchData();
+    } else {
+      setLoading(false);
+    }
+  }, [activeEscolaId]);
+
+  const fetchData = async () => {
+    if (!activeEscolaId) return;
+    setLoading(true);
+    try {
+      const [alunosList, professoresList, turmasList, escolasList] = await Promise.all([
+        getAlunos(activeEscolaId),
+        getProfessores(activeEscolaId),
+        getTurmas(activeEscolaId),
+        getEscolas()
+      ]);
+
+      setAlunos(alunosList || []);
+      setProfessores(professoresList || []);
+      setTurmas(turmasList || []);
+      setEscolas(escolasList || []);
+    } catch (err) {
+      console.error("Erro ao carregar módulo de relatórios:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const selectedEscola = useMemo(() => {
+    return escolas.find((e) => e.id === activeEscolaId) || { nome: "Escola Municipal Modelo" };
+  }, [escolas, activeEscolaId]);
+
+  // Grupos do Menu de Navegação na lateral direita (Desktop)
+  const gruposMenu = useMemo(
+    () => [
+      {
+        titulo: "Visão Geral",
+        itens: [
+          {
+            id: "dashboard",
+            label: "Painel Executivo",
+            subtitulo: "Indicadores gerais",
+            icon: "layout-dashboard",
+            badge: null
+          }
+        ]
+      },
+      {
+        titulo: "Discentes & Movimentação",
+        itens: [
+          {
+            id: "matriculas",
+            label: "Relação de Matrículas",
+            subtitulo: "Lista nominal e Censo",
+            icon: "file-text",
+            badge: alunos.length
+          },
+          {
+            id: "frequencia",
+            label: "Frequência & Busca Ativa",
+            subtitulo: "Prevenção de evasão",
+            icon: "calendar-stats",
+            badge: "Alerta"
+          }
+        ]
+      },
+      {
+        titulo: "Pedagógico & Gestão",
+        itens: [
+          {
+            id: "rendimento",
+            label: "Rendimento & Notas",
+            subtitulo: "Médias por disciplina",
+            icon: "chart-line",
+            badge: null
+          },
+          {
+            id: "docentes",
+            label: "Quadro Docente",
+            subtitulo: "Professores e turmas",
+            icon: "id-badge-2",
+            badge: professores.length
+          },
+          {
+            id: "documentos",
+            label: "Atas & Documentos",
+            subtitulo: "Impressão oficial",
+            icon: "printer",
+            badge: "Oficial"
+          }
+        ]
+      }
+    ],
+    [alunos, professores]
+  );
+
+  // Auto-scroll da barra touch de abas no mobile ao mudar de aba
+  useEffect(() => {
+    if (mobileTabContainerRef.current) {
+      const activeEl = mobileTabContainerRef.current.querySelector(
+        `.${styles.mobileTabChipActive}`
+      );
+      if (activeEl) {
+        activeEl.scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+          block: "nearest"
+        });
+      }
+    }
+  }, [activeTab]);
+
+  const itemAtivoObj = useMemo(() => {
+    for (const g of gruposMenu) {
+      const found = g.itens.find((i) => i.id === activeTab);
+      if (found) return found;
+    }
+    return gruposMenu[0].itens[0];
+  }, [gruposMenu, activeTab]);
+
+  if (loading) {
+    return <Spinner texto="Carregando relatórios e estatísticas municipais..." />;
+  }
+
+  if (!activeEscolaId) {
+    return (
+      <div style={{ padding: 32, textAlign: "center", color: "#6b7280" }}>
+        Por favor, selecione uma escola no menu superior para visualizar os relatórios e indicadores da unidade.
+      </div>
+    );
+  }
+
+  const totalAtivos = alunos.filter((a) => a.status === "Ativo").length;
 
   return (
-    <div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 24 }}>
-        <Stat
-          label="Total de alunos"
-          value={alunos.length}
-          cor="rgba(59, 130, 246, 0.1)"
-          numCor="#60a5fa"
-          borderCor="rgba(59, 130, 246, 0.25)"
-        />
-        <Stat
-          label="Ativos"
-          value={ativos}
-          cor="rgba(16, 185, 129, 0.1)"
-          numCor="#34d399"
-          borderCor="rgba(16, 185, 129, 0.25)"
-        />
-        <Stat
-          label="Transferidos"
-          value={transf}
-          cor="rgba(245, 158, 11, 0.1)"
-          numCor="#fbbf24"
-          borderCor="rgba(245, 158, 11, 0.25)"
-        />
-        <Stat
-          label="Inativos"
-          value={inativos}
-          cor="rgba(148, 163, 184, 0.1)"
-          numCor="#94a3b8"
-          borderCor="rgba(148, 163, 184, 0.25)"
-        />
-        <Stat
-          label="Professores"
-          value={professores.length}
-          cor="rgba(139, 92, 246, 0.1)"
-          numCor="#a78bfa"
-          borderCor="rgba(139, 92, 246, 0.25)"
-        />
-        <Stat
-          label="Turmas"
-          value={turmas.length}
-          cor="rgba(14, 165, 233, 0.1)"
-          numCor="#38bdf8"
-          borderCor="rgba(14, 165, 233, 0.25)"
-        />
-      </div>
+    <div className={styles.container}>
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── NAVEGAÇÃO MOBILE INTELIGENTE & ABAS DESLIZANTES ── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.mobileNavHeader}>
+        {/* Topo do Módulo Mobile */}
+        <div className={styles.mobileBarTop}>
+          <div className={styles.mobileModuleTitle}>
+            <div className={styles.mobileIconBadge}>
+              <i className="ti ti-chart-bar" />
+            </div>
+            <div className={styles.mobileTitleText}>
+              <span className={styles.mobileTitleMain}>Relatórios & Censo</span>
+              <span className={styles.mobileTitleSub}>{itemAtivoObj?.label || "Indicadores"}</span>
+            </div>
+          </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Card>
-          <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 16, color: "#ffffff" }}>Alunos por ano letivo</h3>
-          {ANOS_LETIVOS.map(ano => {
-            const q = alunos.filter(a => a.ano === ano).length;
-            const pct = alunos.length ? Math.round((q / alunos.length) * 100) : 0;
-            return (
-              <div key={ano} style={{ marginBottom: 12 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                  <span style={{ fontWeight: 500, color: "#f8fafc" }}>{ano}</span>
-                  <span style={{ color: "#94a3b8" }}>{q} alunos · {pct}%</span>
-                </div>
-                <ProgressBar valor={pct} />
+          <div className={styles.mobileBarActions}>
+            <button
+              type="button"
+              className={`${styles.mobileActionButton} ${resumoMobileAberto ? styles.mobileActionButtonActive : ""}`}
+              onClick={() => setResumoMobileAberto(!resumoMobileAberto)}
+              title="Resumo dos Indicadores"
+            >
+              <i className="ti ti-chart-pie" />
+              <span>Resumo</span>
+            </button>
+
+            <button
+              type="button"
+              className={styles.mobileActionButton}
+              onClick={fetchData}
+              title="Recarregar Dados"
+            >
+              <i className="ti ti-refresh" />
+            </button>
+          </div>
+        </div>
+
+        {/* Resumo Colapsável no Mobile */}
+        {resumoMobileAberto && (
+          <div className={styles.mobileSummaryPanel}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc", display: "flex", alignItems: "center", gap: 6 }}>
+                <i className="ti ti-chart-dots" style={{ color: "#38bdf8" }} /> Indicadores Municipais
+              </span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Dados em Tempo Real</span>
+            </div>
+
+            <div className={styles.mobileSummaryGrid}>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Total de Alunos</span>
+                <span className={styles.mobileSummaryValue}>{alunos.length}</span>
               </div>
-            );
-          })}
-        </Card>
-
-        <Card>
-          <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 16, color: "#ffffff" }}>Alunos por turno</h3>
-          {TURNOS.map(turno => {
-            const q = alunos.filter(a => a.turno === turno).length;
-            const pct = alunos.length ? Math.round((q / alunos.length) * 100) : 0;
-            return (
-              <div key={turno} style={{ marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                  <span style={{ fontWeight: 500, color: "#f8fafc" }}>{turno}</span>
-                  <span style={{ fontWeight: 700, fontSize: 16, color: "#ffffff" }}>{q}</span>
-                </div>
-                <ProgressBar valor={pct} />
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Matrículas Ativas</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#34d399" }}>
+                  {totalAtivos}
+                </span>
               </div>
-            );
-          })}
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Turmas Ofertadas</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#38bdf8" }}>
+                  {turmas.length}
+                </span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Professores</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#c084fc" }}>
+                  {professores.length}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
-          <h3 style={{ fontSize: 15, fontWeight: 700, margin: "20px 0 12px", color: "#ffffff" }}>Por status</h3>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            {["Ativo", "Transferido", "Inativo", "Concluído"].map(s => {
-              const q = alunos.filter(a => a.status === s).length;
+        {/* Barra de Abas Deslizante no Topo (Touch Chips Sticky) */}
+        <div className={styles.mobileTabsSticky}>
+          <div className={styles.mobileTabsScroll} ref={mobileTabContainerRef}>
+            {gruposMenu.flatMap((g) => g.itens).map((item) => {
+              const isActive = activeTab === item.id;
               return (
-                <div key={s} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <Badge color={s === "Ativo" ? "green" : s === "Transferido" ? "amber" : "gray"}>{s}</Badge>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>{q}</span>
-                </div>
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`${styles.mobileTabChip} ${isActive ? styles.mobileTabChipActive : ""}`}
+                  onClick={() => setActiveTab(item.id)}
+                >
+                  <i className={`ti ti-${item.icon}`} />
+                  <span>{item.label}</span>
+                  {item.badge !== null && item.badge !== undefined && (
+                    <span className={styles.mobileTabBadge}>{item.badge}</span>
+                  )}
+                </button>
               );
             })}
           </div>
-        </Card>
+        </div>
       </div>
 
-      <Card style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ padding: "16px 20px 12px", borderBottom: "1px solid #33435c" }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: "#ffffff" }}>Professores e disciplinas</h3>
-        </div>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
-              {["Professor(a)", "Disciplinas", "Turno", "Contato", "Status"].map(h => (
-                <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {professores.map(p => (
-              <tr key={p.id} style={{ borderBottom: "1px solid #2c3b52" }}>
-                <td style={{ padding: "10px 14px", fontWeight: 500, color: "#f8fafc" }}>{p.nome}</td>
-                <td style={{ padding: "10px 14px" }}>{(p.disciplinas || []).map(d => <Badge key={d} color="blue" style={{ marginRight: 4 }}>{d}</Badge>)}</td>
-                <td style={{ padding: "10px 14px", fontSize: 13, color: "#cbd5e1" }}>{p.turno}</td>
-                <td style={{ padding: "10px 14px", fontSize: 12, color: "#94a3b8" }}>{p.email}</td>
-                <td style={{ padding: "10px 14px" }}><Badge color={p.status === "Ativo" ? "green" : "amber"}>{p.status}</Badge></td>
-              </tr>
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── CONTEÚDO DA ABA ATIVA (COLUNA PRINCIPAL) ──────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <main className={styles.contentCol}>
+        {activeTab === "dashboard" && (
+          <DashboardRelatorios
+            alunos={alunos}
+            turmas={turmas}
+            professores={professores}
+            selectedEscola={selectedEscola}
+            onNavigateTab={setActiveTab}
+          />
+        )}
+
+        {activeTab === "matriculas" && (
+          <RelatorioMatriculas
+            alunos={alunos}
+            turmas={turmas}
+            selectedEscola={selectedEscola}
+            onNavigateTab={setActiveTab}
+          />
+        )}
+
+        {activeTab === "rendimento" && (
+          <RelatorioRendimento
+            alunos={alunos}
+            turmas={turmas}
+            selectedEscola={selectedEscola}
+          />
+        )}
+
+        {activeTab === "frequencia" && (
+          <RelatorioFrequencia
+            alunos={alunos}
+            turmas={turmas}
+            selectedEscola={selectedEscola}
+            onNavigateTab={setActiveTab}
+          />
+        )}
+
+        {activeTab === "docentes" && (
+          <RelatorioDocentes
+            professores={professores}
+            turmas={turmas}
+            alunos={alunos}
+            selectedEscola={selectedEscola}
+          />
+        )}
+
+        {activeTab === "documentos" && (
+          <DocumentosOficiais
+            alunos={alunos}
+            turmas={turmas}
+            professores={professores}
+            selectedEscola={selectedEscola}
+          />
+        )}
+      </main>
+
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── MENU LATERAL DIREITO DESKTOP (STICKY DOCK) ────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <aside className={styles.desktopAside}>
+        <div className={styles.sideCard}>
+          <div className={styles.sideHeader}>
+            <div className={styles.sideTitleWrap}>
+              <div className={styles.sideLogo}>
+                <i className="ti ti-chart-bar" />
+              </div>
+              <div>
+                <div className={styles.sideTitle}>Relatórios & Censo</div>
+                <div className={styles.sideSubtitle}>Inteligência Municipal</div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className={styles.sideRefreshBtn}
+              onClick={fetchData}
+              title="Recarregar Dados"
+            >
+              <i className="ti ti-refresh" />
+            </button>
+          </div>
+
+          <div className={styles.sideNavList}>
+            {gruposMenu.map((grupo) => (
+              <div key={grupo.titulo} style={{ marginBottom: 10 }}>
+                <div className={styles.sideGroupTitle}>{grupo.titulo}</div>
+                {grupo.itens.map((item) => {
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={`${styles.sideNavItem} ${isActive ? styles.sideNavItemActive : ""}`}
+                      onClick={() => setActiveTab(item.id)}
+                    >
+                      <div className={styles.sideItemLeft}>
+                        <i className={`ti ti-${item.icon} ${styles.sideItemIcon}`} />
+                        <span className={styles.sideItemText}>{item.label}</span>
+                      </div>
+                      {item.badge !== null && item.badge !== undefined && (
+                        <span
+                          className={`${styles.sideItemBadge} ${
+                            item.badge === "Alerta" ? styles.sideItemBadgeOnline : ""
+                          }`}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             ))}
-          </tbody>
-        </table>
-      </Card>
+          </div>
+
+          <div className={styles.sideFooter}>
+            <div className={styles.sideFooterLabel}>Seção Ativa</div>
+            <div className={styles.sideFooterTitle}>{itemAtivoObj?.label}</div>
+            <div className={styles.sideFooterSub}>{itemAtivoObj?.subtitulo}</div>
+          </div>
+        </div>
+
+        {/* Card Informativo */}
+        <div className={styles.mockCard}>
+          <div className={styles.mockHeader}>
+            <i className="ti ti-info-circle" style={{ color: "#38bdf8", fontSize: 18 }} />
+            <span className={styles.mockTitle}>Censo & Diretrizes INEP</span>
+          </div>
+          <p className={styles.mockDesc}>
+            Os relatórios estatísticos deste módulo utilizam os padrões oficiais do Censo Escolar e do Ministério da Educação (MEC).
+          </p>
+          <button
+            type="button"
+            className={styles.sideRefreshBtn}
+            onClick={() => setActiveTab("documentos")}
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            <i className="ti ti-printer" style={{ marginRight: 6 }} /> Emitir Atas da Escola
+          </button>
+        </div>
+      </aside>
     </div>
   );
 }

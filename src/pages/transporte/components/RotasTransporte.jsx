@@ -195,7 +195,7 @@ export default function RotasTransporte({
       {rotasFiltradas.length === 0 ? (
         <EmptyState icon="route" texto="Nenhuma rota de transporte cadastrada." />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))", gap: 18 }}>
           {rotasFiltradas.map((rota) => {
             const alunosDaRota = alunos.filter(a => a.rotaId === rota.id && (a.status === "Ativo" || !a.status));
             const veiculo = veiculos.find(v => v.id === rota.veiculoId);

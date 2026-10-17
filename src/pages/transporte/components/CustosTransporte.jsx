@@ -268,75 +268,145 @@ export default function CustosTransporte({
         {custosFiltrados.length === 0 ? (
           <EmptyState icon="receipt-2" texto="Nenhum lançamento de custo de transporte encontrado." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
-                  <th style={{ padding: "12px 16px" }}>Data / Tipo</th>
-                  <th style={{ padding: "12px 16px" }}>Veículo / Motorista</th>
-                  <th style={{ padding: "12px 16px" }}>Categoria / Detalhes</th>
-                  <th style={{ padding: "12px 16px" }}>Litros / Preço Unit.</th>
-                  <th style={{ padding: "12px 16px" }}>KM Odômetro</th>
-                  <th style={{ padding: "12px 16px" }}>Valor Total</th>
-                  <th style={{ padding: "12px 16px" }}>Forma Pgto</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {custosFiltrados.map((c, idx) => (
-                  <tr key={c.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#ffffff" }}>
-                        {new Date(c.data + "T00:00:00").toLocaleDateString("pt-BR")}
-                      </div>
-                      <Badge color={c.tipo === "Abastecimento" ? "blue" : "amber"}>
-                        {c.tipo}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#60a5fa" }}>{c.veiculoPlaca}</div>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.motoristaNome || "-"}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px", maxWidth: 260 }}>
-                      <div style={{ fontWeight: 500, color: "#f8fafc" }}>{c.categoria}</div>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.posto || c.descricao || "-"}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
-                      {c.tipo === "Abastecimento" ? (
-                        <div>
-                          <strong style={{ color: "#ffffff" }}>{c.litros} L</strong> ({c.combustivel})
-                          <div style={{ fontSize: 11, color: "#94a3b8" }}>
-                            {(Number(c.valorUnitario) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / L
-                          </div>
+          <>
+            {/* Visualização Desktop: Tabela Tradicional */}
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
+                    <th style={{ padding: "12px 16px" }}>Data / Tipo</th>
+                    <th style={{ padding: "12px 16px" }}>Veículo / Motorista</th>
+                    <th style={{ padding: "12px 16px" }}>Categoria / Detalhes</th>
+                    <th style={{ padding: "12px 16px" }}>Litros / Preço Unit.</th>
+                    <th style={{ padding: "12px 16px" }}>KM Odômetro</th>
+                    <th style={{ padding: "12px 16px" }}>Valor Total</th>
+                    <th style={{ padding: "12px 16px" }}>Forma Pgto</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {custosFiltrados.map((c, idx) => (
+                    <tr key={c.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>
+                          {new Date(c.data + "T00:00:00").toLocaleDateString("pt-BR")}
                         </div>
-                      ) : "-"}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
-                      {c.kmAbastecimento ? `${Number(c.kmAbastecimento).toLocaleString("pt-BR")} km` : "-"}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#f87171", fontSize: 14 }}>
+                        <Badge color={c.tipo === "Abastecimento" ? "blue" : "amber"}>
+                          {c.tipo}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#60a5fa" }}>{c.veiculoPlaca}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.motoristaNome || "-"}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px", maxWidth: 260 }}>
+                        <div style={{ fontWeight: 500, color: "#f8fafc" }}>{c.categoria}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.posto || c.descricao || "-"}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
+                        {c.tipo === "Abastecimento" ? (
+                          <div>
+                            <strong style={{ color: "#ffffff" }}>{c.litros} L</strong> ({c.combustivel})
+                            <div style={{ fontSize: 11, color: "#94a3b8" }}>
+                              {(Number(c.valorUnitario) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / L
+                            </div>
+                          </div>
+                        ) : "-"}
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
+                        {c.kmAbastecimento ? `${Number(c.kmAbastecimento).toLocaleString("pt-BR")} km` : "-"}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 700, color: "#f87171", fontSize: 14 }}>
+                          {(Number(c.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </div>
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                        {c.formaPagamento || "Prefeitura"}
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                          <Btn onClick={() => abrirEditar(c)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-edit" />
+                          </Btn>
+                          <Btn variant="danger" onClick={() => handleExcluir(c.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-trash" />
+                          </Btn>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {custosFiltrados.map((c) => (
+                <div
+                  key={`mob-custo-${c.id}`}
+                  style={{
+                    background: "var(--bg-card, #1e293b)",
+                    border: "1px solid var(--border-color, #2c3b52)",
+                    borderRadius: 14,
+                    padding: "14px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontWeight: 700, color: "#60a5fa", fontSize: 14 }}>{c.veiculoPlaca}</span>
+                        <Badge color={c.tipo === "Abastecimento" ? "blue" : "amber"}>{c.tipo}</Badge>
+                      </div>
+                      <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
+                        {new Date(c.data + "T00:00:00").toLocaleDateString("pt-BR")} · {c.motoristaNome || "Sem motorista"}
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontWeight: 800, color: "#f87171", fontSize: 15 }}>
                         {(Number(c.valorTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </div>
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                      {c.formaPagamento || "Prefeitura"}
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                        <Btn onClick={() => abrirEditar(c)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-edit" />
-                        </Btn>
-                        <Btn variant="danger" onClick={() => handleExcluir(c.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-trash" />
-                        </Btn>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      <div style={{ fontSize: 10, color: "#94a3b8" }}>{c.formaPagamento || "Prefeitura"}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, background: "#161f2e", padding: "10px 12px", borderRadius: 10, border: "1px solid #243144", fontSize: 12, color: "#cbd5e1" }}>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>Categoria / Detalhe:</span>
+                      <div style={{ fontWeight: 600, color: "#ffffff", marginTop: 1 }}>{c.categoria}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{c.posto || c.descricao || "-"}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>
+                        {c.tipo === "Abastecimento" ? "Combustível:" : "Odômetro:"}
+                      </span>
+                      {c.tipo === "Abastecimento" ? (
+                        <div style={{ fontWeight: 600, color: "#34d399", marginTop: 1 }}>
+                          {c.litros} L ({c.combustivel})
+                        </div>
+                      ) : (
+                        <div style={{ fontWeight: 600, color: "#ffffff", marginTop: 1 }}>
+                          {c.kmAbastecimento ? `${c.kmAbastecimento} km` : "-"}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 2 }}>
+                    <Btn onClick={() => abrirEditar(c)} style={{ padding: "6px 12px", fontSize: 12 }}>
+                      <i className="ti ti-edit" /> Editar
+                    </Btn>
+                    <Btn variant="danger" onClick={() => handleExcluir(c.id)} style={{ padding: "6px 12px", fontSize: 12 }}>
+                      <i className="ti ti-trash" /> Excluir
+                    </Btn>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 

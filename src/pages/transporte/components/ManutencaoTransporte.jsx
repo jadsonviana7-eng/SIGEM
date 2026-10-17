@@ -199,85 +199,147 @@ export default function ManutencaoTransporte({
         {manutencoesFiltradas.length === 0 ? (
           <EmptyState icon="wrench" texto="Nenhum registro de manutenção veicular encontrado." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
-                  <th style={{ padding: "12px 16px" }}>Data / Tipo</th>
-                  <th style={{ padding: "12px 16px" }}>Veículo</th>
-                  <th style={{ padding: "12px 16px" }}>Serviço / Descrição</th>
-                  <th style={{ padding: "12px 16px" }}>Oficina / Fornecedor</th>
-                  <th style={{ padding: "12px 16px" }}>KM no Serviço</th>
-                  <th style={{ padding: "12px 16px" }}>Próx. Revisão</th>
-                  <th style={{ padding: "12px 16px" }}>Valor Total</th>
-                  <th style={{ padding: "12px 16px" }}>Status</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {manutencoesFiltradas.map((m, idx) => (
-                  <tr key={m.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#ffffff" }}>
-                        {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
+          <>
+            {/* Visualização Desktop: Tabela Tradicional */}
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52", color: "#f8fafc" }}>
+                    <th style={{ padding: "12px 16px" }}>Data / Tipo</th>
+                    <th style={{ padding: "12px 16px" }}>Veículo</th>
+                    <th style={{ padding: "12px 16px" }}>Serviço / Descrição</th>
+                    <th style={{ padding: "12px 16px" }}>Oficina / Fornecedor</th>
+                    <th style={{ padding: "12px 16px" }}>KM no Serviço</th>
+                    <th style={{ padding: "12px 16px" }}>Próx. Revisão</th>
+                    <th style={{ padding: "12px 16px" }}>Valor Total</th>
+                    <th style={{ padding: "12px 16px" }}>Status</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {manutencoesFiltradas.map((m, idx) => (
+                    <tr key={m.id} style={{ borderBottom: "1px solid #2c3b52", background: idx % 2 === 0 ? "#1e293b" : "#161f2e" }}>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>
+                          {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                        </div>
+                        <Badge color={m.tipo === "Preventiva" ? "green" : m.tipo === "Corretiva" ? "red" : "blue"}>
+                          {m.tipo}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#60a5fa" }}>{m.veiculoPlaca}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{m.veiculoModelo}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px", maxWidth: 280 }}>
+                        <div style={{ fontWeight: 500, color: "#f8fafc" }}>{m.descricao}</div>
+                        {m.numeroNota && (
+                          <div style={{ fontSize: 11, color: "#94a3b8" }}>Doc: {m.numeroNota}</div>
+                        )}
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
+                        {m.fornecedor || "Mecânica da Prefeitura"}
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
+                        {m.kmMomento ? `${Number(m.kmMomento).toLocaleString("pt-BR")} km` : "-"}
+                      </td>
+                      <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
+                        {m.proximaRevisaoKm ? (
+                          <div>{Number(m.proximaRevisaoKm).toLocaleString("pt-BR")} km</div>
+                        ) : null}
+                        {m.proximaRevisaoData ? (
+                          <div style={{ color: "#94a3b8" }}>{new Date(m.proximaRevisaoData + "T00:00:00").toLocaleDateString("pt-BR")}</div>
+                        ) : null}
+                        {!m.proximaRevisaoKm && !m.proximaRevisaoData && "-"}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 700, color: "#f87171" }}>
+                          {(Number(m.custoTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </div>
+                        <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                          Peças: {(Number(m.custoPecas) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color={m.status === "Concluída" ? "green" : m.status === "Em Andamento" ? "amber" : "gray"}>
+                          {m.status || "Concluída"}
+                        </Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
+                          <Btn onClick={() => abrirEditar(m)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-edit" />
+                          </Btn>
+                          <Btn variant="danger" onClick={() => handleExcluir(m.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                            <i className="ti ti-trash" />
+                          </Btn>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {manutencoesFiltradas.map((m) => (
+                <div
+                  key={`mob-manut-${m.id}`}
+                  style={{
+                    background: "var(--bg-card, #1e293b)",
+                    border: "1px solid var(--border-color, #2c3b52)",
+                    borderRadius: 14,
+                    padding: "14px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontWeight: 700, color: "#60a5fa", fontSize: 14 }}>{m.veiculoPlaca}</span>
+                        <Badge color={m.tipo === "Preventiva" ? "green" : m.tipo === "Corretiva" ? "red" : "blue"}>{m.tipo}</Badge>
                       </div>
-                      <Badge color={m.tipo === "Preventiva" ? "green" : m.tipo === "Corretiva" ? "red" : "blue"}>
-                        {m.tipo}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#60a5fa" }}>{m.veiculoPlaca}</div>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{m.veiculoModelo}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px", maxWidth: 280 }}>
-                      <div style={{ fontWeight: 500, color: "#f8fafc" }}>{m.descricao}</div>
-                      {m.numeroNota && (
-                        <div style={{ fontSize: 11, color: "#94a3b8" }}>Doc: {m.numeroNota}</div>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
-                      {m.fornecedor || "Mecânica da Prefeitura"}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
-                      {m.kmMomento ? `${Number(m.kmMomento).toLocaleString("pt-BR")} km` : "-"}
-                    </td>
-                    <td style={{ padding: "12px 16px", fontSize: 12, color: "#cbd5e1" }}>
-                      {m.proximaRevisaoKm ? (
-                        <div>{Number(m.proximaRevisaoKm).toLocaleString("pt-BR")} km</div>
-                      ) : null}
-                      {m.proximaRevisaoData ? (
-                        <div style={{ color: "#94a3b8" }}>{new Date(m.proximaRevisaoData + "T00:00:00").toLocaleDateString("pt-BR")}</div>
-                      ) : null}
-                      {!m.proximaRevisaoKm && !m.proximaRevisaoData && "-"}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 700, color: "#f87171" }}>
+                      <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
+                        {new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR")} · {m.veiculoModelo || "Veículo"}
+                      </div>
+                    </div>
+                    <Badge color={m.status === "Concluída" ? "green" : m.status === "Em Andamento" ? "amber" : "gray"}>
+                      {m.status || "Concluída"}
+                    </Badge>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, background: "#161f2e", padding: "10px 12px", borderRadius: 10, border: "1px solid #243144", fontSize: 12, color: "#cbd5e1" }}>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>Serviço:</span>
+                      <div style={{ fontWeight: 600, color: "#ffffff", marginTop: 1 }}>{m.descricao}</div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{m.fornecedor || "Mecânica da Prefeitura"}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: "#94a3b8" }}>Custo Total:</span>
+                      <div style={{ fontWeight: 800, color: "#f87171", fontSize: 14, marginTop: 1 }}>
                         {(Number(m.custoTotal) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </div>
-                      <div style={{ fontSize: 10, color: "#94a3b8" }}>
-                        Peças: {(Number(m.custoPecas) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>
+                        KM: {m.kmMomento ? `${m.kmMomento} km` : "-"}
                       </div>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color={m.status === "Concluída" ? "green" : m.status === "Em Andamento" ? "amber" : "gray"}>
-                        {m.status || "Concluída"}
-                      </Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-                        <Btn onClick={() => abrirEditar(m)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-edit" />
-                        </Btn>
-                        <Btn variant="danger" onClick={() => handleExcluir(m.id)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                          <i className="ti ti-trash" />
-                        </Btn>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 2 }}>
+                    <Btn onClick={() => abrirEditar(m)} style={{ padding: "6px 12px", fontSize: 12 }}>
+                      <i className="ti ti-edit" /> Editar
+                    </Btn>
+                    <Btn variant="danger" onClick={() => handleExcluir(m.id)} style={{ padding: "6px 12px", fontSize: 12 }}>
+                      <i className="ti ti-trash" /> Excluir
+                    </Btn>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 

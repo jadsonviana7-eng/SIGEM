@@ -1,0 +1,311 @@
+/* =========================================================
+   DashboardDiario.module.css - Painel Executivo do Diário
+   ========================================================= */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Banner de Boas-Vindas & Ações Rápidas */
+.banner {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(79, 70, 229, 0.05) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 16px;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.bannerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bannerTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.bannerSubtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.bannerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Grade de Indicadores (KPIs) */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.kpiCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  border-color: #6366f1;
+}
+
+.kpiIconWrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.kpiText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.kpiLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted, #94a3b8);
+  letter-spacing: 0.5px;
+}
+
+.kpiValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.kpiSub {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+}
+
+/* Divisão 2 Colunas no Meio */
+.splitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.sectionCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.subjectList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subjectItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 10px;
+}
+
+.subjectRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.subjectProgress {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.subjectBar {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+}
+
+/* Lista de Aulas Recentes */
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recentCard {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.15s ease;
+}
+
+.recentCard:hover {
+  border-color: #6366f1;
+}
+
+.dateBadge {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+
+.dateDay {
+  font-size: 16px;
+  font-weight: 800;
+  color: #818cf8;
+  line-height: 1;
+}
+
+.dateMonth {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #a5b4fc;
+}
+
+.recentContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.recentHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.recentSubject {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.recentSnippet {
+  font-size: 12px;
+  color: #cbd5e1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 900px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .splitGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .bannerActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .bannerActions button,
+  .bannerActions a {
+    width: 100% !important;
+    justify-content: center;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .kpiCard {
+    padding: 14px 16px;
+  }
+}

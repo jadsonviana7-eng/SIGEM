@@ -1,0 +1,337 @@
+/* =========================================================
+   NotificacoesAutomaticas.module.css - Padrão de Design SIGEM
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 1. Indicadores Rápidos (KPIs) */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.statCard:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.statIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.15;
+}
+
+.statLabel {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* 2. Barra de Cabeçalho */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 260px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .headerBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .headerInfo {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.headerTitle {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Tabs de Controle */
+.tabsBar {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+  padding-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .tabsBar {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tabBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.tabBtn {
+  background: var(--bg-surface, #243144);
+  color: var(--text-muted, #94a3b8);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.tabBtn:hover {
+  color: var(--text-primary, #ffffff);
+  border-color: #6366f1;
+}
+
+.tabBtnActive {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: #ffffff;
+  border-color: #818cf8;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+/* Card de Configuração */
+.sectionCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  margin: 0 0 4px 0;
+}
+
+.sectionSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  margin: 0 0 16px 0;
+  line-height: 1.45;
+}
+
+.dispatchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  align-items: flex-end;
+  background: var(--bg-surface, #243144);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle, #33435c);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .dispatchGrid {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    gap: 10px;
+  }
+}
+
+.btnDispatch {
+  width: 100%;
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  border: 1px solid #818cf8;
+  color: #ffffff;
+  height: 42px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btnDispatch:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Pré-visualização WhatsApp */
+.previewGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .previewGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whatsappBubble {
+  background: #064e3b;
+  color: #ecfdf5;
+  padding: 16px 18px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  border: 1px solid #047857;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.whatsappHeader {
+  font-weight: 800;
+  color: #6ee7b7;
+  margin-bottom: 6px;
+}
+
+.whatsappTime {
+  text-align: right;
+  font-size: 11px;
+  color: #a7f3d0;
+  margin-top: 10px;
+}
+
+/* Tabela e Risco */
+.riscoBadgeWrap {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid var(--border-color, #2c3b52);
+  background: var(--bg-card, #1e293b);
+  margin-top: 14px;
+}
+
+.customTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.customTable th {
+  background: var(--bg-surface, #243144);
+  color: var(--text-muted, #94a3b8);
+  font-weight: 600;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+}
+
+.customTable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+}
+
+.rowRisco {
+  background: rgba(239, 68, 68, 0.06);
+}

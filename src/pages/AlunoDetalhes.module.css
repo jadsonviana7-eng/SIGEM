@@ -1,0 +1,424 @@
+/* =========================================================
+   AlunoDetalhes.module.css - Estilos Responsivos e Otimizados
+   ========================================================= */
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.headerTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studentNameTop {
+  margin: 2px 0 0 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Visibilidade Desktop vs Mobile para a Barra de Ações */
+.desktopOnlyActions {
+  display: block;
+}
+
+.mobileOnlyActions {
+  display: none;
+}
+
+.desktopOnlyText {
+  display: inline;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Barra de Ações (Desktop / Padrão)
+   ───────────────────────────────────────────────────────── */
+.actionsBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.actionSquareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  text-decoration: none;
+  border: 1px solid transparent;
+  line-height: 1.3;
+}
+
+.actionSquareBtn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.actionSquareBtn:active {
+  transform: scale(0.97);
+}
+
+/* Variantes de Cor dos Botões */
+.btnTransferencia {
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  border-color: var(--border-subtle, #33435c);
+}
+.btnTransferencia i {
+  color: #38bdf8;
+}
+
+.btnRemanejar {
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  border-color: var(--border-subtle, #33435c);
+}
+.btnRemanejar i {
+  color: #fbbf24;
+}
+
+.btnBoletim {
+  background: rgba(56, 189, 248, 0.14);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.32);
+}
+.btnBoletim i {
+  color: #38bdf8;
+}
+
+.btnHistorico {
+  background: rgba(99, 102, 241, 0.14);
+  color: #818cf8;
+  border-color: rgba(99, 102, 241, 0.32);
+}
+.btnHistorico i {
+  color: #a5b4fc;
+}
+
+.btnImprimir {
+  background: #243144;
+  color: #cbd5e1;
+  border-color: #33435c;
+}
+.btnImprimir i {
+  color: #94a3b8;
+}
+
+.btnEditar {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+.btnEditar i {
+  color: #ffffff;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Card Principal do Aluno
+   ───────────────────────────────────────────────────────── */
+.profileCard {
+  position: relative !important;
+  padding: 24px;
+  background: #1e293b;
+  border: 1px solid #2c3b52;
+}
+
+/* Botão Excluir dentro do Card, alinhado com o topo do avatar */
+.deleteBtnInCard {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 17px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.deleteBtnInCard:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45);
+  transform: scale(1.06);
+}
+
+.deleteBtnInCard:active {
+  transform: scale(0.95);
+}
+
+/* Bloco Topo do Perfil (Foto + Dados) */
+.profileTopWrapper {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.avatarWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatarBox {
+  width: 104px;
+  height: 104px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #243144;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #33435c;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.avatarIcon {
+  font-size: 48px;
+  color: #94a3b8;
+}
+
+.avatarLabel {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+  border: 2px solid #1e293b;
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 260px;
+  padding-right: 48px; /* Evita sobreposição com o botão excluir */
+}
+
+.studentNameInCard {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.studentMetaList {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ADAPTAÇÕES MOBILE (≤ 768px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .headerTop {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  /* 1. Ocultar o nome redundante no topo */
+  .studentNameTop {
+    display: none !important;
+  }
+
+  /* Ocultar barra de ações no header superior */
+  .desktopOnlyActions {
+    display: none !important;
+  }
+
+  /* Exibir ações logo abaixo dos dados dentro do card - Espaço compacto */
+  .mobileOnlyActions {
+    display: block !important;
+    margin-top: 10px !important;
+    margin-bottom: 2px !important;
+    width: 100% !important;
+  }
+
+  .desktopOnlyText {
+    display: none !important;
+  }
+
+  /* 2. Card do Aluno mais compacto e organizado */
+  .profileCard {
+    padding: 12px 14px !important;
+  }
+
+  /* Foto e Dados Lado a Lado no topo do Card */
+  .profileTopWrapper {
+    display: flex !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .avatarBox {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 14px !important;
+    border-width: 2px !important;
+  }
+
+  .avatarIcon {
+    font-size: 32px !important;
+  }
+
+  .avatarLabel {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 7px !important;
+    bottom: -2px !important;
+    right: -2px !important;
+    font-size: 12px !important;
+  }
+
+  .profileInfo {
+    flex: 1 !important;
+    min-width: 0 !important;
+    padding-right: 36px !important; /* Espaço para o botão excluir */
+  }
+
+  .studentNameInCard {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+    word-break: break-word !important;
+  }
+
+  .studentMetaList {
+    gap: 3px 10px !important;
+    font-size: 11.5px !important;
+  }
+
+  .studentMetaList span {
+    gap: 4px !important;
+  }
+
+  /* Botão excluir alinhado com o topo do avatar */
+  .deleteBtnInCard {
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+  }
+
+  /* 3. BOTÕES PEQUENOS E DISCRETOS (Apenas 32px de altura, sem ocupar espaço enorme) */
+  .actionsBar {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .actionSquareBtn {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0 6px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    aspect-ratio: unset !important;
+    border-radius: 8px !important;
+    gap: 4px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    width: 100% !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+    -webkit-tap-highlight-color: transparent !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    transition: transform 0.1s ease, filter 0.1s ease !important;
+  }
+
+  .actionSquareBtn:active {
+    transform: scale(0.95) !important;
+    filter: brightness(0.88) !important;
+  }
+
+  .actionSquareBtn i {
+    font-size: 13px !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .actionSquareBtn span {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    letter-spacing: -0.2px !important;
+  }
+}
+
+/* Telas ultra-compactas (≤ 380px) */
+@media (max-width: 380px) {
+  .actionsBar {
+    gap: 4px !important;
+  }
+
+  .actionSquareBtn {
+    padding: 0 4px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    border-radius: 6px !important;
+    gap: 3px !important;
+  }
+
+  .actionSquareBtn i {
+    font-size: 12px !important;
+  }
+
+  .actionSquareBtn span {
+    font-size: 10px !important;
+  }
+
+  .avatarBox {
+    width: 64px !important;
+    height: 64px !important;
+  }
+}

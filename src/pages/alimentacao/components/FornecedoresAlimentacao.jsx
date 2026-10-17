@@ -145,7 +145,7 @@ export default function FornecedoresAlimentacao({
       {fornecedoresFiltrados.length === 0 ? (
         <EmptyState icon="truck" texto="Nenhum fornecedor cadastrado até o momento." />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 300px), 1fr))", gap: 18 }}>
           {fornecedoresFiltrados.map((forn) => {
             const isFamiliar = (forn.tipo || "").toLowerCase().includes("familiar") || (forn.tipo || "").toLowerCase().includes("pnae");
 

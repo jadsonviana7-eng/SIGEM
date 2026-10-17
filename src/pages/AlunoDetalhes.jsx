@@ -41,6 +41,7 @@ import { comprimirEUploadFoto } from "../utils/upload";
 import CropModal from "../components/CropModal";
 import DocumentoViewerModal from "../components/DocumentoViewerModal";
 import { formatCPF, formatSUS, formatNIS, formatCEP, formatTelefone } from "../utils/masks";
+import styles from "./AlunoDetalhes.module.css";
 
 export default function AlunoDetalhes() {
   const { id } = useParams();
@@ -517,6 +518,75 @@ export default function AlunoDetalhes() {
     idadeCalculada = `${idade} anos`;
   }
 
+  const renderAcoesBar = () => (
+    <div className={styles.actionsBar}>
+      <button
+        type="button"
+        className={`${styles.actionSquareBtn} ${styles.btnTransferencia}`}
+        onClick={() => navigate("/transferencias")}
+        title="Transferências escolares e emissão de declarações"
+      >
+        <i className="ti ti-file-export" />
+        <span>Transf<span className={styles.desktopOnlyText}>erência</span></span>
+      </button>
+      <button
+        type="button"
+        className={`${styles.actionSquareBtn} ${styles.btnRemanejar}`}
+        onClick={() => {
+          setTurmaDestinoRemanejamento("");
+          setMotivoRemanejamento("Ajuste de Turno / Horário");
+          setDataRemanejamento(new Date().toISOString().split("T")[0]);
+          setObsRemanejamento("");
+          setModalRemanejarAberto(true);
+        }}
+        title="Remanejar este estudante para outra turma"
+      >
+        <i className="ti ti-arrows-exchange" />
+        <span>Remanejar<span className={styles.desktopOnlyText}> Turma</span></span>
+      </button>
+      <button
+        type="button"
+        className={`${styles.actionSquareBtn} ${styles.btnBoletim}`}
+        onClick={() => navigate(`/boletim`)}
+        title="Acessar Boletim Escolar Digital"
+      >
+        <i className="ti ti-certificate" />
+        <span>Boletim<span className={styles.desktopOnlyText}> Escolar</span></span>
+      </button>
+      <button
+        type="button"
+        className={`${styles.actionSquareBtn} ${styles.btnHistorico}`}
+        onClick={() => navigate(`/historico?alunoId=${aluno.id}`)}
+        title="Acessar Histórico Escolar Oficial com Autenticação e QR Code"
+      >
+        <i className="ti ti-file-certificate" />
+        <span>Histórico<span className={styles.desktopOnlyText}> Escolar</span></span>
+      </button>
+      <button
+        type="button"
+        className={`${styles.actionSquareBtn} ${styles.btnImprimir}`}
+        onClick={() => window.print()}
+        title="Imprimir Ficha Cadastral"
+      >
+        <i className="ti ti-printer" />
+        <span>Imprimir<span className={styles.desktopOnlyText}> Ficha</span></span>
+      </button>
+      <button
+        type="button"
+        className={`${styles.actionSquareBtn} ${styles.btnEditar}`}
+        onClick={() => {
+          setForm(aluno);
+          setAbaModalEditar("escola");
+          setModalEditarAberto(true);
+        }}
+        title="Editar Cadastro"
+      >
+        <i className="ti ti-edit" />
+        <span>Editar<span className={styles.desktopOnlyText}> Cadastro</span></span>
+      </button>
+    </div>
+  );
+
   return (
     <div>
       {/* CSS DE IMPRESSÃO EXCLUSIVO PARA O CURRÍCULO/FICHA CADASTRAL */}
@@ -758,8 +828,8 @@ export default function AlunoDetalhes() {
         {alerta && <Alert tipo={alerta.tipo}>{alerta.msg}</Alert>}
 
         {/* Top Header & Breadcrumb */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div className={styles.headerTop}>
+          <div className={styles.headerTitleWrapper}>
             <button
               onClick={() => navigate("/alunos")}
               style={{
@@ -786,135 +856,54 @@ export default function AlunoDetalhes() {
                 <i className="ti ti-chevron-right" style={{ fontSize: 12 }} />
                 <span>Ficha Expandida</span>
               </div>
-              <h1 style={{ margin: "2px 0 0 0", fontSize: 22, fontWeight: 700, color: "#ffffff" }}>
+              <h1 className={styles.studentNameTop}>
                 {aluno.nome}
               </h1>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <Btn
-              variant="default"
-              onClick={() => navigate("/transferencias")}
-              style={{ fontWeight: 600 }}
-              title="Transferências escolares e emissão de declarações"
-            >
-              <i className="ti ti-file-export" /> Transferência
-            </Btn>
-            <Btn
-              variant="default"
-              onClick={() => {
-                setTurmaDestinoRemanejamento("");
-                setMotivoRemanejamento("Ajuste de Turno / Horário");
-                setDataRemanejamento(new Date().toISOString().split("T")[0]);
-                setObsRemanejamento("");
-                setModalRemanejarAberto(true);
-              }}
-              style={{ fontWeight: 600 }}
-              title="Remanejar este estudante para outra turma"
-            >
-              <i className="ti ti-arrows-exchange" /> Remanejar Turma
-            </Btn>
-            <Btn
-              variant="default"
-              onClick={() => navigate(`/boletim`)}
-              style={{ background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)", fontWeight: 600 }}
-              title="Acessar Boletim Escolar Digital"
-            >
-              <i className="ti ti-certificate" /> Boletim Escolar
-            </Btn>
-            <Btn
-              variant="default"
-              onClick={() => navigate(`/historico?alunoId=${aluno.id}`)}
-              style={{ background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", border: "1px solid rgba(99, 102, 241, 0.3)", fontWeight: 600 }}
-              title="Acessar Histórico Escolar Oficial com Autenticação e QR Code"
-            >
-              <i className="ti ti-file-certificate" /> Histórico Escolar
-            </Btn>
-            <Btn
-              variant="default"
-              onClick={() => window.print()}
-              style={{ background: "#243144", color: "#cbd5e1", border: "1px solid #33435c", fontWeight: 600 }}
-              title="Imprimir Ficha Cadastral"
-            >
-              <i className="ti ti-printer" /> Imprimir Ficha
-            </Btn>
-            <Btn
-              variant="primary"
-              onClick={() => {
-                setForm(aluno);
-                setAbaModalEditar("escola");
-                setModalEditarAberto(true);
-              }}
-            >
-              <i className="ti ti-edit" /> Editar Cadastro
-            </Btn>
-            <Btn
-              variant="danger"
-              onClick={handleExcluirAluno}
-              title="Excluir Aluno"
-            >
-              <i className="ti ti-trash" />
-            </Btn>
+          {/* Ações Rápidas no Desktop */}
+          <div className={styles.desktopOnlyActions}>
+            {renderAcoesBar()}
           </div>
-
-
         </div>
 
         {/* Hero Profile Banner */}
-        <Card style={{ padding: 24, background: "#1e293b", border: "1px solid #2c3b52" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
+        <Card className={styles.profileCard}>
+          {/* Botão Excluir dentro do Card, alinhado com o topo do avatar à direita */}
+          <button
+            type="button"
+            onClick={handleExcluirAluno}
+            className={styles.deleteBtnInCard}
+            title="Excluir Aluno"
+            aria-label="Excluir Aluno"
+          >
+            <i className="ti ti-trash" />
+          </button>
+
+          <div className={styles.profileTopWrapper}>
             {/* Avatar Grande com Ação de Troca */}
-            <div style={{ position: "relative" }}>
-              <div
-                style={{
-                  width: 104,
-                  height: 104,
-                  borderRadius: 20,
-                  overflow: "hidden",
-                  background: "#243144",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "3px solid #33435c",
-                  boxShadow: "0 10px 20px -5px rgba(0,0,0,0.3)",
-                  flexShrink: 0
-                }}
-              >
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBox}>
                 {aluno.fotoUrl ? (
                   <img src={aluno.fotoUrl} alt={aluno.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <i className="ti ti-user" style={{ fontSize: 48, color: "#94a3b8" }} />
+                  <i className={`ti ti-user ${styles.avatarIcon}`} />
                 )}
               </div>
               <label
-                style={{
-                  position: "absolute",
-                  bottom: -4,
-                  right: -4,
-                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                  color: "white",
-                  width: 32,
-                  height: 32,
-                  borderRadius: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: carregandoFoto ? "not-allowed" : "pointer",
-                  boxShadow: "0 2px 8px rgba(99, 102, 241, 0.4)",
-                  border: "2px solid #1e293b"
-                }}
+                className={styles.avatarLabel}
                 title="Alterar foto do aluno"
               >
-                <i className={`ti ${carregandoFoto ? "ti-loader" : "ti-camera"}`} style={{ fontSize: 15 }} />
+                <i className={`ti ${carregandoFoto ? "ti-loader" : "ti-camera"}`} />
                 <input type="file" accept="image/*" onChange={handleFotoSelect} disabled={carregandoFoto} style={{ display: "none" }} />
               </label>
             </div>
 
             {/* Dados do Cabeçalho */}
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
-                <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff" }}>{aluno.nome}</h2>
+            <div className={styles.profileInfo}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
+                <h2 className={styles.studentNameInCard}>{aluno.nome}</h2>
                 <Badge color={aluno.status === "Ativo" ? "green" : aluno.status === "Transferido" ? "amber" : "gray"}>
                   {aluno.status || "Ativo"}
                 </Badge>
@@ -929,7 +918,7 @@ export default function AlunoDetalhes() {
                 )}
               </div>
 
-              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 13, color: "var(--text-secondary)" }}>
+              <div className={styles.studentMetaList}>
                 <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
                   <i className="ti ti-id" style={{ color: "#818cf8" }} /> Matrícula: <strong style={{ color: "var(--text-primary)" }}>{aluno.matricula || "Não gerada"}</strong>
                 </span>
@@ -947,6 +936,11 @@ export default function AlunoDetalhes() {
                 </span>
               </div>
             </div>
+          </div>
+
+          {/* Ações Rápidas no Mobile (Logo abaixo da foto e dados do aluno) */}
+          <div className={styles.mobileOnlyActions}>
+            {renderAcoesBar()}
           </div>
 
           {/* Mini KPI Cards Grid */}

@@ -1,31 +1,100 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
-import { getUsuarios, addUsuario, updateUsuario, deleteUsuario, criarUsuarioNoAuth } from "../services/usuariosService";
-import { getEscolas, addEscola, updateEscola, deleteEscola } from "../services/escolasService";
-import { Card, Badge, Btn, Modal, Input, Select, Alert, Spinner, EmptyState } from "../components/ui";
+import {
+  getUsuarios,
+  addUsuario,
+  updateUsuario,
+  deleteUsuario,
+  criarUsuarioNoAuth
+} from "../services/usuariosService";
+import {
+  getEscolas,
+  addEscola,
+  updateEscola,
+  deleteEscola
+} from "../services/escolasService";
 import { comprimirEUploadFoto } from "../utils/upload";
 import CropModal from "../components/CropModal";
 import { formatCNPJ } from "../utils/masks";
 import { injectMockData } from "../utils/mockDataGenerator";
+import { Badge } from "../components/ui";
 
-const VAZIO_USUARIO = { nome: "", email: "", senha: "", perfil: "Coordenador", status: "Ativo", fotoUrl: "", escolaId: "" };
-const PERFIS = ["Direção", "Coordenador", "Secretário", "Professor", "Administrador"];
+import styles from "./configuracoes/Configuracoes.module.css";
+import MinhaConta from "./configuracoes/components/MinhaConta";
+import ControleUsuarios from "./configuracoes/components/ControleUsuarios";
+import ControleEscolas from "./configuracoes/components/ControleEscolas";
+import {
+  ModalUsuario,
+  ModalEscola
+} from "./configuracoes/components/ModaisConfiguracoes";
+
+const VAZIO_USUARIO = {
+  nome: "",
+  email: "",
+  senha: "",
+  perfil: "Coordenador",
+  status: "Ativo",
+  fotoUrl: "",
+  escolaId: ""
+};
+
+const VAZIO_ESCOLA = {
+  nome: "",
+  cnpj: "",
+  inep: "",
+  municipio: "Maceió",
+  uf: "AL",
+  status: "Ativa",
+  fotoUrl: "",
+  endereco: "",
+  zona: "Urbana"
+};
+
+const PERFIS = [
+  "Direção",
+  "Coordenador",
+  "Secretário",
+  "Professor",
+  "Administrador"
+];
+
 const STATUS = ["Ativo", "Inativo"];
 
 export default function Configuracoes() {
-  const { user, atualizarDadosUsuario, selectedEscolaId, escolas, recarregarEscolas } = useAuth();
-  
+  const {
+    user,
+    atualizarDadosUsuario,
+    selectedEscolaId,
+    escolas = [],
+    recarregarEscolas
+  } = useAuth();
+
   const isAdmin = user?.role === "Administrador";
+  const podeGerenciar =
+    user?.role === "Administrador" || user?.role === "Direção";
 
   // Filtro de usuários: se for admin, carrega todos da rede; se for diretor, carrega da sua escola
-  const activeEscolaId = isAdmin ? null : (user?.escolaId || selectedEscolaId || null);
-  const { dados: usuarios, carregando, recarregar } = useFirestore(
+  const activeEscolaId = isAdmin
+    ? null
+    : user?.escolaId || selectedEscolaId || null;
+
+  const {
+    dados: usuarios,
+    carregando,
+    recarregar
+  } = useFirestore(
     useCallback(() => getUsuarios(activeEscolaId), [activeEscolaId]),
     [activeEscolaId]
   );
-  
-  // Abas de Configurações
+
+  const {
+    dados: escolasLista,
+    carregando: carregandoEscolas,
+    recarregar: recarregarEscolasLista
+  } = useFirestore(getEscolas);
+
+  // Abas de Configurações: 'minha-conta' | 'controle-usuarios' | 'controle-escolas'
   const [abaAtiva, setAbaAtiva] = useState("minha-conta");
 
   // Estado Minha Conta
@@ -45,23 +114,42 @@ export default function Configuracoes() {
   const [escolaFiltroUsuario, setEscolaFiltroUsuario] = useState("");
 
   // Estado Escolas (CRUD)
-  const VAZIO_ESCOLA = { nome: "", cnpj: "", inep: "", municipio: "Maceió", uf: "AL", status: "Ativa", fotoUrl: "", endereco: "", zona: "Urbana" };
   const [formEscola, setFormEscola] = useState(VAZIO_ESCOLA);
   const [escolaEditId, setEscolaEditId] = useState(null);
   const [modalEscolaAberto, setModalEscolaAberto] = useState(false);
   const [salvandoEscola, setSalvandoEscola] = useState(false);
   const [alertaEscola, setAlertaEscola] = useState(null);
   const [buscaEscola, setBuscaEscola] = useState("");
-  const { dados: escolasLista, carregando: carregandoEscolas, recarregar: recarregarEscolasLista } = useFirestore(getEscolas);
 
   // Estado Geral CropModal
   const [cropFile, setCropFile] = useState(null);
   const [cropTarget, setCropTarget] = useState(null); // 'perfil', 'usuario' ou 'escola'
   const [carregandoFoto, setCarregandoFoto] = useState(false);
 
-  function setUsuarioField(campo, valor) { setFormUsuario(f => ({ ...f, [campo]: valor })); }
+  // Estado Mobile UI
+  const [resumoMobileAberto, setResumoMobileAberto] = useState(false);
+  const mobileTabContainerRef = useRef(null);
 
-  // Handlers para Crop
+  // Sincroniza dados do perfil com o AuthContext quando mudarem
+  useEffect(() => {
+    if (user?.displayName && !nomePerfil) {
+      setNomePerfil(user.displayName);
+    }
+    if (user?.photoURL && !fotoPerfil) {
+      setFotoPerfil(user.photoURL);
+    }
+  }, [user]);
+
+  // Handlers para Form
+  function setUsuarioField(campo, valor) {
+    setFormUsuario((f) => ({ ...f, [campo]: valor }));
+  }
+
+  function setEscolaField(campo, valor) {
+    setFormEscola((f) => ({ ...f, [campo]: valor }));
+  }
+
+  // Handlers para Crop e Upload de Fotos
   function handleFileSelect(e, target) {
     const file = e.target.files[0];
     if (!file) return;
@@ -74,13 +162,25 @@ export default function Configuracoes() {
     setCarregandoFoto(true);
     try {
       if (cropTarget === "perfil") {
-        const url = await comprimirEUploadFoto(croppedFile, "usuarios", user.uid);
+        const url = await comprimirEUploadFoto(
+          croppedFile,
+          "usuarios",
+          user.uid
+        );
         setFotoPerfil(url);
       } else if (cropTarget === "usuario") {
-        const url = await comprimirEUploadFoto(croppedFile, "usuarios", usuarioEditId || Date.now().toString());
+        const url = await comprimirEUploadFoto(
+          croppedFile,
+          "usuarios",
+          usuarioEditId || Date.now().toString()
+        );
         setUsuarioField("fotoUrl", url);
       } else if (cropTarget === "escola") {
-        const url = await comprimirEUploadFoto(croppedFile, "escolas", escolaEditId || Date.now().toString());
+        const url = await comprimirEUploadFoto(
+          croppedFile,
+          "escolas",
+          escolaEditId || Date.now().toString()
+        );
         setEscolaField("fotoUrl", url);
       }
     } catch (error) {
@@ -92,26 +192,46 @@ export default function Configuracoes() {
 
   // Ações Minha Conta
   async function salvarPerfil() {
-    if (!nomePerfil) { alert("Nome é obrigatório."); return; }
+    if (!nomePerfil) {
+      alert("Nome é obrigatório.");
+      return;
+    }
     setSalvandoPerfil(true);
     try {
       await atualizarDadosUsuario({ nome: nomePerfil, fotoUrl: fotoPerfil });
-      setAlertaPerfil({ msg: "Perfil atualizado com sucesso!", tipo: "success" });
+      setAlertaPerfil({
+        msg: "Perfil atualizado com sucesso!",
+        tipo: "success"
+      });
     } catch (error) {
-      setAlertaPerfil({ msg: "Erro ao atualizar perfil: " + error.message, tipo: "error" });
+      setAlertaPerfil({
+        msg: "Erro ao atualizar perfil: " + error.message,
+        tipo: "error"
+      });
     } finally {
       setSalvandoPerfil(false);
     }
   }
 
   async function handleGerarMock() {
-    if (!window.confirm("Isto adicionará Turmas, Alunos, Professores e dados Financeiros fictícios à sua escola ativa para testes. Continuar?")) return;
+    if (
+      !window.confirm(
+        "Isto adicionará Turmas, Alunos, Professores e dados Financeiros fictícios à sua escola ativa para testes. Continuar?"
+      )
+    )
+      return;
     setGerandoMock(true);
     try {
       await injectMockData(activeEscolaId);
-      setAlertaPerfil({ msg: "Dados fictícios criados com sucesso!", tipo: "success" });
+      setAlertaPerfil({
+        msg: "Dados fictícios criados com sucesso!",
+        tipo: "success"
+      });
     } catch (e) {
-      setAlertaPerfil({ msg: "Erro ao criar dados: " + e.message, tipo: "error" });
+      setAlertaPerfil({
+        msg: "Erro ao criar dados: " + e.message,
+        tipo: "error"
+      });
     } finally {
       setGerandoMock(false);
     }
@@ -121,22 +241,39 @@ export default function Configuracoes() {
   function abrirNovoUsuario() {
     setFormUsuario({
       ...VAZIO_USUARIO,
-      escolaId: user?.role === "Administrador" ? (escolaFiltroUsuario || (escolas[0]?.id || "")) : (user?.escolaId || selectedEscolaId || "")
+      escolaId:
+        user?.role === "Administrador"
+          ? escolaFiltroUsuario || escolas[0]?.id || ""
+          : user?.escolaId || selectedEscolaId || ""
     });
     setUsuarioEditId(null);
     setModalUsuarioAberto(true);
   }
-  function abrirEditarUsuario(u) { setFormUsuario({ ...VAZIO_USUARIO, ...u, senha: "" }); setUsuarioEditId(u.id); setModalUsuarioAberto(true); }
+
+  function abrirEditarUsuario(u) {
+    setFormUsuario({ ...VAZIO_USUARIO, ...u, senha: "" });
+    setUsuarioEditId(u.id);
+    setModalUsuarioAberto(true);
+  }
 
   async function salvarUsuario() {
-    if (!formUsuario.nome || !formUsuario.email) { alert("Nome e e-mail são obrigatórios."); return; }
-    if (!usuarioEditId && !formUsuario.senha) { alert("Senha é obrigatória para novos usuários."); return; }
+    if (!formUsuario.nome || !formUsuario.email) {
+      alert("Nome e e-mail são obrigatórios.");
+      return;
+    }
+    if (!usuarioEditId && !formUsuario.senha) {
+      alert("Senha é obrigatória para novos usuários.");
+      return;
+    }
 
     setSalvandoUsuario(true);
     try {
-      const userTargetEscolaId = user?.role === "Administrador"
-        ? (formUsuario.perfil === "Administrador" ? "" : (formUsuario.escolaId || ""))
-        : (user?.escolaId || selectedEscolaId || "");
+      const userTargetEscolaId =
+        user?.role === "Administrador"
+          ? formUsuario.perfil === "Administrador"
+            ? ""
+            : formUsuario.escolaId || ""
+          : user?.escolaId || selectedEscolaId || "";
 
       if (usuarioEditId) {
         await updateUsuario(usuarioEditId, {
@@ -147,9 +284,15 @@ export default function Configuracoes() {
           fotoUrl: formUsuario.fotoUrl,
           escolaId: userTargetEscolaId
         });
-        setAlertaUsuario({ msg: `Usuário "${formUsuario.nome}" atualizado.`, tipo: "success" });
+        setAlertaUsuario({
+          msg: `Usuário "${formUsuario.nome}" atualizado.`,
+          tipo: "success"
+        });
       } else {
-        const uid = await criarUsuarioNoAuth(formUsuario.email, formUsuario.senha);
+        const uid = await criarUsuarioNoAuth(
+          formUsuario.email,
+          formUsuario.senha
+        );
         await addUsuario(uid, {
           nome: formUsuario.nome,
           email: formUsuario.email,
@@ -158,25 +301,35 @@ export default function Configuracoes() {
           fotoUrl: formUsuario.fotoUrl,
           escolaId: userTargetEscolaId
         });
-        setAlertaUsuario({ msg: `Usuário "${formUsuario.nome}" criado com sucesso!`, tipo: "success" });
+        setAlertaUsuario({
+          msg: `Usuário "${formUsuario.nome}" criado com sucesso!`,
+          tipo: "success"
+        });
       }
       setModalUsuarioAberto(false);
       recarregar();
     } catch (error) {
-      setAlertaUsuario({ msg: "Erro ao salvar usuário: " + error.message, tipo: "error" });
+      setAlertaUsuario({
+        msg: "Erro ao salvar usuário: " + error.message,
+        tipo: "error"
+      });
     } finally {
       setSalvandoUsuario(false);
     }
   }
 
   async function removerUsuario(u) {
-    if (!window.confirm(`Tem certeza que deseja excluir o usuário "${u.nome}"?`)) return;
+    if (!window.confirm(`Tem certeza que deseja excluir o usuário "${u.nome}"?`))
+      return;
     try {
       await deleteUsuario(u.id);
       setAlertaUsuario({ msg: "Usuário removido da base.", tipo: "success" });
       recarregar();
     } catch (error) {
-      setAlertaUsuario({ msg: "Erro ao remover usuário: " + error.message, tipo: "error" });
+      setAlertaUsuario({
+        msg: "Erro ao remover usuário: " + error.message,
+        tipo: "error"
+      });
     }
   }
 
@@ -194,498 +347,472 @@ export default function Configuracoes() {
   }
 
   async function salvarEscola() {
-    if (!formEscola.nome || !formEscola.municipio) { alert("Nome e Município são obrigatórios."); return; }
+    if (!formEscola.nome || !formEscola.municipio) {
+      alert("Nome e Município são obrigatórios.");
+      return;
+    }
     setSalvandoEscola(true);
     setAlertaEscola(null);
     try {
       if (escolaEditId) {
         await updateEscola(escolaEditId, formEscola);
-        setAlertaEscola({ msg: `Escola "${formEscola.nome}" atualizada com sucesso!`, tipo: "success" });
+        setAlertaEscola({
+          msg: `Escola "${formEscola.nome}" atualizada com sucesso!`,
+          tipo: "success"
+        });
       } else {
         await addEscola(formEscola);
-        setAlertaEscola({ msg: `Escola "${formEscola.nome}" criada com sucesso!`, tipo: "success" });
+        setAlertaEscola({
+          msg: `Escola "${formEscola.nome}" criada com sucesso!`,
+          tipo: "success"
+        });
       }
       setModalEscolaAberto(false);
-      recarregarEscolasLista(); // Recarrega tabela de escolas local
-      await recarregarEscolas(); // Recarrega dropdown global no context
+      recarregarEscolasLista();
+      await recarregarEscolas();
     } catch (error) {
-      setAlertaEscola({ msg: "Erro ao salvar escola: " + error.message, tipo: "error" });
+      setAlertaEscola({
+        msg: "Erro ao salvar escola: " + error.message,
+        tipo: "error"
+      });
     } finally {
       setSalvandoEscola(false);
     }
   }
 
   async function removerEscola(e) {
-    if (!window.confirm(`Tem certeza que deseja excluir a escola "${e.nome}"? Servidores e alunos continuarão vinculados no banco.`)) return;
+    if (
+      !window.confirm(
+        `Tem certeza que deseja excluir a escola "${e.nome}"? Servidores e alunos continuarão vinculados no banco.`
+      )
+    )
+      return;
     try {
       await deleteEscola(e.id);
       setAlertaEscola({ msg: "Escola removida.", tipo: "success" });
       recarregarEscolasLista();
       await recarregarEscolas();
     } catch (error) {
-      setAlertaEscola({ msg: "Erro ao remover escola: " + error.message, tipo: "error" });
+      setAlertaEscola({
+        msg: "Erro ao remover escola: " + error.message,
+        tipo: "error"
+      });
     }
   }
 
-  function setEscolaField(campo, valor) {
-    setFormEscola(f => ({ ...f, [campo]: valor }));
-  }
-
-  const escolasFiltradas = (escolasLista || []).filter(e =>
-    e.nome?.toLowerCase().includes(buscaEscola.toLowerCase()) ||
-    e.municipio?.toLowerCase().includes(buscaEscola.toLowerCase())
+  // Filtragens
+  const escolasFiltradas = (escolasLista || []).filter(
+    (e) =>
+      e.nome?.toLowerCase().includes(buscaEscola.toLowerCase()) ||
+      e.municipio?.toLowerCase().includes(buscaEscola.toLowerCase())
   );
 
-  const usuariosFiltrados = (usuarios || []).filter(u => {
-    const matchBusca = (u.nome || "").toLowerCase().includes(buscaUsuario.toLowerCase()) ||
+  const usuariosFiltrados = (usuarios || []).filter((u) => {
+    const matchBusca =
+      (u.nome || "").toLowerCase().includes(buscaUsuario.toLowerCase()) ||
       (u.email || "").toLowerCase().includes(buscaUsuario.toLowerCase()) ||
       (u.perfil || "").toLowerCase().includes(buscaUsuario.toLowerCase());
-    const matchEscola = !escolaFiltroUsuario || u.escolaId === escolaFiltroUsuario;
+    const matchEscola =
+      !escolaFiltroUsuario || u.escolaId === escolaFiltroUsuario;
     return matchBusca && matchEscola;
   });
 
-  const podeGerenciar = user?.role === "Administrador" || user?.role === "Direção";
+  const escolaAtual =
+    escolas.find((e) => e.id === user?.escolaId || e.id === selectedEscolaId) ||
+    escolas[0];
+
+  // Grupos de Menu Lateral Desktop
+  const gruposMenu = useMemo(() => {
+    const grupos = [
+      {
+        titulo: "Meu Perfil",
+        itens: [
+          {
+            id: "minha-conta",
+            label: "Minha Conta",
+            subtitulo: "Dados cadastrais e foto",
+            icon: "user",
+            badge: null
+          }
+        ]
+      }
+    ];
+
+    const adminItens = [];
+    if (podeGerenciar) {
+      adminItens.push({
+        id: "controle-usuarios",
+        label: "Controle de Usuários",
+        subtitulo: "Acessos e cargos",
+        icon: "users",
+        badge: usuarios ? usuarios.length : null
+      });
+    }
+    if (isAdmin) {
+      adminItens.push({
+        id: "controle-escolas",
+        label: "Escolas Ativas",
+        subtitulo: "Unidades municipais",
+        icon: "school",
+        badge: escolasLista ? escolasLista.length : null
+      });
+    }
+
+    if (adminItens.length > 0) {
+      grupos.push({
+        titulo: "Administração Geral",
+        itens: adminItens
+      });
+    }
+
+    return grupos;
+  }, [podeGerenciar, isAdmin, usuarios, escolasLista]);
+
+  // Objeto da aba ativa
+  const itemAtivoObj = useMemo(() => {
+    for (const g of gruposMenu) {
+      const found = g.itens.find((i) => i.id === abaAtiva);
+      if (found) return found;
+    }
+    return gruposMenu[0].itens[0];
+  }, [gruposMenu, abaAtiva]);
+
+  // Auto-scroll da barra de abas no mobile
+  useEffect(() => {
+    if (mobileTabContainerRef.current) {
+      const activeEl = mobileTabContainerRef.current.querySelector(
+        `.${styles.mobileTabChipActive}`
+      );
+      if (activeEl) {
+        activeEl.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      }
+    }
+  }, [abaAtiva]);
 
   return (
-    <div>
-      {/* Navegação por Abas Principais */}
-      <div style={{ display: "flex", borderBottom: "1px solid #33435c", marginBottom: 20, gap: 12 }}>
-        <button
-          onClick={() => setAbaAtiva("minha-conta")}
-          style={{
-            padding: "10px 16px",
-            border: "none",
-            borderBottom: abaAtiva === "minha-conta" ? "3px solid #38bdf8" : "3px solid transparent",
-            background: "none",
-            fontWeight: 600,
-            fontSize: 14,
-            cursor: "pointer",
-            color: abaAtiva === "minha-conta" ? "#38bdf8" : "#94a3b8",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            transition: "all 0.15s ease"
-          }}
-        >
-          <i className="ti ti-user" aria-hidden="true" /> Minha Conta
-        </button>
-
-        {podeGerenciar && (
-          <button
-            onClick={() => setAbaAtiva("controle-usuarios")}
-            style={{
-              padding: "10px 16px",
-              border: "none",
-              borderBottom: abaAtiva === "controle-usuarios" ? "3px solid #38bdf8" : "3px solid transparent",
-              background: "none",
-              fontWeight: 600,
-              fontSize: 14,
-              cursor: "pointer",
-              color: abaAtiva === "controle-usuarios" ? "#38bdf8" : "#94a3b8",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              transition: "all 0.15s ease"
-            }}
-          >
-            <i className="ti ti-users" aria-hidden="true" /> Controle de Usuários
-          </button>
-        )}
-
-        {user?.role === "Administrador" && (
-          <button
-            onClick={() => setAbaAtiva("controle-escolas")}
-            style={{
-              padding: "10px 16px",
-              border: "none",
-              borderBottom: abaAtiva === "controle-escolas" ? "3px solid #38bdf8" : "3px solid transparent",
-              background: "none",
-              fontWeight: 600,
-              fontSize: 14,
-              cursor: "pointer",
-              color: abaAtiva === "controle-escolas" ? "#38bdf8" : "#94a3b8",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              transition: "all 0.15s ease"
-            }}
-          >
-            <i className="ti ti-school" aria-hidden="true" /> Escolas Ativas
-          </button>
-        )}
-      </div>
-
-      {/* Conteúdo Aba 1: Minha Conta */}
-      {abaAtiva === "minha-conta" && (
-        <Card style={{ maxWidth: 640 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, color: "#ffffff" }}>Dados do Usuário Logado</h3>
-
-          {alertaPerfil && <Alert tipo={alertaPerfil.tipo}>{alertaPerfil.msg}</Alert>}
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {/* Foto de Perfil com Crop */}
-            <div style={{ display: "flex", alignItems: "center", gap: 20, padding: 14, background: "#243144", borderRadius: 8, border: "1px solid #33435c" }}>
-              <div style={{ width: 72, height: 72, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #38bdf8", flexShrink: 0 }}>
-                {fotoPerfil ? (
-                  <img src={fotoPerfil} alt="Perfil" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                ) : (
-                  <i className="ti ti-user" style={{ fontSize: 28, color: "#94a3b8" }} />
-                )}
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Foto de Perfil</span>
-                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                  <label style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    padding: "6px 14px",
-                    background: "#2563eb",
-                    color: "white",
-                    borderRadius: 6,
-                    fontSize: 13,
-                    fontWeight: 500,
-                    cursor: carregandoFoto ? "not-allowed" : "pointer",
-                    opacity: carregandoFoto ? 0.7 : 1,
-                    border: "1px solid #3b82f6"
-                  }}>
-                    <i className="ti ti-upload" />
-                    {carregandoFoto ? "Carregando..." : "Alterar Foto"}
-                    <input type="file" accept="image/*" onChange={(e) => handleFileSelect(e, "perfil")} disabled={carregandoFoto} style={{ display: "none" }} />
-                  </label>
-                  {fotoPerfil && (
-                    <Btn variant="danger" onClick={() => setFotoPerfil("")} style={{ padding: "6px 12px", fontSize: 13 }}>
-                      <i className="ti ti-trash" /> Remover
-                    </Btn>
-                  )}
-                </div>
-              </div>
+    <div className={styles.container}>
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── NAVEGAÇÃO MOBILE INTELIGENTE & ABAS DESLIZANTES ── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.mobileNavHeader}>
+        {/* Barra Superior Mobile com Título e Ações Rápidas */}
+        <div className={styles.mobileBarTop}>
+          <div className={styles.mobileModuleTitle}>
+            <div className={styles.mobileIconBadge}>
+              <i className="ti ti-settings" />
             </div>
+            <div className={styles.mobileTitleText}>
+              <span className={styles.mobileTitleMain}>Configurações</span>
+              <span className={styles.mobileTitleSub}>
+                {itemAtivoObj?.label || "Minha Conta"}
+              </span>
+            </div>
+          </div>
 
-            <Input label="Nome Completo" value={nomePerfil} onChange={e => setNomePerfil(e.target.value)} />
-            <Input label="E-mail" value={user?.email || ""} disabled helper="O e-mail de acesso não pode ser alterado diretamente." />
+          <div className={styles.mobileBarActions}>
+            <button
+              type="button"
+              className={`${styles.mobileActionButton} ${
+                resumoMobileAberto ? styles.mobileActionButtonActive : ""
+              }`}
+              onClick={() => setResumoMobileAberto(!resumoMobileAberto)}
+              title="Resumo do Sistema"
+            >
+              <i className="ti ti-chart-dots" />
+              <span>Resumo</span>
+            </button>
 
-            <div style={{ display: "flex", gap: 12 }}>
-              <div style={{ flex: 1 }}>
-                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 4 }}>Perfil no Sistema</label>
-                <Badge color="blue">{user?.role || "Usuário"}</Badge>
+            {abaAtiva === "controle-usuarios" && (
+              <button
+                type="button"
+                className={styles.mobileActionButton}
+                onClick={abrirNovoUsuario}
+                style={{
+                  background: "#0284c7",
+                  color: "#ffffff",
+                  borderColor: "#38bdf8"
+                }}
+                title="Novo Usuário"
+              >
+                <i className="ti ti-user-plus" />
+                <span>+ Novo</span>
+              </button>
+            )}
+
+            {abaAtiva === "controle-escolas" && (
+              <button
+                type="button"
+                className={styles.mobileActionButton}
+                onClick={abrirNovaEscola}
+                style={{
+                  background: "#0284c7",
+                  color: "#ffffff",
+                  borderColor: "#38bdf8"
+                }}
+                title="Nova Escola"
+              >
+                <i className="ti ti-plus" />
+                <span>+ Escola</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Painel de Resumo Expansível no Mobile */}
+        {resumoMobileAberto && (
+          <div className={styles.mobileSummaryPanel}>
+            <div className={styles.mobileSummaryGrid}>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Perfil Conectado</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#38bdf8" }}>
+                  {user?.role || "Usuário"}
+                </span>
               </div>
-              {user?.role !== "Administrador" && (
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 4 }}>Escola Vinculada</label>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: "#f8fafc" }}>
-                    {escolas.find(e => e.id === user?.escolaId)?.nome || "Não informada"}
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Escola Ativa</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#ffffff" }}>
+                  {isAdmin
+                    ? "Rede Municipal"
+                    : escolaAtual?.nome || "Não vinculada"}
+                </span>
+              </div>
+              {podeGerenciar && (
+                <div className={styles.mobileSummaryItem}>
+                  <span className={styles.mobileSummaryLabel}>Total de Usuários</span>
+                  <span
+                    className={styles.mobileSummaryValue}
+                    style={{ color: "#4ade80" }}
+                  >
+                    {usuarios ? usuarios.length : 0} cadastrados
+                  </span>
+                </div>
+              )}
+              {isAdmin && (
+                <div className={styles.mobileSummaryItem}>
+                  <span className={styles.mobileSummaryLabel}>Escolas da Rede</span>
+                  <span
+                    className={styles.mobileSummaryValue}
+                    style={{ color: "#fbbf24" }}
+                  >
+                    {escolasLista ? escolasLista.length : 0} unidades
                   </span>
                 </div>
               )}
             </div>
+          </div>
+        )}
 
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
-              <Btn variant="primary" onClick={salvarPerfil} loading={salvandoPerfil}>
-                Salvar Alterações
-              </Btn>
+        {/* Barra de Abas Deslizante no Topo (Sticky Touch Chips) */}
+        <div className={styles.mobileTabsSticky}>
+          <div className={styles.mobileTabsScroll} ref={mobileTabContainerRef}>
+            {gruposMenu.flatMap((g) =>
+              g.itens.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`${styles.mobileTabChip} ${
+                    abaAtiva === item.id ? styles.mobileTabChipActive : ""
+                  }`}
+                  onClick={() => setAbaAtiva(item.id)}
+                >
+                  <i className={`ti ti-${item.icon}`} />
+                  <span>{item.label}</span>
+                  {item.badge !== null && item.badge !== undefined && (
+                    <span className={styles.mobileTabBadge}>{item.badge}</span>
+                  )}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── CONTEÚDO PRINCIPAL (COLUNA ESQUERDA) ───────────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.contentCol}>
+        {abaAtiva === "minha-conta" && (
+          <MinhaConta
+            user={user}
+            nomePerfil={nomePerfil}
+            setNomePerfil={setNomePerfil}
+            fotoPerfil={fotoPerfil}
+            setFotoPerfil={setFotoPerfil}
+            salvandoPerfil={salvandoPerfil}
+            alertaPerfil={alertaPerfil}
+            salvarPerfil={salvarPerfil}
+            handleFileSelect={handleFileSelect}
+            carregandoFoto={carregandoFoto}
+            escolas={escolas}
+            handleGerarMock={handleGerarMock}
+            gerandoMock={gerandoMock}
+          />
+        )}
+
+        {abaAtiva === "controle-usuarios" && podeGerenciar && (
+          <ControleUsuarios
+            usuariosFiltrados={usuariosFiltrados}
+            carregando={carregando}
+            buscaUsuario={buscaUsuario}
+            setBuscaUsuario={setBuscaUsuario}
+            escolaFiltroUsuario={escolaFiltroUsuario}
+            setEscolaFiltroUsuario={setEscolaFiltroUsuario}
+            isAdmin={isAdmin}
+            escolas={escolas}
+            abrirNovoUsuario={abrirNovoUsuario}
+            abrirEditarUsuario={abrirEditarUsuario}
+            removerUsuario={removerUsuario}
+            alertaUsuario={alertaUsuario}
+          />
+        )}
+
+        {abaAtiva === "controle-escolas" && isAdmin && (
+          <ControleEscolas
+            escolasFiltradas={escolasFiltradas}
+            carregandoEscolas={carregandoEscolas}
+            buscaEscola={buscaEscola}
+            setBuscaEscola={setBuscaEscola}
+            abrirNovaEscola={abrirNovaEscola}
+            abrirEditarEscola={abrirEditarEscola}
+            removerEscola={removerEscola}
+            alertaEscola={alertaEscola}
+          />
+        )}
+      </div>
+
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── COLUNA LATERAL DIREITA (DESKTOP ASIDE) ─────────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <aside className={styles.desktopAside}>
+        {/* Card de Usuário Resumido */}
+        <div className={styles.sideUserCard}>
+          <div className={styles.sideAvatar}>
+            {user?.photoURL || fotoPerfil ? (
+              <img src={user?.photoURL || fotoPerfil} alt="Perfil" />
+            ) : (
+              <i className="ti ti-user" style={{ fontSize: 24, color: "#94a3b8" }} />
+            )}
+          </div>
+          <div className={styles.sideUserInfo}>
+            <span className={styles.sideUserName}>
+              {user?.displayName || nomePerfil || "Usuário Conectado"}
+            </span>
+            <span className={styles.sideUserEmail}>{user?.email || "—"}</span>
+            <div style={{ marginTop: 4 }}>
+              <Badge color="blue">{user?.role || "Usuário"}</Badge>
             </div>
           </div>
+        </div>
 
-          {/* Seção Dados de Teste (Mock) */}
-          <div style={{ marginTop: 32, paddingTop: 20, borderTop: "1px solid #33435c" }}>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", marginBottom: 6 }}>Ambiente de Demonstração / Testes</h4>
-            <p style={{ fontSize: 12, color: "#94a3b8", marginBottom: 12 }}>
-              Gere dados fictícios completos (alunos, turmas, professores e fluxo de caixa) na sua escola ativa para testar e explorar todas as funcionalidades do sistema.
-            </p>
-            <Btn variant="secondary" onClick={handleGerarMock} loading={gerandoMock} style={{ fontSize: 13 }}>
-              <i className="ti ti-database-import" /> Injetar Dados Fictícios de Teste
-            </Btn>
-          </div>
-        </Card>
-      )}
-
-      {/* Conteúdo Aba 2: Controle de Usuários */}
-      {abaAtiva === "controle-usuarios" && podeGerenciar && (
-        <div>
-          {alertaUsuario && <Alert tipo={alertaUsuario.tipo}>{alertaUsuario.msg}</Alert>}
-
-          <div style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 6, padding: "6px 10px", flex: 1, minWidth: 200, maxWidth: 300 }}>
-              <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
-              <input value={buscaUsuario} onChange={e => setBuscaUsuario(e.target.value)} placeholder="Buscar usuários..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }} />
+        {/* Card do Menu de Navegação */}
+        <div className={styles.sideCard}>
+          <div className={styles.sideHeader}>
+            <div className={styles.sideTitleWrap}>
+              <div className={styles.sideLogo}>
+                <i className="ti ti-settings" />
+              </div>
+              <div>
+                <div className={styles.sideTitle}>Configurações</div>
+                <div className={styles.sideSubtitle}>
+                  Sistema & Preferências
+                </div>
+              </div>
             </div>
+            <button
+              type="button"
+              className={styles.mobileActionButton}
+              onClick={() => {
+                recarregar();
+                recarregarEscolasLista();
+              }}
+              title="Recarregar dados"
+              style={{ padding: "6px 8px" }}
+            >
+              <i className="ti ti-refresh" />
+            </button>
+          </div>
 
-            {isAdmin && (
-              <select
-                value={escolaFiltroUsuario}
-                onChange={e => setEscolaFiltroUsuario(e.target.value)}
-                style={{
-                  padding: "7px 12px",
-                  borderRadius: 6,
-                  border: "1px solid #33435c",
-                  background: "#243144",
-                  fontSize: 13,
-                  fontWeight: 500,
-                  color: "#ffffff",
-                  outline: "none",
-                  cursor: "pointer"
-                }}
-              >
-                <option value="">🌐 Toda a Rede (Todas as Escolas)</option>
-                {escolas.map(esc => (
-                  <option key={esc.id} value={esc.id}>
-                    🏫 {esc.nome}
-                  </option>
+          {gruposMenu.map((grupo, gIdx) => (
+            <div key={grupo.titulo} style={{ marginTop: gIdx > 0 ? 12 : 0 }}>
+              <div className={styles.sideGroupTitle}>{grupo.titulo}</div>
+              <div className={styles.sideNavList}>
+                {grupo.itens.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`${styles.sideNavItem} ${
+                      abaAtiva === item.id ? styles.sideNavItemActive : ""
+                    }`}
+                    onClick={() => setAbaAtiva(item.id)}
+                  >
+                    <div className={styles.sideItemLeft}>
+                      <i className={`ti ti-${item.icon} ${styles.sideItemIcon}`} />
+                      <span className={styles.sideItemText}>{item.label}</span>
+                    </div>
+                    {item.badge !== null && item.badge !== undefined && (
+                      <span className={styles.sideItemBadge}>{item.badge}</span>
+                    )}
+                  </button>
                 ))}
-              </select>
-            )}
-
-            <Btn variant="primary" onClick={abrirNovoUsuario}>
-              <i className="ti ti-plus" aria-hidden="true" /> Novo Usuário
-            </Btn>
-          </div>
-
-          <Card style={{ padding: 0, overflow: "hidden" }}>
-            {carregando ? <Spinner /> : !usuariosFiltrados.length ? <EmptyState icon="users" texto="Nenhum usuário encontrado." /> : (
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <thead>
-                  <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
-                    {["Usuário", "E-mail", "Perfil", "Escola", "Status", "Ações"].map(h => (
-                      <th key={h} style={{ textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {usuariosFiltrados.map(u => {
-                    const escolaDoc = escolas.find(esc => esc.id === u.escolaId);
-                    return (
-                      <tr key={u.id} style={{ borderBottom: "1px solid #2c3b52" }}>
-                        <td style={{ padding: "10px 12px" }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                            <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c" }}>
-                              {u.fotoUrl ? (
-                                <img src={u.fotoUrl} alt={u.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                              ) : (
-                                <i className="ti ti-user" style={{ fontSize: 13, color: "#94a3b8" }} />
-                              )}
-                            </div>
-                            <span style={{ fontWeight: 500, color: "#f8fafc" }}>{u.nome}</span>
-                          </div>
-                        </td>
-                        <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{u.email}</td>
-                        <td style={{ padding: "10px 12px" }}><Badge color="blue">{u.perfil}</Badge></td>
-                        <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{escolaDoc ? escolaDoc.nome : <span style={{ color: "#94a3b8" }}>Global / Geral</span>}</td>
-                        <td style={{ padding: "10px 12px" }}><Badge color={u.status === "Ativo" ? "green" : "gray"}>{u.status}</Badge></td>
-                        <td style={{ padding: "10px 12px" }}>
-                          <div style={{ display: "flex", gap: 4 }}>
-                            <Btn onClick={() => abrirEditarUsuario(u)} style={{ padding: "4px 8px", fontSize: 12 }} title="Editar Usuário"><i className="ti ti-edit" aria-hidden="true" /></Btn>
-                            <Btn variant="danger" onClick={() => removerUsuario(u)} style={{ padding: "4px 8px", fontSize: 12 }} title="Excluir Usuário"><i className="ti ti-trash" aria-hidden="true" /></Btn>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
-          </Card>
-
-          {modalUsuarioAberto && (
-            <Modal titulo={usuarioEditId ? "Editar Usuário" : "Novo Usuário"} onClose={() => setModalUsuarioAberto(false)} onSave={salvarUsuario} salvando={salvandoUsuario}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {/* Upload Foto Usuário Administrativo */}
-                <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c" }}>
-                  <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #38bdf8", flexShrink: 0 }}>
-                    {formUsuario.fotoUrl ? (
-                      <img src={formUsuario.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      <i className="ti ti-camera" style={{ fontSize: 20, color: "#94a3b8" }} />
-                    )}
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Foto do Usuário</span>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <label style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        padding: "5px 12px",
-                        background: "#2563eb",
-                        color: "white",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        fontWeight: 500,
-                        cursor: carregandoFoto ? "not-allowed" : "pointer",
-                        opacity: carregandoFoto ? 0.7 : 1,
-                        border: "1px solid #3b82f6"
-                      }}>
-                        <i className="ti ti-upload" />
-                        {carregandoFoto ? "Carregando..." : "Enviar Foto"}
-                        <input type="file" accept="image/*" onChange={(e) => handleFileSelect(e, "usuario")} disabled={carregandoFoto} style={{ display: "none" }} />
-                      </label>
-                      {formUsuario.fotoUrl && (
-                        <Btn variant="danger" onClick={() => setUsuarioField("fotoUrl", "")} style={{ padding: "4px 10px", fontSize: 12 }}>
-                          <i className="ti ti-trash" /> Remover
-                        </Btn>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <Input label="Nome completo *" value={formUsuario.nome} onChange={e => setUsuarioField("nome", e.target.value)} placeholder="Ex: João da Silva" />
-                <Input label="E-mail *" type="email" value={formUsuario.email} onChange={e => setUsuarioField("email", e.target.value)} placeholder="usuario@escola.edu.br" disabled={!!usuarioEditId} />
-                
-                {!usuarioEditId && (
-                  <Input label="Senha provisória *" type="password" value={formUsuario.senha} onChange={e => setUsuarioField("senha", e.target.value)} placeholder="Mínimo 6 caracteres" />
-                )}
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <Select label="Perfil de Acesso" value={formUsuario.perfil} onChange={e => setUsuarioField("perfil", e.target.value)}>
-                    {PERFIS.map(p => <option key={p}>{p}</option>)}
-                  </Select>
-                  <Select label="Status" value={formUsuario.status} onChange={e => setUsuarioField("status", e.target.value)}>
-                    {STATUS.map(s => <option key={s}>{s}</option>)}
-                  </Select>
-                </div>
-
-                {user?.role === "Administrador" && formUsuario.perfil !== "Administrador" && (
-                  <Select label="Escola / Instituição *" value={formUsuario.escolaId} onChange={e => setUsuarioField("escolaId", e.target.value)}>
-                    {escolas.map(esc => <option key={esc.id} value={esc.id}>{esc.nome}</option>)}
-                  </Select>
-                )}
               </div>
-            </Modal>
-          )}
+            </div>
+          ))}
+
+          {/* Rodapé da Instituição Ativa */}
+          <div className={styles.sideFooter}>
+            <span className={styles.sideFooterLabel}>Ambiente Ativo</span>
+            <div className={styles.sideFooterTitle}>
+              {isAdmin
+                ? "🌐 Gestão Geral da Rede"
+                : escolaAtual?.nome || "Escola Municipal"}
+            </div>
+            <div className={styles.sideFooterSub}>
+              {isAdmin
+                ? "Acesso Irrestrito Multi-Escola"
+                : `${escolaAtual?.municipio || "Maceió"} - ${
+                    escolaAtual?.uf || "AL"
+                  }`}
+            </div>
+          </div>
         </div>
+      </aside>
+
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── MODAIS DE GESTÃO (USUÁRIOS & ESCOLAS) ─────────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      {modalUsuarioAberto && (
+        <ModalUsuario
+          usuarioEditId={usuarioEditId}
+          formUsuario={formUsuario}
+          setUsuarioField={setUsuarioField}
+          onClose={() => setModalUsuarioAberto(false)}
+          salvarUsuario={salvarUsuario}
+          salvandoUsuario={salvandoUsuario}
+          handleFileSelect={handleFileSelect}
+          carregandoFoto={carregandoFoto}
+          user={user}
+          escolas={escolas}
+          PERFIS={PERFIS}
+          STATUS={STATUS}
+        />
       )}
 
-      {/* Conteúdo Aba 3: Controle de Escolas */}
-      {abaAtiva === "controle-escolas" && user?.role === "Administrador" && (
-        <div>
-          {alertaEscola && <Alert tipo={alertaEscola.tipo}>{alertaEscola.msg}</Alert>}
-
-          <div style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "center" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 6, padding: "6px 10px", flex: 1, maxWidth: 300 }}>
-              <i className="ti ti-search" style={{ color: "#94a3b8", fontSize: 16 }} />
-              <input value={buscaEscola} onChange={e => setBuscaEscola(e.target.value)} placeholder="Buscar escolas..."
-                style={{ border: "none", background: "none", fontSize: 13, outline: "none", width: "100%", color: "#ffffff" }} />
-            </div>
-            <Btn variant="primary" onClick={abrirNovaEscola}>
-              <i className="ti ti-plus" aria-hidden="true" /> Nova Escola
-            </Btn>
-          </div>
-
-          <Card style={{ padding: 0, overflow: "hidden" }}>
-            {carregandoEscolas ? <Spinner /> : !escolasFiltradas.length ? <EmptyState icon="school" texto="Nenhuma escola cadastrada." /> : (
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <thead>
-                  <tr style={{ background: "#243144", borderBottom: "1px solid #33435c" }}>
-                    {["Escola", "CNPJ", "Código INEP", "Município", "UF", "Localização", "Status", "Ações"].map(h => (
-                      <th key={h} style={{ textAlign: "left", padding: "10px 12px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {escolasFiltradas.map(e => (
-                    <tr key={e.id} style={{ borderBottom: "1px solid #2c3b52" }}>
-                      <td style={{ padding: "10px 12px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #33435c", flexShrink: 0 }}>
-                            {e.fotoUrl ? (
-                              <img src={e.fotoUrl} alt={e.nome} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                            ) : (
-                              <i className="ti ti-school" style={{ fontSize: 13, color: "#94a3b8" }} />
-                            )}
-                          </div>
-                          <span style={{ fontWeight: 500, color: "#f8fafc" }}>{e.nome}</span>
-                        </div>
-                      </td>
-                      <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{e.cnpj || "Não informado"}</td>
-                      <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{e.inep || "—"}</td>
-                      <td style={{ padding: "10px 12px", fontSize: 13, color: "#cbd5e1" }}>{e.municipio}</td>
-                      <td style={{ padding: "10px 12px" }}><Badge color="blue">{e.uf}</Badge></td>
-                      <td style={{ padding: "10px 12px" }}><Badge color={e.zona === "Rural" ? "amber" : "blue"}>{e.zona || "Urbana"}</Badge></td>
-                      <td style={{ padding: "10px 12px" }}><Badge color={e.status === "Ativa" ? "green" : "gray"}>{e.status}</Badge></td>
-                      <td style={{ padding: "10px 12px" }}>
-                        <div style={{ display: "flex", gap: 4 }}>
-                          <Btn onClick={() => abrirEditarEscola(e)} style={{ padding: "4px 8px", fontSize: 12 }} title="Editar Escola"><i className="ti ti-edit" aria-hidden="true" /></Btn>
-                          <Btn variant="danger" onClick={() => removerEscola(e)} style={{ padding: "4px 8px", fontSize: 12 }} title="Excluir Escola"><i className="ti ti-trash" aria-hidden="true" /></Btn>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </Card>
-
-          {modalEscolaAberto && (
-            <Modal titulo={escolaEditId ? "Editar Escola" : "Nova Escola"} onClose={() => setModalEscolaAberto(false)} onSave={salvarEscola} salvando={salvandoEscola}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {/* Upload Foto Escola */}
-                <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#243144", padding: 12, borderRadius: 8, border: "1px solid #33435c", marginBottom: 4 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", background: "#161f2e", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #38bdf8", flexShrink: 0 }}>
-                    {formEscola.fotoUrl ? (
-                      <img src={formEscola.fotoUrl} alt="Visualização" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      <i className="ti ti-school" style={{ fontSize: 20, color: "#94a3b8" }} />
-                    )}
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1" }}>Logo / Avatar da Escola</span>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <label style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        padding: "5px 12px",
-                        background: "#2563eb",
-                        color: "white",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        fontWeight: 500,
-                        cursor: carregandoFoto ? "not-allowed" : "pointer",
-                        opacity: carregandoFoto ? 0.7 : 1,
-                        border: "1px solid #3b82f6"
-                      }}>
-                        <i className="ti ti-upload" />
-                        {carregandoFoto ? "Carregando..." : "Enviar Foto"}
-                        <input type="file" accept="image/*" onChange={(e) => handleFileSelect(e, "escola")} disabled={carregandoFoto} style={{ display: "none" }} />
-                      </label>
-                      {formEscola.fotoUrl && (
-                        <Btn variant="danger" onClick={() => setEscolaField("fotoUrl", "")} style={{ padding: "4px 10px", fontSize: 12 }}>
-                          <i className="ti ti-trash" /> Remover
-                        </Btn>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <Input label="Nome da Escola *" value={formEscola.nome} onChange={val => setEscolaField("nome", val.target.value)} placeholder="Ex: Escola Municipal Inep 2026" />
-                
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <Input label="CNPJ" value={formEscola.cnpj} onChange={val => setEscolaField("cnpj", formatCNPJ(val.target.value))} placeholder="00.000.000/0000-00" />
-                  <Input label="Código INEP da Escola" value={formEscola.inep || ""} onChange={val => setEscolaField("inep", val.target.value.replace(/\D/g, "").slice(0, 8))} placeholder="27012345" />
-                </div>
-
-                <Input label="Endereço da Unidade Escolar" value={formEscola.endereco || ""} onChange={val => setEscolaField("endereco", val.target.value)} placeholder="Ex: Av. Principal, 123 - Centro" />
-                
-                <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>
-                  <Input label="Município *" value={formEscola.municipio} onChange={val => setEscolaField("municipio", val.target.value)} placeholder="Maceió" />
-                  <Input label="UF *" value={formEscola.uf} onChange={val => setEscolaField("uf", val.target.value)} placeholder="AL" maxLength={2} />
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <Select label="Zona de Localização *" value={formEscola.zona || "Urbana"} onChange={val => setEscolaField("zona", val.target.value)}>
-                    <option>Urbana</option>
-                    <option>Rural</option>
-                  </Select>
-                  <Select label="Status" value={formEscola.status} onChange={val => setEscolaField("status", val.target.value)}>
-                    <option>Ativa</option>
-                    <option>Inativa</option>
-                  </Select>
-                </div>
-              </div>
-            </Modal>
-          )}
-        </div>
+      {modalEscolaAberto && (
+        <ModalEscola
+          escolaEditId={escolaEditId}
+          formEscola={formEscola}
+          setEscolaField={setEscolaField}
+          onClose={() => setModalEscolaAberto(false)}
+          salvarEscola={salvarEscola}
+          salvandoEscola={salvandoEscola}
+          handleFileSelect={handleFileSelect}
+          carregandoFoto={carregandoFoto}
+          formatCNPJ={formatCNPJ}
+        />
       )}
 
       {/* CropModal Centralizado */}

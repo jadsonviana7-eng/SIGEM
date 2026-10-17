@@ -1,0 +1,526 @@
+/* =========================================================
+   DashboardAlimentacao.module.css - Painel Principal em Cards
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Banner de Boas-Vindas */
+.banner {
+  background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+  color: #ffffff;
+  padding: 22px 26px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 10px 25px -5px rgba(4, 120, 87, 0.3);
+}
+
+.bannerInfo {
+  flex: 1;
+  min-width: 260px;
+}
+
+.bannerTitle {
+  margin: 0 0 6px 0;
+  font-size: 21px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bannerSubtitle {
+  margin: 0;
+  font-size: 13.5px;
+  opacity: 0.92;
+  line-height: 1.45;
+}
+
+.bannerActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bannerBtnPrimary {
+  background: #ffffff;
+  color: #047857;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.bannerBtnPrimary:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.bannerBtnSecondary {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.15s ease;
+}
+
+.bannerBtnSecondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Grid de Cards de Estatísticas Principais (KPIs) */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.kpiCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.kpiHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.kpiLabel {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.kpiValue {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+.kpiIconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.kpiFooter {
+  font-size: 12px;
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Layout em Cards Modulares (Substituindo Colunas Lado a Lado)
+   ══════════════════════════════════════════════════════════════════ */
+.cardsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modularCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardLinkBtn {
+  background: none;
+  border: none;
+  color: #34d399;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.cardLinkBtn:hover {
+  background: rgba(16, 185, 129, 0.12);
+}
+
+/* Cardápio em Destaque */
+.menuHighlightBox {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  border-left: 4px solid #10b981;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menuMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.menuTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+.menuSub {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 2px;
+}
+
+.menuMealsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color, #33435c);
+}
+
+.mealItem {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mealLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #34d399;
+  text-transform: uppercase;
+}
+
+.mealText {
+  font-size: 12.5px;
+  color: var(--text-secondary, #cbd5e1);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.dietNotice {
+  font-size: 12px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fde68a;
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+/* Alertas de Estoque e Validade */
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alertCardItem {
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.alertCardItem:hover {
+  transform: translateX(3px);
+}
+
+.alertDanger {
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-left: 4px solid #ef4444;
+}
+
+.alertWarning {
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-left: 4px solid #f59e0b;
+}
+
+.alertInfo {
+  flex: 1;
+  min-width: 220px;
+}
+
+.alertTitle {
+  font-weight: 700;
+  font-size: 13.5px;
+  margin-bottom: 3px;
+}
+
+.alertDesc {
+  font-size: 12px;
+  color: var(--text-secondary, #cbd5e1);
+}
+
+/* Card de Movimentações Recentes (Entradas e Saídas em Cards) */
+.filterSegmentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.segmentedBtns {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  padding: 3px;
+  border-radius: 10px;
+  gap: 4px;
+}
+
+.segBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #cbd5e1);
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.segBtnActive {
+  background: var(--bg-card, #1e293b);
+  color: var(--text-primary, #ffffff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.movementsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.movementCard {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color 0.15s ease;
+}
+
+.movementCard:hover {
+  border-color: #3b82f6;
+}
+
+.movementIconWrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.movementContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.movementTitle {
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movementSub {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 2px;
+}
+
+/* Grade de Ações Rápidas em Cards */
+.shortcutsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.shortcutCard {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  border-radius: 12px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.shortcutCard:hover {
+  background: var(--bg-surface-hover, #2c3c52);
+  border-color: #10b981;
+  transform: translateY(-2px);
+}
+
+.shortcutIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.shortcutTitle {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.25;
+}
+
+.shortcutDesc {
+  font-size: 10.5px;
+  color: var(--text-muted, #94a3b8);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Ajustes Responsivos para Mobile
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .banner {
+    padding: 18px 16px;
+  }
+
+  .bannerActions {
+    width: 100%;
+  }
+
+  .bannerBtnPrimary,
+  .bannerBtnSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .movementsList {
+    grid-template-columns: 1fr !important;
+  }
+
+  .shortcutsGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .kpiGrid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .modularCard {
+    padding: 14px !important;
+  }
+
+  .menuMealsGrid {
+    grid-template-columns: 1fr !important;
+  }
+}

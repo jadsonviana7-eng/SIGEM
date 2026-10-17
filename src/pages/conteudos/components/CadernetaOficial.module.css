@@ -1,0 +1,153 @@
+/* =========================================================
+   CadernetaOficial.module.css - Folha Oficial do Diário
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.controlsCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.controlsLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.controlsTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.paperWrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.paper {
+  min-width: 680px;
+  padding: 24px;
+  color: #0f172a;
+  font-size: 11px;
+  line-height: 1.5;
+  background: #ffffff;
+}
+
+.paperHeader {
+  text-align: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.headerGov {
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #1e293b;
+}
+
+.headerSchool {
+  font-weight: 800;
+  font-size: 16px;
+  color: #1e3a8a;
+  margin-top: 2px;
+}
+
+.headerDoc {
+  font-size: 10px;
+  color: #475569;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.idGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 12px;
+  background: #f8fafc;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  font-size: 11px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+
+.th {
+  padding: 6px 8px;
+  background: #f1f5f9;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.signatures {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  text-align: center;
+  font-size: 9.5px;
+}
+
+.sigLine {
+  border-top: 1px solid #000;
+  padding-top: 4px;
+  color: #334155;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 640px) {
+  .controlsCard {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controlsLeft {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controlsCard button {
+    width: 100% !important;
+    justify-content: center;
+  }
+}

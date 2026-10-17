@@ -1,0 +1,690 @@
+/* =========================================================
+   SalasRecursos.module.css - Estilos da Gestão de Salas SRM
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Indicadores de Infraestrutura */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.statCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.statCard:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.statIconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.statValue {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Barra de Ações & Cabeçalho da Seção */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 260px;
+  flex: 1;
+}
+
+.headerTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerSubtitle {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 3px;
+}
+
+.btnNovo {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #ffffff;
+  border: 1px solid #6366f1;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  flex-shrink: 0;
+}
+
+.btnNovo:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+}
+
+/* Barra de Filtros */
+.filtersBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .filtersBar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .filtersBar {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btnClearFilters {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  height: 38px;
+}
+
+.btnClearFilters:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+}
+
+/* =========================================================
+   GRID DOS CARDS DE SALAS DE RECURSOS
+   ========================================================= */
+.salasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 768px) {
+  .salasGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.salaCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.salaCard:hover {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.18);
+}
+
+/* Topo do Card */
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTopLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.roomAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.roomIdentity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.roomName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.3;
+}
+
+.roomTypeTag {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #818cf8;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cardTopActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.btnActionIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.btnActionEdit:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.btnActionDelete:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Grid de Informações / Especificações */
+.specsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.specTile {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.specTileIcon {
+  font-size: 15px;
+  color: #818cf8;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.specTileContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.specTileLabel {
+  font-size: 10.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.specTileValue {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary, #f8fafc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Seção de Equipamentos & Tecnologia Assistiva */
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionHeading {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.equipmentsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.equipTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(99, 102, 241, 0.12);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  line-height: 1.2;
+}
+
+.equipTagMore {
+  background: var(--bg-surface, #243144);
+  color: var(--text-muted, #94a3b8);
+  border-color: var(--border-subtle, #33435c);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.equipTagMore:hover {
+  color: #ffffff;
+  border-color: #6366f1;
+}
+
+/* Espaço / Recursos Sensoriais */
+.sensorialBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: var(--text-secondary, #cbd5e1);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.sensorialIcon {
+  color: #fbbf24;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Acessibilidade & Observações */
+.accessBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  color: var(--text-secondary, #cbd5e1);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.accessIcon {
+  color: #34d399;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Empty State */
+.emptyState {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  text-align: center;
+  background: var(--bg-card, #1e293b);
+  border: 2px dashed var(--border-color, #2c3b52);
+  border-radius: 16px;
+  color: var(--text-muted, #94a3b8);
+  gap: 12px;
+}
+
+.emptyState i {
+  font-size: 40px;
+  color: #818cf8;
+  opacity: 0.6;
+}
+
+.emptyStateTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+}
+
+.emptyStateSub {
+  font-size: 12px;
+  max-width: 360px;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   OTIMIZAÇÕES MOBILE ESPECÍFICAS
+   ========================================================= */
+@media (max-width: 768px) {
+  .headerBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .headerInfo {
+    min-width: 100%;
+  }
+
+  .btnNovo {
+    width: 100%;
+    justify-content: center;
+    padding: 11px;
+    font-size: 13.5px;
+  }
+
+  .salaCard {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .specsGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .specTileValue {
+    white-space: normal;
+  }
+
+  .roomAvatar {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .roomName {
+    font-size: 14px;
+  }
+
+  .formGrid2 {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .modalFooter {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modalFooter button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* =========================================================
+   FORMULÁRIO DO MODAL DE CADASTRO/EDIÇÃO (SRM)
+   ========================================================= */
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.formGrid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fieldRequired {
+  color: #f87171;
+  font-weight: 700;
+}
+
+/* Área de Checkboxes de Tecnologias Assistivas (1 por Linha) */
+.equipmentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.equipmentsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.equipmentsTitle {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.equipmentsActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnActionLink {
+  background: transparent;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #818cf8;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.btnActionLink:hover {
+  color: #a5b4fc;
+  text-decoration: underline;
+}
+
+.equipmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+
+.equipmentItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle, #33435c);
+  background: var(--bg-card, #1e293b);
+  color: var(--text-secondary, #cbd5e1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.equipmentItem:hover {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--text-primary, #ffffff);
+}
+
+.equipmentItemChecked {
+  background: rgba(99, 102, 241, 0.16) !important;
+  border-color: #6366f1 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.35);
+}
+
+.checkboxInput {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  accent-color: #6366f1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.equipmentItemText {
+  flex: 1;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.equipmentItemCheck {
+  font-size: 14px;
+  color: #818cf8;
+  flex-shrink: 0;
+}
+
+/* Rodapé do Modal */
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 18px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border-color, #2c3b52);
+}

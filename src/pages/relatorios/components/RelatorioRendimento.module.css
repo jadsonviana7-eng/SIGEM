@@ -1,0 +1,276 @@
+/* =========================================================
+   RelatorioRendimento.module.css - Padrão de Design SIGEM
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 1. Indicadores Rápidos (KPIs) */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.statCard:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.statIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.15;
+}
+
+.statLabel {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* 2. Barra de Cabeçalho */
+.headerBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 260px;
+  flex: 1;
+}
+
+.headerTitle {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .headerBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .headerInfo {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* 3. Barra de Filtros */
+.filtersBar {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .filtersBar {
+    grid-template-columns: 1fr;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .btnClearFilters {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.btnClearFilters {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  height: 38px;
+}
+
+.btnClearFilters:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+}
+
+/* Duas Colunas de Gráficos e Tabelas */
+.splitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .splitGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cardSection {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.progressItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.progressBarBg {
+  background: var(--bg-surface, #243144);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Tabela de Turmas */
+.turmaTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.turmaTable th {
+  background: var(--bg-surface, #243144);
+  color: var(--text-muted, #94a3b8);
+  padding: 10px 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+}
+
+.turmaTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-subtle, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+}

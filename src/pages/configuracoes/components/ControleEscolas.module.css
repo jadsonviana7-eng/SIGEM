@@ -1,0 +1,309 @@
+/* =========================================================
+   ControleEscolas.module.css - Gestão de Escolas da Rede
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.headerCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  margin: 0;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 8px;
+  padding: 8px 12px;
+  flex: 1;
+  max-width: 400px;
+  transition: border-color 0.15s ease;
+}
+
+.searchBox:focus-within {
+  border-color: #38bdf8;
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: #64748b;
+}
+
+/* Card Principal da Tabela / Lista */
+.tableCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Visualização Desktop */
+.desktopTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.desktopTable th {
+  background: var(--bg-surface, #243144);
+  border-bottom: 1px solid var(--border-subtle, #33435c);
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary, #cbd5e1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.desktopTable td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(51, 67, 92, 0.4);
+  font-size: 13px;
+  color: var(--text-secondary, #cbd5e1);
+  vertical-align: middle;
+}
+
+.desktopTable tr:hover td {
+  background: rgba(36, 49, 68, 0.5);
+}
+
+.schoolCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.schoolLogo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #161f2e;
+  border: 1px solid var(--border-subtle, #33435c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.schoolLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.schoolName {
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.actionsCell {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Visualização Mobile em Cards */
+.mobileCards {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.schoolCard {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardSchoolWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cardLogo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #161f2e;
+  border: 1.5px solid #38bdf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardSchoolTitle {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cardName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardLocation {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px 10px;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.cardGridItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardGridLabel {
+  color: #94a3b8;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.cardGridValue {
+  color: #ffffff;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardAddress {
+  font-size: 11.5px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cardActions button {
+  flex: 1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .desktopTable {
+    display: none !important;
+  }
+
+  .mobileCards {
+    display: flex;
+  }
+
+  .searchBox {
+    max-width: 100%;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerTop button {
+    width: 100%;
+    justify-content: center;
+  }
+}

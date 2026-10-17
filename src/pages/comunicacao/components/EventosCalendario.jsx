@@ -1,6 +1,17 @@
-import React, { useState } from "react";
-import { Card, Btn, Badge, Modal, Input, Select, EmptyState, Alert } from "../../../components/ui";
-import { addEvento, updateEvento, deleteEvento } from "../../../services/comunicacaoService";
+import React, { useState, useMemo } from "react";
+import {
+  addEvento,
+  updateEvento,
+  deleteEvento
+} from "../../../services/comunicacaoService";
+import {
+  Btn,
+  Modal,
+  Input,
+  Select,
+  Alert
+} from "../../../components/ui";
+import styles from "./EventosCalendario.module.css";
 
 const CATEGORIAS = [
   "Cultural & Festivo",
@@ -23,17 +34,20 @@ export default function EventosCalendario({
   eventos = [],
   turmas = [],
   escolaId,
-  onRefresh,
-  selectedEscola
+  selectedEscola,
+  onRefresh
 }) {
   const [busca, setBusca] = useState("");
-  const [filtroCategoria, setFiltroCategoria] = useState("TODAS");
+  const [filtroCategoria, setFiltroCategoria] = useState("");
+  const [filtroPublico, setFiltroPublico] = useState("");
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDetalhesOpen, setModalDetalhesOpen] = useState(false);
+  const [modalExclusao, setModalExclusao] = useState(null);
   const [selectedEvento, setSelectedEvento] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [salvando, setSalvando] = useState(false);
-  const [copiado, setCopiado] = useState(false);
+  const [copiadoId, setCopiadoId] = useState(null);
 
   // Form State
   const [form, setForm] = useState({
@@ -51,6 +65,34 @@ export default function EventosCalendario({
     status: "Confirmado"
   });
 
+  // KPIs
+  const kpis = useMemo(() => {
+    const total = eventos.length;
+    const abertosFamilia = eventos.filter(e => e.abertoFamilia !== false).length;
+    const confirmados = eventos.filter(e => e.status === "Confirmado").length;
+    const culturais = eventos.filter(e => (e.categoria || "").includes("Cultural")).length;
+
+    return {
+      total,
+      abertosFamilia,
+      confirmados,
+      culturais
+    };
+  }, [eventos]);
+
+  // Filtragem
+  const eventosFiltrados = useMemo(() => {
+    return eventos.filter((ev) => {
+      const matchBusca =
+        (ev.titulo || "").toLowerCase().includes(busca.toLowerCase()) ||
+        (ev.descricao || "").toLowerCase().includes(busca.toLowerCase()) ||
+        (ev.local || "").toLowerCase().includes(busca.toLowerCase());
+      const matchCat = !filtroCategoria || ev.categoria === filtroCategoria;
+      const matchPub = !filtroPublico || ev.publicoAlvo === filtroPublico;
+      return matchBusca && matchCat && matchPub;
+    });
+  }, [eventos, busca, filtroCategoria, filtroPublico]);
+
   const abrirNovo = () => {
     setForm({
       titulo: "",
@@ -67,6 +109,7 @@ export default function EventosCalendario({
       status: "Confirmado"
     });
     setIsEditing(false);
+    setSelectedEvento(null);
     setModalOpen(true);
   };
 
@@ -92,7 +135,6 @@ export default function EventosCalendario({
 
   const abrirDetalhes = (ev) => {
     setSelectedEvento(ev);
-    setCopiado(false);
     setModalDetalhesOpen(true);
   };
 
@@ -119,10 +161,11 @@ export default function EventosCalendario({
     }
   };
 
-  const handleExcluir = async (id) => {
-    if (!window.confirm("Deseja realmente excluir este evento do calendário?")) return;
+  const handleExcluir = async () => {
+    if (!modalExclusao) return;
     try {
-      await deleteEvento(id);
+      await deleteEvento(modalExclusao.id);
+      setModalExclusao(null);
       if (onRefresh) onRefresh();
     } catch (err) {
       console.error(err);
@@ -136,627 +179,511 @@ export default function EventosCalendario({
     return `${d}/${m}/${y}`;
   };
 
-  const gerarTextoWhatsApp = (ev) => {
+  const handleCopiarWhatsApp = (ev) => {
     const escolaNome = selectedEscola?.nome || "Escola Municipal";
-    return `🎉 *CONVITE ESPECIAL: ${ev.titulo?.toUpperCase()}*\n\n` +
-      `🏫 *${escolaNome}*\n` +
+    const textoWA = `*🎪 CONVITE ESPECIAL — ${ev.titulo.toUpperCase()}*\n` +
+      `🏫 *${escolaNome}*\n\n` +
       `📅 *Data:* ${formatarDataBR(ev.dataEvento)}\n` +
       `⏰ *Horário:* ${ev.horaInicio} às ${ev.horaFim}\n` +
       `📍 *Local:* ${ev.local}\n` +
-      `👥 *Público:* ${ev.publicoAlvo}${ev.turmaAlvo ? ` (${ev.turmaAlvo})` : ""}\n\n` +
-      `📝 *Detalhes:* ${ev.descricao || "Participe com toda a sua família!"}\n\n` +
-      `🤝 _Sua presença é fundamental para fortalecermos os laços entre escola e família!_`;
+      `🎯 *Público:* ${ev.publicoAlvo} ${ev.turmaAlvo ? `(${ev.turmaAlvo})` : ""}\n` +
+      `👨‍👩‍👧‍👦 *Presença dos Pais:* ${ev.abertoFamilia ? "Sim, presença muito bem-vinda!" : "Atividade pedagógica interna de alunos"}\n\n` +
+      `*Programação & Atividades:*\n${ev.descricao || "Participe e prestigie nossos estudantes!"}\n\n` +
+      `_Contamos com a sua valorosa presença!_\n*Secretaria Municipal de Educação · SIGEM*`;
+
+    navigator.clipboard.writeText(textoWA);
+    setCopiadoId(ev.id);
+    setTimeout(() => setCopiadoId(null), 2500);
   };
 
-  const copiarWhatsApp = (ev) => {
-    const txt = gerarTextoWhatsApp(ev);
-    navigator.clipboard.writeText(txt);
-    setCopiado(true);
-    setTimeout(() => setCopiado(false), 3000);
+  const limparFiltros = () => {
+    setBusca("");
+    setFiltroCategoria("");
+    setFiltroPublico("");
   };
-
-  const imprimirConvite = (ev) => {
-    const printWin = window.open("", "_blank", "width=800,height=900");
-    const escolaNome = selectedEscola?.nome || "ESCOLA MUNICIPAL";
-    printWin.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Convite de Evento - ${ev.titulo}</title>
-        <style>
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #1e293b; background: #fff; }
-          .header { text-align: center; border-bottom: 2px solid #0284c7; padding-bottom: 15px; margin-bottom: 30px; }
-          .title { font-size: 24px; font-weight: bold; color: #0284c7; text-transform: uppercase; margin-top: 10px; }
-          .badge { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-top: 5px; }
-          .card-box { border: 1px solid #cbd5e1; border-radius: 8px; padding: 25px; background: #f8fafc; margin-bottom: 25px; }
-          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-          .field { font-size: 15px; }
-          .field strong { color: #334155; }
-          .desc { font-size: 16px; line-height: 1.6; color: #334155; margin-top: 15px; white-space: pre-wrap; }
-          .footer { margin-top: 50px; text-align: center; font-size: 13px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 20px; }
-          @media print {
-            body { padding: 20px; }
-            .no-print { display: none; }
-          }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <h2>${escolaNome}</h2>
-          <div class="title">${ev.titulo}</div>
-          <span class="badge">${ev.categoria}</span>
-        </div>
-        <div class="card-box">
-          <div class="grid">
-            <div class="field"><strong>📅 Data:</strong> ${formatarDataBR(ev.dataEvento)}</div>
-            <div class="field"><strong>⏰ Horário:</strong> ${ev.horaInicio} às ${ev.horaFim}</div>
-            <div class="field"><strong>📍 Local:</strong> ${ev.local}</div>
-            <div class="field"><strong>👥 Público Convidado:</strong> ${ev.publicoAlvo} ${ev.turmaAlvo ? `(${ev.turmaAlvo})` : ""}</div>
-            <div class="field"><strong>👨‍🏫 Organizador:</strong> ${ev.organizador}</div>
-            <div class="field"><strong>👨‍👩‍👧‍👦 Aberto à Família:</strong> ${ev.abertoFamilia ? "Sim, presença incentivada" : "Evento interno de alunos"}</div>
-          </div>
-          <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;" />
-          <div><strong>Programação & Informações:</strong></div>
-          <div class="desc">${ev.descricao || "Participe e prestigie o trabalho de nossos estudantes e da comunidade escolar."}</div>
-        </div>
-        <div class="footer">
-          Documento gerado automaticamente pelo Sistema Integrado de Gestão Escolar (SIGEM) em ${new Date().toLocaleDateString("pt-BR")}.
-        </div>
-        <script>window.onload = function() { window.print(); }</script>
-      </body>
-      </html>
-    `);
-    printWin.document.close();
-  };
-
-  // Filtros
-  const eventosFiltrados = eventos.filter((ev) => {
-    const matchBusca =
-      (ev.titulo || "").toLowerCase().includes(busca.toLowerCase()) ||
-      (ev.descricao || "").toLowerCase().includes(busca.toLowerCase()) ||
-      (ev.local || "").toLowerCase().includes(busca.toLowerCase());
-    const matchCat = filtroCategoria === "TODAS" || ev.categoria === filtroCategoria;
-    return matchBusca && matchCat;
-  });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      {/* Header & Ações */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "16px",
-          background: "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)",
-          padding: "24px 28px",
-          borderRadius: "16px",
-          color: "#fff",
-          boxShadow: "0 10px 25px -5px rgba(2, 132, 199, 0.3)"
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span style={{ fontSize: "28px" }}>🎪</span>
-            <h2 style={{ fontSize: "22px", fontWeight: "700", margin: 0 }}>
-              Eventos & Calendário Cultural
-            </h2>
+    <div className={styles.container}>
+      {/* 1. INDICADORES RÁPIDOS (KPIS) */}
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(2, 132, 199, 0.15)", color: "#38bdf8" }}>
+            <i className="ti ti-calendar" />
           </div>
-          <p style={{ margin: 0, opacity: 0.9, fontSize: "14px", maxWidth: "600px" }}>
-            Planeje, divulgue e convide as famílias para feiras culturais, mostras pedagógicas,
-            comemorações cívicas e atividades esportivas da escola.
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.total}</span>
+            <span className={styles.statLabel}>Eventos no Calendário</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(16, 185, 129, 0.15)", color: "#34d399" }}>
+            <i className="ti ti-calendar-check" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.confirmados}</span>
+            <span className={styles.statLabel}>Atividades Confirmadas</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa" }}>
+            <i className="ti ti-users" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.abertosFamilia}</span>
+            <span className={styles.statLabel}>Abertos às Famílias</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24" }}>
+            <i className="ti ti-sparkles" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.culturais}</span>
+            <span className={styles.statLabel}>Mostras & Projetos Culturais</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. BARRA DE CABEÇALHO */}
+      <div className={styles.headerBar}>
+        <div className={styles.headerInfo}>
+          <div className={styles.headerTitle}>
+            <i className="ti ti-calendar-star" style={{ color: "#38bdf8" }} />
+            Eventos & Calendário Cultural
+          </div>
+          <p className={styles.headerSubtitle}>
+            Planejamento e convite para feiras pedagógicas, mostras científicas, apresentações cívicas e celebrações escolares.
           </p>
         </div>
 
-        <Btn
-          variant="secondary"
-          onClick={abrirNovo}
-          style={{
-            background: "#fff",
-            color: "#0369a1",
-            fontWeight: "600",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            padding: "10px 18px"
-          }}
-        >
-          <i className="ti ti-calendar-plus" style={{ marginRight: "6px", fontSize: "18px" }}></i>
-          Novo Evento
-        </Btn>
+        <button type="button" className={styles.btnNovo} onClick={abrirNovo}>
+          <i className="ti ti-calendar-plus" />
+          Novo Evento Escolar
+        </button>
       </div>
 
-      {/* Barra de Filtros */}
-      <Card style={{ padding: "16px 20px", background: "#1e293b", borderColor: "#2c3b52" }}>
-        <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center" }}>
-          <div style={{ flex: "1", minWidth: "240px" }}>
-            <Input
-              placeholder="Buscar por nome do evento, local ou descrição..."
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              prefixIcon="ti ti-search"
-            />
-          </div>
-
-          <div style={{ minWidth: "220px" }}>
-            <Select
-              value={filtroCategoria}
-              onChange={(e) => setFiltroCategoria(e.target.value)}
-              options={[
-                { value: "TODAS", label: "Todas as Categorias" },
-                ...CATEGORIAS.map((c) => ({ value: c, label: c }))
-              ]}
-            />
-          </div>
-        </div>
-      </Card>
-
-      {/* Grid de Cards de Eventos */}
-      {eventosFiltrados.length === 0 ? (
-        <EmptyState
-          icon="ti ti-calendar-event"
-          title="Nenhum evento agendado"
-          description="Clique em 'Novo Evento' para cadastrar atividades no calendário escolar."
-          action={
-            <Btn variant="primary" onClick={abrirNovo}>
-              <i className="ti ti-plus" style={{ marginRight: "6px" }}></i> Cadastrar Primeiro Evento
-            </Btn>
-          }
+      {/* 3. BARRA DE FILTROS */}
+      <div className={styles.filtersBar}>
+        <Input
+          placeholder="Buscar por nome do evento, local ou programação..."
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          icon="ti ti-search"
         />
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: "18px"
-          }}
+
+        <Select
+          value={filtroCategoria}
+          onChange={(e) => setFiltroCategoria(e.target.value)}
         >
-          {eventosFiltrados.map((ev) => {
-            const isHoje = ev.dataEvento === new Date().toISOString().split("T")[0];
+          <option value="">Todas as Categorias</option>
+          {CATEGORIAS.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </Select>
 
+        <Select
+          value={filtroPublico}
+          onChange={(e) => setFiltroPublico(e.target.value)}
+        >
+          <option value="">Todos os Públicos</option>
+          {PUBLICOS.map((p) => (
+            <option key={p} value={p}>{p}</option>
+          ))}
+        </Select>
+
+        {(busca || filtroCategoria || filtroPublico) && (
+          <button type="button" className={styles.btnClearFilters} onClick={limparFiltros}>
+            <i className="ti ti-x" />
+            Limpar Filtros
+          </button>
+        )}
+      </div>
+
+      {/* 4. CABEÇALHO DA SEÇÃO */}
+      <div className={styles.sectionHeader}>
+        <div>
+          <h3 className={styles.sectionTitle}>
+            <i className="ti ti-list-details" style={{ color: "#38bdf8" }} />
+            Eventos Programados ({eventosFiltrados.length})
+          </h3>
+          <p className={styles.sectionSubtitle}>
+            {filtroCategoria ? `Exibindo categoria: ${filtroCategoria}` : "Visualizando calendário geral de eventos"}
+          </p>
+        </div>
+      </div>
+
+      {/* 5. GRADE DE CARDS */}
+      <div className={styles.eventosGrid}>
+        {eventosFiltrados.length === 0 ? (
+          <div style={{
+            gridColumn: "1 / -1",
+            textAlign: "center",
+            padding: "48px 20px",
+            background: "var(--bg-card, #1e293b)",
+            border: "1px dashed var(--border-color, #2c3b52)",
+            borderRadius: 16
+          }}>
+            <i className="ti ti-calendar-event" style={{ fontSize: 40, color: "#64748b", marginBottom: 12, display: "inline-block" }} />
+            <h4 style={{ margin: "0 0 6px 0", color: "#f8fafc", fontSize: 16 }}>Nenhum evento encontrado</h4>
+            <p style={{ margin: 0, color: "#94a3b8", fontSize: 13 }}>
+              {busca || filtroCategoria || filtroPublico
+                ? "Tente ajustar os critérios de busca ou limpar os filtros."
+                : "Clique em 'Novo Evento Escolar' para cadastrar atividades e comemorações."}
+            </p>
+          </div>
+        ) : (
+          eventosFiltrados.map((ev) => {
             return (
-              <Card
-                key={ev.id}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  padding: "20px",
-                  borderRadius: "14px",
-                  background: "#1e293b",
-                  borderColor: isHoje ? "#0284c7" : "#2c3b52",
-                  borderWidth: isHoje ? "2px" : "1px",
-                  position: "relative",
-                  overflow: "hidden",
-                  transition: "transform 0.2s, box-shadow 0.2s"
-                }}
-              >
-                {isHoje && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "0",
-                      right: "0",
-                      background: "#0284c7",
-                      color: "#fff",
-                      fontSize: "11px",
-                      fontWeight: "700",
-                      padding: "3px 12px",
-                      borderBottomLeftRadius: "10px"
-                    }}
-                  >
-                    HOJE!
-                  </div>
-                )}
-
+              <div key={ev.id} className={styles.eventoCard}>
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                      gap: "10px",
-                      marginBottom: "12px"
-                    }}
-                  >
-                    <Badge
-                      variant={
-                        ev.categoria.includes("Cultural")
-                          ? "purple"
-                          : ev.categoria.includes("Acadêmico")
-                          ? "blue"
-                          : ev.categoria.includes("Esportivo")
-                          ? "green"
-                          : "warning"
-                      }
+                  <div className={styles.cardTop}>
+                    <span className={styles.badgeCategory}>
+                      <i className="ti ti-sparkles" /> {ev.categoria || "Geral"}
+                    </span>
+                    <span
+                      className={`${styles.badgeStatus} ${
+                        ev.status === "Confirmado"
+                          ? styles.statusConfirmado
+                          : ev.status === "Em Planejamento"
+                          ? styles.statusPlanejamento
+                          : styles.statusCancelado
+                      }`}
                     >
-                      {ev.categoria}
-                    </Badge>
-                    <Badge variant={ev.status === "Confirmado" ? "success" : "neutral"}>
                       {ev.status || "Confirmado"}
-                    </Badge>
+                    </span>
                   </div>
 
-                  <h3
-                    style={{
-                      fontSize: "17px",
-                      fontWeight: "700",
-                      color: "#f8fafc",
-                      margin: "0 0 8px 0",
-                      lineHeight: "1.3"
-                    }}
-                  >
-                    {ev.titulo}
-                  </h3>
+                  <h3 className={styles.cardTitle}>{ev.titulo}</h3>
 
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      color: "#cbd5e1",
-                      margin: "0 0 16px 0",
-                      lineHeight: "1.5",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden"
-                    }}
-                  >
+                  <div className={styles.infoBox}>
+                    <div className={styles.infoRow}>
+                      <span>📅</span>
+                      <span><strong>Data:</strong> {formatarDataBR(ev.dataEvento)} ({ev.horaInicio} às {ev.horaFim})</span>
+                    </div>
+                    <div className={styles.infoRow}>
+                      <span>📍</span>
+                      <span><strong>Local:</strong> {ev.local}</span>
+                    </div>
+                    <div className={styles.infoRow}>
+                      <span>👥</span>
+                      <span><strong>Público:</strong> {ev.publicoAlvo} {ev.turmaAlvo && `(${ev.turmaAlvo})`}</span>
+                    </div>
+                    <div className={styles.infoRow}>
+                      <span>👨‍👩‍👧‍👦</span>
+                      <span><strong>Famílias:</strong> {ev.abertoFamilia ? "Presença incentivada" : "Atividade interna de alunos"}</span>
+                    </div>
+                  </div>
+
+                  <p className={styles.descText} title={ev.descricao}>
                     {ev.descricao || "Sem detalhes adicionais cadastrados."}
                   </p>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "8px",
-                      background: "#243144",
-                      border: "1px solid #2c3b52",
-                      padding: "12px",
-                      borderRadius: "10px",
-                      fontSize: "13px",
-                      color: "#cbd5e1",
-                      marginBottom: "16px"
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-calendar" style={{ color: "#38bdf8" }}></i>
-                      <span>
-                        <strong style={{ color: "#ffffff" }}>Data:</strong> {formatarDataBR(ev.dataEvento)}
-                      </span>
-                    </div>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-clock" style={{ color: "#38bdf8" }}></i>
-                      <span>
-                        <strong style={{ color: "#ffffff" }}>Horário:</strong> {ev.horaInicio} às {ev.horaFim}
-                      </span>
-                    </div>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-map-pin" style={{ color: "#fb7185" }}></i>
-                      <span>
-                        <strong style={{ color: "#ffffff" }}>Local:</strong> {ev.local}
-                      </span>
-                    </div>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <i className="ti ti-users" style={{ color: "#34d399" }}></i>
-                      <span>
-                        <strong style={{ color: "#ffffff" }}>Público:</strong> {ev.publicoAlvo} {ev.turmaAlvo && `(${ev.turmaAlvo})`}
-                      </span>
-                    </div>
-                  </div>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    borderTop: "1px solid #f1f5f9",
-                    paddingTop: "12px",
-                    gap: "8px"
-                  }}
-                >
+                <div className={styles.cardFooter}>
                   <Btn
-                    variant="ghost"
                     size="sm"
+                    variant="outline"
                     onClick={() => abrirDetalhes(ev)}
-                    style={{ color: "#0284c7", fontWeight: "600", padding: "6px 10px" }}
+                    style={{ fontSize: 11 }}
                   >
-                    <i className="ti ti-eye" style={{ marginRight: "4px" }}></i> Detalhes & Envio
+                    <i className="ti ti-eye" /> Detalhes & Cartaz
                   </Btn>
 
-                  <div style={{ display: "flex", gap: "6px" }}>
-                    <Btn
-                      variant="ghost"
-                      size="sm"
+                  <div className={styles.actionBtnGroup}>
+                    <button
+                      type="button"
+                      className={`${styles.iconBtn} ${copiadoId === ev.id ? styles.iconBtnSuccess : ""}`}
+                      onClick={() => handleCopiarWhatsApp(ev)}
+                      title="Copiar Convocação Formatada para WhatsApp"
+                    >
+                      <i className={copiadoId === ev.id ? "ti ti-check" : "ti ti-brand-whatsapp"} />
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.iconBtn}
                       onClick={() => abrirEditar(ev)}
                       title="Editar Evento"
-                      style={{ padding: "6px 8px" }}
                     >
-                      <i className="ti ti-pencil" style={{ color: "#64748b" }}></i>
-                    </Btn>
-                    <Btn
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleExcluir(ev.id)}
+                      <i className="ti ti-pencil" />
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+                      onClick={() => setModalExclusao(ev)}
                       title="Excluir Evento"
-                      style={{ padding: "6px 8px" }}
                     >
-                      <i className="ti ti-trash" style={{ color: "#ef4444" }}></i>
-                    </Btn>
+                      <i className="ti ti-trash" />
+                    </button>
                   </div>
                 </div>
-              </Card>
+              </div>
             );
-          })}
-        </div>
-      )}
+          })
+        )}
+      </div>
 
-      {/* Modal de Cadastro / Edição */}
-      <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={isEditing ? "Editar Evento Escolar" : "Agendar Novo Evento Escolar"}
-        maxWidth="680px"
-      >
-        <form onSubmit={handleSalvar} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-              Título do Evento *
-            </label>
-            <Input
-              required
-              placeholder="Ex: Feira de Ciências e Tecnologia 2026"
-              value={form.titulo}
-              onChange={(e) => setForm({ ...form, titulo: e.target.value })}
-            />
-          </div>
+      {/* =========================================================
+          MODAL DE CADASTRO / EDIÇÃO (CAMPOS UM ABAIXO DO OUTRO)
+          ========================================================= */}
+      {modalOpen && (
+        <Modal
+          isOpen={modalOpen}
+          titulo={isEditing ? "Editar Evento Escolar" : "Agendar Novo Evento Escolar"}
+          onClose={() => setModalOpen(false)}
+          width={640}
+          esconderRodape
+        >
+          <form onSubmit={handleSalvar} className={styles.modalForm}>
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Título do Evento Escolar <span className={styles.fieldRequired}>*</span>
+              </label>
+              <Input
+                placeholder="Ex: Feira de Ciências, Robótica & Meio Ambiente 2026"
+                value={form.titulo}
+                onChange={(e) => setForm({ ...form, titulo: e.target.value })}
+                required
+              />
+            </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Categoria *
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Categoria <span className={styles.fieldRequired}>*</span>
               </label>
               <Select
                 value={form.categoria}
                 onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                options={CATEGORIAS.map((c) => ({ value: c, label: c }))}
-              />
+              >
+                {CATEGORIAS.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </Select>
             </div>
 
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Status
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Status da Atividade
               </label>
               <Select
                 value={form.status}
                 onChange={(e) => setForm({ ...form, status: e.target.value })}
-                options={[
-                  { value: "Confirmado", label: "Confirmado" },
-                  { value: "Em Planejamento", label: "Em Planejamento" },
-                  { value: "Adiado", label: "Adiado" },
-                  { value: "Cancelado", label: "Cancelado" }
-                ]}
-              />
+              >
+                <option value="Confirmado">Confirmado</option>
+                <option value="Em Planejamento">Em Planejamento</option>
+                <option value="Adiado">Adiado</option>
+                <option value="Cancelado">Cancelado</option>
+              </Select>
             </div>
-          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr", gap: "14px" }}>
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Data do Evento *
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Data do Evento <span className={styles.fieldRequired}>*</span>
               </label>
               <Input
                 type="date"
-                required
                 value={form.dataEvento}
                 onChange={(e) => setForm({ ...form, dataEvento: e.target.value })}
+                required
               />
             </div>
 
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Hora Início
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Horário de Início <span className={styles.fieldRequired}>*</span>
               </label>
               <Input
                 type="time"
                 value={form.horaInicio}
                 onChange={(e) => setForm({ ...form, horaInicio: e.target.value })}
+                required
               />
             </div>
 
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Hora Término
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Horário de Término <span className={styles.fieldRequired}>*</span>
               </label>
               <Input
                 type="time"
                 value={form.horaFim}
                 onChange={(e) => setForm({ ...form, horaFim: e.target.value })}
+                required
               />
             </div>
-          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Local do Evento *
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Local / Espaço Físico <span className={styles.fieldRequired}>*</span>
               </label>
               <Input
-                required
-                placeholder="Ex: Ginásio Poliesportivo / Pátio"
+                placeholder="Ex: Ginásio Coberto, Auditório Municipal, Pátio Central..."
                 value={form.local}
                 onChange={(e) => setForm({ ...form, local: e.target.value })}
+                required
               />
             </div>
 
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Público Alvo
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Público Convidado <span className={styles.fieldRequired}>*</span>
               </label>
               <Select
                 value={form.publicoAlvo}
                 onChange={(e) => setForm({ ...form, publicoAlvo: e.target.value })}
-                options={PUBLICOS.map((p) => ({ value: p, label: p }))}
-              />
-            </div>
-          </div>
-
-          {form.publicoAlvo === "Turma Específica" && (
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Selecione a Turma *
-              </label>
-              <Select
-                value={form.turmaAlvo}
-                onChange={(e) => setForm({ ...form, turmaAlvo: e.target.value })}
-                options={[
-                  { value: "", label: "-- Selecione a Turma --" },
-                  ...turmas.map((t) => ({ value: t.nome || t.id, label: t.nome || t.id }))
-                ]}
-              />
-            </div>
-          )}
-
-          <div>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-              Descrição & Programação
-            </label>
-            <textarea
-              rows={4}
-              placeholder="Descreva os objetivos do evento, atividades previstas, apresentações e orientações para a comunidade..."
-              value={form.descricao}
-              onChange={(e) => setForm({ ...form, descricao: e.target.value })}
-              style={{
-                width: "100%",
-                padding: "10px 12px",
-                borderRadius: "8px",
-                border: "1px solid #cbd5e1",
-                fontFamily: "inherit",
-                fontSize: "14px",
-                resize: "vertical"
-              }}
-            />
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "12px",
-              background: "#f1f5f9",
-              borderRadius: "8px"
-            }}
-          >
-            <input
-              type="checkbox"
-              id="abertoFamiliaCheck"
-              checked={form.abertoFamilia}
-              onChange={(e) => setForm({ ...form, abertoFamilia: e.target.checked })}
-              style={{ width: "18px", height: "18px", cursor: "pointer" }}
-            />
-            <label htmlFor="abertoFamiliaCheck" style={{ fontSize: "14px", color: "#334155", cursor: "pointer", fontWeight: "500" }}>
-              Evento aberto com convite e incentivo à presença das famílias e responsáveis
-            </label>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "10px" }}>
-            <Btn variant="ghost" onClick={() => setModalOpen(false)}>
-              Cancelar
-            </Btn>
-            <Btn variant="primary" type="submit" disabled={salvando}>
-              {salvando ? "Salvando..." : isEditing ? "Atualizar Evento" : "Cadastrar Evento"}
-            </Btn>
-          </div>
-        </form>
-      </Modal>
-
-      {/* Modal de Detalhes, Divulgação e WhatsApp */}
-      {selectedEvento && (
-        <Modal
-          isOpen={modalDetalhesOpen}
-          onClose={() => setModalDetalhesOpen(false)}
-          title={`Detalhes do Evento: ${selectedEvento.titulo}`}
-          maxWidth="640px"
-        >
-          <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            <div
-              style={{
-                background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
-                border: "1px solid #bbf7d0",
-                padding: "16px",
-                borderRadius: "12px",
-                display: "flex",
-                alignItems: "center",
-                gap: "14px"
-              }}
-            >
-              <div
-                style={{
-                  background: "#22c55e",
-                  color: "#fff",
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "24px"
-                }}
               >
-                <i className="ti ti-brand-whatsapp"></i>
-              </div>
-              <div style={{ flex: 1 }}>
-                <h4 style={{ margin: "0 0 4px 0", color: "#15803d", fontSize: "15px", fontWeight: "700" }}>
-                  Divulgação Rápida via WhatsApp
-                </h4>
-                <p style={{ margin: 0, fontSize: "13px", color: "#166534" }}>
-                  Copie o convite formatado com emojis para enviar aos grupos de mães, pais e responsáveis.
-                </p>
-              </div>
-              <Btn
-                variant="primary"
-                onClick={() => copiarWhatsApp(selectedEvento)}
-                style={{ background: "#16a34a", borderColor: "#16a34a" }}
-              >
-                <i className="ti ti-copy" style={{ marginRight: "6px" }}></i>
-                {copiado ? "Copiado! ✓" : "Copiar Texto"}
-              </Btn>
+                {PUBLICOS.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </Select>
             </div>
 
-            {copiado && (
-              <Alert type="success">
-                Texto do convite copiado para a área de transferência! Cole no WhatsApp Web ou aplicativo.
-              </Alert>
+            {form.publicoAlvo === "Turma Específica" && (
+              <div className={styles.formField}>
+                <label className={styles.fieldLabel}>
+                  Turma Específica <span className={styles.fieldRequired}>*</span>
+                </label>
+                <Select
+                  value={form.turmaAlvo}
+                  onChange={(e) => setForm({ ...form, turmaAlvo: e.target.value })}
+                >
+                  <option value="">-- Selecione a Turma --</option>
+                  {turmas.map((t) => (
+                    <option key={t.id || t.nome} value={t.nome}>{t.nome}</option>
+                  ))}
+                </Select>
+              </div>
             )}
 
-            <div
-              style={{
-                background: "#0f172a",
-                color: "#e2e8f0",
-                padding: "16px",
-                borderRadius: "10px",
-                fontFamily: "monospace",
-                fontSize: "13px",
-                whiteHeight: "1.5",
-                whiteSpace: "pre-wrap",
-                maxHeight: "220px",
-                overflowY: "auto"
-              }}
-            >
-              {gerarTextoWhatsApp(selectedEvento)}
+            <div className={styles.formField}>
+              <label className={styles.checkboxCard}>
+                <input
+                  type="checkbox"
+                  checked={form.abertoFamilia}
+                  onChange={(e) => setForm({ ...form, abertoFamilia: e.target.checked })}
+                  style={{ width: 17, height: 17, accentColor: "#0284c7" }}
+                />
+                <span>Evento aberto à participação dos pais e responsáveis</span>
+              </label>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "10px", borderTop: "1px solid #e2e8f0" }}>
-              <Btn variant="outline" onClick={() => imprimirConvite(selectedEvento)}>
-                <i className="ti ti-printer" style={{ marginRight: "6px" }}></i>
-                Imprimir Convite / Cartaz
-              </Btn>
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Equipe Organizadora / Responsável
+              </label>
+              <Input
+                value={form.organizador}
+                onChange={(e) => setForm({ ...form, organizador: e.target.value })}
+                placeholder="Ex: Corpo Docente do Ensino Fundamental"
+              />
+            </div>
 
-              <Btn variant="secondary" onClick={() => setModalDetalhesOpen(false)}>
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Programação & Descrição dos Trabalhos
+              </label>
+              <textarea
+                rows={4}
+                className={styles.formTextarea}
+                value={form.descricao}
+                onChange={(e) => setForm({ ...form, descricao: e.target.value })}
+                placeholder="Descreva as atividades, estandes, exposições ou apresentações artísticas previstas..."
+              />
+            </div>
+
+            <div className={styles.modalFooter}>
+              <Btn onClick={() => setModalOpen(false)}>
+                Cancelar
+              </Btn>
+              <Btn variant="primary" type="submit" disabled={salvando}>
+                {salvando ? "Salvando..." : isEditing ? "Salvar Alterações" : "Cadastrar Evento"}
+              </Btn>
+            </div>
+          </form>
+        </Modal>
+      )}
+
+      {/* =========================================================
+          MODAL DE DETALHES & CARTAZ OFICIAL
+          ========================================================= */}
+      {modalDetalhesOpen && selectedEvento && (
+        <Modal
+          isOpen={modalDetalhesOpen}
+          titulo="Cartaz & Detalhes do Evento Escolar"
+          onClose={() => setModalDetalhesOpen(false)}
+          width={720}
+          esconderRodape
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div className={styles.eventoDocument}>
+              <div className={styles.eventoHeader}>
+                <h4 className={styles.eventoPreTitle}>
+                  {selectedEscola?.nome ? selectedEscola.nome.toUpperCase() : "SECRETARIA MUNICIPAL DE EDUCAÇÃO · SIGEM"}
+                </h4>
+                <h3 className={styles.eventoMainTitle}>
+                  {selectedEvento.titulo}
+                </h3>
+                <p style={{ margin: 0, fontSize: 12.5, color: "#64748b" }}>
+                  Categoria: {selectedEvento.categoria} · {formatarDataBR(selectedEvento.dataEvento)}
+                </p>
+              </div>
+
+              <div className={styles.eventoMetaGrid}>
+                <div><strong>📅 Data:</strong> {formatarDataBR(selectedEvento.dataEvento)}</div>
+                <div><strong>⏰ Horário:</strong> {selectedEvento.horaInicio} às {selectedEvento.horaFim}</div>
+                <div><strong>📍 Local:</strong> {selectedEvento.local}</div>
+                <div><strong>👥 Convocados:</strong> {selectedEvento.publicoAlvo} {selectedEvento.turmaAlvo && `(${selectedEvento.turmaAlvo})`}</div>
+                <div><strong>👨‍🏫 Organizador:</strong> {selectedEvento.organizador || "Equipe Escolar"}</div>
+                <div><strong>👨‍👩‍👧‍👦 Famílias:</strong> {selectedEvento.abertoFamilia ? "Presença incentivada" : "Evento interno de alunos"}</div>
+              </div>
+
+              <div>
+                <h5 style={{ margin: "0 0 6px 0", fontSize: 12, fontWeight: 800, textTransform: "uppercase", color: "#1e293b" }}>
+                  PROGRAMAÇÃO & INFORMAÇÕES GERAIS:
+                </h5>
+                <div className={styles.eventoDescContent}>
+                  {selectedEvento.descricao || "Participe e prestigie o trabalho e a dedicação de nossos estudantes e de toda a comunidade escolar!"}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+              <Btn onClick={() => setModalDetalhesOpen(false)}>
                 Fechar
+              </Btn>
+              <Btn variant="primary" onClick={() => window.print()}>
+                <i className="ti ti-printer" /> Imprimir Cartaz / Comunicado
+              </Btn>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* =========================================================
+          MODAL DE CONFIRMAÇÃO DE EXCLUSÃO
+          ========================================================= */}
+      {modalExclusao && (
+        <Modal
+          isOpen={!!modalExclusao}
+          titulo="Confirmar Exclusão de Evento"
+          onClose={() => setModalExclusao(null)}
+          width={460}
+          esconderRodape
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <p style={{ fontSize: 13.5, color: "var(--text-secondary, #cbd5e1)", margin: 0, lineHeight: 1.5 }}>
+              Tem certeza de que deseja remover o evento <strong>"{modalExclusao.titulo}"</strong> do calendário escolar?
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+              <Btn onClick={() => setModalExclusao(null)}>
+                Cancelar
+              </Btn>
+              <Btn variant="danger" onClick={handleExcluir}>
+                Sim, Excluir Evento
               </Btn>
             </div>
           </div>

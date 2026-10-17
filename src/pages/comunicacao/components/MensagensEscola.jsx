@@ -1,32 +1,42 @@
-import React, { useState } from "react";
-import { Card, Btn, Badge, Modal, Input, Select, EmptyState, Alert } from "../../../components/ui";
-import { addMensagem, deleteMensagem } from "../../../services/comunicacaoService";
+import React, { useState, useMemo } from "react";
+import {
+  addMensagem,
+  deleteMensagem
+} from "../../../services/comunicacaoService";
+import {
+  Btn,
+  Modal,
+  Input,
+  Select,
+  Alert
+} from "../../../components/ui";
+import styles from "./MensagensEscola.module.css";
 
 const MODELOS_MENSAGEM = [
   {
     id: "elogio",
-    titulo: "🌟 Elogio de Desempenho e Comportamento",
+    titulo: "🌟 Elogio de Desempenho",
     texto: "Prezado(a) responsável, gostaríamos de parabenizá-lo(a) pelo excelente desempenho e dedicação demonstrados pelo(a) estudante nas atividades escolares desta semana. Continuem incentivando!"
   },
   {
     id: "material",
-    titulo: "🎒 Lembrete de Material Escolar e Uniforme",
+    titulo: "🎒 Lembrete de Material",
     texto: "Prezado(a) responsável, solicitamos a gentileza de verificar os materiais escolares e uso diário do uniforme completo do estudante para o melhor aproveitamento das atividades pedagógicas."
   },
   {
     id: "comparecimento",
-    titulo: "🏫 Solicitação de Comparecimento à Coordenação",
+    titulo: "🏫 Comparecimento à Coordenação",
     texto: "Prezado(a) responsável, solicitamos o seu comparecimento à coordenação pedagógica da escola em data oportuna para tratarmos do acompanhamento acadêmico do estudante."
   },
   {
     id: "saude",
-    titulo: "💊 Notificação de Saúde / Mal-estar",
+    titulo: "💊 Notificação de Saúde",
     texto: "Prezado(a) responsável, informamos que o(a) estudante apresentou leve indisposição durante o turno de aulas. Ele(a) está acolhido(a) na secretaria sob cuidados."
   },
   {
     id: "documentacao",
-    titulo: "📑 Regularização de Documentos na Secretaria",
-    texto: "Prezado(a) responsável, solicitamos o envio das cópias dos documentos pendentes para atualização cadastral da pasta do estudante na secretaria."
+    titulo: "📑 Regularização de Documentos",
+    texto: "Prezado(a) responsável, solicitamos o envio das cópias dos documentos pendentes para atualização cadastral da pasta do estudante na secretaria escolar."
   }
 ];
 
@@ -39,7 +49,10 @@ export default function MensagensEscola({
   onRefresh
 }) {
   const [busca, setBusca] = useState("");
+  const [filtroCanal, setFiltroCanal] = useState("");
   const [modalNovaMensagem, setModalNovaMensagem] = useState(false);
+  const [modalExclusao, setModalExclusao] = useState(null);
+
   const [tipoEnvio, setTipoEnvio] = useState("INDIVIDUAL"); // INDIVIDUAL | TURMA | GERAL
   const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
   const [turmaSelecionadaId, setTurmaSelecionadaId] = useState("");
@@ -49,11 +62,29 @@ export default function MensagensEscola({
   const [enviando, setEnviando] = useState(false);
   const [sucesso, setSucesso] = useState(null);
 
-  const alunoObj = alunos.find((a) => a.id === alunoSelecionadoId);
+  const alunoObj = useMemo(() => {
+    return alunos.find((a) => a.id === alunoSelecionadoId);
+  }, [alunos, alunoSelecionadoId]);
+
+  // KPIs
+  const kpis = useMemo(() => {
+    const total = mensagens.length;
+    const individuais = mensagens.filter(m => m.destinatarioTipo === "Individual" || m.alunoNome).length;
+    const turmasGeral = mensagens.filter(m => m.destinatarioTipo === "Turma Completa" || m.destinatarioTipo === "Toda a Escola").length;
+    const viaWhatsApp = mensagens.filter(m => (m.canal || "").includes("WhatsApp")).length;
+
+    return {
+      total,
+      individuais,
+      turmasGeral,
+      viaWhatsApp
+    };
+  }, [mensagens]);
 
   const aplicarModelo = (modelo) => {
     setAssunto(modelo.titulo.replace(/[^\w\sÀ-ú]/g, "").trim());
     setCorpoMensagem(modelo.texto);
+    setModalNovaMensagem(true);
   };
 
   const handleEnviarMensagem = async (e) => {
@@ -98,18 +129,19 @@ export default function MensagensEscola({
         assunto,
         conteudo: corpoMensagem,
         canal,
-        autor: "Secretaria / Gestão Escolar"
+        autor: "Secretaria / Gestão Escolar",
+        status: "Enviada"
       };
 
       await addMensagem(novaMsg, escolaId);
 
-      // Se for individual e canal envolver WhatsApp, abrir link formatado
+      // Se for individual e canal envolver WhatsApp, abrir link
       if (tipoEnvio === "INDIVIDUAL" && alunoObj && canal.includes("WhatsApp")) {
         const nomeEscola = selectedEscola?.nome || "Escola Municipal";
         const textoWA = `*${assunto.toUpperCase()}*\n🏫 *${nomeEscola}*\n\n` +
           `Olá, *${destInfo.responsavelNome}* (Responsável por *${destInfo.alunoNome}*),\n\n` +
           `${corpoMensagem}\n\n` +
-          `_Atenciosamente, Gestão Escolar._`;
+          `_Atenciosamente, Gestão Escolar · SIGEM_`;
 
         const foneLimpo = (destInfo.responsavelTelefone || "").replace(/\D/g, "");
         if (foneLimpo) {
@@ -130,397 +162,453 @@ export default function MensagensEscola({
     }
   };
 
-  const handleExcluir = async (id) => {
-    if (!window.confirm("Deseja remover este registro do histórico de mensagens?")) return;
+  const handleExcluir = async () => {
+    if (!modalExclusao) return;
     try {
-      await deleteMensagem(id);
+      await deleteMensagem(modalExclusao.id);
+      setModalExclusao(null);
       if (onRefresh) onRefresh();
     } catch (err) {
       console.error(err);
+      alert("Erro ao excluir: " + err.message);
     }
   };
 
-  // Filtragem de mensagens
-  const mensagensFiltradas = mensagens.filter((m) => {
-    const q = busca.toLowerCase();
-    return (
-      (m.assunto || "").toLowerCase().includes(q) ||
-      (m.conteudo || "").toLowerCase().includes(q) ||
-      (m.alunoNome || "").toLowerCase().includes(q) ||
-      (m.responsavelNome || "").toLowerCase().includes(q) ||
-      (m.turmaNome || "").toLowerCase().includes(q)
-    );
-  });
+  const handleReenviarWhatsApp = (msg) => {
+    const nomeEscola = selectedEscola?.nome || "Escola Municipal";
+    const textoWA = `*${(msg.assunto || msg.tipo || "COMUNICADO").toUpperCase()}*\n🏫 *${nomeEscola}*\n\n` +
+      `Olá, *${msg.responsavelNome || "Família"}* (Estudante: *${msg.alunoNome || "Aluno"}*),\n\n` +
+      `${msg.conteudo}\n\n` +
+      `_Atenciosamente, Equipe Gestora · SIGEM_`;
+
+    const foneLimpo = (msg.responsavelTelefone || "").replace(/\D/g, "");
+    if (foneLimpo) {
+      window.open(`https://api.whatsapp.com/send?phone=55${foneLimpo}&text=${encodeURIComponent(textoWA)}`, "_blank");
+    } else {
+      navigator.clipboard.writeText(textoWA);
+      alert("Texto formatado copiado para a área de transferência!");
+    }
+  };
+
+  // Filtragem
+  const mensagensFiltradas = useMemo(() => {
+    return mensagens.filter((m) => {
+      const q = busca.toLowerCase();
+      const matchBusca =
+        !busca ||
+        (m.assunto || "").toLowerCase().includes(q) ||
+        (m.conteudo || "").toLowerCase().includes(q) ||
+        (m.alunoNome || "").toLowerCase().includes(q) ||
+        (m.responsavelNome || "").toLowerCase().includes(q) ||
+        (m.turmaNome || "").toLowerCase().includes(q);
+      const matchCanal = !filtroCanal || (m.canal || "").includes(filtroCanal);
+      return matchBusca && matchCanal;
+    });
+  }, [mensagens, busca, filtroCanal]);
+
+  const limparFiltros = () => {
+    setBusca("");
+    setFiltroCanal("");
+  };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      {/* Header Banner */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "16px",
-          background: "linear-gradient(135deg, #059669 0%, #047857 100%)",
-          padding: "24px 28px",
-          borderRadius: "16px",
-          color: "#fff",
-          boxShadow: "0 10px 25px -5px rgba(5, 150, 105, 0.3)"
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span style={{ fontSize: "28px" }}>💬</span>
-            <h2 style={{ fontSize: "22px", fontWeight: "700", margin: 0 }}>
-              Mensagens da Escola & Atendimento
-            </h2>
+    <div className={styles.container}>
+      {/* 1. INDICADORES RÁPIDOS (KPIS) */}
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(16, 185, 129, 0.15)", color: "#34d399" }}>
+            <i className="ti ti-messages" />
           </div>
-          <p style={{ margin: 0, opacity: 0.9, fontSize: "14px", maxWidth: "600px" }}>
-            Envie comunicados individuais, elogios pedagógicos ou avisos urgentes diretamente para o
-            WhatsApp dos pais e mantenha todo o histórico registrado.
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.total}</span>
+            <span className={styles.statLabel}>Mensagens Enviadas</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(2, 132, 199, 0.15)", color: "#38bdf8" }}>
+            <i className="ti ti-user-check" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.individuais}</span>
+            <span className={styles.statLabel}>Atendimentos Individuais</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa" }}>
+            <i className="ti ti-users-group" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.turmasGeral}</span>
+            <span className={styles.statLabel}>Disparos por Turma</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIconWrap} style={{ background: "rgba(34, 197, 94, 0.15)", color: "#4ade80" }}>
+            <i className="ti ti-brand-whatsapp" />
+          </div>
+          <div className={styles.statInfo}>
+            <span className={styles.statValue}>{kpis.viaWhatsApp}</span>
+            <span className={styles.statLabel}>WhatsApp Integrado</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. BARRA DE CABEÇALHO */}
+      <div className={styles.headerBar}>
+        <div className={styles.headerInfo}>
+          <div className={styles.headerTitle}>
+            <i className="ti ti-message-dots" style={{ color: "#34d399" }} />
+            Mensagens da Escola & Atendimento
+          </div>
+          <p className={styles.headerSubtitle}>
+            Envio ágil de recados, elogios pedagógicos e convocações para os responsáveis legais via WhatsApp e Mural Online.
           </p>
         </div>
 
-        <Btn
-          variant="secondary"
-          onClick={() => setModalNovaMensagem(true)}
-          style={{
-            background: "#fff",
-            color: "#047857",
-            fontWeight: "600",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            padding: "10px 18px"
+        <button
+          type="button"
+          className={styles.btnNovo}
+          onClick={() => {
+            setAssunto("");
+            setCorpoMensagem("");
+            setModalNovaMensagem(true);
           }}
         >
-          <i className="ti ti-message-plus" style={{ marginRight: "6px", fontSize: "18px" }}></i>
-          Nova Mensagem
-        </Btn>
+          <i className="ti ti-message-plus" />
+          Nova Mensagem Direta
+        </button>
       </div>
 
       {sucesso && (
-        <Alert type="success" onClose={() => setSucesso(null)}>
+        <Alert tipo="success">
           {sucesso}
         </Alert>
       )}
 
-      {/* Modelos Rápidos de Mensagem */}
-      <Card style={{ padding: "18px 22px" }}>
-        <h4 style={{ fontSize: "14px", fontWeight: "700", color: "#334155", margin: "0 0 12px 0" }}>
-          ⚡ Atalhos de Mensagens Frequentes:
+      {/* ATALHOS RÁPIDOS DE MENSAGENS */}
+      <div className={styles.templatesCard}>
+        <h4 className={styles.templatesTitle}>
+          <i className="ti ti-bolt" style={{ color: "#fbbf24" }} />
+          Modelos Prontos de Comunicação:
         </h4>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <div className={styles.templatesWrap}>
           {MODELOS_MENSAGEM.map((mod) => (
             <button
               key={mod.id}
-              onClick={() => {
-                aplicarModelo(mod);
-                setModalNovaMensagem(true);
-              }}
-              style={{
-                background: "#f0fdf4",
-                border: "1px solid #bbf7d0",
-                color: "#166534",
-                padding: "8px 14px",
-                borderRadius: "8px",
-                fontSize: "13px",
-                fontWeight: "500",
-                cursor: "pointer",
-                transition: "all 0.15s"
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#dcfce7")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#f0fdf4")}
+              type="button"
+              className={styles.templateChip}
+              onClick={() => aplicarModelo(mod)}
             >
               {mod.titulo}
             </button>
           ))}
         </div>
-      </Card>
+      </div>
 
-      {/* Busca e Tabela de Histórico */}
-      <Card style={{ padding: "16px 20px" }}>
+      {/* 3. BARRA DE FILTROS */}
+      <div className={styles.filtersBar}>
         <Input
-          placeholder="Buscar no histórico de mensagens por assunto, aluno, responsável ou conteúdo..."
+          placeholder="Buscar histórico por assunto, estudante, responsável ou texto..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          prefixIcon="ti ti-search"
+          icon="ti ti-search"
         />
-      </Card>
 
-      {mensagensFiltradas.length === 0 ? (
-        <EmptyState
-          icon="ti ti-messages"
-          title="Nenhuma mensagem registrada"
-          description="Envie comunicados individuais ou para turmas para manter a ponte com os responsáveis."
-          action={
-            <Btn variant="primary" onClick={() => setModalNovaMensagem(true)}>
-              <i className="ti ti-plus" style={{ marginRight: "6px" }}></i> Enviar Mensagem
-            </Btn>
-          }
-        />
-      ) : (
-        <Card style={{ padding: "0", overflow: "hidden" }}>
-          <div style={{ padding: "16px 20px", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" }}>
-            <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#1e293b", margin: 0 }}>
-              Histórico de Mensagens Enviadas ({mensagensFiltradas.length})
-            </h3>
+        <Select
+          value={filtroCanal}
+          onChange={(e) => setFiltroCanal(e.target.value)}
+        >
+          <option value="">Todos os Canais</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Mural">Mural do Responsável</option>
+        </Select>
+
+        {(busca || filtroCanal) && (
+          <button type="button" className={styles.btnClearFilters} onClick={limparFiltros}>
+            <i className="ti ti-x" />
+            Limpar Filtros
+          </button>
+        )}
+      </div>
+
+      {/* 4. CABEÇALHO DA SEÇÃO */}
+      <div className={styles.sectionHeader}>
+        <div>
+          <h3 className={styles.sectionTitle}>
+            <i className="ti ti-history" style={{ color: "#34d399" }} />
+            Histórico de Mensagens ({mensagensFiltradas.length})
+          </h3>
+          <p className={styles.sectionSubtitle}>
+            Registro cronológico das notificações enviadas pela equipe gestora
+          </p>
+        </div>
+      </div>
+
+      {/* 5. GRADE DE CARDS */}
+      <div className={styles.mensagensGrid}>
+        {mensagensFiltradas.length === 0 ? (
+          <div style={{
+            gridColumn: "1 / -1",
+            textAlign: "center",
+            padding: "48px 20px",
+            background: "var(--bg-card, #1e293b)",
+            border: "1px dashed var(--border-color, #2c3b52)",
+            borderRadius: 16
+          }}>
+            <i className="ti ti-messages-off" style={{ fontSize: 40, color: "#64748b", marginBottom: 12, display: "inline-block" }} />
+            <h4 style={{ margin: "0 0 6px 0", color: "#f8fafc", fontSize: 16 }}>Nenhuma mensagem registrada</h4>
+            <p style={{ margin: 0, color: "#94a3b8", fontSize: 13 }}>
+              {busca || filtroCanal
+                ? "Tente ajustar os termos de busca ou remover os filtros."
+                : "Clique em 'Nova Mensagem Direta' ou use um dos modelos prontos acima."}
+            </p>
           </div>
+        ) : (
+          mensagensFiltradas.map((msg) => {
+            const dataFmt = msg.enviadoEm
+              ? new Date(msg.enviadoEm).toLocaleDateString("pt-BR") + " às " + new Date(msg.enviadoEm).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+              : "Hoje";
 
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "14px" }}>
-              <thead>
-                <tr style={{ background: "#f1f5f9", color: "#475569", borderBottom: "1px solid #e2e8f0" }}>
-                  <th style={{ padding: "12px 18px", fontWeight: "600" }}>Data / Horário</th>
-                  <th style={{ padding: "12px 18px", fontWeight: "600" }}>Destinatário</th>
-                  <th style={{ padding: "12px 18px", fontWeight: "600" }}>Assunto & Conteúdo</th>
-                  <th style={{ padding: "12px 18px", fontWeight: "600" }}>Canal</th>
-                  <th style={{ padding: "12px 18px", fontWeight: "600" }}>Status</th>
-                  <th style={{ padding: "12px 18px", fontWeight: "600", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mensagensFiltradas.map((msg) => (
-                  <tr key={msg.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                    <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
-                      <div style={{ fontWeight: "600", color: "#1e293b" }}>
-                        {msg.enviadoEm ? new Date(msg.enviadoEm).toLocaleDateString("pt-BR") : "—"}
+            return (
+              <div key={msg.id} className={styles.msgCard}>
+                <div>
+                  <div className={styles.cardTop}>
+                    <span className={styles.badgeDest}>
+                      <i className="ti ti-send" />
+                      {msg.alunoNome ? "Individual" : msg.turmaNome ? `Turma: ${msg.turmaNome}` : "Toda a Escola"}
+                    </span>
+                    <span className={styles.badgeCanal}>
+                      <i className="ti ti-brand-whatsapp" style={{ marginRight: 4 }} />
+                      {msg.canal || "WhatsApp"}
+                    </span>
+                  </div>
+
+                  <h3 className={styles.cardTitle}>{msg.assunto || msg.tipo || "Mensagem Escolar"}</h3>
+
+                  <div className={styles.infoBox}>
+                    <div className={styles.infoRow}>
+                      <span>📅</span>
+                      <span><strong>Enviado em:</strong> {dataFmt}</span>
+                    </div>
+                    {msg.alunoNome && (
+                      <div className={styles.infoRow}>
+                        <span>👤</span>
+                        <span><strong>Estudante:</strong> {msg.alunoNome}</span>
                       </div>
-                      <div style={{ fontSize: "12px", color: "#64748b" }}>
-                        {msg.enviadoEm ? new Date(msg.enviadoEm).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : ""}
+                    )}
+                    {msg.responsavelNome && (
+                      <div className={styles.infoRow}>
+                        <span>👨‍👩‍👧</span>
+                        <span><strong>Responsável:</strong> {msg.responsavelNome}</span>
                       </div>
-                    </td>
-
-                    <td style={{ padding: "14px 18px" }}>
-                      {msg.alunoNome ? (
-                        <div>
-                          <div style={{ fontWeight: "600", color: "#1e293b" }}>{msg.alunoNome}</div>
-                          <div style={{ fontSize: "12px", color: "#64748b" }}>
-                            Resp: {msg.responsavelNome || "Família"}
-                          </div>
-                        </div>
-                      ) : msg.turmaNome ? (
-                        <div>
-                          <Badge variant="purple">Turma: {msg.turmaNome}</Badge>
-                          <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>
-                            {msg.totalDestinatarios ? `${msg.totalDestinatarios} alunos` : "Todos"}
-                          </div>
-                        </div>
-                      ) : (
-                        <Badge variant="blue">Toda a Escola</Badge>
-                      )}
-                    </td>
-
-                    <td style={{ padding: "14px 18px", maxWidth: "340px" }}>
-                      <div style={{ fontWeight: "600", color: "#1e293b", marginBottom: "4px" }}>
-                        {msg.assunto || msg.tipo || "Mensagem"}
+                    )}
+                    {msg.turmaNome && (
+                      <div className={styles.infoRow}>
+                        <span>🏫</span>
+                        <span><strong>Turma:</strong> {msg.turmaNome}</span>
                       </div>
-                      <div
-                        style={{
-                          fontSize: "13px",
-                          color: "#64748b",
-                          lineHeight: "1.4",
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden"
-                        }}
-                      >
-                        {msg.conteudo}
-                      </div>
-                    </td>
+                    )}
+                  </div>
 
-                    <td style={{ padding: "14px 18px" }}>
-                      <Badge variant="green">{msg.canal || "WhatsApp"}</Badge>
-                    </td>
+                  <p className={styles.msgBody} title={msg.conteudo}>
+                    {msg.conteudo}
+                  </p>
+                </div>
 
-                    <td style={{ padding: "14px 18px" }}>
-                      <span style={{ color: "#16a34a", fontWeight: "600", fontSize: "13px" }}>
-                        ✓ {msg.status || "Enviada"}
-                      </span>
-                    </td>
+                <div className={styles.cardFooter}>
+                  <span style={{ fontSize: 11.5, color: "#34d399", fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
+                    <i className="ti ti-circle-check" /> Enviada com sucesso
+                  </span>
 
-                    <td style={{ padding: "14px 18px", textAlign: "right" }}>
-                      <Btn
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleExcluir(msg.id)}
-                        title="Remover do Histórico"
-                        style={{ padding: "6px 8px" }}
-                      >
-                        <i className="ti ti-trash" style={{ color: "#ef4444" }}></i>
-                      </Btn>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
-      )}
+                  <div className={styles.actionBtnGroup}>
+                    <button
+                      type="button"
+                      className={styles.iconBtn}
+                      onClick={() => handleReenviarWhatsApp(msg)}
+                      title="Reenviar ou Copiar para WhatsApp"
+                    >
+                      <i className="ti ti-brand-whatsapp" />
+                    </button>
 
-      {/* Modal de Nova Mensagem */}
-      <Modal
-        isOpen={modalNovaMensagem}
-        onClose={() => setModalNovaMensagem(false)}
-        title="Enviar Nova Mensagem da Escola"
-        maxWidth="620px"
-      >
-        <form onSubmit={handleEnviarMensagem} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-              Tipo de Envio
-            </label>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
-              <button
-                type="button"
-                onClick={() => setTipoEnvio("INDIVIDUAL")}
-                style={{
-                  background: tipoEnvio === "INDIVIDUAL" ? "#047857" : "#f1f5f9",
-                  color: tipoEnvio === "INDIVIDUAL" ? "#fff" : "#334155",
-                  border: "none",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  fontSize: "13px"
-                }}
-              >
-                👤 Individual
-              </button>
+                    <button
+                      type="button"
+                      className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+                      onClick={() => setModalExclusao(msg)}
+                      title="Excluir Registro"
+                    >
+                      <i className="ti ti-trash" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
 
-              <button
-                type="button"
-                onClick={() => setTipoEnvio("TURMA")}
-                style={{
-                  background: tipoEnvio === "TURMA" ? "#047857" : "#f1f5f9",
-                  color: tipoEnvio === "TURMA" ? "#fff" : "#334155",
-                  border: "none",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  fontSize: "13px"
-                }}
-              >
-                👥 Por Turma
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setTipoEnvio("GERAL")}
-                style={{
-                  background: tipoEnvio === "GERAL" ? "#047857" : "#f1f5f9",
-                  color: tipoEnvio === "GERAL" ? "#fff" : "#334155",
-                  border: "none",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  fontSize: "13px"
-                }}
-              >
-                📢 Toda a Escola
-              </button>
-            </div>
-          </div>
-
-          {tipoEnvio === "INDIVIDUAL" && (
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Selecione o Estudante *
+      {/* =========================================================
+          MODAL DE NOVA MENSAGEM (CAMPOS UM ABAIXO DO OUTRO)
+          ========================================================= */}
+      {modalNovaMensagem && (
+        <Modal
+          isOpen={modalNovaMensagem}
+          titulo="Enviar Nova Mensagem da Escola"
+          onClose={() => setModalNovaMensagem(false)}
+          width={640}
+          esconderRodape
+        >
+          <form onSubmit={handleEnviarMensagem} className={styles.modalForm}>
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Modalidade de Destinatário <span className={styles.fieldRequired}>*</span>
               </label>
-              <Select
-                value={alunoSelecionadoId}
-                onChange={(e) => setAlunoSelecionadoId(e.target.value)}
-                options={[
-                  { value: "", label: "-- Escolha o Aluno --" },
-                  ...alunos.map((a) => ({
-                    value: a.id,
-                    label: `${a.nome} — Resp: ${a.responsavelNome || a.responsavel || "Pais"}`
-                  }))
-                ]}
-              />
+              <div className={styles.tipoEnvioGroup}>
+                <button
+                  type="button"
+                  className={`${styles.btnTipoEnvio} ${tipoEnvio === "INDIVIDUAL" ? styles.btnTipoEnvioActive : ""}`}
+                  onClick={() => setTipoEnvio("INDIVIDUAL")}
+                >
+                  <i className="ti ti-user" /> Estudante Específico
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.btnTipoEnvio} ${tipoEnvio === "TURMA" ? styles.btnTipoEnvioActive : ""}`}
+                  onClick={() => setTipoEnvio("TURMA")}
+                >
+                  <i className="ti ti-users" /> Turma Completa
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.btnTipoEnvio} ${tipoEnvio === "GERAL" ? styles.btnTipoEnvioActive : ""}`}
+                  onClick={() => setTipoEnvio("GERAL")}
+                >
+                  <i className="ti ti-building" /> Toda a Escola
+                </button>
+              </div>
             </div>
-          )}
 
-          {tipoEnvio === "TURMA" && (
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Selecione a Turma *
-              </label>
-              <Select
-                value={turmaSelecionadaId}
-                onChange={(e) => setTurmaSelecionadaId(e.target.value)}
-                options={[
-                  { value: "", label: "-- Escolha a Turma --" },
-                  ...turmas.map((t) => ({ value: t.id || t.nome, label: t.nome || t.id }))
-                ]}
-              />
-            </div>
-          )}
+            {tipoEnvio === "INDIVIDUAL" && (
+              <div className={styles.formField}>
+                <label className={styles.fieldLabel}>
+                  Selecione o Estudante Destinatário <span className={styles.fieldRequired}>*</span>
+                </label>
+                <Select
+                  value={alunoSelecionadoId}
+                  onChange={(e) => setAlunoSelecionadoId(e.target.value)}
+                  required
+                >
+                  <option value="">-- Escolha o Estudante da Unidade --</option>
+                  {alunos.map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.nome} (Resp: {a.responsavelNome || a.responsavel || "Pais"})
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            )}
 
-          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "14px" }}>
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Assunto da Mensagem *
+            {tipoEnvio === "TURMA" && (
+              <div className={styles.formField}>
+                <label className={styles.fieldLabel}>
+                  Selecione a Turma Destinatária <span className={styles.fieldRequired}>*</span>
+                </label>
+                <Select
+                  value={turmaSelecionadaId}
+                  onChange={(e) => setTurmaSelecionadaId(e.target.value)}
+                  required
+                >
+                  <option value="">-- Escolha a Turma --</option>
+                  {turmas.map((t) => (
+                    <option key={t.id || t.nome} value={t.id || t.nome}>
+                      {t.nome} ({t.turno || "Geral"})
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            )}
+
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Assunto do Recado / Comunicado <span className={styles.fieldRequired}>*</span>
               </label>
               <Input
-                required
-                placeholder="Ex: Acompanhamento Pedagógico"
+                placeholder="Ex: Elogio de Comportamento e Desempenho Pedagógico"
                 value={assunto}
                 onChange={(e) => setAssunto(e.target.value)}
+                required
               />
             </div>
 
-            <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-                Canal de Envio
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Canal de Transmissão <span className={styles.fieldRequired}>*</span>
               </label>
               <Select
                 value={canal}
                 onChange={(e) => setCanal(e.target.value)}
-                options={[
-                  { value: "WhatsApp & Mural", label: "WhatsApp & Mural Digital" },
-                  { value: "WhatsApp Direto", label: "Somente WhatsApp" },
-                  { value: "Mural do Responsável", label: "Mural Online" }
-                ]}
+              >
+                <option value="WhatsApp & Mural">WhatsApp & Mural do Responsável</option>
+                <option value="Somente WhatsApp">Somente WhatsApp Direto</option>
+                <option value="Mural do Responsável">Mural Online</option>
+              </Select>
+            </div>
+
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Texto da Mensagem <span className={styles.fieldRequired}>*</span>
+              </label>
+              <textarea
+                rows={5}
+                className={styles.formTextarea}
+                placeholder="Escreva a mensagem clara e acolhedora destinada à família..."
+                value={corpoMensagem}
+                onChange={(e) => setCorpoMensagem(e.target.value)}
+                required
               />
             </div>
-          </div>
 
-          <div>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#334155", display: "block", marginBottom: "6px" }}>
-              Conteúdo da Mensagem *
-            </label>
-            <textarea
-              required
-              rows={5}
-              placeholder="Digite o texto que será enviado ao responsável..."
-              value={corpoMensagem}
-              onChange={(e) => setCorpoMensagem(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px 12px",
-                borderRadius: "8px",
-                border: "1px solid #cbd5e1",
-                fontFamily: "inherit",
-                fontSize: "14px",
-                resize: "vertical"
-              }}
-            />
-          </div>
+            <div className={styles.modalFooter}>
+              <Btn onClick={() => setModalNovaMensagem(false)}>
+                Cancelar
+              </Btn>
+              <Btn variant="primary" type="submit" disabled={enviando} style={{ background: "#059669", border: "1px solid #34d399" }}>
+                <i className="ti ti-send" />
+                {enviando ? "Enviando..." : "Enviar Mensagem"}
+              </Btn>
+            </div>
+          </form>
+        </Modal>
+      )}
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "10px" }}>
-            <Btn variant="ghost" onClick={() => setModalNovaMensagem(false)}>
-              Cancelar
-            </Btn>
-            <Btn variant="primary" type="submit" disabled={enviando} style={{ background: "#047857", borderColor: "#047857" }}>
-              <i className="ti ti-send" style={{ marginRight: "6px" }}></i>
-              {enviando ? "Enviando..." : "Enviar Mensagem"}
-            </Btn>
+      {/* =========================================================
+          MODAL DE CONFIRMAÇÃO DE EXCLUSÃO
+          ========================================================= */}
+      {modalExclusao && (
+        <Modal
+          isOpen={!!modalExclusao}
+          titulo="Confirmar Exclusão de Mensagem"
+          onClose={() => setModalExclusao(null)}
+          width={460}
+          esconderRodape
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <p style={{ fontSize: 13.5, color: "var(--text-secondary, #cbd5e1)", margin: 0, lineHeight: 1.5 }}>
+              Deseja realmente remover o registro da mensagem <strong>"{modalExclusao.assunto || modalExclusao.tipo}"</strong> do histórico escolar?
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+              <Btn onClick={() => setModalExclusao(null)}>
+                Cancelar
+              </Btn>
+              <Btn variant="danger" onClick={handleExcluir}>
+                Sim, Remover do Histórico
+              </Btn>
+            </div>
           </div>
-        </form>
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 }

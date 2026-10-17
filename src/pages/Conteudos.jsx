@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
@@ -11,7 +11,14 @@ import {
   deleteConteudo
 } from "../services/conteudosService";
 import { DISCIPLINAS, ANO_LETIVO_ATUAL } from "../utils/constants";
-import { Card, Badge, Btn, Modal, Input, Select, Alert, Spinner, EmptyState } from "../components/ui";
+import { Modal, Input, Select, Alert, Spinner, Btn } from "../components/ui";
+import styles from "./conteudos/Conteudos.module.css";
+
+import DashboardDiario from "./conteudos/components/DashboardDiario";
+import ListaAulas from "./conteudos/components/ListaAulas";
+import LancarAula from "./conteudos/components/LancarAula";
+import HabilidadesBNCC from "./conteudos/components/HabilidadesBNCC";
+import CadernetaOficial from "./conteudos/components/CadernetaOficial";
 
 const BIMESTRES = ["1º Bimestre", "2º Bimestre", "3º Bimestre", "4º Bimestre"];
 
@@ -19,9 +26,20 @@ export default function Conteudos() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { user, escolas, selectedEscolaId } = useAuth();
-  const activeEscolaId = selectedEscolaId || user?.selectedEscolaId || "";
-  const escolaAtual = (escolas || []).find(e => e.id === activeEscolaId) || { nome: "Escola Municipal", inep: "27000000", cidade: "Maceió", uf: "AL" };
+  const activeEscolaId = selectedEscolaId || user?.selectedEscolaId || user?.escolaId || "";
+  const escolaAtual = (escolas || []).find((e) => e.id === activeEscolaId) || {
+    nome: "Escola Municipal Modelo",
+    inep: "27000000",
+    cidade: "Maceió",
+    uf: "AL"
+  };
 
+  // Aba ativa: 'dashboard' | 'aulas' | 'lancar' | 'bncc' | 'caderneta'
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [resumoMobileAberto, setResumoMobileAberto] = useState(false);
+  const mobileTabContainerRef = useRef(null);
+
+  // Carrega Turmas e Professores
   const { dados: turmas, carregando: cT } = useFirestore(
     useCallback(() => getTurmas(activeEscolaId), [activeEscolaId]),
     [activeEscolaId]
@@ -47,13 +65,32 @@ export default function Conteudos() {
   }, [turmas, turmaSelecionada]);
 
   // Carrega conteúdos da turma selecionada
-  const { dados: conteudos, carregando: cC, recarregar } = useFirestore(
-    useCallback(() => getConteudos(activeEscolaId, turmaSelecionada, disciplinaSelecionada, bimestreSelecionado), [activeEscolaId, turmaSelecionada, disciplinaSelecionada, bimestreSelecionado]),
+  const {
+    dados: conteudos,
+    carregando: cC,
+    recarregar
+  } = useFirestore(
+    useCallback(
+      () =>
+        getConteudos(
+          activeEscolaId,
+          turmaSelecionada,
+          disciplinaSelecionada,
+          bimestreSelecionado
+        ),
+      [activeEscolaId, turmaSelecionada, disciplinaSelecionada, bimestreSelecionado]
+    ),
     [activeEscolaId, turmaSelecionada, disciplinaSelecionada, bimestreSelecionado]
   );
 
-  // Modal de Registro / Edição
+  // Detalhes da Turma Selecionada
+  const dadosTurmaAtual = useMemo(() => {
+    return (turmas || []).find((t) => t.nome === turmaSelecionada);
+  }, [turmas, turmaSelecionada]);
+
+  // Formulário para Nova Aula / Edição
   const [modalAberto, setModalAberto] = useState(false);
+  const [modalImprimirAberto, setModalImprimirAberto] = useState(false);
   const [editId, setEditId] = useState(null);
   const [salvando, setSalvando] = useState(false);
   const [form, setForm] = useState({
@@ -68,17 +105,9 @@ export default function Conteudos() {
     professor: user?.displayName || user?.email || ""
   });
 
-  // Modal de Impressão do Diário de Conteúdos
-  const [modalImprimirAberto, setModalImprimirAberto] = useState(false);
-
-  // Detalhes da Turma Selecionada
-  const dadosTurmaAtual = useMemo(() => {
-    return (turmas || []).find(t => t.nome === turmaSelecionada);
-  }, [turmas, turmaSelecionada]);
-
   // Filtragem dos Conteúdos por Busca
   const conteudosFiltrados = useMemo(() => {
-    return (conteudos || []).filter(item => {
+    return (conteudos || []).filter((item) => {
       const matchBusca =
         !busca ||
         (item.conteudo || "").toLowerCase().includes(busca.toLowerCase()) ||
@@ -92,8 +121,97 @@ export default function Conteudos() {
 
   // Totais e Estatísticas
   const totalAulasRegistradas = useMemo(() => {
-    return (conteudosFiltrados || []).reduce((acc, c) => acc + (Number(c.aulasQtd) || 1), 0);
+    return (conteudosFiltrados || []).reduce(
+      (acc, c) => acc + (Number(c.aulasQtd) || 1),
+      0
+    );
   }, [conteudosFiltrados]);
+
+  const totalDiasLetivos = useMemo(() => {
+    const datas = new Set((conteudosFiltrados || []).map((c) => c.data).filter(Boolean));
+    return datas.size;
+  }, [conteudosFiltrados]);
+
+  // Grupos de Navegação no Desktop Aside
+  const gruposMenu = useMemo(
+    () => [
+      {
+        titulo: "Visão Geral",
+        itens: [
+          {
+            id: "dashboard",
+            label: "Painel do Diário",
+            subtitulo: "Indicadores e métricas",
+            icon: "layout-dashboard",
+            badge: null
+          }
+        ]
+      },
+      {
+        titulo: "Caderneta & Diário",
+        itens: [
+          {
+            id: "aulas",
+            label: "Aulas & Conteúdos",
+            subtitulo: "Linha do tempo e histórico",
+            icon: "notebook",
+            badge: conteudosFiltrados.length
+          },
+          {
+            id: "lancar",
+            label: "Registrar Aula",
+            subtitulo: "Novo plano ou aula dada",
+            icon: "plus",
+            badge: "Novo"
+          }
+        ]
+      },
+      {
+        titulo: "Currículo & Impressão",
+        itens: [
+          {
+            id: "bncc",
+            label: "Habilidades BNCC",
+            subtitulo: "Matriz curricular",
+            icon: "target-arrow",
+            badge: null
+          },
+          {
+            id: "caderneta",
+            label: "Caderneta Oficial",
+            subtitulo: "Folha para impressão",
+            icon: "printer",
+            badge: "Oficial"
+          }
+        ]
+      }
+    ],
+    [conteudosFiltrados]
+  );
+
+  // Auto-scroll da barra touch de abas no mobile
+  useEffect(() => {
+    if (mobileTabContainerRef.current) {
+      const activeEl = mobileTabContainerRef.current.querySelector(
+        `.${styles.mobileTabChipActive}`
+      );
+      if (activeEl) {
+        activeEl.scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+          block: "nearest"
+        });
+      }
+    }
+  }, [activeTab]);
+
+  const itemAtivoObj = useMemo(() => {
+    for (const g of gruposMenu) {
+      const found = g.itens.find((i) => i.id === activeTab);
+      if (found) return found;
+    }
+    return gruposMenu[0].itens[0];
+  }, [gruposMenu, activeTab]);
 
   // Abrir Modal para Novo Registro
   function abrirNovoRegistro() {
@@ -131,10 +249,22 @@ export default function Conteudos() {
 
   // Salvar Conteúdo
   async function handleSalvar() {
-    if (!form.turma) { alert("Selecione a turma."); return; }
-    if (!form.data) { alert("Informe a data da aula."); return; }
-    if (!form.disciplina) { alert("Selecione a disciplina."); return; }
-    if (!form.conteudo.trim()) { alert("Descreva o conteúdo ministrado na aula."); return; }
+    if (!form.turma) {
+      alert("Selecione a turma.");
+      return;
+    }
+    if (!form.data) {
+      alert("Informe a data da aula.");
+      return;
+    }
+    if (!form.disciplina) {
+      alert("Selecione a disciplina.");
+      return;
+    }
+    if (!form.conteudo.trim()) {
+      alert("Descreva o conteúdo ministrado na aula.");
+      return;
+    }
 
     setSalvando(true);
     try {
@@ -151,11 +281,30 @@ export default function Conteudos() {
         setAlerta({ msg: "Conteúdo da aula atualizado com sucesso!", tipo: "success" });
       } else {
         await addConteudo(payload, activeEscolaId);
-        setAlerta({ msg: "Aula e conteúdo registrados no diário da turma com sucesso!", tipo: "success" });
+        setAlerta({
+          msg: "Aula e conteúdo registrados no diário com sucesso!",
+          tipo: "success"
+        });
       }
 
       setModalAberto(false);
       recarregar();
+
+      // Se estava na aba de lançamento, limpa o formulário ou direciona para aulas
+      if (activeTab === "lancar") {
+        setForm({
+          turma: turmaSelecionada,
+          data: new Date().toISOString().split("T")[0],
+          disciplina: "Português",
+          conteudo: "",
+          habilidades: "",
+          observacao: "",
+          aulasQtd: 1,
+          bimestre: "1º Bimestre",
+          professor: user?.displayName || ""
+        });
+        setActiveTab("aulas");
+      }
     } catch (err) {
       alert("Erro ao salvar conteúdo: " + err.message);
     } finally {
@@ -165,7 +314,12 @@ export default function Conteudos() {
 
   // Excluir Conteúdo
   async function handleExcluir(id) {
-    if (!window.confirm("Deseja realmente remover este registro de aula do diário da turma?")) return;
+    if (
+      !window.confirm(
+        "Deseja realmente remover este registro de aula da caderneta da turma?"
+      )
+    )
+      return;
     try {
       await deleteConteudo(id);
       setAlerta({ msg: "Registro de aula removido com sucesso.", tipo: "success" });
@@ -175,363 +329,487 @@ export default function Conteudos() {
     }
   }
 
-  if (cT || cP) return <Spinner />;
+  if (cT || cP) {
+    return <Spinner texto="Carregando caderneta e turmas da escola..." />;
+  }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      {alerta && <Alert tipo={alerta.tipo}>{alerta.msg}</Alert>}
+    <div className={styles.container}>
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── NAVEGAÇÃO MOBILE INTELIGENTE & ABAS DESLIZANTES ── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.mobileNavHeader}>
+        {/* Topo do Módulo Mobile */}
+        <div className={styles.mobileBarTop}>
+          <div className={styles.mobileModuleTitle}>
+            <div className={styles.mobileIconBadge}>
+              <i className="ti ti-notebook" />
+            </div>
+            <div className={styles.mobileTitleText}>
+              <span className={styles.mobileTitleMain}>Diário / Aulas</span>
+              <span className={styles.mobileTitleSub}>
+                {itemAtivoObj?.label || "Caderneta Digital"} · {turmaSelecionada || "Turma"}
+              </span>
+            </div>
+          </div>
 
-      {/* Cabeçalho Principal */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
-            <i className="ti ti-notebook" style={{ color: "#818cf8", fontSize: 26 }} />
-            Caderneta Digital · Conteúdos Aplicados
-          </h1>
-          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#94a3b8" }}>
-            Diário de classe eletrônico: registro diário de aulas, conteúdos ministrados, habilidades (BNCC) e histórico pedagógico da turma.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-          <Btn
-            variant="default"
-            onClick={() => setModalImprimirAberto(true)}
-            disabled={!conteudosFiltrados.length}
-            style={{ fontWeight: 600 }}
-          >
-            <i className="ti ti-printer" /> Imprimir Diário
-          </Btn>
-          <Btn variant="primary" onClick={abrirNovoRegistro}>
-            <i className="ti ti-plus" /> Registrar Aula / Conteúdo
-          </Btn>
-        </div>
-      </div>
-
-      {/* Barra Superior de Seleção de Turma, Disciplina e Bimestre */}
-      <Card style={{ padding: "16px 20px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14, alignItems: "end" }}>
-          {/* Seletor de Turma */}
-          <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
-              1. Turma *
-            </label>
-            <Select
-              value={turmaSelecionada}
-              onChange={e => {
-                setTurmaSelecionada(e.target.value);
-                setSearchParams({ turma: e.target.value });
-              }}
+          <div className={styles.mobileBarActions}>
+            <button
+              type="button"
+              className={`${styles.mobileActionButton} ${
+                resumoMobileAberto ? styles.mobileActionButtonActive : ""
+              }`}
+              onClick={() => setResumoMobileAberto(!resumoMobileAberto)}
+              title="Resumo do Diário"
             >
-              {turmas.map(t => (
-                <option key={t.id} value={t.nome}>
-                  {t.nome} ({t.ano} - {t.turno})
-                </option>
-              ))}
-            </Select>
-          </div>
+              <i className="ti ti-chart-dots" />
+              <span>Resumo</span>
+            </button>
 
-          {/* Seletor de Disciplina */}
-          <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
-              2. Disciplina / Componente
-            </label>
-            <Select
-              value={disciplinaSelecionada}
-              onChange={e => setDisciplinaSelecionada(e.target.value)}
+            <button
+              type="button"
+              className={styles.mobileActionButton}
+              onClick={abrirNovoRegistro}
+              style={{ background: "#6366f1", color: "#ffffff", borderColor: "#818cf8" }}
+              title="Nova Aula"
             >
-              <option value="">Todas as Disciplinas</option>
-              {DISCIPLINAS.map(d => (
-                <option key={d} value={d}>{d}</option>
-              ))}
-            </Select>
-          </div>
-
-          {/* Seletor de Bimestre */}
-          <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
-              3. Bimestre Letivo
-            </label>
-            <Select
-              value={bimestreSelecionado}
-              onChange={e => setBimestreSelecionado(e.target.value)}
-            >
-              <option value="">Todos os Bimestres</option>
-              {BIMESTRES.map(b => (
-                <option key={b} value={b}>{b}</option>
-              ))}
-            </Select>
-          </div>
-
-          {/* Campo de Busca Rápida */}
-          <div>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 6 }}>
-              4. Buscar no Diário
-            </label>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#243144", border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px" }}>
-              <i className="ti ti-search" style={{ color: "#818cf8", fontSize: 16 }} />
-              <input
-                value={busca}
-                onChange={e => setBusca(e.target.value)}
-                placeholder="Tema, habilidade BNCC, docente..."
-                style={{ border: "none", background: "transparent", fontSize: 13, color: "#ffffff", outline: "none", width: "100%" }}
-              />
-            </div>
+              <i className="ti ti-plus" />
+              <span>Aula</span>
+            </button>
           </div>
         </div>
-      </Card>
 
-      {/* Cards de Resumo da Turma e Carga Horária */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-        <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(99, 102, 241, 0.15)", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
-            <i className="ti ti-chalkboard" />
-          </div>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Turma Selecionada</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#ffffff" }}>{turmaSelecionada || "—"}</div>
-            <div style={{ fontSize: 11, color: "#94a3b8" }}>{dadosTurmaAtual?.ano || "Ensino Fundamental"} · Turno {dadosTurmaAtual?.turno || "Manhã"}</div>
-          </div>
-        </Card>
-
-        <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(52, 211, 153, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
-            <i className="ti ti-calendar-event" />
-          </div>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Registros no Diário</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#34d399" }}>
-              {conteudosFiltrados.length} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>dias letivos</span>
+        {/* Painel Expansível de Resumo no Mobile */}
+        {resumoMobileAberto && (
+          <div className={styles.mobileSummaryPanel}>
+            <div className={styles.mobileSummaryGrid}>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Carga Horária Dadas</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#818cf8" }}>
+                  {totalAulasRegistradas} h/a
+                </span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Dias Letivos</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#34d399" }}>
+                  {totalDiasLetivos} dias
+                </span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Aulas na Turma</span>
+                <span className={styles.mobileSummaryValue}>
+                  {conteudosFiltrados.length} reg.
+                </span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Turma Ativa</span>
+                <span
+                  className={styles.mobileSummaryValue}
+                  style={{
+                    fontSize: 13,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
+                  }}
+                >
+                  {turmaSelecionada || "Nenhuma"}
+                </span>
+              </div>
             </div>
-          </div>
-        </Card>
-
-        <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(168, 85, 247, 0.15)", color: "#c084fc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
-            <i className="ti ti-clock-play" />
-          </div>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Horas-Aula Ministradas</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#c084fc" }}>
-              {totalAulasRegistradas} <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>aulas dadas</span>
-            </div>
-          </div>
-        </Card>
-
-        <Card style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
-            <i className="ti ti-book-2" />
-          </div>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase" }}>Componente / Filtro</div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
-              {disciplinaSelecionada || "Geral (Todas)"}
-            </div>
-            <div style={{ fontSize: 11, color: "#fbbf24" }}>{bimestreSelecionado || "Todos os Bimestres"}</div>
-          </div>
-        </Card>
-      </div>
-
-      {/* Linha do Tempo e Tabela do Diário de Conteúdos */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 8 }}>
-            <i className="ti ti-history" style={{ color: "#818cf8" }} />
-            Histórico Pedagógico de Aulas Ministradas · Turma {turmaSelecionada}
-          </h2>
-          <span style={{ fontSize: 12, color: "#94a3b8" }}>
-            Exibindo <strong style={{ color: "#ffffff" }}>{conteudosFiltrados.length}</strong> registro(s)
-          </span>
-        </div>
-
-        {cC ? (
-          <Spinner />
-        ) : !conteudosFiltrados.length ? (
-          <EmptyState
-            icon="notebook"
-            texto={`Nenhum conteúdo registrado para a turma "${turmaSelecionada}" com os filtros atuais.`}
-          >
-            <div style={{ marginTop: 12 }}>
-              <Btn variant="primary" onClick={abrirNovoRegistro}>
-                + Registrar Primeira Aula
-              </Btn>
-            </div>
-          </EmptyState>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {conteudosFiltrados.map((item, idx) => (
-              <Card
-                key={item.id || idx}
-                style={{
-                  padding: "16px 20px",
-                  borderRadius: 10,
-                  transition: "all 0.15s ease"
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
-                  {/* Bloco Esquerda: Data, Disciplina e Bimestre */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-                    <div style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "#243144",
-                      border: "1px solid #33435c",
-                      borderRadius: 8,
-                      padding: "6px 12px",
-                      minWidth: 70
-                    }}>
-                      <span style={{ fontSize: 18, fontWeight: 800, color: "#818cf8", lineHeight: 1 }}>
-                        {item.data ? new Date(item.data + "T12:00:00").getDate() : "—"}
-                      </span>
-                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", color: "#a5b4fc", marginTop: 2 }}>
-                        {item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR", { month: "short" }) : ""}
-                      </span>
-                    </div>
-
-                    <div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 15, fontWeight: 700, color: "#ffffff" }}>
-                          {item.disciplina}
-                        </span>
-                        <Badge color="blue">{item.bimestre || "1º Bimestre"}</Badge>
-                        <Badge color="gray">{item.aulasQtd || 1} aula(s)</Badge>
-                      </div>
-                      <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
-                        Data: <strong style={{ color: "#cbd5e1" }}>{item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</strong> · Docente: <strong style={{ color: "#cbd5e1" }}>{item.professor || "Professor Regente"}</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Ações */}
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <Btn
-                      variant="default"
-                      onClick={() => abrirEditarRegistro(item)}
-                      style={{ padding: "4px 8px", fontSize: 11 }}
-                      title="Editar Aula"
-                    >
-                      <i className="ti ti-edit" /> Editar
-                    </Btn>
-                    <Btn
-                      variant="danger"
-                      onClick={() => handleExcluir(item.id)}
-                      style={{ padding: "4px 8px", fontSize: 11 }}
-                      title="Excluir Registro"
-                    >
-                      <i className="ti ti-trash" />
-                    </Btn>
-                  </div>
-                </div>
-
-                {/* Bloco Central: Conteúdo Ministrado */}
-                <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #2c3b52" }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", marginBottom: 4 }}>
-                    Conteúdo Ministrado:
-                  </div>
-                  <div style={{ fontSize: 13.5, color: "#e2e8f0", lineHeight: 1.6, whiteSpace: "pre-line" }}>
-                    {item.conteudo}
-                  </div>
-                </div>
-
-                {/* Habilidade / Competência (BNCC) */}
-                {item.habilidades && (
-                  <div style={{ marginTop: 10, background: "#243144", padding: "8px 12px", borderRadius: 6, border: "1px solid #33435c" }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#38bdf8", textTransform: "uppercase", display: "inline-block", marginRight: 6 }}>
-                      <i className="ti ti-target-arrow" style={{ marginRight: 4 }} />
-                      Habilidade / Competência (BNCC):
-                    </span>
-                    <span style={{ fontSize: 12, color: "#cbd5e1" }}>
-                      {item.habilidades}
-                    </span>
-                  </div>
-                )}
-
-                {/* Observações Pedagógicas */}
-                {item.observacao && (
-                  <div style={{ marginTop: 8, fontSize: 12, color: "#94a3b8", fontStyle: "italic", display: "flex", alignItems: "flex-start", gap: 6 }}>
-                    <i className="ti ti-info-circle" style={{ fontSize: 14, color: "#818cf8", marginTop: 2 }} />
-                    <span><strong style={{ color: "#cbd5e1" }}>Observações:</strong> {item.observacao}</span>
-                  </div>
-                )}
-              </Card>
-            ))}
           </div>
         )}
+
+        {/* Barra de Abas Deslizante no Topo (Sticky Touch Chips) */}
+        <div className={styles.mobileTabsSticky}>
+          <div className={styles.mobileTabsScroll} ref={mobileTabContainerRef}>
+            {gruposMenu.flatMap((g) =>
+              g.itens.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`${styles.mobileTabChip} ${
+                    activeTab === item.id ? styles.mobileTabChipActive : ""
+                  }`}
+                  onClick={() => setActiveTab(item.id)}
+                >
+                  <i className={`ti ti-${item.icon}`} />
+                  <span>{item.label}</span>
+                  {item.badge !== null && item.badge !== undefined && (
+                    <span className={styles.mobileTabBadge}>{item.badge}</span>
+                  )}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
       </div>
+
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── CONTEÚDO PRINCIPAL (COLUNA ESQUERDA) ───────────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.contentCol}>
+        {alerta && (
+          <Alert tipo={alerta.tipo} onClose={() => setAlerta(null)}>
+            {alerta.msg}
+          </Alert>
+        )}
+
+        {activeTab === "dashboard" && (
+          <DashboardDiario
+            turmaSelecionada={turmaSelecionada}
+            dadosTurmaAtual={dadosTurmaAtual}
+            conteudosFiltrados={conteudosFiltrados}
+            totalAulasRegistradas={totalAulasRegistradas}
+            abrirNovoRegistro={abrirNovoRegistro}
+            setModalImprimirAberto={() => setActiveTab("caderneta")}
+            onNavegarAba={(aba) => setActiveTab(aba)}
+            abrirEditarRegistro={abrirEditarRegistro}
+          />
+        )}
+
+        {activeTab === "aulas" && (
+          <ListaAulas
+            turmas={turmas}
+            turmaSelecionada={turmaSelecionada}
+            setTurmaSelecionada={(t) => {
+              setTurmaSelecionada(t);
+              setSearchParams({ turma: t });
+            }}
+            disciplinaSelecionada={disciplinaSelecionada}
+            setDisciplinaSelecionada={setDisciplinaSelecionada}
+            bimestreSelecionado={bimestreSelecionado}
+            setBimestreSelecionado={setBimestreSelecionado}
+            busca={busca}
+            setBusca={setBusca}
+            conteudosFiltrados={conteudosFiltrados}
+            carregando={cC}
+            abrirNovoRegistro={abrirNovoRegistro}
+            abrirEditarRegistro={abrirEditarRegistro}
+            handleExcluir={handleExcluir}
+            setModalImprimirAberto={() => setActiveTab("caderneta")}
+            DISCIPLINAS={DISCIPLINAS}
+            BIMESTRES={BIMESTRES}
+          />
+        )}
+
+        {activeTab === "lancar" && (
+          <LancarAula
+            turmas={turmas}
+            form={form}
+            setForm={setForm}
+            handleSalvar={handleSalvar}
+            salvando={salvando}
+            DISCIPLINAS={DISCIPLINAS}
+            BIMESTRES={BIMESTRES}
+            onCancelar={() => setActiveTab("aulas")}
+            editId={editId}
+          />
+        )}
+
+        {activeTab === "bncc" && (
+          <HabilidadesBNCC
+            conteudosFiltrados={conteudosFiltrados}
+            turmaSelecionada={turmaSelecionada}
+            disciplinaSelecionada={disciplinaSelecionada}
+            setDisciplinaSelecionada={setDisciplinaSelecionada}
+            DISCIPLINAS={DISCIPLINAS}
+            onNavegarAba={(aba) => setActiveTab(aba)}
+          />
+        )}
+
+        {activeTab === "caderneta" && (
+          <CadernetaOficial
+            turmaSelecionada={turmaSelecionada}
+            dadosTurmaAtual={dadosTurmaAtual}
+            disciplinaSelecionada={disciplinaSelecionada}
+            setDisciplinaSelecionada={setDisciplinaSelecionada}
+            bimestreSelecionado={bimestreSelecionado}
+            setBimestreSelecionado={setBimestreSelecionado}
+            conteudosFiltrados={conteudosFiltrados}
+            totalAulasRegistradas={totalAulasRegistradas}
+            escolaAtual={escolaAtual}
+            DISCIPLINAS={DISCIPLINAS}
+            BIMESTRES={BIMESTRES}
+          />
+        )}
+      </div>
+
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── COLUNA LATERAL DIREITA (DESKTOP ASIDE) ─────────── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <aside className={styles.desktopAside}>
+        {/* Card de Turma em Foco */}
+        <div className={styles.sideTurmaCard}>
+          <div className={styles.sideTurmaLabel}>Turma em Foco</div>
+          <select
+            className={styles.sideTurmaSelect}
+            value={turmaSelecionada}
+            onChange={(e) => {
+              setTurmaSelecionada(e.target.value);
+              setSearchParams({ turma: e.target.value });
+            }}
+          >
+            {turmas.map((t) => (
+              <option key={t.id} value={t.nome}>
+                {t.nome} ({t.ano} - {t.turno})
+              </option>
+            ))}
+          </select>
+
+          <div className={styles.sideTurmaMeta}>
+            <div>
+              <strong>Ano / Série:</strong> {dadosTurmaAtual?.ano || "Fundamental"}
+            </div>
+            <div>
+              <strong>Turno:</strong> {dadosTurmaAtual?.turno || "Matutino"}
+            </div>
+            <div>
+              <strong>Carga Horária:</strong> {totalAulasRegistradas} aulas
+            </div>
+          </div>
+
+          <Btn
+            variant="primary"
+            onClick={abrirNovoRegistro}
+            style={{ width: "100%", justifyContent: "center", fontWeight: 700 }}
+          >
+            <i className="ti ti-plus" /> Registrar Aula
+          </Btn>
+        </div>
+
+        {/* Card do Menu de Navegação */}
+        <div className={styles.sideCard}>
+          <div className={styles.sideHeader}>
+            <div className={styles.sideTitleWrap}>
+              <div className={styles.sideLogo}>
+                <i className="ti ti-notebook" />
+              </div>
+              <div>
+                <div className={styles.sideTitle}>Caderneta Digital</div>
+                <div className={styles.sideSubtitle}>Diário de Classe & Aulas</div>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.sideRefreshBtn}
+              onClick={() => recarregar()}
+              title="Recarregar Diário"
+            >
+              <i className="ti ti-refresh" />
+            </button>
+          </div>
+
+          {gruposMenu.map((grupo, gIdx) => (
+            <div key={grupo.titulo} style={{ marginTop: gIdx > 0 ? 12 : 0 }}>
+              <div className={styles.sideGroupTitle}>{grupo.titulo}</div>
+              <div className={styles.sideNavList}>
+                {grupo.itens.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`${styles.sideNavItem} ${
+                      activeTab === item.id ? styles.sideNavItemActive : ""
+                    }`}
+                    onClick={() => setActiveTab(item.id)}
+                  >
+                    <div className={styles.sideItemLeft}>
+                      <i className={`ti ti-${item.icon} ${styles.sideItemIcon}`} />
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <span className={styles.sideItemText}>{item.label}</span>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            color: activeTab === item.id ? "#c7d2fe" : "#64748b"
+                          }}
+                        >
+                          {item.subtitulo}
+                        </span>
+                      </div>
+                    </div>
+                    {item.badge !== null && item.badge !== undefined && (
+                      <span className={styles.sideItemBadge}>{item.badge}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* Atalho para Frequência da Turma */}
+          <div className={styles.sideFooter}>
+            <div className={styles.sideFooterLabel}>Atalho Rápido</div>
+            <div className={styles.sideFooterTitle}>Frequência de Alunos</div>
+            <div className={styles.sideFooterSub}>
+              Chamada diária e mapa mensal da turma {turmaSelecionada}
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate("/frequencia")}
+              style={{
+                marginTop: 8,
+                width: "100%",
+                padding: "6px 10px",
+                borderRadius: 6,
+                border: "1px solid #33435c",
+                background: "#1e293b",
+                color: "#818cf8",
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6
+              }}
+            >
+              <i className="ti ti-calendar-check" /> Acessar Frequência
+            </button>
+          </div>
+        </div>
+      </aside>
 
       {/* ========================================================================= */}
       {/* MODAL: REGISTRAR / EDITAR AULA E CONTEÚDO                                 */}
       {/* ========================================================================= */}
       {modalAberto && (
         <Modal
-          titulo={editId ? `Editar Registro de Aula · Turma ${form.turma}` : `Registrar Conteúdo de Aula · Turma ${form.turma}`}
+          titulo={
+            editId
+              ? `Editar Registro de Aula · Turma ${form.turma}`
+              : `Registrar Conteúdo de Aula · Turma ${form.turma}`
+          }
           onClose={() => setModalAberto(false)}
           onSave={handleSalvar}
           salvando={salvando}
           textSave={editId ? "Atualizar Aula" : "Salvar no Diário da Turma"}
           width={650}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+              maxHeight: "75vh",
+              overflowY: "auto",
+              paddingRight: 4
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: 12
+              }}
+            >
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#cbd5e1",
+                    display: "block",
+                    marginBottom: 4
+                  }}
+                >
                   Turma *
                 </label>
                 <Select
                   value={form.turma}
-                  onChange={e => setForm(f => ({ ...f, turma: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, turma: e.target.value }))}
                 >
-                  {turmas.map(t => (
-                    <option key={t.id} value={t.nome}>{t.nome} ({t.ano} - {t.turno})</option>
+                  {turmas.map((t) => (
+                    <option key={t.id} value={t.nome}>
+                      {t.nome} ({t.ano} - {t.turno})
+                    </option>
                   ))}
                 </Select>
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#cbd5e1",
+                    display: "block",
+                    marginBottom: 4
+                  }}
+                >
                   Data da Aula *
                 </label>
                 <Input
                   type="date"
                   value={form.data}
-                  onChange={e => setForm(f => ({ ...f, data: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, data: e.target.value }))}
                 />
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 100px", gap: 12 }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                gap: 12
+              }}
+            >
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
-                  Disciplina / Componente *
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#cbd5e1",
+                    display: "block",
+                    marginBottom: 4
+                  }}
+                >
+                  Disciplina *
                 </label>
                 <Select
                   value={form.disciplina}
-                  onChange={e => setForm(f => ({ ...f, disciplina: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, disciplina: e.target.value }))}
                 >
-                  {DISCIPLINAS.map(d => (
-                    <option key={d} value={d}>{d}</option>
+                  {DISCIPLINAS.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
                   ))}
                 </Select>
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#cbd5e1",
+                    display: "block",
+                    marginBottom: 4
+                  }}
+                >
                   Bimestre *
                 </label>
                 <Select
                   value={form.bimestre}
-                  onChange={e => setForm(f => ({ ...f, bimestre: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, bimestre: e.target.value }))}
                 >
-                  {BIMESTRES.map(b => (
-                    <option key={b} value={b}>{b}</option>
+                  {BIMESTRES.map((b) => (
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
                   ))}
                 </Select>
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#cbd5e1",
+                    display: "block",
+                    marginBottom: 4
+                  }}
+                >
                   Nº Aulas *
                 </label>
                 <Input
@@ -539,22 +817,31 @@ export default function Conteudos() {
                   min="1"
                   max="6"
                   value={form.aulasQtd}
-                  onChange={e => setForm(f => ({ ...f, aulasQtd: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, aulasQtd: e.target.value }))}
                 />
               </div>
             </div>
 
             {/* Conteúdo Ministrado */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+              <label
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#cbd5e1",
+                  display: "block",
+                  marginBottom: 4
+                }}
+              >
                 Conteúdo Ministrado (Assunto / Tema da Aula) *
               </label>
               <textarea
                 value={form.conteudo}
-                onChange={e => setForm(f => ({ ...f, conteudo: e.target.value }))}
-                placeholder="Ex: Leitura e interpretação de texto poético; Estrutura de versos e estrofes; Resolução de exercícios da página 45 a 48..."
+                onChange={(e) => setForm((f) => ({ ...f, conteudo: e.target.value }))}
+                placeholder="Ex: Leitura e interpretação de texto poético; Estrutura de versos e estrofes..."
                 style={{
                   width: "100%",
+                  boxSizing: "border-box",
                   minHeight: 80,
                   border: "1px solid #33435c",
                   borderRadius: 8,
@@ -570,122 +857,62 @@ export default function Conteudos() {
 
             {/* Habilidade / Competência */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
+              <label
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#cbd5e1",
+                  display: "block",
+                  marginBottom: 4
+                }}
+              >
                 Habilidade / Competência Desenvolvida (BNCC / Currículo)
               </label>
               <Input
                 value={form.habilidades}
-                onChange={e => setForm(f => ({ ...f, habilidades: e.target.value }))}
-                placeholder="Ex: EF06LP01, EF06MA02 - Identificar a função social de textos que circulam em campos da vida social..."
+                onChange={(e) => setForm((f) => ({ ...f, habilidades: e.target.value }))}
+                placeholder="Ex: EF06LP01, EF06MA02..."
               />
             </div>
 
-            {/* Professor e Observações */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
-                  Docente Responsável
-                </label>
-                <Input
-                  value={form.professor}
-                  onChange={e => setForm(f => ({ ...f, professor: e.target.value }))}
-                  placeholder="Nome do professor..."
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#cbd5e1", display: "block", marginBottom: 4 }}>
-                  Observações Pedagógicas (Opcional)
-                </label>
-                <Input
-                  value={form.observacao}
-                  onChange={e => setForm(f => ({ ...f, observacao: e.target.value }))}
-                  placeholder="Ex: Atividade em grupo; Tarefa de casa nº 3..."
-                />
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
-
-      {/* ========================================================================= */}
-      {/* MODAL: IMPRESSÃO DO DIÁRIO DE CLASSE / CONTEÚDOS MINISTRADOS              */}
-      {/* ========================================================================= */}
-      {modalImprimirAberto && (
-        <Modal
-          titulo="Diário de Classe Oficial · Conteúdos Ministrados"
-          onClose={() => setModalImprimirAberto(false)}
-          onSave={() => window.print()}
-          textSave="Imprimir Diário"
-          width={760}
-        >
-          <div style={{ border: "2px solid #000", padding: "20px 24px", background: "white", borderRadius: 4, fontSize: 11, lineHeight: 1.5 }}>
-            {/* Cabeçalho Oficial */}
-            <div style={{ textAlign: "center", borderBottom: "2px solid #000", paddingBottom: 10, marginBottom: 14 }}>
-              <div style={{ fontWeight: 800, fontSize: 12, textTransform: "uppercase" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
-              <div style={{ fontWeight: 800, fontSize: 15, color: "#1e3a8a", marginTop: 2 }}>{escolaAtual.nome || "ESCOLA MUNICIPAL"}</div>
-              <div style={{ fontSize: 10, color: "#555" }}>CADERNETA DIGITAL · DIÁRIO DE REGISTRO DE CONTEÚDOS E HABILIDADES TRABALHADAS · ANO {ANO_LETIVO_ATUAL}</div>
+            {/* Docente Responsável */}
+            <div>
+              <label
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#cbd5e1",
+                  display: "block",
+                  marginBottom: 4
+                }}
+              >
+                Docente Responsável
+              </label>
+              <Input
+                value={form.professor}
+                onChange={(e) => setForm((f) => ({ ...f, professor: e.target.value }))}
+                placeholder="Nome do professor..."
+              />
             </div>
 
-            {/* Quadro de Identificação */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "6px 12px", background: "#f8fafc", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 4, marginBottom: 14, fontSize: 11 }}>
-              <div><strong>Turma:</strong> {turmaSelecionada} ({dadosTurmaAtual?.ano || "—"})</div>
-              <div><strong>Turno:</strong> {dadosTurmaAtual?.turno || "Manhã"}</div>
-              <div><strong>Componente:</strong> {disciplinaSelecionada || "Todas as Disciplinas"}</div>
-              <div><strong>Bimestre:</strong> {bimestreSelecionado || "Todos os Bimestres"}</div>
-              <div><strong>Total de Aulas Dadas:</strong> {totalAulasRegistradas} hora(s)-aula</div>
-              <div><strong>Emissão:</strong> {new Date().toLocaleDateString("pt-BR")}</div>
-            </div>
-
-            {/* Tabela de Aulas */}
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10 }}>
-              <thead>
-                <tr style={{ background: "#f0f0f0", borderTop: "1px solid #000", borderBottom: "1px solid #000" }}>
-                  <th style={{ padding: "6px 8px", textAlign: "left", width: 70 }}>Data</th>
-                  <th style={{ padding: "6px 8px", textAlign: "center", width: 45 }}>Aulas</th>
-                  <th style={{ padding: "6px 8px", textAlign: "left", width: 95 }}>Disciplina</th>
-                  <th style={{ padding: "6px 8px", textAlign: "left" }}>Conteúdo Ministrado</th>
-                  <th style={{ padding: "6px 8px", textAlign: "left", width: 140 }}>Habilidade (BNCC)</th>
-                  <th style={{ padding: "6px 8px", textAlign: "left", width: 110 }}>Docente</th>
-                </tr>
-              </thead>
-              <tbody>
-                {conteudosFiltrados.map((item, idx) => (
-                  <tr key={item.id || idx} style={{ borderBottom: "1px solid #ccc" }}>
-                    <td style={{ padding: "5px 8px", whiteSpace: "nowrap" }}>
-                      {item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
-                    </td>
-                    <td style={{ padding: "5px 8px", textAlign: "center", fontWeight: 700 }}>
-                      {item.aulasQtd || 1}
-                    </td>
-                    <td style={{ padding: "5px 8px", fontWeight: 600 }}>
-                      {item.disciplina}
-                    </td>
-                    <td style={{ padding: "5px 8px" }}>
-                      <div>{item.conteudo}</div>
-                      {item.observacao && (
-                        <div style={{ fontSize: 9, color: "#666", fontStyle: "italic", marginTop: 2 }}>Obs: {item.observacao}</div>
-                      )}
-                    </td>
-                    <td style={{ padding: "5px 8px", fontSize: 9.5 }}>
-                      {item.habilidades || "—"}
-                    </td>
-                    <td style={{ padding: "5px 8px", fontSize: 9.5 }}>
-                      {item.professor || "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {/* Assinaturas */}
-            <div style={{ marginTop: 40, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, textAlign: "center", fontSize: 9.5 }}>
-              <div>
-                <div style={{ borderTop: "1px solid #000", paddingTop: 4 }}>Assinatura do(a) Professor(a) Regente</div>
-              </div>
-              <div>
-                <div style={{ borderTop: "1px solid #000", paddingTop: 4 }}>Coordenação Pedagógica / Visto</div>
-              </div>
+            {/* Observações Pedagógicas */}
+            <div>
+              <label
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#cbd5e1",
+                  display: "block",
+                  marginBottom: 4
+                }}
+              >
+                Observações Pedagógicas (Opcional)
+              </label>
+              <Input
+                value={form.observacao}
+                onChange={(e) => setForm((f) => ({ ...f, observacao: e.target.value }))}
+                placeholder="Ex: Atividade em grupo; Tarefa de fixação..."
+              />
             </div>
           </div>
         </Modal>

@@ -14,6 +14,7 @@ import { getSolicitacoesMatricula } from "../services/matriculaOnlineService";
 import SolicitacoesMatriculaOnline from "./matriculas/components/SolicitacoesMatriculaOnline";
 import { ANO_LETIVO_ATUAL } from "../utils/constants";
 import { Card, Badge, Btn, Modal, Select, Input, Alert, Spinner, EmptyState, ProgressBar } from "../components/ui";
+import styles from "./Matriculas.module.css";
 
 
 export default function Matriculas() {
@@ -374,48 +375,59 @@ export default function Matriculas() {
       {alerta && <Alert tipo={alerta.tipo}>{alerta.msg}</Alert>}
 
       {/* Cabeçalho Principal do Módulo */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
+      <div className={styles.headerWrapper}>
+        <div className={styles.titleArea}>
+          <h1 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 10 }}>
             <i className="ti ti-clipboard-check" style={{ color: "#60a5fa", fontSize: 26 }} />
             Fluxo de Matrículas, Rematrículas & Remanejamentos
           </h1>
-          <p style={{ margin: "4px 0 0 0", fontSize: 13, color: "#94a3b8" }}>
+          <p style={{ margin: "4px 0 0 0", fontSize: 10, color: "#94a3b8" }}>
             Gestão inteligente de vagas por turma, admissão completa de novos estudantes, rematrícula e remanejamento entre turmas.
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        {/* 4 Botões Quadrados Lado a Lado */}
+        <div className={styles.actionsGrid}>
           <a
             href="/solicitar-matricula"
             target="_blank"
             rel="noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "7px 14px",
-              borderRadius: 8,
-              background: "var(--badge-blue-bg, rgba(59, 130, 246, 0.15))",
-              color: "var(--badge-blue-text, #0369a1)",
-              border: "1px solid var(--badge-blue-border, #2c3b52)",
-              fontSize: 13,
-              fontWeight: 600,
-              textDecoration: "none",
-              transition: "all 0.15s ease"
-            }}
+            className={`${styles.squareActionBtn} ${styles.btnPortal}`}
+            title="Acessar Portal do Responsável (Matrícula Online)"
           >
-            <i className="ti ti-external-link" /> Portal do Responsável
+            <i className="ti ti-external-link" />
+            <span>Portal do Responsável</span>
           </a>
-          <Btn variant="default" onClick={() => { setAbaAtiva("remanejamento"); setSubAbaRemanejamento("individual"); }}>
-            <i className="ti ti-arrows-exchange" /> Remanejar Turma
-          </Btn>
-          <Btn variant="default" onClick={() => setAbaAtiva("rematricula_lote")}>
-            <i className="ti ti-users-group" /> Rematrícula em Lote
-          </Btn>
-          <Btn variant="primary" onClick={() => navigate("/matriculas/nova")}>
-            <i className="ti ti-plus" /> Nova Matrícula
-          </Btn>
+
+          <button
+            type="button"
+            onClick={() => { setAbaAtiva("remanejamento"); setSubAbaRemanejamento("individual"); }}
+            className={`${styles.squareActionBtn} ${styles.btnRemanejar}`}
+            title="Remanejamento de turma"
+          >
+            <i className="ti ti-arrows-exchange" />
+            <span>Remanejar Turma</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setAbaAtiva("rematricula_lote")}
+            className={`${styles.squareActionBtn} ${styles.btnRematricula}`}
+            title="Rematrícula de estudantes em lote"
+          >
+            <i className="ti ti-users-group" />
+            <span>Rematrícula em Lote</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigate("/matriculas/nova")}
+            className={`${styles.squareActionBtn} ${styles.btnNovaMatricula}`}
+            title="Admitir novo estudante"
+          >
+            <i className="ti ti-plus" />
+            <span>Nova Matrícula</span>
+          </button>
         </div>
       </div>
 
@@ -724,8 +736,8 @@ export default function Matriculas() {
                           const temHistorico = Array.isArray(a.historicoRemanejamento) && a.historicoRemanejamento.length > 0;
                           return (
                             <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
-                              onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
-                              onMouseOut={e => e.currentTarget.style.background="transparent"}
+                              onMouseOver={e => e.currentTarget.style.background = "rgba(99, 102, 241, 0.08)"}
+                              onMouseOut={e => e.currentTarget.style.background = "transparent"}
                             >
                               <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#94a3b8" }}>{a.matricula || "—"}</td>
                               <td style={{ padding: "12px 14px" }}>
@@ -1002,7 +1014,7 @@ export default function Matriculas() {
                                 <input
                                   type="checkbox"
                                   checked={selecionado}
-                                  onChange={() => {}}
+                                  onChange={() => { }}
                                   style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#3b82f6" }}
                                 />
                               </td>
@@ -1311,7 +1323,7 @@ export default function Matriculas() {
                             <input
                               type="checkbox"
                               checked={selecionado}
-                              onChange={() => {}}
+                              onChange={() => { }}
                               style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#3b82f6" }}
                             />
                           </td>
@@ -1386,8 +1398,8 @@ export default function Matriculas() {
                       const jaRenovado = a.situacaoMatricula === "Renovação";
                       return (
                         <tr key={a.id} style={{ borderBottom: "1px solid #2c3b52", transition: "background 0.15s ease" }}
-                          onMouseOver={e => e.currentTarget.style.background="rgba(99, 102, 241, 0.08)"}
-                          onMouseOut={e => e.currentTarget.style.background="transparent"}
+                          onMouseOver={e => e.currentTarget.style.background = "rgba(99, 102, 241, 0.08)"}
+                          onMouseOut={e => e.currentTarget.style.background = "transparent"}
                         >
                           <td style={{ padding: "12px 14px", fontFamily: "monospace", fontSize: 12, color: "#94a3b8" }}>{a.matricula || "—"}</td>
                           <td style={{ padding: "12px 14px", fontWeight: 600, color: "#ffffff", fontSize: 13 }}>{a.nome}</td>

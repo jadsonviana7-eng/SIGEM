@@ -1,0 +1,359 @@
+/* =========================================================
+   ConsumoEscolas.module.css - Estilos da aba Consumo por Escola
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Header da Aba */
+.headerBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerSubtitle {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 4px;
+}
+
+/* Grid de Indicadores KPI */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.kpiCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.kpiHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpiLabel {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.kpiValue {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+.kpiSub {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Layout Principal: 2 Colunas no Desktop, 1 Coluna Completa no Mobile
+   ══════════════════════════════════════════════════════════════════════ */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Em telas médias e menores (tablets e celulares), empilhar em 1 coluna */
+@media (max-width: 900px) {
+  .mainGrid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .kpiGrid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* Card Padrão da Seção */
+.sectionCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnPrint {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btnPrint:hover {
+  background: var(--bg-surface-hover, #2c3c52);
+  color: var(--text-primary, #ffffff);
+}
+
+/* Barra de Progresso de Categoria */
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.categoryTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.categoryName {
+  font-weight: 600;
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.categoryVal {
+  font-weight: 700;
+  color: #34d399;
+}
+
+.progressBarTrack {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-surface, #0f172a);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #33415c);
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+/* Linhas do Relatório PNAE */
+.pnaeItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pnaeRow {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #2c3b52);
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.pnaeRowHighlightGreen {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.pnaeRowHighlightBlue {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.pnaeLabel {
+  color: var(--text-secondary, #cbd5e1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pnaeVal {
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Meta PNAE Progress Bar Box */
+.pnaeMeterBox {
+  background: var(--bg-surface, #1e293b);
+  border: 1px solid var(--border-color, #33435c);
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pnaeMeterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+}
+
+.legalNotice {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.45;
+  padding: 10px 12px;
+  background: rgba(148, 163, 184, 0.08);
+  border-left: 3px solid #8b5cf6;
+  border-radius: 6px;
+}
+
+/* Histórico de Refeições Servidas / Saídas */
+.historyCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow, 0 4px 18px rgba(0, 0, 0, 0.15));
+}
+
+.historyHeader {
+  padding: 14px 18px;
+  background: var(--bg-surface, #161f2e);
+  border-bottom: 1px solid var(--border-color, #33435c);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.historyTable {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.historyTable th {
+  padding: 10px 14px;
+  background: var(--bg-surface, #161f2e);
+  border-bottom: 1px solid var(--border-color, #33435c);
+  color: var(--text-secondary, #cbd5e1);
+  font-weight: 600;
+  font-size: 11.5px;
+  text-transform: uppercase;
+}
+
+.historyTable td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color, #243144);
+}
+
+/* Mobile cards para histórico */
+.historyMobileList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.historyMobileCard {
+  background: var(--bg-surface, #243144);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Ajustes de Impressão */
+@media print {
+  .btnPrint,
+  .kpiGrid {
+    display: none !important;
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}

@@ -25,6 +25,7 @@
   transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   scrollbar-width: none;
 }
+
 .sidebar::-webkit-scrollbar {
   display: none;
 }
@@ -52,6 +53,7 @@
   transition: transform 0.15s ease, border-color 0.15s ease;
   overflow: hidden;
 }
+
 .logoBadge:hover {
   transform: scale(1.05);
   border-color: #818cf8;
@@ -96,11 +98,13 @@
   position: relative;
   cursor: pointer;
 }
+
 .navItem i {
   font-size: 21px;
   color: var(--text-subtle, #8896ab);
   transition: color 0.18s ease, transform 0.18s ease;
 }
+
 .navItem span {
   font-size: 9.5px;
   font-weight: 500;
@@ -120,6 +124,7 @@
   background: var(--bg-surface);
   color: var(--text-primary);
 }
+
 .navItem:hover i {
   color: var(--accent-indigo);
   transform: scale(1.08);
@@ -131,9 +136,11 @@
   color: #ffffff !important;
   box-shadow: 0 4px 18px rgba(99, 102, 241, 0.4);
 }
+
 .navItemActive i {
   color: #ffffff !important;
 }
+
 .navItemActive span {
   color: #ffffff !important;
   font-weight: 600;
@@ -173,6 +180,7 @@
   margin: 4px 0;
   transition: all 0.15s ease;
 }
+
 .expandBtn:hover {
   color: var(--accent-indigo);
   border-color: var(--accent-indigo);
@@ -224,6 +232,7 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
 .schoolEmblemInner {
   width: 100%;
   height: 100%;
@@ -262,6 +271,7 @@
   transition: all 0.15s ease;
   white-space: nowrap;
 }
+
 .academicPill:hover {
   background: var(--bg-surface-hover);
   color: var(--text-primary);
@@ -297,14 +307,17 @@ select.academicPill {
   gap: 10px;
   transition: border-color 0.15s ease;
 }
+
 .searchBar:focus-within {
   border-color: #6366f1;
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
 }
+
 .searchIcon {
   color: var(--text-muted);
   font-size: 16px;
 }
+
 .searchInput {
   background: transparent;
   border: none;
@@ -314,6 +327,7 @@ select.academicPill {
   width: 100%;
   font-family: inherit;
 }
+
 .searchInput::placeholder {
   color: var(--text-muted);
 }
@@ -354,6 +368,7 @@ select.academicPill {
   font-size: 17px;
   transition: all 0.15s ease;
 }
+
 .iconBtn:hover {
   background: var(--bg-surface-hover);
   color: var(--text-primary);
@@ -371,6 +386,7 @@ select.academicPill {
   border-radius: 10px;
   transition: background 0.15s ease;
 }
+
 .userProfileBtn:hover {
   background: var(--bg-surface);
 }
@@ -396,11 +412,13 @@ select.academicPill {
   text-align: left;
   line-height: 1.2;
 }
+
 .userName {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
 }
+
 .userEmail {
   font-size: 11px;
   color: var(--text-muted);
@@ -435,6 +453,7 @@ select.academicPill {
   z-index: 99;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
+
 .fab:hover {
   transform: scale(1.1) rotate(6deg);
   box-shadow: 0 12px 30px rgba(99, 102, 241, 0.6);
@@ -528,15 +547,19 @@ select.academicPill {
     z-index: 120;
     background: var(--bg-sidebar);
   }
+
   .sidebarOpen {
     transform: translateX(0);
   }
+
   .closeSidebarBtn {
     display: flex;
   }
+
   .menuBtn {
     display: flex;
   }
+
   .backdrop {
     display: block;
     position: fixed;
@@ -549,14 +572,17 @@ select.academicPill {
     pointer-events: none;
     transition: opacity 0.2s ease;
   }
+
   .backdropOpen {
     opacity: 1;
     pointer-events: auto;
   }
+
   .content {
     padding: 14px 12px;
     padding-bottom: 84px;
   }
+
   .userInfo {
     display: none;
   }
@@ -680,6 +706,7 @@ select.academicPill {
   .academicPill {
     display: none;
   }
+
   .schoolName {
     max-width: 140px;
   }

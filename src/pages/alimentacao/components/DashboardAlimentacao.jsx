@@ -1,5 +1,6 @@
-import { useMemo } from "react";
-import { Card, Badge, Btn } from "../../../components/ui";
+import { useState, useMemo } from "react";
+import { Badge } from "../../../components/ui";
+import styles from "./DashboardAlimentacao.module.css";
 
 export default function DashboardAlimentacao({
   itensEstoque = [],
@@ -10,6 +11,8 @@ export default function DashboardAlimentacao({
   fornecedores = [],
   onNavigateTab
 }) {
+  const [tipoMovimento, setTipoMovimento] = useState("todos"); // "todos" | "entradas" | "saidas"
+
   const stats = useMemo(() => {
     // Total de itens cadastrados
     const totalItens = itensEstoque.length;
@@ -30,10 +33,10 @@ export default function DashboardAlimentacao({
 
     // Alertas de validade
     const hoje = new Date();
-    const emQuinzeDias = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    const emQuinzeDias = new Date(hoje);
     emQuinzeDias.setDate(hoje.getDate() + 15);
-    const emTrintaDias = new Date();
-    emTrintaDias.setDate(hoje.getDate() + 30);
 
     const alertasValidade = [];
     itensEstoque.forEach(item => {
@@ -61,7 +64,10 @@ export default function DashboardAlimentacao({
     const totalRefeicoes = merendaServida.reduce((acc, m) => acc + (Number(m.refeicoesServidas) || 0), 0);
 
     // Fornecedores da Agricultura Familiar PNAE
-    const fornsPnae = fornecedores.filter(f => (f.tipo || "").toLowerCase().includes("familiar") || (f.tipo || "").toLowerCase().includes("pnae")).length;
+    const fornsPnae = fornecedores.filter(f =>
+      (f.tipo || "").toLowerCase().includes("familiar") ||
+      (f.tipo || "").toLowerCase().includes("pnae")
+    ).length;
 
     return {
       totalItens,
@@ -73,310 +79,444 @@ export default function DashboardAlimentacao({
     };
   }, [itensEstoque, merendaServida, fornecedores]);
 
+  // Lista unificada de movimentações recentes
+  const movimentacoesRecentes = useMemo(() => {
+    const lista = [];
+
+    if (tipoMovimento === "todos" || tipoMovimento === "entradas") {
+      entradas.forEach(e => {
+        lista.push({
+          id: `ent-${e.id}`,
+          tipo: "entrada",
+          itemNome: e.itemNome,
+          data: e.data,
+          quantidade: e.quantidade,
+          unidade: e.unidade || "un",
+          extra: e.fornecedorNome || "Fornecedor Registrado"
+        });
+      });
+    }
+
+    if (tipoMovimento === "todos" || tipoMovimento === "saidas") {
+      saidas.forEach(s => {
+        lista.push({
+          id: `sai-${s.id}`,
+          tipo: "saida",
+          itemNome: s.itemNome,
+          data: s.data,
+          quantidade: s.quantidade,
+          unidade: s.unidade || "un",
+          extra: s.destino || s.responsavel || "Cozinha da Escola"
+        });
+      });
+    }
+
+    // Ordenar pelas datas mais recentes
+    return lista
+      .sort((a, b) => (b.data || "").localeCompare(a.data || ""))
+      .slice(0, 6);
+  }, [entradas, saidas, tipoMovimento]);
+
+  const cardapioAtivo = cardapios[0] || null;
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      {/* Banner de Boas-Vindas */}
-      <div style={{
-        background: "linear-gradient(135deg, #047857 0%, #10b981 100%)",
-        color: "white",
-        padding: "24px 28px",
-        borderRadius: 16,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: 16,
-        boxShadow: "0 10px 25px -5px rgba(4, 120, 87, 0.3)"
-      }}>
-        <div>
-          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}>
-            <i className="ti ti-salad" style={{ fontSize: 26 }} /> Módulo de Alimentação & Merenda Escolar
+    <div className={styles.container}>
+      {/* 1. Banner Principal de Ações Rápidas */}
+      <div className={styles.banner}>
+        <div className={styles.bannerInfo}>
+          <h2 className={styles.bannerTitle}>
+            <i className="ti ti-salad" style={{ fontSize: 26 }} />
+            Módulo de Alimentação & Merenda Escolar
           </h2>
-          <p style={{ margin: 0, fontSize: 14, opacity: 0.9 }}>
+          <p className={styles.bannerSubtitle}>
             Controle de cardápios nutricionais, despensa escolar, compras PNAE da agricultura familiar, entradas, saídas e combate ao desperdício.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className={styles.bannerActions}>
           <button
             onClick={() => onNavigateTab("merenda")}
-            style={{
-              background: "white",
-              color: "#047857",
-              border: "none",
-              padding: "10px 18px",
-              borderRadius: 8,
-              fontWeight: 600,
-              fontSize: 13,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
-            }}
+            className={styles.bannerBtnPrimary}
           >
             <i className="ti ti-soup" /> Lançar Merenda do Dia
           </button>
           <button
             onClick={() => onNavigateTab("cardapios")}
-            style={{
-              background: "rgba(255, 255, 255, 0.15)",
-              color: "white",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              padding: "10px 18px",
-              borderRadius: 8,
-              fontWeight: 600,
-              fontSize: 13,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8
-            }}
+            className={styles.bannerBtnSecondary}
           >
             <i className="ti ti-file-text" /> Ver Cardápio Oficial
           </button>
         </div>
       </div>
 
-      {/* Grid de Cards de Estatísticas Principais */}
-      <div className="sigem-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #10b981" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+      {/* 2. Grid de Cards de Estatísticas Principais (KPIs) */}
+      <div className={styles.kpiGrid}>
+        <div className={styles.kpiCard} style={{ borderLeft: "4px solid #10b981" }}>
+          <div className={styles.kpiHeader}>
             <div>
-              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Refeições Servidas</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
+              <span className={styles.kpiLabel}>Refeições Servidas</span>
+              <div className={styles.kpiValue} style={{ color: "#34d399" }}>
                 {stats.totalRefeicoes.toLocaleString("pt-BR")}
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(16, 185, 129, 0.15)", color: "#34d399", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div className={styles.kpiIconWrap} style={{ background: "rgba(16, 185, 129, 0.15)", color: "#34d399" }}>
               <i className="ti ti-soup" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
-            Em {merendaServida.length} registros diários de refeição
+          <div className={styles.kpiFooter}>
+            <i className="ti ti-check" style={{ color: "#10b981" }} />
+            <span>{merendaServida.length} registros de refeição realizados</span>
           </div>
-        </Card>
+        </div>
 
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #3b82f6" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div className={styles.kpiCard} style={{ borderLeft: "4px solid #3b82f6" }}>
+          <div className={styles.kpiHeader}>
             <div>
-              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Itens na Despensa</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
-                {stats.totalItens} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>produtos</span>
+              <span className={styles.kpiLabel}>Itens na Despensa</span>
+              <div className={styles.kpiValue} style={{ color: "#60a5fa" }}>
+                {stats.totalItens} <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>produtos</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div className={styles.kpiIconWrap} style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa" }}>
               <i className="ti ti-packages" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
-            Valor estocado: <strong style={{ color: "#60a5fa" }}>{stats.valorTotalEstocado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+          <div className={styles.kpiFooter}>
+            <span>Valor estocado: <strong style={{ color: "#60a5fa" }}>{stats.valorTotalEstocado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong></span>
           </div>
-        </Card>
+        </div>
 
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #f59e0b" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div className={styles.kpiCard} style={{ borderLeft: "4px solid #f59e0b" }}>
+          <div className={styles.kpiHeader}>
             <div>
-              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Estoque Baixo / Repor</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: stats.itensEstoqueBaixo.length > 0 ? "#fbbf24" : "#ffffff", marginTop: 4 }}>
-                {stats.itensEstoqueBaixo.length} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>itens</span>
+              <span className={styles.kpiLabel}>Estoque Baixo / Repor</span>
+              <div className={styles.kpiValue} style={{ color: stats.itensEstoqueBaixo.length > 0 ? "#fbbf24" : "var(--text-primary)" }}>
+                {stats.itensEstoqueBaixo.length} <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>itens</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div className={styles.kpiIconWrap} style={{ background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24" }}>
               <i className="ti ti-alert-triangle" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
-            Necessitam de pedido ou reposição de compra
+          <div className={styles.kpiFooter}>
+            {stats.itensEstoqueBaixo.length > 0 ? (
+              <span style={{ color: "#fcd34d" }}>⚠️ Necessitam reposição ou compra</span>
+            ) : (
+              <span style={{ color: "#34d399" }}>✓ Todos acima da meta mínima</span>
+            )}
           </div>
-        </Card>
+        </div>
 
-        <Card style={{ padding: "18px 20px", borderLeft: "4px solid #8b5cf6" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div className={styles.kpiCard} style={{ borderLeft: "4px solid #8b5cf6" }}>
+          <div className={styles.kpiHeader}>
             <div>
-              <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>Agricultura Familiar PNAE</span>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", marginTop: 4 }}>
-                {stats.fornsPnae} <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 400 }}>produtores</span>
+              <span className={styles.kpiLabel}>Agricultura Familiar</span>
+              <div className={styles.kpiValue} style={{ color: "#a78bfa" }}>
+                {stats.fornsPnae} <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>produtores</span>
               </div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+            <div className={styles.kpiIconWrap} style={{ background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa" }}>
               <i className="ti ti-plant" />
             </div>
           </div>
-          <div style={{ marginTop: 12, fontSize: 12, color: "#cbd5e1" }}>
-            Meta legal PNAE: mínimo de 30% da compra direta
+          <div className={styles.kpiFooter}>
+            <span style={{ color: "var(--text-secondary)" }}>Meta PNAE: compra direta $\ge$ 30%</span>
           </div>
-        </Card>
+        </div>
       </div>
 
-      {/* Seção Central: Alertas de Validade & Cardápio do Dia */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-        {/* Painel de Alertas de Validade & Despensa */}
-        <Card style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: "#ffffff", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
-              <i className="ti ti-bell-ringing" style={{ color: "#f87171" }} /> Alertas de Validade & Despensa
-            </h3>
-            <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>
-              {stats.alertasValidade.length} notificações
-            </span>
-          </div>
-
-          {stats.alertasValidade.length === 0 ? (
-            <div style={{ padding: "32px 16px", textAlign: "center", color: "#34d399", background: "rgba(16, 185, 129, 0.12)", borderRadius: 8, margin: "auto 0", border: "1px solid rgba(16, 185, 129, 0.25)" }}>
-              <i className="ti ti-circle-check" style={{ fontSize: 32, display: "block", marginBottom: 8 }} />
-              <div style={{ fontWeight: 600, fontSize: 14 }}>Despensa Saudável e Segura!</div>
-              <div style={{ fontSize: 12, color: "#a7f3d0", marginTop: 4 }}>Nenhum produto vencido ou com validade crítica identificado.</div>
-            </div>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 300, overflowY: "auto" }}>
-              {stats.alertasValidade.map((al, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => onNavigateTab(al.tab)}
-                  style={{
-                    padding: "12px 14px",
-                    borderRadius: 8,
-                    background: al.tipo === "danger" ? "rgba(239, 68, 68, 0.15)" : "rgba(245, 158, 11, 0.15)",
-                    borderLeft: `4px solid ${al.tipo === "danger" ? "#ef4444" : "#f59e0b"}`,
-                    cursor: "pointer",
-                    transition: "transform 0.1s ease"
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.transform = "translateX(3px)"}
-                  onMouseOut={(e) => e.currentTarget.style.transform = "translateX(0)"}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                    <span style={{ fontWeight: 600, fontSize: 13, color: al.tipo === "danger" ? "#fca5a5" : "#fcd34d" }}>
-                      {al.titulo}
-                    </span>
-                    <Badge color={al.tipo === "danger" ? "red" : "amber"}>Atenção</Badge>
-                  </div>
-                  <div style={{ fontSize: 12, color: "#cbd5e1" }}>
-                    {al.descricao}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </Card>
-
-        {/* Cardápio Ativo em Destaque */}
-        <Card>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 600, color: "#ffffff", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
-              <i className="ti ti-clipboard-list" style={{ color: "#34d399" }} /> Cardápio Escolar Vigente
+      {/* ══════════════════════════════════════════════════════════════════
+          3. Layout em Cards Modulares (Substituindo Colunas Lado a Lado)
+          ══════════════════════════════════════════════════════════════════ */}
+      <div className={styles.cardsStack}>
+        {/* CARD 1: Cardápio Escolar Vigente (Destaque do Dia) */}
+        <div className={styles.modularCard}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>
+              <i className="ti ti-clipboard-list" style={{ color: "#10b981", fontSize: 20 }} />
+              Cardápio Escolar Vigente & Refeições do Dia
             </h3>
             <button
               onClick={() => onNavigateTab("cardapios")}
-              style={{ background: "none", border: "none", color: "#34d399", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              className={styles.cardLinkBtn}
             >
-              Ver Todos <i className="ti ti-chevron-right" />
+              Ver Todos os Cardápios <i className="ti ti-chevron-right" />
             </button>
           </div>
 
-          {cardapios.length === 0 ? (
-            <div style={{ padding: "32px 16px", textAlign: "center", color: "#94a3b8" }}>
+          {!cardapioAtivo ? (
+            <div style={{ padding: "24px 16px", textAlign: "center", color: "var(--text-muted)", fontSize: 13 }}>
               Nenhum cardápio cadastrado no momento.
             </div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ background: "#243144", padding: "14px 16px", borderRadius: 8, border: "1px solid #33435c", borderLeft: "4px solid #10b981" }}>
-                <div style={{ fontWeight: 700, fontSize: 14, color: "#ffffff" }}>
-                  {cardapios[0].titulo}
-                </div>
-                <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
-                  {cardapios[0].faixaEtaria} · {cardapios[0].nutricionistaResponsavel}
-                </div>
-
-                {cardapios[0].diasSemana?.segunda && (
-                  <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #33435c", fontSize: 12 }}>
-                    <div style={{ fontWeight: 600, color: "#34d399", marginBottom: 4 }}>
-                      🍽️ Sugestão do Dia (Almoço):
-                    </div>
-                    <div style={{ color: "#cbd5e1", fontStyle: "italic" }}>
-                      "{cardapios[0].diasSemana.segunda.almoco}"
-                    </div>
-                    <div style={{ color: "#94a3b8", marginTop: 4 }}>
-                      Sobremesa: {cardapios[0].diasSemana.segunda.sobremesa}
-                    </div>
+            <div className={styles.menuHighlightBox}>
+              <div className={styles.menuMetaRow}>
+                <div>
+                  <div className={styles.menuTitle}>{cardapioAtivo.titulo}</div>
+                  <div className={styles.menuSub}>
+                    {cardapioAtivo.faixaEtaria} · {cardapioAtivo.nutricionistaResponsavel}
                   </div>
-                )}
+                </div>
+                <Badge color="green">Vigente</Badge>
               </div>
 
-              {cardapios[0].restricoesAlimentares && (
-                <div style={{ fontSize: 12, background: "rgba(234, 179, 8, 0.15)", border: "1px solid rgba(234, 179, 8, 0.3)", color: "#fef08a", padding: "10px 12px", borderRadius: 8, display: "flex", alignItems: "flex-start", gap: 8 }}>
+              {cardapioAtivo.diasSemana?.segunda && (
+                <div className={styles.menuMealsGrid}>
+                  {cardapioAtivo.diasSemana.segunda.lancheManha && (
+                    <div className={styles.mealItem}>
+                      <span className={styles.mealLabel}>☕ Lanche da Manhã</span>
+                      <span className={styles.mealText}>"{cardapioAtivo.diasSemana.segunda.lancheManha}"</span>
+                    </div>
+                  )}
+
+                  {cardapioAtivo.diasSemana.segunda.almoco && (
+                    <div className={styles.mealItem} style={{ borderLeft: "3px solid #10b981" }}>
+                      <span className={styles.mealLabel} style={{ color: "#34d399" }}>🍽️ Almoço Principal</span>
+                      <span className={styles.mealText}>"{cardapioAtivo.diasSemana.segunda.almoco}"</span>
+                    </div>
+                  )}
+
+                  {cardapioAtivo.diasSemana.segunda.sobremesa && (
+                    <div className={styles.mealItem}>
+                      <span className={styles.mealLabel} style={{ color: "#fbbf24" }}>🍎 Sobremesa</span>
+                      <span className={styles.mealText}>"{cardapioAtivo.diasSemana.segunda.sobremesa}"</span>
+                    </div>
+                  )}
+
+                  {cardapioAtivo.diasSemana.segunda.lancheTarde && (
+                    <div className={styles.mealItem}>
+                      <span className={styles.mealLabel}>🥛 Lanche da Tarde</span>
+                      <span className={styles.mealText}>"{cardapioAtivo.diasSemana.segunda.lancheTarde}"</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {cardapioAtivo.restricoesAlimentares && (
+                <div className={styles.dietNotice}>
                   <i className="ti ti-info-circle" style={{ fontSize: 16, marginTop: 1, flexShrink: 0, color: "#fde047" }} />
-                  <span><strong>Restrições Especiais Atendidas:</strong> {cardapios[0].restricoesAlimentares}</span>
+                  <span><strong>Adaptações & Restrições Atendidas:</strong> {cardapioAtivo.restricoesAlimentares}</span>
                 </div>
               )}
             </div>
           )}
-        </Card>
-      </div>
+        </div>
 
-      {/* Tabela de Últimas Movimentações (Entradas e Saídas Recentes) */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-        {/* Últimas Entradas */}
-        <Card>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 6 }}>
-              <i className="ti ti-arrow-down-left" style={{ color: "#34d399" }} /> Últimas Entradas na Despensa
-            </h4>
+        {/* CARD 2: Alertas de Validade & Auditoria da Despensa */}
+        <div className={styles.modularCard}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>
+              <i className="ti ti-bell-ringing" style={{ color: "#f87171", fontSize: 20 }} />
+              Alertas de Validade & Auditoria da Despensa
+            </h3>
+            <button
+              onClick={() => onNavigateTab("controle")}
+              className={styles.cardLinkBtn}
+            >
+              Ir para Controle & Balanço <i className="ti ti-chevron-right" />
+            </button>
+          </div>
+
+          {stats.alertasValidade.length === 0 ? (
+            <div style={{
+              padding: "26px 18px",
+              textAlign: "center",
+              color: "#34d399",
+              background: "rgba(16, 185, 129, 0.1)",
+              borderRadius: 10,
+              border: "1px solid rgba(16, 185, 129, 0.25)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 6
+            }}>
+              <i className="ti ti-circle-check" style={{ fontSize: 32 }} />
+              <div style={{ fontWeight: 700, fontSize: 14 }}>Despensa Saudável e Segura!</div>
+              <div style={{ fontSize: 12, color: "#a7f3d0" }}>
+                Nenhum alimento vencido ou com validade crítica identificado no momento.
+              </div>
+            </div>
+          ) : (
+            <div className={styles.alertsList}>
+              {stats.alertasValidade.map((al, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => onNavigateTab(al.tab)}
+                  className={`${styles.alertCardItem} ${al.tipo === "danger" ? styles.alertDanger : styles.alertWarning}`}
+                  title="Clique para ir à aba de controle deste produto"
+                >
+                  <div className={styles.alertInfo}>
+                    <div className={styles.alertTitle} style={{ color: al.tipo === "danger" ? "#fca5a5" : "#fcd34d" }}>
+                      <i className={al.tipo === "danger" ? "ti ti-alert-octagon" : "ti ti-clock-hour-4"} style={{ marginRight: 6 }} />
+                      {al.titulo}
+                    </div>
+                    <div className={styles.alertDesc}>{al.descricao}</div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <Badge color={al.tipo === "danger" ? "red" : "amber"}>
+                      {al.tipo === "danger" ? "Vencido" : "Validade Próxima"}
+                    </Badge>
+                    <i className="ti ti-chevron-right" style={{ color: "var(--text-muted)" }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* CARD 3: Movimentações Recentes da Despensa (Entradas e Saídas em Cards) */}
+        <div className={styles.modularCard}>
+          <div className={styles.cardHeader}>
+            <div className={styles.filterSegmentRow} style={{ width: "100%" }}>
+              <h3 className={styles.cardTitle}>
+                <i className="ti ti-arrows-exchange" style={{ color: "#3b82f6", fontSize: 20 }} />
+                Movimentações Recentes da Despensa
+              </h3>
+
+              {/* Botões Segmentados para Alternar Tipo de Movimentação */}
+              <div className={styles.segmentedBtns}>
+                <button
+                  type="button"
+                  className={`${styles.segBtn} ${tipoMovimento === "todos" ? styles.segBtnActive : ""}`}
+                  onClick={() => setTipoMovimento("todos")}
+                >
+                  Todos ({entradas.length + saidas.length})
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.segBtn} ${tipoMovimento === "entradas" ? styles.segBtnActive : ""}`}
+                  onClick={() => setTipoMovimento("entradas")}
+                >
+                  <i className="ti ti-arrow-down-left" style={{ color: "#34d399" }} /> Entradas ({entradas.length})
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.segBtn} ${tipoMovimento === "saidas" ? styles.segBtnActive : ""}`}
+                  onClick={() => setTipoMovimento("saidas")}
+                >
+                  <i className="ti ti-arrow-up-right" style={{ color: "#fbbf24" }} /> Baixas ({saidas.length})
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {movimentacoesRecentes.length === 0 ? (
+            <div style={{ padding: "24px 16px", textAlign: "center", color: "var(--text-muted)", fontSize: 13 }}>
+              Nenhuma movimentação registrada no filtro selecionado.
+            </div>
+          ) : (
+            <div className={styles.movementsList}>
+              {movimentacoesRecentes.map(m => {
+                const isEntrada = m.tipo === "entrada";
+                return (
+                  <div key={m.id} className={styles.movementCard}>
+                    <div
+                      className={styles.movementIconWrap}
+                      style={{
+                        background: isEntrada ? "rgba(16, 185, 129, 0.15)" : "rgba(245, 158, 11, 0.15)",
+                        color: isEntrada ? "#34d399" : "#fbbf24"
+                      }}
+                    >
+                      <i className={isEntrada ? "ti ti-arrow-down-left" : "ti ti-arrow-up-right"} />
+                    </div>
+
+                    <div className={styles.movementContent}>
+                      <div className={styles.movementTitle}>{m.itemNome}</div>
+                      <div className={styles.movementSub}>
+                        {m.data ? new Date(m.data + "T00:00:00").toLocaleDateString("pt-BR") : "-"} · {m.extra}
+                      </div>
+                    </div>
+
+                    <div>
+                      <Badge color={isEntrada ? "green" : "amber"}>
+                        {isEntrada ? `+${m.quantidade}` : `-${m.quantidade}`} {m.unidade}
+                      </Badge>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Links para Histórico Completo */}
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, borderTop: "1px solid var(--border-color)", paddingTop: 10 }}>
             <button
               onClick={() => onNavigateTab("entradas")}
-              style={{ background: "none", border: "none", color: "#34d399", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              className={styles.cardLinkBtn}
             >
-              Ver Todas
+              Ver Todas as Entradas <i className="ti ti-arrow-right" />
             </button>
-          </div>
-
-          {entradas.length === 0 ? (
-            <div style={{ padding: 16, textAlign: "center", color: "#94a3b8", fontSize: 12 }}>Nenhuma entrada registrada.</div>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {entradas.slice(0, 4).map(e => (
-                <div key={e.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "#243144", border: "1px solid #33435c", borderRadius: 6, fontSize: 12 }}>
-                  <div>
-                    <strong style={{ color: "#ffffff" }}>{e.itemNome}</strong>
-                    <div style={{ color: "#94a3b8", fontSize: 11 }}>{new Date(e.data + "T00:00:00").toLocaleDateString("pt-BR")} · {e.fornecedorNome}</div>
-                  </div>
-                  <Badge color="green">+{e.quantidade} {e.unidade}</Badge>
-                </div>
-              ))}
-            </div>
-          )}
-        </Card>
-
-        {/* Últimas Saídas para a Cozinha */}
-        <Card>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#ffffff", display: "flex", alignItems: "center", gap: 6 }}>
-              <i className="ti ti-arrow-up-right" style={{ color: "#fbbf24" }} /> Últimas Baixas para Cozinha
-            </h4>
             <button
               onClick={() => onNavigateTab("saidas")}
-              style={{ background: "none", border: "none", color: "#fbbf24", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+              className={styles.cardLinkBtn}
+              style={{ color: "#fbbf24" }}
             >
-              Ver Todas
+              Ver Todas as Saídas <i className="ti ti-arrow-right" />
             </button>
           </div>
+        </div>
 
-          {saidas.length === 0 ? (
-            <div style={{ padding: 16, textAlign: "center", color: "#94a3b8", fontSize: 12 }}>Nenhuma saída registrada.</div>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {saidas.slice(0, 4).map(s => (
-                <div key={s.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "#243144", border: "1px solid #33435c", borderRadius: 6, fontSize: 12 }}>
-                  <div>
-                    <strong style={{ color: "#ffffff" }}>{s.itemNome}</strong>
-                    <div style={{ color: "#94a3b8", fontSize: 11 }}>{new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")} · {s.destino}</div>
-                  </div>
-                  <Badge color="amber">-{s.quantidade} {s.unidade}</Badge>
-                </div>
-              ))}
+        {/* CARD 4: Acessos Rápidos às Rotinas da Alimentação Escolar */}
+        <div className={styles.modularCard}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>
+              <i className="ti ti-layout-grid" style={{ color: "#10b981", fontSize: 20 }} />
+              Acessos Rápidos & Rotinas da Alimentação
+            </h3>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Atalhos diretos</span>
+          </div>
+
+          <div className={styles.shortcutsGrid}>
+            <div className={styles.shortcutCard} onClick={() => onNavigateTab("merenda")}>
+              <div className={styles.shortcutIcon} style={{ background: "rgba(16, 185, 129, 0.15)", color: "#34d399" }}>
+                <i className="ti ti-soup" />
+              </div>
+              <div className={styles.shortcutTitle}>Lançar Merenda</div>
+              <div className={styles.shortcutDesc}>Registro diário e aceitabilidade</div>
             </div>
-          )}
-        </Card>
+
+            <div className={styles.shortcutCard} onClick={() => onNavigateTab("cardapios")}>
+              <div className={styles.shortcutIcon} style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa" }}>
+                <i className="ti ti-clipboard-list" />
+              </div>
+              <div className={styles.shortcutTitle}>Cardápios</div>
+              <div className={styles.shortcutDesc}>Planejamento nutricional</div>
+            </div>
+
+            <div className={styles.shortcutCard} onClick={() => onNavigateTab("estoque")}>
+              <div className={styles.shortcutIcon} style={{ background: "rgba(139, 92, 246, 0.15)", color: "#a78bfa" }}>
+                <i className="ti ti-packages" />
+              </div>
+              <div className={styles.shortcutTitle}>Estoque Despensa</div>
+              <div className={styles.shortcutDesc}>Catálogo e saldos atuais</div>
+            </div>
+
+            <div className={styles.shortcutCard} onClick={() => onNavigateTab("entradas")}>
+              <div className={styles.shortcutIcon} style={{ background: "rgba(16, 185, 129, 0.15)", color: "#10b981" }}>
+                <i className="ti ti-arrow-down-left" />
+              </div>
+              <div className={styles.shortcutTitle}>Entradas / NF-e</div>
+              <div className={styles.shortcutDesc}>Recebimento de compras</div>
+            </div>
+
+            <div className={styles.shortcutCard} onClick={() => onNavigateTab("saidas")}>
+              <div className={styles.shortcutIcon} style={{ background: "rgba(245, 158, 11, 0.15)", color: "#fbbf24" }}>
+                <i className="ti ti-arrow-up-right" />
+              </div>
+              <div className={styles.shortcutTitle}>Saídas Cozinha</div>
+              <div className={styles.shortcutDesc}>Baixas para refeições</div>
+            </div>
+
+            <div className={styles.shortcutCard} onClick={() => onNavigateTab("controle")}>
+              <div className={styles.shortcutIcon} style={{ background: "rgba(239, 68, 68, 0.15)", color: "#f87171" }}>
+                <i className="ti ti-checklist" />
+              </div>
+              <div className={styles.shortcutTitle}>Controle & Balanço</div>
+              <div className={styles.shortcutDesc}>Auditoria e validades</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

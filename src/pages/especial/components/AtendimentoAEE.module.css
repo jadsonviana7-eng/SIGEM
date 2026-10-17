@@ -1,0 +1,660 @@
+/* =========================================================
+   AtendimentoAEE.module.css - Estilos da Gestão de Agendamentos
+   ========================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Header & Estatísticas */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.statCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.statCard:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.statIconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Container dos 4 Botões Quadrados */
+.squareActionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.squareActionsInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  flex: 1;
+}
+
+.squareActionsTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.squareActionsSubtitle {
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 2px;
+}
+
+/* Grade dos 4 Botões Quadrados */
+.actionsGrid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+/* Estilo Base do Botão Quadrado */
+.squareActionBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 96px;
+  min-height: 82px;
+  padding: 10px 6px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.squareActionBtn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.squareActionBtn:active {
+  transform: scale(0.96);
+}
+
+.squareActionBtn i {
+  font-size: 24px;
+  margin-bottom: 6px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.squareActionBtn:hover i {
+  transform: scale(1.12);
+}
+
+.squareActionBtn span {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Variação 1: Padrão / Neutro */
+.squareBtnDefault {
+  background: var(--bg-surface, #243144);
+  color: var(--text-secondary, #cbd5e1);
+  border-color: var(--border-subtle, #33435c);
+}
+
+.squareBtnDefault i {
+  color: #818cf8;
+}
+
+.squareBtnDefault:hover {
+  border-color: #6366f1;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Variação 2: Ativo (Visualização selecionada) */
+.squareBtnActive {
+  background: rgba(99, 102, 241, 0.22) !important;
+  color: #ffffff !important;
+  border: 1.5px solid #6366f1 !important;
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.35);
+}
+
+.squareBtnActive i {
+  color: #a5b4fc !important;
+}
+
+.squareBtnActive span {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+/* Variação 3: Imprimir Grade */
+.squareBtnPrint {
+  background: rgba(2, 132, 199, 0.12);
+  color: var(--text-secondary, #cbd5e1);
+  border-color: rgba(2, 132, 199, 0.3);
+}
+
+.squareBtnPrint i {
+  color: #38bdf8;
+}
+
+.squareBtnPrint:hover {
+  border-color: #38bdf8;
+  color: #ffffff;
+  background: rgba(2, 132, 199, 0.2);
+}
+
+/* Variação 4: Agendar Atendimento (Ação Primária com Destaque) */
+.squareBtnPrimary {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #ffffff !important;
+  border-color: #6366f1;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+}
+
+.squareBtnPrimary i {
+  color: #ffffff !important;
+}
+
+.squareBtnPrimary span {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.squareBtnPrimary:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+}
+
+/* Responsividade Mobile para os Botões Quadrados */
+@media (max-width: 768px) {
+  .squareActionsContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .squareActionsInfo {
+    min-width: 100%;
+  }
+
+  .actionsGrid4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    width: 100%;
+  }
+
+  .squareActionBtn {
+    width: 100%;
+    min-height: 70px;
+    padding: 8px 4px;
+    border-radius: 10px;
+  }
+
+  .squareActionBtn i {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .squareActionBtn span {
+    font-size: 10px;
+    line-height: 1.15;
+  }
+}
+
+/* Barra de Filtros */
+.filtersSection {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 1200px) {
+  .filtersGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pílulas de Seleção de Dia (Rápido) */
+.dayPillsScroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.dayPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-color, #33435c);
+  background: var(--bg-surface, #1e293b);
+  color: var(--text-secondary, #cbd5e1);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.dayPill:hover {
+  border-color: #6366f1;
+  color: var(--text-primary, #ffffff);
+}
+
+.dayPillActive {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: #6366f1;
+  color: #818cf8 !important;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+}
+
+.dayPillCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  font-size: 10.5px;
+  font-weight: 700;
+  background: var(--bg-page, #0f172a);
+  color: var(--text-muted, #94a3b8);
+}
+
+.dayPillActive .dayPillCount {
+  background: #6366f1;
+  color: #ffffff;
+}
+
+/* =========================================================
+   GRADE SEMANAL (Cronograma em Colunas)
+   ========================================================= */
+.weeklyScheduleGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(220px, 1fr));
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .weeklyScheduleGrid {
+    grid-template-columns: repeat(5, 260px);
+  }
+}
+
+.dayColumn {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-height: 480px;
+}
+
+.dayColumnHeader {
+  padding: 12px 14px;
+  background: var(--bg-surface, #243144);
+  border-bottom: 1px solid var(--border-color, #2c3b52);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dayColumnTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dayColumnBadge {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  font-weight: 700;
+}
+
+.dayColumnQuickAdd {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border-color, #33435c);
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s ease;
+}
+
+.dayColumnQuickAdd:hover {
+  background: #6366f1;
+  color: #ffffff;
+  border-color: #6366f1;
+}
+
+.dayColumnBody {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+/* Card de Agendamento no Cronograma */
+.appointmentCard {
+  background: var(--bg-surface, #1e293b);
+  border: 1px solid var(--border-subtle, #33435c);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.appointmentCard:hover {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.15);
+}
+
+.appointmentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.timeTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.timeTagManha {
+  background: rgba(2, 132, 199, 0.15);
+  color: #38bdf8;
+  border-color: rgba(2, 132, 199, 0.25);
+}
+
+.timeTagTarde {
+  background: rgba(217, 119, 6, 0.15);
+  color: #fbbf24;
+  border-color: rgba(217, 119, 6, 0.25);
+}
+
+.appointmentStudent {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  line-height: 1.3;
+}
+
+.appointmentMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metaItem i {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.appointmentFocus {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text-secondary, #cbd5e1);
+  background: var(--bg-page, #0f172a);
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #2c3b52);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.appointmentActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--border-color, #2c3b52);
+}
+
+.actionBtnMini {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s ease;
+}
+
+.actionBtnEdit {
+  color: #60a5fa;
+}
+.actionBtnEdit:hover {
+  background: rgba(96, 165, 250, 0.15);
+}
+
+.actionBtnDelete {
+  color: #f87171;
+}
+.actionBtnDelete:hover {
+  background: rgba(248, 113, 113, 0.15);
+}
+
+/* Empty day placeholder */
+.emptyDayPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 14px;
+  gap: 8px;
+  border: 1px dashed var(--border-color, #33435c);
+  border-radius: 10px;
+  color: var(--text-muted, #94a3b8);
+  font-size: 12px;
+  margin: auto 0;
+}
+
+.emptyDayBtn {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #818cf8;
+  background: transparent;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.15s ease;
+}
+
+.emptyDayBtn:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: #818cf8;
+}
+
+/* =========================================================
+   VISÃO DE AGENDA DIÁRIA (Timeline por Horário)
+   ========================================================= */
+.dailyTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timelineItem {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .timelineItem {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+.timelineTimeCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .timelineTimeCol {
+    align-items: flex-start;
+    padding-top: 0;
+  }
+}
+
+.timelineCard {
+  background: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #2c3b52);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}

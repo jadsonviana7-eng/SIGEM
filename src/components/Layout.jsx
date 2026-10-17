@@ -195,15 +195,6 @@ export default function Layout({ children, titulo }) {
         {/* Topbar Dark Premium */}
         <header className={styles.topbar}>
           <div className={styles.topbarLeft}>
-            <button
-              type="button"
-              className={styles.menuBtn}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Abrir Menu"
-            >
-              <i className="ti ti-menu-2" />
-            </button>
-
             {/* Emblema Circular da Escola */}
             <div className={styles.schoolEmblem}>
               <div className={styles.schoolEmblemInner}>

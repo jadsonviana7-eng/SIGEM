@@ -410,16 +410,50 @@ export default function Turmas() {
             const vagas = t.vagas || 30;
             const pct = Math.round((count / vagas) * 100);
             return (
-              <div key={t.id} style={{ background:"var(--bg-card)",border:"1px solid var(--border-color)",borderRadius:14,padding:20,boxShadow:"0 4px 16px rgba(0,0,0,0.06)" }}>
-                <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12 }}>
+              <div
+                key={t.id}
+                onClick={() => abrirEditar(t)}
+                style={{
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border-color)",
+                  borderRadius: 14,
+                  padding: 20,
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                  cursor: "pointer",
+                  transition: "all 0.15s ease",
+                  WebkitTapHighlightColor: "transparent"
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = "var(--accent-indigo, #6366f1)";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "var(--border-color)";
+                  e.currentTarget.style.transform = "none";
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                   <div>
-                    <div style={{ fontSize:22,fontWeight:700,color:"var(--text-primary)" }}>{t.nome}</div>
-                    <div style={{ fontSize:12,color:"var(--text-muted)",marginTop:2 }}>{t.ano} · {t.turno}</div>
+                    <div style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)" }}>{t.nome}</div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>{t.ano} · {t.turno}</div>
                   </div>
-                  <div style={{ display:"flex",gap:4 }}>
+                  <div style={{ display: "flex", gap: 4 }}>
                     <Badge color="blue">Sala {t.sala}</Badge>
-                    <Btn onClick={()=>abrirEditar(t)} style={{ padding:"4px 8px",fontSize:11 }} title="Editar"><i className="ti ti-edit" /></Btn>
-                    <Btn variant="danger" onClick={()=>remover(t)} style={{ padding:"4px 8px",fontSize:11 }} title="Excluir"><i className="ti ti-trash" /></Btn>
+                    <Btn
+                      onClick={(e) => { e.stopPropagation(); abrirEditar(t); }}
+                      style={{ padding: "4px 8px", fontSize: 11 }}
+                      title="Editar"
+                    >
+                      <i className="ti ti-edit" />
+                    </Btn>
+                    <Btn
+                      variant="danger"
+                      onClick={(e) => { e.stopPropagation(); remover(t); }}
+                      style={{ padding: "4px 8px", fontSize: 11 }}
+                      title="Excluir"
+                    >
+                      <i className="ti ti-trash" />
+                    </Btn>
                   </div>
                 </div>
                 {isAnoFinal(t.ano) ? (

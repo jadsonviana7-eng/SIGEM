@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import {
   getItensEstoque,
@@ -20,6 +20,7 @@ import SaidasAlimentacao from "./alimentacao/components/SaidasAlimentacao";
 import ConsumoEscolas from "./alimentacao/components/ConsumoEscolas";
 import FornecedoresAlimentacao from "./alimentacao/components/FornecedoresAlimentacao";
 import ControleEstoque from "./alimentacao/components/ControleEstoque";
+import styles from "./alimentacao/Alimentacao.module.css";
 
 export default function Alimentacao() {
   const { user, selectedEscolaId } = useAuth();
@@ -192,6 +193,34 @@ export default function Alimentacao() {
     return merendaServida.reduce((acc, m) => acc + (Number(m.refeicoesServidas) || 0), 0);
   }, [merendaServida]);
 
+  // Item ativo atual
+  const itemAtivoObj = useMemo(() => {
+    for (const g of gruposMenu) {
+      const found = g.itens.find(i => i.id === activeTab);
+      if (found) return found;
+    }
+    return gruposMenu[0].itens[0];
+  }, [gruposMenu, activeTab]);
+
+  // Estados Móveis
+  const [resumoMobileAberto, setResumoMobileAberto] = useState(false);
+  const mobileTabContainerRef = useRef(null);
+
+  // Lista plana de todos os itens de menu para a barra móvel de abas
+  const todosItensMenu = useMemo(() => {
+    return gruposMenu.flatMap(g => g.itens);
+  }, [gruposMenu]);
+
+  // Rolagem automática suave para manter o chip ativo visível no celular
+  useEffect(() => {
+    if (mobileTabContainerRef.current) {
+      const activeEl = mobileTabContainerRef.current.querySelector(`[data-tab-id="${activeTab}"]`);
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    }
+  }, [activeTab]);
+
   if (!activeEscolaId) {
     return (
       <div style={{ padding: 32, textAlign: "center", color: "#6b7280" }}>
@@ -201,16 +230,117 @@ export default function Alimentacao() {
   }
 
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "minmax(0, 1fr) 290px",
-      gap: 24,
-      alignItems: "start"
-    }}>
+    <div className={styles.container}>
+      {/* ═════════════════════════════════════════════════════ */}
+      {/* ── NAVEGAÇÃO MOBILE INTELIGENTE & ABAS DESLIZANTES ── */}
+      {/* ═════════════════════════════════════════════════════ */}
+      <div className={styles.mobileNavHeader}>
+        {/* Topo do Módulo Mobile */}
+        <div className={styles.mobileBarTop}>
+          <div className={styles.mobileModuleTitle}>
+            <div className={styles.mobileIconBadge}>
+              <i className="ti ti-salad" />
+            </div>
+            <div className={styles.mobileTitleText}>
+              <span className={styles.mobileTitleMain}>Alimentação Escolar</span>
+              <span className={styles.mobileTitleSub}>{itemAtivoObj?.label || "Módulo Integrado"}</span>
+            </div>
+          </div>
+
+          <div className={styles.mobileBarActions}>
+            <button
+              type="button"
+              className={`${styles.mobileActionButton} ${resumoMobileAberto ? styles.mobileActionButtonActive : ""}`}
+              onClick={() => setResumoMobileAberto(!resumoMobileAberto)}
+              title="Resumo da Despensa"
+            >
+              <i className="ti ti-chart-pie" />
+              <span>Resumo</span>
+            </button>
+
+            <button
+              type="button"
+              className={styles.mobileActionButton}
+              onClick={fetchData}
+              title="Recarregar Dados"
+            >
+              <i className="ti ti-refresh" />
+            </button>
+          </div>
+        </div>
+
+        {/* Resumo Colapsável no Mobile */}
+        {resumoMobileAberto && (
+          <div className={styles.mobileSummaryPanel}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc", display: "flex", alignItems: "center", gap: 6 }}>
+                <i className="ti ti-chart-pie" style={{ color: "#34d399" }} /> Resumo Geral da Despensa
+              </span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Indicadores Rápidos</span>
+            </div>
+
+            <div className={styles.mobileSummaryGrid}>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Itens na Despensa</span>
+                <span className={styles.mobileSummaryValue}>{itensEstoque.length}</span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Refeições Servidas</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#34d399" }}>{totalRefeicoes}</span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Fornecedores Ativos</span>
+                <span className={styles.mobileSummaryValue}>{fornecedores.length}</span>
+              </div>
+              <div className={styles.mobileSummaryItem}>
+                <span className={styles.mobileSummaryLabel}>Valor Estocado</span>
+                <span className={styles.mobileSummaryValue} style={{ color: "#34d399", fontSize: 13 }}>
+                  {totalValorEstoque.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                </span>
+              </div>
+            </div>
+
+            <div style={{ paddingTop: 4 }}>
+              <Btn
+                onClick={handleGerarMock}
+                disabled={gerando}
+                style={{ width: "100%", justifyContent: "center", fontSize: 11, padding: "8px 10px" }}
+              >
+                <i className="ti ti-database-import" /> {gerando ? "Gerando..." : "Gerar Dados Fictícios de Demonstração"}
+              </Btn>
+            </div>
+          </div>
+        )}
+
+        {/* Barra de Abas Deslizante no Topo (Sticky Touch Chips) */}
+        <div className={styles.mobileTabsSticky}>
+          <div className={styles.mobileTabsScroll} ref={mobileTabContainerRef}>
+            {todosItensMenu.map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={`mob-tab-${item.id}`}
+                  data-tab-id={item.id}
+                  type="button"
+                  onClick={() => setActiveTab(item.id)}
+                  className={`${styles.mobileTabChip} ${isActive ? styles.mobileTabChipActive : ""}`}
+                >
+                  <i className={`ti ti-${item.icon}`} style={{ fontSize: 15 }} />
+                  <span>{item.label}</span>
+                  {item.badge !== null && item.badge !== undefined && (
+                    <span className={styles.mobileTabBadge}>{item.badge}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* ═════════════════════════════════════════════════════ */}
       {/* ── COLUNA ESQUERDA: CONTEÚDO PRINCIPAL DO MÓDULO ── */}
       {/* ═════════════════════════════════════════════════════ */}
-      <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div className={styles.contentCol}>
         {loading ? (
           <Spinner />
         ) : (
@@ -303,20 +433,14 @@ export default function Alimentacao() {
       {/* ═════════════════════════════════════════════════════ */}
       {/* ── COLUNA DIREITA: MENU VERTICAL & RESUMO DESPENSA ── */}
       {/* ═════════════════════════════════════════════════════ */}
-      <aside style={{
-        position: "sticky",
-        top: 20,
-        display: "flex",
-        flexDirection: "column",
-        gap: 16
-      }}>
+      <aside className={styles.desktopAside}>
         {/* Cartão de Navegação Vertical */}
         <div style={{
           background: "#1e293b",
           borderRadius: 14,
           padding: "16px",
           border: "1px solid #2c3b52",
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)"
+          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
         }}>
           <div style={{
             display: "flex",
@@ -337,12 +461,12 @@ export default function Alimentacao() {
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 18,
-                boxShadow: "0 2px 6px rgba(5, 150, 105, 0.3)"
+                boxShadow: "0 2px 8px rgba(5, 150, 105, 0.3)"
               }}>
                 <i className="ti ti-salad" />
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>Alimentação Escolar</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>Menu Alimentação</div>
                 <div style={{ fontSize: 11, color: "#94a3b8" }}>PNAE & Merenda</div>
               </div>
             </div>
@@ -438,7 +562,7 @@ export default function Alimentacao() {
                           </span>
                         </div>
 
-                        {item.badge !== null && (
+                        {item.badge !== null && item.badge !== undefined && (
                           <span style={{
                             fontSize: 11,
                             fontWeight: 700,
@@ -466,7 +590,8 @@ export default function Alimentacao() {
           borderRadius: 14,
           padding: "14px 16px",
           border: "1px solid #2c3b52",
-          fontSize: 12
+          fontSize: 12,
+          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)"
         }}>
           <div style={{ fontWeight: 700, color: "#ffffff", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
             <i className="ti ti-chart-pie" style={{ color: "#34d399" }} /> Resumo da Despensa

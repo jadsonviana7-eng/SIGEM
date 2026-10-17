@@ -141,51 +141,125 @@ export default function SaidasAlimentacao({
         {saidasFiltradas.length === 0 ? (
           <EmptyState icon="arrow-up-right" texto="Nenhuma saída de alimentos registrada para a cozinha." />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
-              <thead>
-                <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
-                  <th style={{ padding: "12px 16px" }}>Data da Retirada</th>
-                  <th style={{ padding: "12px 16px" }}>Alimento / Gênero</th>
-                  <th style={{ padding: "12px 16px" }}>Qtd Retirada</th>
-                  <th style={{ padding: "12px 16px" }}>Destino / Refeição</th>
-                  <th style={{ padding: "12px 16px" }}>Refeições Estimadas</th>
-                  <th style={{ padding: "12px 16px" }}>Responsável pela Cozinha</th>
-                  <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {saidasFiltradas.map((s) => (
-                  <tr key={s.id} style={{ borderBottom: "1px solid #243144" }}>
-                    <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
-                      {new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")}
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "#ffffff" }}>{s.itemNome}</div>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{s.motivo || "Cardápio do dia"}</div>
-                    </td>
-                    <td style={{ padding: "12px 16px" }}>
-                      <Badge color="amber">-{s.quantidade} {s.unidade}</Badge>
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#34d399", fontWeight: 500 }}>
-                      {s.destino}
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
-                      <span style={{ fontWeight: 600, color: "#ffffff" }}>{s.refeicoesEstimadas || "-"}</span> porções
-                    </td>
-                    <td style={{ padding: "12px 16px", color: "#cbd5e1", fontSize: 12 }}>
-                      {s.responsavelRetirada}
-                    </td>
-                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                      <Btn variant="danger" onClick={() => handleExcluir(s)} style={{ padding: "4px 8px", fontSize: 12 }}>
-                        <i className="ti ti-trash" /> Estornar
-                      </Btn>
-                    </td>
+          <>
+            <div className="sigem-desktop-table" style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                <thead>
+                  <tr style={{ background: "#161f2e", borderBottom: "1px solid #33435c", color: "#cbd5e1" }}>
+                    <th style={{ padding: "12px 16px" }}>Data da Retirada</th>
+                    <th style={{ padding: "12px 16px" }}>Alimento / Gênero</th>
+                    <th style={{ padding: "12px 16px" }}>Qtd Retirada</th>
+                    <th style={{ padding: "12px 16px" }}>Destino / Refeição</th>
+                    <th style={{ padding: "12px 16px" }}>Refeições Estimadas</th>
+                    <th style={{ padding: "12px 16px" }}>Responsável pela Cozinha</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Ações</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {saidasFiltradas.map((s) => (
+                    <tr key={s.id} style={{ borderBottom: "1px solid #243144" }}>
+                      <td style={{ padding: "12px 16px", fontWeight: 600, color: "#ffffff" }}>
+                        {new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <div style={{ fontWeight: 600, color: "#ffffff" }}>{s.itemNome}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8" }}>{s.motivo || "Cardápio do dia"}</div>
+                      </td>
+                      <td style={{ padding: "12px 16px" }}>
+                        <Badge color="amber">-{s.quantidade} {s.unidade}</Badge>
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#34d399", fontWeight: 500 }}>
+                        {s.destino}
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1" }}>
+                        <span style={{ fontWeight: 600, color: "#ffffff" }}>{s.refeicoesEstimadas || "-"}</span> porções
+                      </td>
+                      <td style={{ padding: "12px 16px", color: "#cbd5e1", fontSize: 12 }}>
+                        {s.responsavelRetirada}
+                      </td>
+                      <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                        <Btn variant="danger" onClick={() => handleExcluir(s)} style={{ padding: "4px 8px", fontSize: 12 }}>
+                          <i className="ti ti-trash" /> Estornar
+                        </Btn>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Visualização Mobile: Cards Otimizados */}
+            <div className="sigem-mobile-cards" style={{ padding: "10px" }}>
+              {saidasFiltradas.map((s) => (
+                <div
+                  key={`mob-sai-${s.id}`}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: 14,
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    boxShadow: "var(--card-shadow)",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: "rgba(245, 158, 11, 0.15)",
+                    color: "#fbbf24",
+                    border: "1px solid rgba(245, 158, 11, 0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 22,
+                    flexShrink: 0
+                  }}>
+                    <i className="ti ti-arrow-up-right" />
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontWeight: 700,
+                      color: "var(--text-primary)",
+                      fontSize: 14,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}>
+                      {s.itemNome}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                        {new Date(s.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                      </span>
+                      <Badge color="amber">-{s.quantidade} {s.unidade}</Badge>
+                      <Badge color="blue">{s.destino}</Badge>
+                    </div>
+                    {s.responsavelRetirada && (
+                      <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                        Resp: {s.responsavelRetirada}
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                    <Btn
+                      variant="danger"
+                      onClick={() => handleExcluir(s)}
+                      style={{ padding: "6px 8px", fontSize: 12 }}
+                      title="Estornar Saída"
+                    >
+                      <i className="ti ti-trash" />
+                    </Btn>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </Card>
 
