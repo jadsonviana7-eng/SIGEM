@@ -1,12 +1,13 @@
-// SIGEM Service Worker — PWA v3.0 (Auto-Update & Offline Support)
-const CACHE_NAME = 'sigem-pwa-v3.0';
+// SIGEM Service Worker — PWA v3.1 (Auto-Update & Offline Support)
+const CACHE_NAME = 'sigem-pwa-v3.1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/logo.png',
   '/Logo Prefeitura.png',
-  '/favicon.png'
+  '/favicon.png',
+  encodeURI('/Educação em Foco ao Amanhecer.png')
 ];
 
 // Instalação do Service Worker
@@ -51,6 +52,11 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+
+  // Não intercepta requisições locais de desenvolvimento para permitir HMR e updates imediatos
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+    return;
+  }
 
   // Ignora chamadas de API externas e Firebase
   if (
