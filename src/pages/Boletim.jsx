@@ -263,15 +263,18 @@ export default function Boletim() {
             font-size: 8.5px !important;
             border: 1px solid #000 !important;
             margin-bottom: 6px !important;
+            color: #000000 !important;
           }
           .boletim-tabela th, .boletim-tabela td {
             border: 1px solid #000 !important;
             padding: 2.5px 4px !important;
             line-height: 1.15 !important;
+            color: #000000 !important;
           }
           .boletim-tabela th {
             background-color: #f1f5f9 !important;
             font-weight: bold !important;
+            color: #000000 !important;
           }
           .boletim-resumo-grid {
             display: grid !important;

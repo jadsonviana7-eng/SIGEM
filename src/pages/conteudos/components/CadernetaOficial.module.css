@@ -151,3 +151,29 @@
     justify-content: center;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .paperWrap,
+  .paperWrap * {
+    visibility: visible;
+  }
+  .paperWrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: #ffffff !important;
+  }
+  .paper {
+    padding: 10mm !important;
+    color: #000000 !important;
+  }
+}
+

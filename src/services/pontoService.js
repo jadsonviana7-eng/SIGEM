@@ -45,13 +45,21 @@ export async function salvarPontoServidor(dados) {
   const docId = `${servidorId}_${ano}_${mes}`.replace(/\s+/g, "_");
   const docRef = doc(db, COL_PONTO, docId);
 
-  await setDoc(docRef, {
+  const payload = {
     ...dados,
     mes: Number(mes),
     ano: Number(ano),
-    escolaId,
+    escolaId: escolaId || "rede",
     atualizadoEm: serverTimestamp()
-  }, { merge: true });
+  };
+
+  Object.keys(payload).forEach(key => {
+    if (payload[key] === undefined) {
+      delete payload[key];
+    }
+  });
+
+  await setDoc(docRef, payload, { merge: true });
 
   return docId;
 }

@@ -1,10 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
 import { getTurmas, addTurma, updateTurma, deleteTurma } from "../services/turmasService";
 import { getAlunos } from "../services/alunosService";
 import { getProfessores } from "../services/professoresService";
+import { getDisciplinas } from "../services/disciplinasService";
 import { registrarAuditoria } from "../services/auditoriaService";
 import { ANOS_LETIVOS, TURNOS, DISCIPLINAS } from "../utils/constants";
 import { Badge, Btn, Modal, Input, Select, Alert, Spinner, EmptyState, ProgressBar, Card } from "../components/ui";
@@ -23,6 +24,15 @@ export default function Turmas() {
   const { dados: turmas, carregando: cT, recarregar } = useFirestore(useCallback(() => getTurmas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
   const { dados: alunos, carregando: cA } = useFirestore(useCallback(() => getAlunos(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
   const { dados: professores, carregando: cP } = useFirestore(useCallback(() => getProfessores(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+  const { dados: disciplinasDocs } = useFirestore(useCallback(() => getDisciplinas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+
+  const listaDisciplinas = useMemo(() => {
+    if (disciplinasDocs && disciplinasDocs.length > 0) {
+      const ativas = disciplinasDocs.filter(d => d.status === "Ativa").map(d => d.nome);
+      if (ativas.length > 0) return ativas;
+    }
+    return DISCIPLINAS;
+  }, [disciplinasDocs]);
 
   const [form, setForm] = useState(VAZIO);
   const [editId, setEditId] = useState(null);
@@ -501,7 +511,7 @@ export default function Turmas() {
             {isAnoFinal(form.ano) ? (
               <div style={{ display:"flex", flexDirection:"column", gap:8, marginTop: 4, marginBottom: 4 }}>
                 <div style={{ fontSize:13, fontWeight:600, color:"#ffffff", marginBottom:4 }}>Professores por Disciplina</div>
-                {DISCIPLINAS.map(d => (
+                {listaDisciplinas.map(d => (
                   <Select key={d} label={d} value={form.professoresPorDisciplina?.[d] || ""} onChange={e => set("professoresPorDisciplina", { ...form.professoresPorDisciplina, [d]: e.target.value })}>
                     <option value="">Selecione um professor</option>
                     {professores.filter(p => p.cargo === "Professor" || !p.cargo).map(p => (

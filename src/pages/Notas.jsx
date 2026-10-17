@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
 import { getAlunos } from "../services/alunosService";
 import { getTurmas } from "../services/turmasService";
 import { getNotasTurma, salvarNota } from "../services/notasService";
+import { getDisciplinas } from "../services/disciplinasService";
 import { registrarAuditoria } from "../services/auditoriaService";
 import { DISCIPLINAS, ANO_LETIVO_ATUAL, calcularMedia, situacaoAluno } from "../utils/constants";
 import { Card, Badge, Spinner, Btn } from "../components/ui";
@@ -18,12 +19,28 @@ export default function Notas() {
 
   const { dados: turmas, carregando: cT } = useFirestore(useCallback(() => getTurmas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
   const { dados: todosAlunos, carregando: cA } = useFirestore(useCallback(() => getAlunos(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+  const { dados: disciplinasDocs } = useFirestore(useCallback(() => getDisciplinas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+
+  const listaDisciplinas = useMemo(() => {
+    if (disciplinasDocs && disciplinasDocs.length > 0) {
+      const ativas = disciplinasDocs.filter(d => d.status === "Ativa").map(d => d.nome);
+      if (ativas.length > 0) return ativas;
+    }
+    return DISCIPLINAS;
+  }, [disciplinasDocs]);
+
   const [turmaSel, setTurmaSel] = useState("");
   const [discSel, setDiscSel] = useState(DISCIPLINAS[0]);
   const [notasMap, setNotasMap] = useState({});
   const [notasOriginaisMap, setNotasOriginaisMap] = useState({});
   const [salvando, setSalvando] = useState(false);
   const [salvo, setSalvo] = useState(false);
+
+  useEffect(() => {
+    if (listaDisciplinas.length > 0 && !listaDisciplinas.includes(discSel)) {
+      setDiscSel(listaDisciplinas[0]);
+    }
+  }, [listaDisciplinas]);
 
   const alunos = todosAlunos.filter(a => a.turma === turmaSel);
 
@@ -128,7 +145,7 @@ export default function Notas() {
               onChange={e => setDiscSel(e.target.value)}
               style={{ border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", minWidth: 160, outline: "none", cursor: "pointer" }}
             >
-              {DISCIPLINAS.map(d => <option key={d}>{d}</option>)}
+              {listaDisciplinas.map(d => <option key={d}>{d}</option>)}
             </select>
           </div>
           <Btn variant="primary" onClick={salvarTodos} disabled={!turmaSel || salvando} style={{ marginLeft: "auto" }}>

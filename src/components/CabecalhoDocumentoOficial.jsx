@@ -137,7 +137,8 @@ export default function CabecalhoDocumentoOficial({
           fontSize: "11px",
           textTransform: "uppercase",
           letterSpacing: "0.04em",
-          background: "#f8fafc"
+          background: "#f8fafc",
+          color: "#000000"
         }}
       >
         {tituloDocumento}

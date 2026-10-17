@@ -153,6 +153,14 @@ export const TIPOS_DOCUMENTOS_ALUNO = [
     dica: "Quando aplicável (Educação Infantil e Fundamental)"
   },
   {
+    id: "cartaoSus",
+    label: "Cartão do SUS",
+    obrigatorio: false,
+    icone: "first-aid-kit",
+    descricao: "Cartão Nacional de Saúde (CNS / SUS) do aluno",
+    dica: "Cópia digitalizada ou foto legível do Cartão do SUS"
+  },
+  {
     id: "historicoEscolar",
     label: "Histórico Escolar",
     obrigatorio: false,

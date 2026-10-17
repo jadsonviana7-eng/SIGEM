@@ -12,6 +12,7 @@ import NovaMatricula from "./pages/NovaMatricula";
 import Transferencias from "./pages/Transferencias";
 import Professores from "./pages/Professores";
 import Turmas from "./pages/Turmas";
+import Disciplinas from "./pages/Disciplinas";
 import Conteudos from "./pages/Conteudos";
 import Frequencia from "./pages/Frequencia";
 import Notas from "./pages/Notas";
@@ -70,6 +71,7 @@ function AppRoutes() {
       <Route path="/comunicacao" element={<RotaProtegida titulo="Comunicação & Família"><Comunicacao /></RotaProtegida>} />
       <Route path="/professores" element={<RotaProtegida titulo="Professores"><Professores /></RotaProtegida>} />
       <Route path="/turmas" element={<RotaProtegida titulo="Turmas"><Turmas /></RotaProtegida>} />
+      <Route path="/disciplinas" element={<RotaProtegida titulo="Disciplinas & Matriz Curricular"><Disciplinas /></RotaProtegida>} />
       <Route path="/conteudos" element={<RotaProtegida titulo="Conteúdos Aplicados"><Conteudos /></RotaProtegida>} />
       <Route path="/frequencia" element={<RotaProtegida titulo="Frequência"><Frequencia /></RotaProtegida>} />
       <Route path="/notas" element={<RotaProtegida titulo="Notas"><Notas /></RotaProtegida>} />

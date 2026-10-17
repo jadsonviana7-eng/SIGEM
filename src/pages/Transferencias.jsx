@@ -119,8 +119,8 @@ export default function Transferencias() {
 
       const matchAba =
         abaAtiva === "todas" ? true :
-        abaAtiva === "saida" ? t.tipo?.includes("Saída") :
-        abaAtiva === "entrada" ? t.tipo?.includes("Entrada") : true;
+          abaAtiva === "saida" ? t.tipo?.includes("Saída") :
+            abaAtiva === "entrada" ? t.tipo?.includes("Entrada") : true;
 
       const matchSituacao = !filtroSituacao || t.situacao === filtroSituacao;
 
@@ -406,155 +406,155 @@ export default function Transferencias() {
               texto="Nenhum registro de transferência encontrado para os critérios selecionados."
             />
           ) : (
-          <>
-            <div className="sigem-desktop-table">
-              <Card style={{ padding: 0, overflow: "hidden" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
-                      {["Data", "Estudante", "Tipo", "Origem → Destino", "Motivo", "Documentação", "Situação", "Ações"].map(h => (
-                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {transferenciasFiltradas.map(t => {
-                      const isSaida = t.tipo?.includes("Saída");
-                      return (
-                        <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
-                          <td style={{ padding: "12px 14px", fontSize: 12, color: "#94a3b8", whiteSpace: "nowrap" }}>
-                            {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
-                          </td>
-                          <td style={{ padding: "12px 14px" }}>
-                            <div style={{ fontWeight: 600, color: "#ffffff" }}>{t.alunoNome}</div>
-                            <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>Matrícula: {t.alunoMatricula || "—"}</div>
-                          </td>
-                          <td style={{ padding: "12px 14px" }}>
-                            <Badge color={isSaida ? "red" : "green"}>
-                              <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} style={{ marginRight: 4 }} />
-                              {isSaida ? "Saída" : "Entrada"}
-                            </Badge>
-                          </td>
-                          <td style={{ padding: "12px 14px", maxWidth: 260 }}>
-                            <div style={{ fontSize: 12, color: "#cbd5e1" }}>
-                              <strong>De:</strong> {t.escolaOrigem || "—"}
-                            </div>
-                            <div style={{ fontSize: 12, color: "#818cf8", marginTop: 2 }}>
-                              <strong>Para:</strong> {t.escolaDestino || "—"}
-                            </div>
-                          </td>
-                          <td style={{ padding: "12px 14px" }}>
-                            <div style={{ fontSize: 12, color: "#ffffff", fontWeight: 500 }}>{t.motivo}</div>
-                            {t.responsavel && (
-                              <div style={{ fontSize: 11, color: "#94a3b8" }}>Req.: {t.responsavel}</div>
-                            )}
-                          </td>
-                          <td style={{ padding: "12px 14px" }}>
-                            <span style={{ fontSize: 12, color: t.documentacao?.includes("Oficial") ? "#34d399" : "#cbd5e1" }}>
-                              {t.documentacao || "Declaração Emitida"}
-                            </span>
-                          </td>
-                          <td style={{ padding: "12px 14px" }}>
-                            <Badge color={t.situacao === "Concluída" ? "green" : t.situacao === "Cancelada" ? "red" : "amber"}>
-                              {t.situacao || "Concluída"}
-                            </Badge>
-                          </td>
-                          <td style={{ padding: "12px 14px" }}>
-                            <div style={{ display: "flex", gap: 6 }}>
-                              <Btn
-                                variant="secondary"
-                                onClick={() => setDocTransferencia(t)}
-                                style={{ padding: "5px 9px", fontSize: 11 }}
-                                title="Imprimir Declaração Oficial de Transferência"
-                              >
-                                <i className="ti ti-printer" /> Declaração
-                              </Btn>
-                              <Btn
-                                variant="danger"
-                                onClick={() => handleExcluirTransferencia(t.id)}
-                                style={{ padding: "5px 8px", fontSize: 11 }}
-                                title="Remover Registro"
-                              >
-                                <i className="ti ti-trash" />
-                              </Btn>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </Card>
-            </div>
+            <>
+              <div className="sigem-desktop-table">
+                <Card style={{ padding: 0, overflow: "hidden" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead>
+                      <tr style={{ background: "#243144", borderBottom: "1px solid #2c3b52" }}>
+                        {["Data", "Estudante", "Tipo", "Origem → Destino", "Motivo", "Documentação", "Situação", "Ações"].map(h => (
+                          <th key={h} style={{ textAlign: "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: "#cbd5e1", textTransform: "uppercase" }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {transferenciasFiltradas.map(t => {
+                        const isSaida = t.tipo?.includes("Saída");
+                        return (
+                          <tr key={t.id} style={{ borderBottom: "1px solid #2c3b52" }}>
+                            <td style={{ padding: "12px 14px", fontSize: 12, color: "#94a3b8", whiteSpace: "nowrap" }}>
+                              {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}
+                            </td>
+                            <td style={{ padding: "12px 14px" }}>
+                              <div style={{ fontWeight: 600, color: "#ffffff" }}>{t.alunoNome}</div>
+                              <div style={{ fontSize: 11, color: "#94a3b8", fontFamily: "monospace" }}>Matrícula: {t.alunoMatricula || "—"}</div>
+                            </td>
+                            <td style={{ padding: "12px 14px" }}>
+                              <Badge color={isSaida ? "red" : "green"}>
+                                <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} style={{ marginRight: 4 }} />
+                                {isSaida ? "Saída" : "Entrada"}
+                              </Badge>
+                            </td>
+                            <td style={{ padding: "12px 14px", maxWidth: 260 }}>
+                              <div style={{ fontSize: 12, color: "#cbd5e1" }}>
+                                <strong>De:</strong> {t.escolaOrigem || "—"}
+                              </div>
+                              <div style={{ fontSize: 12, color: "#818cf8", marginTop: 2 }}>
+                                <strong>Para:</strong> {t.escolaDestino || "—"}
+                              </div>
+                            </td>
+                            <td style={{ padding: "12px 14px" }}>
+                              <div style={{ fontSize: 12, color: "#ffffff", fontWeight: 500 }}>{t.motivo}</div>
+                              {t.responsavel && (
+                                <div style={{ fontSize: 11, color: "#94a3b8" }}>Req.: {t.responsavel}</div>
+                              )}
+                            </td>
+                            <td style={{ padding: "12px 14px" }}>
+                              <span style={{ fontSize: 12, color: t.documentacao?.includes("Oficial") ? "#34d399" : "#cbd5e1" }}>
+                                {t.documentacao || "Declaração Emitida"}
+                              </span>
+                            </td>
+                            <td style={{ padding: "12px 14px" }}>
+                              <Badge color={t.situacao === "Concluída" ? "green" : t.situacao === "Cancelada" ? "red" : "amber"}>
+                                {t.situacao || "Concluída"}
+                              </Badge>
+                            </td>
+                            <td style={{ padding: "12px 14px" }}>
+                              <div style={{ display: "flex", gap: 6 }}>
+                                <Btn
+                                  variant="secondary"
+                                  onClick={() => setDocTransferencia(t)}
+                                  style={{ padding: "5px 9px", fontSize: 11 }}
+                                  title="Imprimir Declaração Oficial de Transferência"
+                                >
+                                  <i className="ti ti-printer" /> Declaração
+                                </Btn>
+                                <Btn
+                                  variant="danger"
+                                  onClick={() => handleExcluirTransferencia(t.id)}
+                                  style={{ padding: "5px 8px", fontSize: 11 }}
+                                  title="Remover Registro"
+                                >
+                                  <i className="ti ti-trash" />
+                                </Btn>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </Card>
+              </div>
 
-            {/* Visualização Mobile: Cards Otimizados */}
-            <div className="sigem-mobile-cards">
-              {transferenciasFiltradas.map(t => {
-                const isSaida = t.tipo?.includes("Saída");
-                return (
-                  <div
-                    key={`mob-transf-${t.id}`}
-                    onClick={() => setDocTransferencia(t)}
-                    style={{
-                      background: "var(--bg-card)",
-                      border: "1px solid var(--border-color)",
-                      borderRadius: 14,
-                      padding: "12px 14px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      cursor: "pointer",
-                      boxShadow: "var(--card-shadow)",
-                      transition: "all 0.15s ease"
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
-                    onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
-                  >
-                    <div style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 10,
-                      background: isSaida ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)",
-                      color: isSaida ? "#f87171" : "#34d399",
-                      border: "1px solid var(--border-color)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 20,
-                      flexShrink: 0
-                    }}>
-                      <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} />
-                    </div>
+              {/* Visualização Mobile: Cards Otimizados */}
+              <div className="sigem-mobile-cards">
+                {transferenciasFiltradas.map(t => {
+                  const isSaida = t.tipo?.includes("Saída");
+                  return (
+                    <div
+                      key={`mob-transf-${t.id}`}
+                      onClick={() => setDocTransferencia(t)}
+                      style={{
+                        background: "var(--bg-card)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: 14,
+                        padding: "12px 14px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        cursor: "pointer",
+                        boxShadow: "var(--card-shadow)",
+                        transition: "all 0.15s ease"
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent-indigo)"}
+                      onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-color)"}
+                    >
+                      <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 10,
+                        background: isSaida ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)",
+                        color: isSaida ? "#f87171" : "#34d399",
+                        border: "1px solid var(--border-color)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 20,
+                        flexShrink: 0
+                      }}>
+                        <i className={`ti ti-${isSaida ? "arrow-up-right" : "arrow-down-left"}`} />
+                      </div>
 
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
-                        <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {t.alunoNome}
-                        </span>
-                        <Badge color={isSaida ? "red" : "green"}>
-                          {isSaida ? "Saída" : "Entrada"}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+                          <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: 13.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                            {t.alunoNome}
+                          </span>
+                          <Badge color={isSaida ? "red" : "green"}>
+                            {isSaida ? "Saída" : "Entrada"}
+                          </Badge>
+                        </div>
+
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
+                          <span style={{ fontFamily: "monospace", color: "var(--text-muted)" }}>#{t.alunoMatricula || "S/N"}</span>
+                          <span style={{ color: "var(--text-muted)" }}>· {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</span>
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                        <Badge color={t.situacao === "Concluída" ? "green" : "amber"}>
+                          {t.situacao || "Concluída"}
                         </Badge>
-                      </div>
-
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 11 }}>
-                        <span style={{ fontFamily: "monospace", color: "var(--text-muted)" }}>#{t.alunoMatricula || "S/N"}</span>
-                        <span style={{ color: "var(--text-muted)" }}>· {t.data ? new Date(t.data + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</span>
+                        <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
+                          <i className="ti ti-chevron-right" />
+                        </div>
                       </div>
                     </div>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-                      <Badge color={t.situacao === "Concluída" ? "green" : "amber"}>
-                        {t.situacao || "Concluída"}
-                      </Badge>
-                      <div style={{ color: "var(--text-muted)", fontSize: 18, display: "flex", alignItems: "center" }}>
-                        <i className="ti ti-chevron-right" />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </>
+                  );
+                })}
+              </div>
+            </>
           )}
         </div>
       )}
@@ -1027,54 +1027,89 @@ export default function Transferencias() {
           textSave="Imprimir Declaração"
           width={720}
         >
-          <div style={{ border: "2px solid #000", padding: "24px 28px", background: "white", borderRadius: 4, fontSize: 12, lineHeight: 1.6 }}>
+          {/* Estilos dedicados de impressão da declaração de transferência */}
+          <style>{`
+            @media print {
+              body * {
+                visibility: hidden !important;
+              }
+              .declaracao-transferencia-print,
+              .declaracao-transferencia-print * {
+                visibility: visible !important;
+                color: #000000 !important;
+              }
+              .declaracao-transferencia-print {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                border: 2px solid #000 !important;
+                padding: 24px 28px !important;
+                background: #ffffff !important;
+                box-shadow: none !important;
+              }
+            }
+          `}</style>
+
+          <div
+            className="documento-impresso print-target declaracao-transferencia-print"
+            style={{
+              border: "2px solid #000",
+              padding: "24px 28px",
+              background: "#ffffff",
+              color: "#000000",
+              borderRadius: 4,
+              fontSize: 12,
+              lineHeight: 1.6
+            }}
+          >
             {/* Cabeçalho Oficial */}
-            <div style={{ textAlign: "center", borderBottom: "2px solid #000", paddingBottom: 12, marginBottom: 16 }}>
-              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
+            <div style={{ textAlign: "center", borderBottom: "2px solid #000", paddingBottom: 12, marginBottom: 16, color: "#000000" }}>
+              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase", color: "#000000" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
               <div style={{ fontWeight: 800, fontSize: 16, color: "#1e3a8a", marginTop: 2 }}>{docTransferencia.escolaNome || escolaAtual.nome || "ESCOLA MUNICIPAL"}</div>
-              <div style={{ fontSize: 11, color: "#444" }}>CÓDIGO INEP: {docTransferencia.escolaInep || escolaAtual.inep || "27000000"} · {escolaAtual.cidade || "Maceió"} - {escolaAtual.uf || "AL"}</div>
-              <div style={{ fontWeight: 800, fontSize: 14, textTransform: "uppercase", marginTop: 10, letterSpacing: 0.5, borderTop: "1px solid #aaa", paddingTop: 8 }}>
+              <div style={{ fontSize: 11, color: "#333333" }}>CÓDIGO INEP: {docTransferencia.escolaInep || escolaAtual.inep || "27000000"} · {escolaAtual.cidade || "Santana do Mundaú"} - {escolaAtual.uf || "AL"}</div>
+              <div style={{ fontWeight: 800, fontSize: 14, textTransform: "uppercase", marginTop: 10, letterSpacing: 0.5, borderTop: "1px solid #aaa", paddingTop: 8, color: "#000000" }}>
                 DECLARAÇÃO DE TRANSFERÊNCIA ESCOLAR
               </div>
-              <div style={{ fontSize: 10, color: "#666" }}>PROTOCOLO: <strong>{docTransferencia.protocolo || "TRF-2026-0001"}</strong></div>
+              <div style={{ fontSize: 10, color: "#444444" }}>PROTOCOLO: <strong style={{ color: "#000000" }}>{docTransferencia.protocolo || "TRF-2026-0001"}</strong></div>
             </div>
 
             {/* Corpo da Declaração */}
-            <div style={{ textAlign: "justify", fontSize: 12.5, lineHeight: 1.8, marginBottom: 16 }}>
-              Declaramos para os devidos fins de direito e matrícula em outra instituição de ensino, que o(a) estudante <strong>{docTransferencia.alunoNome}</strong>,
+            <div style={{ textAlign: "justify", fontSize: 12.5, lineHeight: 1.8, marginBottom: 16, color: "#000000" }}>
+              Declaramos para os devidos fins de direito e matrícula em outra instituição de ensino, que o(a) estudante <strong style={{ color: "#000000" }}>{docTransferencia.alunoNome}</strong>,
               {docTransferencia.alunoNascimento ? ` nascido(a) em ${new Date(docTransferencia.alunoNascimento + "T12:00:00").toLocaleDateString("pt-BR")},` : ""}
               {docTransferencia.alunoCpf ? ` portador(a) do CPF nº ${docTransferencia.alunoCpf},` : ""}
               {docTransferencia.alunoMae ? ` filho(a) de ${docTransferencia.alunoMae},` : ""}
               {docTransferencia.alunoMatricula ? ` registrado(a) sob o Registro de Matrícula nº ${docTransferencia.alunoMatricula},` : ""}
-              esteve regularmente matriculado(a) nesta unidade escolar no <strong>{docTransferencia.serieAno || docTransferencia.alunoTurma || "Ensino Fundamental"}</strong>,
-              tendo requerido sua <strong>TRANSFERÊNCIA</strong> para a instituição de ensino <strong>{docTransferencia.escolaDestino}</strong>.
+              esteve regularmente matriculado(a) nesta unidade escolar no <strong style={{ color: "#000000" }}>{docTransferencia.serieAno || docTransferencia.alunoTurma || "Ensino Fundamental"}</strong>,
+              tendo requerido sua <strong style={{ color: "#000000" }}>TRANSFERÊNCIA</strong> para a instituição de ensino <strong style={{ color: "#000000" }}>{docTransferencia.escolaDestino}</strong>.
             </div>
 
             {/* Quadro de Detalhes da Transferência */}
-            <div style={{ border: "1px solid #000", padding: "10px 14px", background: "#f8fafc", borderRadius: 4, marginBottom: 16, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 14px", fontSize: 11.5 }}>
-              <div><strong>Tipo de Transferência:</strong> {docTransferencia.tipo}</div>
-              <div><strong>Data da Expedição:</strong> {docTransferencia.data ? new Date(docTransferencia.data + "T12:00:00").toLocaleDateString("pt-BR") : new Date().toLocaleDateString("pt-BR")}</div>
-              <div><strong>Escola de Origem:</strong> {docTransferencia.escolaOrigem}</div>
-              <div><strong>Escola de Destino:</strong> {docTransferencia.escolaDestino}</div>
-              <div><strong>Motivo do Desligamento:</strong> {docTransferencia.motivo}</div>
-              <div><strong>Responsável Requerente:</strong> {docTransferencia.responsavel || docTransferencia.alunoMae || "—"}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Documentação Anexa / Status:</strong> {docTransferencia.documentacao}</div>
+            <div style={{ border: "1px solid #000", padding: "10px 14px", background: "#f8fafc", color: "#000000", borderRadius: 4, marginBottom: 16, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 14px", fontSize: 11.5 }}>
+              <div><strong style={{ color: "#000000" }}>Tipo de Transferência:</strong> {docTransferencia.tipo}</div>
+              <div><strong style={{ color: "#000000" }}>Data da Expedição:</strong> {docTransferencia.data ? new Date(docTransferencia.data + "T12:00:00").toLocaleDateString("pt-BR") : new Date().toLocaleDateString("pt-BR")}</div>
+              <div><strong style={{ color: "#000000" }}>Escola de Origem:</strong> {docTransferencia.escolaOrigem}</div>
+              <div><strong style={{ color: "#000000" }}>Escola de Destino:</strong> {docTransferencia.escolaDestino}</div>
+              <div><strong style={{ color: "#000000" }}>Motivo do Desligamento:</strong> {docTransferencia.motivo}</div>
+              <div><strong style={{ color: "#000000" }}>Responsável Requerente:</strong> {docTransferencia.responsavel || docTransferencia.alunoMae || "—"}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Documentação Anexa / Status:</strong> {docTransferencia.documentacao}</div>
               {docTransferencia.observacoes && (
-                <div style={{ gridColumn: "1 / -1" }}><strong>Observações da Secretaria:</strong> {docTransferencia.observacoes}</div>
+                <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Observações da Secretaria:</strong> {docTransferencia.observacoes}</div>
               )}
             </div>
 
             {/* Aviso Legal sobre Validade */}
-            <div style={{ background: "#f1f5f9", border: "1px solid #cbd5e1", padding: 8, borderRadius: 4, fontSize: 10, color: "#334155", textAlign: "center", marginBottom: 24 }}>
+            <div style={{ background: "#f1f5f9", border: "1px solid #cbd5e1", padding: 8, borderRadius: 4, fontSize: 10, color: "#1e293b", textAlign: "center", marginBottom: 24 }}>
               <strong>AVISO LEGAL:</strong> Esta declaração provisória tem validade de <strong>30 (trinta) dias</strong> a contar de sua data de emissão, prazo no qual o Histórico Escolar oficial definitivo será expedido e entregue nos termos do Art. 24 da Lei Federal nº 9.394/96 (LDB).
             </div>
 
-            <div style={{ textAlign: "right", fontSize: 11, marginBottom: 30 }}>
-              {escolaAtual.cidade || "Maceió"} - {escolaAtual.uf || "AL"}, {new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}.
+            <div style={{ textAlign: "right", fontSize: 11, marginBottom: 30, color: "#000000" }}>
+              {escolaAtual.cidade || "Santana do Mundaú"} - {escolaAtual.uf || "AL"}, {new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}.
             </div>
 
             {/* Campos de Assinaturas */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20, textAlign: "center", fontSize: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20, textAlign: "center", fontSize: 10, color: "#000000" }}>
               <div>
                 <div style={{ borderTop: "1px solid #000", paddingTop: 4 }}>Assinatura do Responsável</div>
               </div>

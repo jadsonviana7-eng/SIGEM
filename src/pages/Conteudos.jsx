@@ -10,6 +10,7 @@ import {
   updateConteudo,
   deleteConteudo
 } from "../services/conteudosService";
+import { getDisciplinas } from "../services/disciplinasService";
 import { DISCIPLINAS, ANO_LETIVO_ATUAL } from "../utils/constants";
 import { Modal, Input, Select, Alert, Spinner, Btn } from "../components/ui";
 import styles from "./conteudos/Conteudos.module.css";
@@ -49,6 +50,19 @@ export default function Conteudos() {
     useCallback(() => getProfessores(activeEscolaId), [activeEscolaId]),
     [activeEscolaId]
   );
+
+  const { dados: disciplinasDocs } = useFirestore(
+    useCallback(() => getDisciplinas(activeEscolaId), [activeEscolaId]),
+    [activeEscolaId]
+  );
+
+  const listaDisciplinas = useMemo(() => {
+    if (disciplinasDocs && disciplinasDocs.length > 0) {
+      const ativas = disciplinasDocs.filter((d) => d.status === "Ativa").map((d) => d.nome);
+      if (ativas.length > 0) return ativas;
+    }
+    return DISCIPLINAS;
+  }, [disciplinasDocs]);
 
   // Filtros principais
   const [turmaSelecionada, setTurmaSelecionada] = useState(searchParams.get("turma") || "");
@@ -487,7 +501,7 @@ export default function Conteudos() {
             abrirEditarRegistro={abrirEditarRegistro}
             handleExcluir={handleExcluir}
             setModalImprimirAberto={() => setActiveTab("caderneta")}
-            DISCIPLINAS={DISCIPLINAS}
+            DISCIPLINAS={listaDisciplinas}
             BIMESTRES={BIMESTRES}
           />
         )}
@@ -499,7 +513,7 @@ export default function Conteudos() {
             setForm={setForm}
             handleSalvar={handleSalvar}
             salvando={salvando}
-            DISCIPLINAS={DISCIPLINAS}
+            DISCIPLINAS={listaDisciplinas}
             BIMESTRES={BIMESTRES}
             onCancelar={() => setActiveTab("aulas")}
             editId={editId}
@@ -512,7 +526,7 @@ export default function Conteudos() {
             turmaSelecionada={turmaSelecionada}
             disciplinaSelecionada={disciplinaSelecionada}
             setDisciplinaSelecionada={setDisciplinaSelecionada}
-            DISCIPLINAS={DISCIPLINAS}
+            DISCIPLINAS={listaDisciplinas}
             onNavegarAba={(aba) => setActiveTab(aba)}
           />
         )}
@@ -528,7 +542,7 @@ export default function Conteudos() {
             conteudosFiltrados={conteudosFiltrados}
             totalAulasRegistradas={totalAulasRegistradas}
             escolaAtual={escolaAtual}
-            DISCIPLINAS={DISCIPLINAS}
+            DISCIPLINAS={listaDisciplinas}
             BIMESTRES={BIMESTRES}
           />
         )}

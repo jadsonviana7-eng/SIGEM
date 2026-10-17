@@ -75,6 +75,7 @@ export default function MatriculaOnlinePublica() {
     { tipo: "Certidão de Nascimento do Aluno", obrigatorio: true, nome: "", status: "Pendente" },
     { tipo: "Comprovante de Residência (Conta de Luz/Água)", obrigatorio: true, nome: "", status: "Pendente" },
     { tipo: "Cartão de Vacinação Atualizado", obrigatorio: true, nome: "", status: "Pendente" },
+    { tipo: "Cartão do SUS do Aluno", obrigatorio: false, nome: "", status: "Pendente" },
     { tipo: "RG/CPF do Responsável Legal", obrigatorio: true, nome: "", status: "Pendente" },
     { tipo: "Histórico Escolar / Declaração de Transferência", obrigatorio: false, nome: "", status: "Pendente" },
     { tipo: "Laudo Médico ou Documento AEE (se PCD)", obrigatorio: false, nome: "", status: "Pendente" }

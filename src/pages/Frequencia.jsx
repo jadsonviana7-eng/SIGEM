@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
 import { getAlunos } from "../services/alunosService";
 import { getTurmas } from "../services/turmasService";
 import { getFrequenciasTurma, salvarFrequencia, salvarDiarioDeClasse } from "../services/frequenciaService";
+import { getDisciplinas } from "../services/disciplinasService";
 import { registrarAuditoria } from "../services/auditoriaService";
 import { MESES, ANO_LETIVO_ATUAL, calcularFrequencia, DISCIPLINAS } from "../utils/constants";
 import { Card, Badge, Spinner, Btn, Input, Alert } from "../components/ui";
@@ -15,6 +16,15 @@ export default function Frequencia() {
 
   const { dados: turmas, carregando: cT } = useFirestore(useCallback(() => getTurmas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
   const { dados: todosAlunos, carregando: cA } = useFirestore(useCallback(() => getAlunos(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+  const { dados: disciplinasDocs } = useFirestore(useCallback(() => getDisciplinas(activeEscolaId), [activeEscolaId]), [activeEscolaId]);
+
+  const listaDisciplinas = useMemo(() => {
+    if (disciplinasDocs && disciplinasDocs.length > 0) {
+      const ativas = disciplinasDocs.filter(d => d.status === "Ativa").map(d => d.nome);
+      if (ativas.length > 0) return ativas;
+    }
+    return DISCIPLINAS;
+  }, [disciplinasDocs]);
   
   const [abaAtiva, setAbaAtiva] = useState("diario");
   const [salvando, setSalvando] = useState(false);
@@ -215,7 +225,7 @@ export default function Frequencia() {
                     style={{ width: "100%", border: "1px solid #33435c", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "#243144", color: "#ffffff", outline: "none", cursor: "pointer", marginTop: 6 }}
                   >
                     <option value="">Selecione...</option>
-                    {DISCIPLINAS.map(d => <option key={d} value={d}>{d}</option>)}
+                    {listaDisciplinas.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>
                 </div>
               )}

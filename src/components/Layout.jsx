@@ -18,6 +18,7 @@ const mainNavItems = [
   // 3. Núcleo Pedagógico & Docente (Rotina Diária de Sala de Aula)
   { to: "/turmas", label: "Turmas", icon: "chalkboard" },
   { to: "/professores", label: "Professores", icon: "users" },
+  { to: "/disciplinas", label: "Disciplinas", icon: "books" },
   { to: "/frequencia", label: "Frequência", icon: "calendar-check" },
   { to: "/notas", label: "Notas", icon: "clipboard-check" },
 
@@ -34,6 +35,7 @@ const mainNavItems = [
 
 // Módulos adicionais do SIGEM acessíveis pelo menu de navegação completa
 const modulosAdicionais = [
+  { to: "/disciplinas", label: "Disciplinas & Matriz", icon: "books" },
   { to: "/boletim", label: "Boletim Escolar", icon: "certificate" },
   { to: "/conteudos", label: "Conteúdos / Diário", icon: "notebook" },
   { to: "/fechamento", label: "Fechamento de Período", icon: "lock" },

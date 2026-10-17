@@ -847,6 +847,127 @@ style.textContent = `
     from { opacity: 0; }
     to { opacity: 1; }
   }
+
+  /* ══════════════════════════════════════════════════════════════════ */
+  /* ── DOCUMENTOS IMPRESSOS, FOLHAS TIMBRADAS & PREVIEW A4 ────────── */
+  /* ══════════════════════════════════════════════════════════════════ */
+  .documento-impresso,
+  .print-target,
+  .print-sheet,
+  .document-sheet,
+  .boletim-container-a4,
+  .historico-print-target,
+  .print-curriculo,
+  .area-holerite-impressao,
+  [class*="documentSheet"],
+  [class*="paperWrap"] [class*="paper"],
+  .declaracao-transferencia-print,
+  .comprovante-remanejamento-print,
+  .comprovante-matricula-print {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+
+  /* Forçar que títulos, tabelas, células e parágrafos dentro de folhas impressas fiquem pretos */
+  .documento-impresso *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  .print-target *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  .boletim-container-a4 *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  .historico-print-target *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  .print-curriculo *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  [class*="documentSheet"] *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  [class*="paperWrap"] [class*="paper"] *:not([style*="color: rgb(30, 58, 138)"]):not([style*="color: #1e3a8a"]):not([style*="color: #16a34a"]):not([style*="color: #ef4444"]):not([style*="color: #2563eb"]):not([style*="color: #dc2626"]),
+  .declaracao-transferencia-print *,
+  .comprovante-remanejamento-print *,
+  .comprovante-matricula-print * {
+    color: #000000;
+  }
+
+  .boletim-tabela,
+  .historico-tabela,
+  .documento-impresso table,
+  .print-target table {
+    color: #000000 !important;
+  }
+
+  .boletim-tabela th,
+  .historico-tabela th,
+  .documento-impresso table th,
+  .print-target table th {
+    color: #000000 !important;
+    background-color: #f1f5f9 !important;
+  }
+
+  .boletim-tabela td,
+  .historico-tabela td,
+  .documento-impresso table td,
+  .print-target table td {
+    color: #000000 !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════ */
+  /* ── REGRA GLOBAL DE IMPRESSÃO (@MEDIA PRINT) ───────────────────── */
+  /* ══════════════════════════════════════════════════════════════════ */
+  @media print {
+    *, *::before, *::after {
+      text-shadow: none !important;
+      box-shadow: none !important;
+    }
+    html, body {
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Esconder elementos de navegação e layout padrão ao imprimir */
+    .no-print,
+    nav,
+    aside,
+    header.sigem-header,
+    .sigem-sidebar,
+    .sigem-nav,
+    .sigem-header-actions,
+    button:not(.btn-permitir-print),
+    .ui-modal-overlay > div:has(.print-target) ~ * {
+      display: none !important;
+    }
+
+    /* Quando um print-target estiver ativo na tela (modal ou página) */
+    body:has(.print-target) * {
+      visibility: hidden;
+    }
+    body:has(.print-target) .print-target,
+    body:has(.print-target) .print-target * {
+      visibility: visible !important;
+      color: #000000 !important;
+    }
+    body:has(.print-target) .print-target {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 15mm 20mm !important;
+      background: #ffffff !important;
+      box-shadow: none !important;
+      border: none !important;
+      display: block !important;
+    }
+
+    /* Impressão direta de tabelas e textos com contraste total */
+    table {
+      color: #000000 !important;
+    }
+    table th, table td {
+      color: #000000 !important;
+      border-color: #000000 !important;
+    }
+    h1, h2, h3, h4, h5, h6, p, span, div, strong, b, label {
+      color: #000000 !important;
+    }
+  }
 `;
 document.head.appendChild(style);
 

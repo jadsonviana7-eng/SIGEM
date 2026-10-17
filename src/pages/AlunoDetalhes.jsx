@@ -600,7 +600,7 @@ export default function AlunoDetalhes() {
             margin: 0 !important;
             padding: 0 !important;
             font-family: "Segoe UI", Arial, sans-serif !important;
-            color: #000 !important;
+            color: #000000 !important;
           }
           .no-print {
             display: none !important;
@@ -611,6 +611,12 @@ export default function AlunoDetalhes() {
             margin: 0 !important;
             padding: 15px 20px !important;
             box-sizing: border-box !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+          }
+          .print-curriculo,
+          .print-curriculo * {
+            color: #000000 !important;
           }
           .curriculo-box {
             border: 1px solid #333 !important;
@@ -625,11 +631,13 @@ export default function AlunoDetalhes() {
             font-weight: 700 !important;
             font-size: 11px !important;
             text-transform: uppercase !important;
+            color: #000000 !important;
           }
           .curriculo-body {
             padding: 8px 10px !important;
             font-size: 11px !important;
             line-height: 1.4 !important;
+            color: #000000 !important;
           }
         }
       `}</style>
@@ -637,7 +645,7 @@ export default function AlunoDetalhes() {
       {/* ========================================================================= */}
       {/* 📄 LAYOUT EXCLUSIVO DE IMPRESSÃO: FICHA DO ALUNO ESTILO CURRÍCULO          */}
       {/* ========================================================================= */}
-      <div className="print-curriculo">
+      <div className="print-curriculo documento-impresso print-target" style={{ color: "#000000" }}>
         {/* Cabeçalho Oficial do Órgão */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "2px solid #000", paddingBottom: 10, marginBottom: 14 }}>
           <div>
@@ -1105,7 +1113,52 @@ export default function AlunoDetalhes() {
                     <span style={{ color: "#cbd5e1" }}>{aluno.registroCivil || "—"}</span>
                   </div>
                   <div>
-                    <span style={{ fontSize: 11, color: "#94a3b8", display: "block", textTransform: "uppercase", fontWeight: 600 }}>Cartão Nacional SUS</span>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", fontWeight: 600 }}>Cartão Nacional SUS</span>
+                      {aluno.documentos?.cartaoSus ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setDocVisualizando(aluno.documentos.cartaoSus);
+                            setDocTituloVisualizando("Cartão do SUS");
+                          }}
+                          style={{
+                            background: "transparent",
+                            border: "none",
+                            color: "#38bdf8",
+                            fontSize: 11,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            padding: 0,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 3
+                          }}
+                          title="Visualizar Cartão do SUS anexado"
+                        >
+                          <i className="ti ti-file-check" /> Ver anexo
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setAbaAtiva("documentos")}
+                          style={{
+                            background: "transparent",
+                            border: "none",
+                            color: "#94a3b8",
+                            fontSize: 10,
+                            cursor: "pointer",
+                            padding: 0,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 2
+                          }}
+                          title="Ir para a pasta de documentos para anexar"
+                        >
+                          <i className="ti ti-upload" /> Anexar
+                        </button>
+                      )}
+                    </div>
                     <span style={{ color: "#cbd5e1" }}>{aluno.cartaoSus || "—"}</span>
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
@@ -2369,37 +2422,58 @@ export default function AlunoDetalhes() {
           textSave="Imprimir Guia"
           width={680}
         >
-          <div style={{ border: "1.5px solid #000", padding: 20, background: "white", borderRadius: 6, fontSize: 12, lineHeight: 1.6 }}>
-            <div style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: 10, marginBottom: 12 }}>
-              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
+          <style>{`
+            @media print {
+              body * { visibility: hidden !important; }
+              .comprovante-remanejamento-print, .comprovante-remanejamento-print * {
+                visibility: visible !important;
+                color: #000000 !important;
+              }
+              .comprovante-remanejamento-print {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                border: 2px solid #000 !important;
+                padding: 20px !important;
+                background: #ffffff !important;
+              }
+            }
+          `}</style>
+          <div
+            className="documento-impresso print-target comprovante-remanejamento-print"
+            style={{ border: "1.5px solid #000", padding: 20, background: "#ffffff", color: "#000000", borderRadius: 6, fontSize: 12, lineHeight: 1.6 }}
+          >
+            <div style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: 10, marginBottom: 12, color: "#000000" }}>
+              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase", color: "#000000" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
               <div style={{ fontWeight: 700, fontSize: 15, color: "#1e3a8a" }}>{comprovanteRemanejamento.escolaNome || "ESCOLA MUNICIPAL"}</div>
-              <div style={{ fontSize: 10, color: "#555" }}>GUIA OFICIAL DE TRANSFERÊNCIA INTERNA & REMANEJAMENTO DE TURMA · ANO {ANO_LETIVO_ATUAL}</div>
+              <div style={{ fontSize: 10, color: "#444444" }}>GUIA OFICIAL DE TRANSFERÊNCIA INTERNA & REMANEJAMENTO DE TURMA · ANO {ANO_LETIVO_ATUAL}</div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 14 }}>
-              <div><strong>Nº de Matrícula:</strong> {comprovanteRemanejamento.matricula || "—"}</div>
-              <div><strong>Data do Remanejamento:</strong> {comprovanteRemanejamento.dataRemanejamento ? new Date(comprovanteRemanejamento.dataRemanejamento + "T12:00:00").toLocaleDateString("pt-BR") : new Date().toLocaleDateString("pt-BR")}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Nome do Estudante:</strong> {comprovanteRemanejamento.nome}</div>
-              <div><strong>Data de Nascimento:</strong> {comprovanteRemanejamento.nascimento ? new Date(comprovanteRemanejamento.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
-              <div><strong>CPF do Estudante:</strong> {comprovanteRemanejamento.cpf || "—"}</div>
-              <div style={{ gridColumn: "1 / -1", background: "#f8fafc", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 4 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 14, color: "#000000" }}>
+              <div><strong style={{ color: "#000000" }}>Nº de Matrícula:</strong> {comprovanteRemanejamento.matricula || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Data do Remanejamento:</strong> {comprovanteRemanejamento.dataRemanejamento ? new Date(comprovanteRemanejamento.dataRemanejamento + "T12:00:00").toLocaleDateString("pt-BR") : new Date().toLocaleDateString("pt-BR")}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Nome do Estudante:</strong> {comprovanteRemanejamento.nome}</div>
+              <div><strong style={{ color: "#000000" }}>Data de Nascimento:</strong> {comprovanteRemanejamento.nascimento ? new Date(comprovanteRemanejamento.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
+              <div><strong style={{ color: "#000000" }}>CPF do Estudante:</strong> {comprovanteRemanejamento.cpf || "—"}</div>
+              <div style={{ gridColumn: "1 / -1", background: "#f8fafc", color: "#000000", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 4 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div><strong>Turma Anterior (Origem):</strong> {comprovanteRemanejamento.turmaAnterior || comprovanteRemanejamento.turmaOrigem}</div>
+                  <div><strong style={{ color: "#000000" }}>Turma Anterior (Origem):</strong> {comprovanteRemanejamento.turmaAnterior || comprovanteRemanejamento.turmaOrigem}</div>
                   <i className="ti ti-arrow-right" style={{ fontSize: 16 }} />
-                  <div><strong>Nova Turma (Destino):</strong> {comprovanteRemanejamento.novaTurma || comprovanteRemanejamento.turmaDestino}</div>
+                  <div><strong style={{ color: "#000000" }}>Nova Turma (Destino):</strong> {comprovanteRemanejamento.novaTurma || comprovanteRemanejamento.turmaDestino}</div>
                 </div>
               </div>
-              <div><strong>Motivo do Remanejamento:</strong> {comprovanteRemanejamento.motivo}</div>
-              <div><strong>Registrado Por:</strong> {comprovanteRemanejamento.usuarioNome || "Secretaria Escolar"}</div>
+              <div><strong style={{ color: "#000000" }}>Motivo do Remanejamento:</strong> {comprovanteRemanejamento.motivo}</div>
+              <div><strong style={{ color: "#000000" }}>Registrado Por:</strong> {comprovanteRemanejamento.usuarioNome || "Secretaria Escolar"}</div>
               {comprovanteRemanejamento.observacoes && (
-                <div style={{ gridColumn: "1 / -1" }}><strong>Observações / Justificativa:</strong> {comprovanteRemanejamento.observacoes}</div>
+                <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Observações / Justificativa:</strong> {comprovanteRemanejamento.observacoes}</div>
               )}
-              <div style={{ gridColumn: "1 / -1" }}><strong>Responsável Legal:</strong> {comprovanteRemanejamento.mae || comprovanteRemanejamento.responsavel || "—"}</div>
-              <div><strong>Telefone de Contato:</strong> {comprovanteRemanejamento.telefone || "—"}</div>
-              <div><strong>Emissão:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Responsável Legal:</strong> {comprovanteRemanejamento.mae || comprovanteRemanejamento.responsavel || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Telefone de Contato:</strong> {comprovanteRemanejamento.telefone || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Emissão:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
             </div>
 
-            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, textAlign: "center", fontSize: 10 }}>
+            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, textAlign: "center", fontSize: 10, color: "#000000" }}>
               <div>
                 <div style={{ borderTop: "1px solid #000", paddingTop: 4 }}>Assinatura do Responsável</div>
               </div>

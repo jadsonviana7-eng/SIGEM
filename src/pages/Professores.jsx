@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
 import { getProfessores, addProfessor, updateProfessor, deleteProfessor } from "../services/professoresService";
+import { getDisciplinas } from "../services/disciplinasService";
 import { registrarAuditoria } from "../services/auditoriaService";
 import { TURNOS, DISCIPLINAS } from "../utils/constants";
 import { Card, Badge, Btn, Modal, Input, Select, Alert, Spinner, EmptyState } from "../components/ui";
@@ -21,6 +22,19 @@ export default function Professores() {
     useCallback(() => getProfessores(activeEscolaId), [activeEscolaId]),
     [activeEscolaId]
   );
+
+  const { dados: disciplinasDocs } = useFirestore(
+    useCallback(() => getDisciplinas(activeEscolaId), [activeEscolaId]),
+    [activeEscolaId]
+  );
+
+  const listaDisciplinas = useMemo(() => {
+    if (disciplinasDocs && disciplinasDocs.length > 0) {
+      const ativas = disciplinasDocs.filter(d => d.status === "Ativa").map(d => d.nome);
+      if (ativas.length > 0) return ativas;
+    }
+    return DISCIPLINAS;
+  }, [disciplinasDocs]);
   
   const [form, setForm] = useState(VAZIO);
   const [abaAtiva, setAbaAtiva] = useState("professores"); // "professores" ou "demais-servidores"
@@ -451,7 +465,7 @@ export default function Professores() {
               <div>
                 <label style={{ fontSize:12,fontWeight:500,color:"#cbd5e1",display:"block",marginBottom:8 }}>Disciplinas que leciona</label>
                 <div style={{ display:"flex",flexWrap:"wrap",gap:6 }}>
-                  {DISCIPLINAS.map(d => {
+                  {listaDisciplinas.map(d => {
                     const sel = (form.disciplinas||[]).includes(d);
                     return (
                       <button key={d} onClick={()=>toggleDisciplina(d)} type="button"

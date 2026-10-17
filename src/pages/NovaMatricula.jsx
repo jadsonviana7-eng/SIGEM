@@ -325,29 +325,50 @@ export default function NovaMatricula() {
         </Card>
 
         {/* Modelo Imprimível do Comprovante de Matrícula */}
-        <div style={{ border: "2px solid #000", padding: 28, background: "white", borderRadius: 8, fontSize: 13, lineHeight: 1.6 }}>
-          <div style={{ textAlign: "center", borderBottom: "2px solid #000", paddingBottom: 14, marginBottom: 18 }}>
-            <div style={{ fontWeight: 800, fontSize: 14, textTransform: "uppercase" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
+        <style>{`
+          @media print {
+            body * { visibility: hidden !important; }
+            .comprovante-novamatricula-print, .comprovante-novamatricula-print * {
+              visibility: visible !important;
+              color: #000000 !important;
+            }
+            .comprovante-novamatricula-print {
+              position: absolute !important;
+              left: 0 !important;
+              top: 0 !important;
+              width: 100% !important;
+              border: 2px solid #000 !important;
+              padding: 28px !important;
+              background: #ffffff !important;
+            }
+          }
+        `}</style>
+        <div
+          className="documento-impresso print-target comprovante-novamatricula-print"
+          style={{ border: "2px solid #000", padding: 28, background: "#ffffff", color: "#000000", borderRadius: 8, fontSize: 13, lineHeight: 1.6 }}
+        >
+          <div style={{ textAlign: "center", borderBottom: "2px solid #000", paddingBottom: 14, marginBottom: 18, color: "#000000" }}>
+            <div style={{ fontWeight: 800, fontSize: 14, textTransform: "uppercase", color: "#000000" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
             <div style={{ fontWeight: 800, fontSize: 18, color: "#1e3a8a", marginTop: 4 }}>{matriculaConcluida.escolaNome || "ESCOLA MUNICIPAL"}</div>
-            <div style={{ fontSize: 11, color: "#555", marginTop: 2 }}>COMPROVANTE OFICIAL DE MATRÍCULA ESCOLAR · ANO LETIVO {ANO_LETIVO_ATUAL}</div>
+            <div style={{ fontSize: 11, color: "#444444", marginTop: 2 }}>COMPROVANTE OFICIAL DE MATRÍCULA ESCOLAR · ANO LETIVO {ANO_LETIVO_ATUAL}</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px", marginBottom: 20 }}>
-            <div><strong>Nº de Matrícula:</strong> {matriculaConcluida.matricula || "—"}</div>
-            <div><strong>Data da Efetivação:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
-            <div style={{ gridColumn: "1 / -1" }}><strong>Nome do Estudante:</strong> {matriculaConcluida.nome}</div>
-            <div><strong>Data de Nascimento:</strong> {matriculaConcluida.nascimento ? new Date(matriculaConcluida.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
-            <div><strong>CPF do Estudante:</strong> {matriculaConcluida.cpf || "—"}</div>
-            <div><strong>Turma Confirmada:</strong> {matriculaConcluida.turma} ({matriculaConcluida.ano})</div>
-            <div><strong>Turno:</strong> {matriculaConcluida.turno}</div>
-            <div style={{ gridColumn: "1 / -1" }}><strong>Nome da Mãe:</strong> {matriculaConcluida.mae || "Não informada"}</div>
-            <div style={{ gridColumn: "1 / -1" }}><strong>Responsável Legal:</strong> {matriculaConcluida.responsavel || matriculaConcluida.mae || "—"}</div>
-            <div style={{ gridColumn: "1 / -1" }}><strong>Endereço Residencial:</strong> {matriculaConcluida.endereco || "—"} {matriculaConcluida.bairro ? `· Bairro ${matriculaConcluida.bairro}` : ""}</div>
-            <div><strong>Telefone / Celular:</strong> {matriculaConcluida.telefone || "—"}</div>
-            <div><strong>Documentos Anexados:</strong> {Object.keys(matriculaConcluida.documentos || {}).length} documento(s)</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px", marginBottom: 20, color: "#000000" }}>
+            <div><strong style={{ color: "#000000" }}>Nº de Matrícula:</strong> {matriculaConcluida.matricula || "—"}</div>
+            <div><strong style={{ color: "#000000" }}>Data da Efetivação:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
+            <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Nome do Estudante:</strong> {matriculaConcluida.nome}</div>
+            <div><strong style={{ color: "#000000" }}>Data de Nascimento:</strong> {matriculaConcluida.nascimento ? new Date(matriculaConcluida.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
+            <div><strong style={{ color: "#000000" }}>CPF do Estudante:</strong> {matriculaConcluida.cpf || "—"}</div>
+            <div><strong style={{ color: "#000000" }}>Turma Confirmada:</strong> {matriculaConcluida.turma} ({matriculaConcluida.ano})</div>
+            <div><strong style={{ color: "#000000" }}>Turno:</strong> {matriculaConcluida.turno}</div>
+            <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Nome da Mãe:</strong> {matriculaConcluida.mae || "Não informada"}</div>
+            <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Responsável Legal:</strong> {matriculaConcluida.responsavel || matriculaConcluida.mae || "—"}</div>
+            <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Endereço Residencial:</strong> {matriculaConcluida.endereco || "—"} {matriculaConcluida.bairro ? `· Bairro ${matriculaConcluida.bairro}` : ""}</div>
+            <div><strong style={{ color: "#000000" }}>Telefone / Celular:</strong> {matriculaConcluida.telefone || "—"}</div>
+            <div><strong style={{ color: "#000000" }}>Documentos Anexados:</strong> {Object.keys(matriculaConcluida.documentos || {}).length} documento(s)</div>
           </div>
 
-          <div style={{ marginTop: 40, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, textAlign: "center", fontSize: 11 }}>
+          <div style={{ marginTop: 40, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, textAlign: "center", fontSize: 11, color: "#000000" }}>
             <div>
               <div style={{ borderTop: "1px solid #000", paddingTop: 6 }}>Assinatura do Pai / Mãe / Responsável</div>
             </div>

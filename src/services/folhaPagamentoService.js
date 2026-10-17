@@ -49,11 +49,35 @@ export async function getParametrosFolha() {
 }
 
 /**
+ * Remove recursivamente campos com valor undefined para evitar erros no Firestore
+ */
+export function limparValoresUndefined(obj) {
+  if (obj === null || obj === undefined) return null;
+  if (Array.isArray(obj)) {
+    return obj.map(limparValoresUndefined);
+  }
+  if (typeof obj === "object" && !(obj instanceof Date)) {
+    const limpo = {};
+    for (const [chave, valor] of Object.entries(obj)) {
+      if (valor !== undefined) {
+        limpo[chave] = limparValoresUndefined(valor);
+      }
+    }
+    return limpo;
+  }
+  return obj;
+}
+
+/**
  * Salva os parâmetros salariais da SEMED
  */
 export async function salvarParametrosFolha(novosParametros) {
   const docRef = doc(db, COL_CONFIG, "parametros_semed");
-  await setDoc(docRef, { ...novosParametros, atualizadoEm: serverTimestamp() }, { merge: true });
+  const payload = limparValoresUndefined({
+    ...novosParametros,
+    atualizadoEm: serverTimestamp()
+  });
+  await setDoc(docRef, payload, { merge: true });
   return true;
 }
 
@@ -100,7 +124,7 @@ export function calcularIrrf(baseCalculo) {
 /**
  * Calcula individualmente o holerite de um servidor com base no ponto e parâmetros
  */
-export function calcularHoleriteServidor(servidor, pontoServidor, escola, params = PARAMETROS_PADRAO_FOLHA) {
+export function calcularHoleriteServidor(servidor, pontoServidor, escola, params = PARAMETROS_PADRAO_FOLHA, fallbackEscolaId = "rede") {
   const cargaHoraria = servidor.cargaHoraria || (servidor.cargo === "Professor" ? "20h" : "40h");
   const vinculo = servidor.vinculo || "Efetivo";
   const cargo = servidor.cargo || "Professor";
@@ -210,16 +234,18 @@ export function calcularHoleriteServidor(servidor, pontoServidor, escola, params
   // Enquadramento FUNDEB
   const enquadramentoFundeb = (cargo === "Professor" || cargo === "Coordenador") ? "FUNDEB 70%" : "FUNDEB 30%";
 
+  const escolaIdResolvido = servidor.escolaId || escola?.id || fallbackEscolaId || "rede";
+
   return {
-    servidorId: servidor.id,
-    servidorNome: servidor.nome,
-    cpf: servidor.cpf,
-    matricula: servidor.matricula || `MAT-${servidor.id?.slice(0, 6)}`,
-    cargo,
-    vinculo,
-    cargaHoraria,
-    titulacao,
-    escolaId: servidor.escolaId,
+    servidorId: servidor.id || "",
+    servidorNome: servidor.nome || "Servidor",
+    cpf: servidor.cpf || "",
+    matricula: servidor.matricula || (servidor.id ? `MAT-${servidor.id.slice(0, 6)}` : "MAT-000000"),
+    cargo: cargo || "Professor",
+    vinculo: vinculo || "Efetivo",
+    cargaHoraria: cargaHoraria || "20h",
+    titulacao: titulacao || "Graduação",
+    escolaId: escolaIdResolvido,
     escolaNome: escola?.nome || "Escola Municipal",
     municipio: escola?.municipio || "Maceió",
     proventos,
@@ -233,7 +259,7 @@ export function calcularHoleriteServidor(servidor, pontoServidor, escola, params
     enquadramentoFundeb,
     diasTrabalhados: pontoServidor?.diasTrabalhados ?? 22,
     faltasJustificadas: pontoServidor?.faltasJustificadas ?? 0,
-    faltasInjustificadas
+    faltasInjustificadas: faltasInjustificadas || 0
   };
 }
 
@@ -242,7 +268,7 @@ export function calcularHoleriteServidor(servidor, pontoServidor, escola, params
  */
 export async function getFolhaCompetencia(mes, ano, escolaId = null) {
   let q;
-  if (escolaId) {
+  if (escolaId && escolaId !== "rede") {
     q = query(
       collection(db, COL_FOLHA),
       where("mes", "==", Number(mes)),
@@ -283,18 +309,20 @@ export async function processarFolhaCompetencia(mes, ano, escolaId = null) {
   for (const serv of servidores) {
     if (serv.status && serv.status !== "Ativo") continue; // Ignora inativos
 
-    const escola = mapaEscolas[serv.escolaId] || {};
+    const escolaIdAlvo = serv.escolaId || (escolaId && escolaId !== "rede" ? escolaId : null);
+    const escola = (escolaIdAlvo ? mapaEscolas[escolaIdAlvo] : null) || {};
     const ponto = mapaPontos[serv.id] || null;
 
-    const holerite = calcularHoleriteServidor(serv, ponto, escola, params);
+    const holerite = calcularHoleriteServidor(serv, ponto, escola, params, escolaId || "rede");
     const docId = `${serv.id}_${ano}_${mes}`.replace(/\s+/g, "_");
 
-    const dadosLancamento = {
+    const dadosLancamento = limparValoresUndefined({
       ...holerite,
+      escolaId: holerite.escolaId || "rede",
       mes: Number(mes),
       ano: Number(ano),
       calculadoEm: new Date().toISOString()
-    };
+    });
 
     await setDoc(doc(db, COL_FOLHA, docId), dadosLancamento, { merge: true });
     lancamentosCalculados.push({ id: docId, ...dadosLancamento });

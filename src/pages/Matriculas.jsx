@@ -1653,37 +1653,58 @@ export default function Matriculas() {
           textSave="Imprimir Guia"
           width={680}
         >
-          <div style={{ border: "1.5px solid #000", padding: 20, background: "white", borderRadius: 6, fontSize: 12, lineHeight: 1.6 }}>
-            <div style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: 10, marginBottom: 12 }}>
-              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
+          <style>{`
+            @media print {
+              body * { visibility: hidden !important; }
+              .comprovante-remanejamento-print, .comprovante-remanejamento-print * {
+                visibility: visible !important;
+                color: #000000 !important;
+              }
+              .comprovante-remanejamento-print {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                border: 2px solid #000 !important;
+                padding: 20px !important;
+                background: #ffffff !important;
+              }
+            }
+          `}</style>
+          <div
+            className="documento-impresso print-target comprovante-remanejamento-print"
+            style={{ border: "1.5px solid #000", padding: 20, background: "#ffffff", color: "#000000", borderRadius: 6, fontSize: 12, lineHeight: 1.6 }}
+          >
+            <div style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: 10, marginBottom: 12, color: "#000000" }}>
+              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase", color: "#000000" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
               <div style={{ fontWeight: 700, fontSize: 15, color: "#1e3a8a" }}>{comprovanteRemanejamento.escolaNome || "ESCOLA MUNICIPAL"}</div>
-              <div style={{ fontSize: 10, color: "#555" }}>GUIA OFICIAL DE TRANSFERÊNCIA INTERNA & REMANEJAMENTO DE TURMA · ANO {ANO_LETIVO_ATUAL}</div>
+              <div style={{ fontSize: 10, color: "#444444" }}>GUIA OFICIAL DE TRANSFERÊNCIA INTERNA & REMANEJAMENTO DE TURMA · ANO {ANO_LETIVO_ATUAL}</div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 14 }}>
-              <div><strong>Nº de Matrícula:</strong> {comprovanteRemanejamento.matricula || "—"}</div>
-              <div><strong>Data do Remanejamento:</strong> {comprovanteRemanejamento.dataRemanejamento ? new Date(comprovanteRemanejamento.dataRemanejamento + "T12:00:00").toLocaleDateString("pt-BR") : new Date().toLocaleDateString("pt-BR")}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Nome do Estudante:</strong> {comprovanteRemanejamento.nome}</div>
-              <div><strong>Data de Nascimento:</strong> {comprovanteRemanejamento.nascimento ? new Date(comprovanteRemanejamento.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
-              <div><strong>CPF do Estudante:</strong> {comprovanteRemanejamento.cpf || "—"}</div>
-              <div style={{ gridColumn: "1 / -1", background: "#f8fafc", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 4 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 14, color: "#000000" }}>
+              <div><strong style={{ color: "#000000" }}>Nº de Matrícula:</strong> {comprovanteRemanejamento.matricula || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Data do Remanejamento:</strong> {comprovanteRemanejamento.dataRemanejamento ? new Date(comprovanteRemanejamento.dataRemanejamento + "T12:00:00").toLocaleDateString("pt-BR") : new Date().toLocaleDateString("pt-BR")}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Nome do Estudante:</strong> {comprovanteRemanejamento.nome}</div>
+              <div><strong style={{ color: "#000000" }}>Data de Nascimento:</strong> {comprovanteRemanejamento.nascimento ? new Date(comprovanteRemanejamento.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
+              <div><strong style={{ color: "#000000" }}>CPF do Estudante:</strong> {comprovanteRemanejamento.cpf || "—"}</div>
+              <div style={{ gridColumn: "1 / -1", background: "#f8fafc", color: "#000000", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 4 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div><strong>Turma Anterior (Origem):</strong> {comprovanteRemanejamento.turmaAnterior || comprovanteRemanejamento.turmaOrigem}</div>
+                  <div><strong style={{ color: "#000000" }}>Turma Anterior (Origem):</strong> {comprovanteRemanejamento.turmaAnterior || comprovanteRemanejamento.turmaOrigem}</div>
                   <i className="ti ti-arrow-right" style={{ fontSize: 16 }} />
-                  <div><strong>Nova Turma (Destino):</strong> {comprovanteRemanejamento.novaTurma || comprovanteRemanejamento.turmaDestino}</div>
+                  <div><strong style={{ color: "#000000" }}>Nova Turma (Destino):</strong> {comprovanteRemanejamento.novaTurma || comprovanteRemanejamento.turmaDestino}</div>
                 </div>
               </div>
-              <div><strong>Motivo do Remanejamento:</strong> {comprovanteRemanejamento.motivo}</div>
-              <div><strong>Registrado Por:</strong> {comprovanteRemanejamento.usuarioNome || "Secretaria Escolar"}</div>
+              <div><strong style={{ color: "#000000" }}>Motivo do Remanejamento:</strong> {comprovanteRemanejamento.motivo}</div>
+              <div><strong style={{ color: "#000000" }}>Registrado Por:</strong> {comprovanteRemanejamento.usuarioNome || "Secretaria Escolar"}</div>
               {comprovanteRemanejamento.observacoes && (
-                <div style={{ gridColumn: "1 / -1" }}><strong>Observações / Justificativa:</strong> {comprovanteRemanejamento.observacoes}</div>
+                <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Observações / Justificativa:</strong> {comprovanteRemanejamento.observacoes}</div>
               )}
-              <div style={{ gridColumn: "1 / -1" }}><strong>Responsável Legal:</strong> {comprovanteRemanejamento.mae || comprovanteRemanejamento.responsavel || "—"}</div>
-              <div><strong>Telefone de Contato:</strong> {comprovanteRemanejamento.telefone || "—"}</div>
-              <div><strong>Emissão:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Responsável Legal:</strong> {comprovanteRemanejamento.mae || comprovanteRemanejamento.responsavel || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Telefone de Contato:</strong> {comprovanteRemanejamento.telefone || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Emissão:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
             </div>
 
-            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, textAlign: "center", fontSize: 10 }}>
+            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, textAlign: "center", fontSize: 10, color: "#000000" }}>
               <div>
                 <div style={{ borderTop: "1px solid #000", paddingTop: 4 }}>Assinatura do Responsável</div>
               </div>
@@ -1708,29 +1729,50 @@ export default function Matriculas() {
           textSave="Imprimir Comprovante"
           width={680}
         >
-          <div style={{ border: "1.5px solid #000", padding: 20, background: "white", borderRadius: 6, fontSize: 12, lineHeight: 1.6 }}>
-            <div style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: 10, marginBottom: 12 }}>
-              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
+          <style>{`
+            @media print {
+              body * { visibility: hidden !important; }
+              .comprovante-matricula-print, .comprovante-matricula-print * {
+                visibility: visible !important;
+                color: #000000 !important;
+              }
+              .comprovante-matricula-print {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                border: 2px solid #000 !important;
+                padding: 20px !important;
+                background: #ffffff !important;
+              }
+            }
+          `}</style>
+          <div
+            className="documento-impresso print-target comprovante-matricula-print"
+            style={{ border: "1.5px solid #000", padding: 20, background: "#ffffff", color: "#000000", borderRadius: 6, fontSize: 12, lineHeight: 1.6 }}
+          >
+            <div style={{ textAlign: "center", borderBottom: "1.5px solid #000", paddingBottom: 10, marginBottom: 12, color: "#000000" }}>
+              <div style={{ fontWeight: 800, fontSize: 13, textTransform: "uppercase", color: "#000000" }}>ESTADO DE ALAGOAS · SECRETARIA MUNICIPAL DE EDUCAÇÃO</div>
               <div style={{ fontWeight: 700, fontSize: 15, color: "#1e3a8a" }}>{comprovanteAluno.escolaNome || "ESCOLA MUNICIPAL"}</div>
-              <div style={{ fontSize: 10, color: "#555" }}>COMPROVANTE DE EFETIVAÇÃO DE MATRÍCULA · ANO LETIVO {ANO_LETIVO_ATUAL}</div>
+              <div style={{ fontSize: 10, color: "#444444" }}>COMPROVANTE DE EFETIVAÇÃO DE MATRÍCULA · ANO LETIVO {ANO_LETIVO_ATUAL}</div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 14 }}>
-              <div><strong>Nº de Matrícula:</strong> {comprovanteAluno.matricula || "—"}</div>
-              <div><strong>Tipo de Operação:</strong> {comprovanteAluno.tipoOperacao || "Matrícula Inicial"}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Nome do Estudante:</strong> {comprovanteAluno.nome}</div>
-              <div><strong>Data de Nascimento:</strong> {comprovanteAluno.nascimento ? new Date(comprovanteAluno.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
-              <div><strong>CPF do Estudante:</strong> {comprovanteAluno.cpf || "—"}</div>
-              <div><strong>Turma Confirmada:</strong> {comprovanteAluno.turma} ({comprovanteAluno.ano})</div>
-              <div><strong>Turno:</strong> {comprovanteAluno.turno}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Mãe:</strong> {comprovanteAluno.mae || "Não informada"}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Responsável Legal:</strong> {comprovanteAluno.responsavel || comprovanteAluno.mae || "—"}</div>
-              <div style={{ gridColumn: "1 / -1" }}><strong>Endereço:</strong> {comprovanteAluno.endereco || "—"} {comprovanteAluno.bairro ? `· Bairro ${comprovanteAluno.bairro}` : ""}</div>
-              <div><strong>Telefone:</strong> {comprovanteAluno.telefone || "—"}</div>
-              <div><strong>Data da Efetivação:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 14, color: "#000000" }}>
+              <div><strong style={{ color: "#000000" }}>Nº de Matrícula:</strong> {comprovanteAluno.matricula || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Tipo de Operação:</strong> {comprovanteAluno.tipoOperacao || "Matrícula Inicial"}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Nome do Estudante:</strong> {comprovanteAluno.nome}</div>
+              <div><strong style={{ color: "#000000" }}>Data de Nascimento:</strong> {comprovanteAluno.nascimento ? new Date(comprovanteAluno.nascimento + "T12:00:00").toLocaleDateString("pt-BR") : "—"}</div>
+              <div><strong style={{ color: "#000000" }}>CPF do Estudante:</strong> {comprovanteAluno.cpf || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Turma Confirmada:</strong> {comprovanteAluno.turma} ({comprovanteAluno.ano})</div>
+              <div><strong style={{ color: "#000000" }}>Turno:</strong> {comprovanteAluno.turno}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Mãe:</strong> {comprovanteAluno.mae || "Não informada"}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Responsável Legal:</strong> {comprovanteAluno.responsavel || comprovanteAluno.mae || "—"}</div>
+              <div style={{ gridColumn: "1 / -1" }}><strong style={{ color: "#000000" }}>Endereço:</strong> {comprovanteAluno.endereco || "—"} {comprovanteAluno.bairro ? `· Bairro ${comprovanteAluno.bairro}` : ""}</div>
+              <div><strong style={{ color: "#000000" }}>Telefone:</strong> {comprovanteAluno.telefone || "—"}</div>
+              <div><strong style={{ color: "#000000" }}>Data da Efetivação:</strong> {new Date().toLocaleDateString("pt-BR")} às {new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</div>
             </div>
 
-            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, textAlign: "center", fontSize: 10 }}>
+            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, textAlign: "center", fontSize: 10, color: "#000000" }}>
               <div>
                 <div style={{ borderTop: "1px solid #000", paddingTop: 4 }}>Assinatura do Responsável</div>
               </div>

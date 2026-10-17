@@ -165,11 +165,18 @@ export default function HistoricoEscolar() {
             font-size: 8px !important;
             border: 1px solid #000 !important;
             margin-bottom: 6px !important;
+            color: #000000 !important;
           }
           .historico-tabela th, .historico-tabela td {
             border: 1px solid #000 !important;
             padding: 2.5px 3.5px !important;
             line-height: 1.15 !important;
+            color: #000000 !important;
+          }
+          .historico-tabela th {
+            background-color: #f1f5f9 !important;
+            font-weight: bold !important;
+            color: #000000 !important;
           }
           .historico-assinaturas {
             display: flex !important;
